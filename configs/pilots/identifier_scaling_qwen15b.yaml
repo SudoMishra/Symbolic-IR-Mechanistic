@@ -1,0 +1,29 @@
+name: 02_identifier_scaling_pilot_qwen25_15b_q4km
+seed: 202602
+dataset:
+  family: citation
+  count: 20
+  task_type: single_hop
+  grid:
+    num_sources: [5, 20]
+identifiers: [numeric, structured, semantic, random_compact, hex6, hex32, uuid]
+backend:
+  type: llama_cpp
+  model_path: models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+  model: Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m
+  revision: 91cad51170dc346986eccefdc2dd33a9da36ead9
+  n_ctx: 4096
+  n_threads: 12
+  seed: 202602
+generation:
+  temperature: 0
+  max_output_tokens: 80
+  tokenizer:
+    type: llama_cpp
+    model_path: models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+output_dir: results/raw
+metadata:
+  stage: 2
+  pilot: true
+  quantization: Q4_K_M
+  execution: CPU

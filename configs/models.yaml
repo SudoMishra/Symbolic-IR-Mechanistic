@@ -1,0 +1,14 @@
+# Copy one backend block into an experiment config. Pin model revisions for published runs.
+oracle:
+  type: oracle
+
+openai_example:
+  type: openai
+  model: REPLACE_WITH_MODEL_ID
+  revision: null
+
+huggingface_example:
+  type: huggingface
+  model: Qwen/Qwen2.5-1.5B-Instruct
+  revision: REPLACE_WITH_COMMIT_HASH
+  device_map: auto

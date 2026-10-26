@@ -1,0 +1,21 @@
+name: 08_pii_canonicalization
+seed: 202608
+dataset:
+  family: pii
+  count: 100
+  task_type: account_resolution
+  grid:
+    num_sources: [5, 10, 20]
+identifiers: [raw, random_masked, untyped, typed]
+backend: {type: oracle}
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  require_citations: false
+  fixed_source_identifiers: structured
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata:
+  stage: 8
+  synthetic_only: true
+  protocol_revision: fixed-source-identifiers-no-citations-v2

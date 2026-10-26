@@ -1,0 +1,17 @@
+name: 02_identifier_scaling
+seed: 202602
+dataset:
+  family: citation
+  count: 100
+  grid:
+    num_sources: [5, 10, 20, 50, 100]
+    task_type: [single_hop, multi_hop, comparison]
+identifiers: [numeric, structured, semantic, random_compact, hex6, hex32, uuid]
+backend: {type: oracle}
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata: {stage: 2}
+

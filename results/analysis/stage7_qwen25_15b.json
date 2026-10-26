@@ -1,0 +1,1347 @@
+{
+  "activation_dir": "results/interventions/stage7_qwen25_15b/ed4f8ec474bc",
+  "activation_patching": {
+    "random_compact": {
+      "1": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.002946655949908231,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.013670515762394586,
+              0.02323689418013758
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0037309984373235516,
+            "median": -0.006998545337175255,
+            "n": 8,
+            "positive_fraction": 0.25
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.07339724151243558,
+              0.10747790757233451
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.01466763598732257,
+            "median": -0.02213690615968744,
+            "n": 8,
+            "positive_fraction": 0.25
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": -0.00948699502947209,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.025178979769040905,
+              0.004105843468554832
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.010467844908672683,
+            "median": -0.0060860491790359905,
+            "n": 8,
+            "positive_fraction": 0.375
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.11408634719370525,
+              0.017366314279848843
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.047223629793009536,
+            "median": -0.029647999805092695,
+            "n": 8,
+            "positive_fraction": 0.375
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.0007656053039296612,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.015606363625268236,
+              0.018864960093871397
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0018683884517885913,
+            "median": 0.004638478542824509,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.07241774700915471,
+              0.07703823706122108
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0038109708425082545,
+            "median": 0.027166581988353755,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": -0.003082090418139824,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.03010613316183216,
+              0.025959945741195107
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0011534443424068702,
+            "median": 0.0035405790375382384,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.15248626549714714,
+              0.11215357716071839
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.015341791203923094,
+            "median": 0.02124954347982566,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        }
+      },
+      "12": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.13116267334504575,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.05191832782707712,
+              0.4291800286269792
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.12621673093569635,
+            "median": 0.006492147681061933,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.22292428117866547,
+              2.1133473537292358
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.652891406548207,
+            "median": 0.0344825577562915,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": -0.008196348406980589,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.027332440210363896,
+              0.009000630574561894
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.008959503400903665,
+            "median": -0.008360744414131038,
+            "n": 8,
+            "positive_fraction": 0.25
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.1288823242348734,
+              0.04099847665250422
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.04079914890050418,
+            "median": -0.039077464333217904,
+            "n": 8,
+            "positive_fraction": 0.25
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.01606126175906368,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.010478751734796538,
+              0.05071354424649385
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.01785231465847252,
+            "median": 0.008014206317966233,
+            "n": 8,
+            "positive_fraction": 0.75
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.05594755568486676,
+              0.23253225565690555
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0799485060298224,
+            "median": 0.045415786540615954,
+            "n": 8,
+            "positive_fraction": 0.75
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": 0.025432360631027866,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.01010438559218918,
+              0.07113532379832202
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.027979409127134397,
+            "median": 0.010865613671588448,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.04935470659257319,
+              0.3235252764196999
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.12659523689755758,
+            "median": 0.07519778633604801,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        }
+      },
+      "24": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.7349193873534756,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.6192982654709723,
+              0.9089906664325544
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.7579287697117659,
+            "median": 0.742609060890023,
+            "n": 8,
+            "positive_fraction": 1.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              2.9946344706456407,
+              4.3924196097806885
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 3.658224861325465,
+            "median": 3.2603062525769246,
+            "n": 8,
+            "positive_fraction": 1.0
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": 0.005964908769404373,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.00435416238461428,
+              0.020913020113244828
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0066450679958923314,
+            "median": 0.000209493799578242,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.02416611263042796,
+              0.10174482753006317
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.02969166133220824,
+            "median": -0.0008109166792564793,
+            "n": 8,
+            "positive_fraction": 0.25
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": -0.0022758672349649177,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.00807725822148396,
+              0.003274688785795284
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.001953157482025389,
+            "median": 0.0003285736203148537,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.04448704584069674,
+              0.01689105810635283
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.011328635824952471,
+            "median": -0.0013784094517177437,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": -0.0027228733271543615,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.016025154111381834,
+              0.009440851691293361
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0032789356549207255,
+            "median": -0.00012637751739630332,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.07180806285259678,
+              0.047018802909957455
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.013553708163158262,
+            "median": -0.0007619283605890814,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        }
+      },
+      "28": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.9974024369350037,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.4949890267213349,
+              1.6406325640788055
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 1.0628355073352116,
+            "median": 1.1084618591448665,
+            "n": 8,
+            "positive_fraction": 0.875
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              2.3532303345787198,
+              7.507654946981603
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 4.96479267567247,
+            "median": 5.203226905362385,
+            "n": 8,
+            "positive_fraction": 0.875
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        }
+      }
+    },
+    "structured": {
+      "1": {
+        "citation_context": {
+          "aggregate_recovery_fraction": -0.009301680522563919,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.031428194126897326,
+              0.01737295906300343
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0059582301023055895,
+            "median": -0.004450221545994282,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.12911127718398346,
+              0.07139866636134684
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.024509553506504744,
+            "median": -0.017800886183977127,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": -0.009751038538941544,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.021862149771277456,
+              0.010813845864006475
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.005568334167696781,
+            "median": -0.010193348862230778,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.08883681445149705,
+              0.044738886959385105
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.025693593779578805,
+            "median": -0.05362065974622965,
+            "n": 8,
+            "positive_fraction": 0.375
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.02247453520195955,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.005965005132690061,
+              0.03344526705577776
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.014339690527549465,
+            "median": 0.019610374234616756,
+            "n": 8,
+            "positive_fraction": 0.75
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.024204264118452556,
+              0.1379871887751505
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.05921949498588219,
+            "median": 0.07844149693846703,
+            "n": 8,
+            "positive_fraction": 0.75
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": -0.007343567364600681,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.023273593687398487,
+              0.011053809729401107
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.004764239233440992,
+            "median": -0.00026112708228537285,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.08916805312037468,
+              0.042130413198901796
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.019350004207808524,
+            "median": -0.0005159743595868349,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        }
+      },
+      "12": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.057510665693519814,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.010762018815353325,
+              0.08475086107766855
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.03200348845241477,
+            "median": 0.006600601492118496,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.04254552397032966,
+              0.40463180793449244
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.15153828758047894,
+            "median": 0.02491330844350159,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": 0.013818697370735142,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.0011559849238665237,
+              0.019419569744899265
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.008242973671053741,
+            "median": 0.0011623658312601148,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.0024283539532916607,
+              0.08176805358380079
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.03641171095659956,
+            "median": 0.013068169355392456,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.06387761306477231,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.00423209246587021,
+              0.08052338729390046
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.03911162241024614,
+            "median": 0.038664846127721864,
+            "n": 8,
+            "positive_fraction": 0.75
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.016565339581575245,
+              0.347288154065609
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.1683149374439381,
+            "median": 0.17299967259168625,
+            "n": 8,
+            "positive_fraction": 0.75
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": 0.1238528733743483,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.032359157701919244,
+              0.12804198178791468
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.08036033264329491,
+            "median": 0.0911477050758549,
+            "n": 8,
+            "positive_fraction": 0.875
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.13719825590669643,
+              0.5133889495627955
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.3263473325641826,
+            "median": 0.371341057587415,
+            "n": 8,
+            "positive_fraction": 0.875
+          }
+        }
+      },
+      "24": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 1.083979840866834,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.3013114015257088,
+              1.078642800381249
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.6895069121943379,
+            "median": 0.8796053039222897,
+            "n": 8,
+            "positive_fraction": 0.75
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              1.1713257638097276,
+              4.45983942833409
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 2.856243218120653,
+            "median": 3.5900232261046767,
+            "n": 8,
+            "positive_fraction": 0.75
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": 0.0033829179616472883,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.011824816985910053,
+              0.017312722426595442
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.002708173674454889,
+            "median": 0.002404402196407307,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.05650572051090421,
+              0.07177026523277157
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.008913852565456182,
+            "median": 0.011469565331935883,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": -0.010871812328453419,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.027654509627396382,
+              0.012898463676229351
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.006801922475892758,
+            "median": 7.964978058222494e-05,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.11267032575560734,
+              0.04927324695745483
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.028646787570323795,
+            "median": -0.001650631194934249,
+            "n": 8,
+            "positive_fraction": 0.375
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": 0.008098767862921224,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.019778536535321804,
+              0.02914068663844771
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.005193604458349904,
+            "median": 0.0069765778241162035,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.07690311866463162,
+              0.12104680738993909
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.021339927101507783,
+            "median": 0.01709683984518051,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        }
+      },
+      "28": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.9908851282123884,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.19954642794539268,
+              1.0735185883520666
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.6383680460004711,
+            "median": 0.7369678823415597,
+            "n": 8,
+            "positive_fraction": 0.75
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.656810098385904,
+              4.443604691140353
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 2.6109424001188017,
+            "median": 3.061065651476383,
+            "n": 8,
+            "positive_fraction": 0.75
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        }
+      }
+    },
+    "uuid": {
+      "1": {
+        "citation_context": {
+          "aggregate_recovery_fraction": -0.023227542287186372,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.00367664450977615,
+              0.0010947242454500945
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.001402688081356242,
+            "median": -0.002354395300674897,
+            "n": 8,
+            "positive_fraction": 0.375
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.12100743920927215,
+              0.04408841507159022
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0442402341367405,
+            "median": -0.080649905470068,
+            "n": 8,
+            "positive_fraction": 0.375
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": -0.041821526780877395,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.004806030220762309,
+              -0.0005632098124186346
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0024764738914643675,
+            "median": -0.0011020879199689637,
+            "n": 8,
+            "positive_fraction": 0.375
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.15743349521214317,
+              -0.01674699818472108
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.07965518322455711,
+            "median": -0.03824550854617215,
+            "n": 8,
+            "positive_fraction": 0.25
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.002381333194366567,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.002811572349544279,
+              0.004205527678021147
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.00029582234617009547,
+            "median": -0.0014380505117528586,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.10298065551102527,
+              0.13288403011000227
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.004535595577603857,
+            "median": -0.05005060125728278,
+            "n": 8,
+            "positive_fraction": 0.375
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": -0.04030058163235566,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.004339908864696321,
+              -0.00039446439548584597
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0024775916774767964,
+            "median": -0.003594216322097027,
+            "n": 8,
+            "positive_fraction": 0.25
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.13234923141631008,
+              -0.009965386470906641
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.07675832187574105,
+            "median": -0.11329736906230892,
+            "n": 8,
+            "positive_fraction": 0.25
+          }
+        }
+      },
+      "12": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 10.928250544124667,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.003236331381785459,
+              1.3996063730918118
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.5874175157235483,
+            "median": 0.005835046067811038,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.12233102214951154,
+              51.18170835946109
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 20.81444333625196,
+            "median": 0.1673974382400445,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": -0.02008041181719352,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.003137021878634237,
+              0.0008167953388257985
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.001185789692910966,
+            "median": -0.001598216486305759,
+            "n": 8,
+            "positive_fraction": 0.375
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.09889821905856166,
+              0.031225187657948794
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.03824606621617832,
+            "median": -0.05715227743860396,
+            "n": 8,
+            "positive_fraction": 0.375
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.029515730986381734,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.0010052059467468308,
+              0.003922394555946036
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0014945679437092796,
+            "median": 0.0016840098340493506,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.027248555273430952,
+              0.13251845965140488
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.05621700451170497,
+            "median": 0.051543671317048734,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": -0.048756590405865684,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.006127870286017188,
+              0.00013846935825470065
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.002766449614465623,
+            "median": -0.0014790321302750736,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.19616311116992913,
+              -0.000551967071282019
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.09286402102277425,
+            "median": -0.05703093313941565,
+            "n": 8,
+            "positive_fraction": 0.25
+          }
+        }
+      },
+      "24": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.9217993356294887,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.031432251542165515,
+              0.1238650844401357
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.05172511703666906,
+            "median": 0.08733392805822712,
+            "n": 8,
+            "positive_fraction": 0.625
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.900763277690358,
+              4.182594542831232
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 1.7557009661688276,
+            "median": 2.978617591535837,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": 0.022385643395439622,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.0004138896305751071,
+              0.0029430198255209466
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0013483846771113334,
+            "median": 0.002463402049681325,
+            "n": 8,
+            "positive_fraction": 0.75
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.016861575153914288,
+              0.09490158991858877
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.04263671519229817,
+            "median": 0.08101412967424437,
+            "n": 8,
+            "positive_fraction": 0.75
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": -0.010994719024041553,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.0026664194427917075,
+              0.0012597311289120148
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0007750480019842586,
+            "median": -0.0011070689511114423,
+            "n": 8,
+            "positive_fraction": 0.25
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.08428053925551104,
+              0.04539795206007735
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.020941042228113993,
+            "median": -0.030765566867572147,
+            "n": 8,
+            "positive_fraction": 0.25
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": -0.01307591596385003,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.003160748958183343,
+              0.001632114869466061
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.0007369254580939719,
+            "median": -0.00035042253713748334,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -0.10301045541597417,
+              0.05249885753679938
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": -0.02490498463594193,
+            "median": -0.0077508126602765515,
+            "n": 8,
+            "positive_fraction": 0.5
+          }
+        }
+      },
+      "28": {
+        "citation_context": {
+          "aggregate_recovery_fraction": 0.9893663339181091,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              -0.04319821661659901,
+              0.15176117771469635
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.05537800012560594,
+            "median": 0.07747011935222063,
+            "n": 8,
+            "positive_fraction": 0.5
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              -1.2611219668346791,
+              5.002927226468341
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 1.8843921461157613,
+            "median": 2.7428963953024663,
+            "n": 8,
+            "positive_fraction": 0.625
+          }
+        },
+        "question_control": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        },
+        "source_content": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        },
+        "source_label": {
+          "aggregate_recovery_fraction": 0.0,
+          "mean_logprob_per_token": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          },
+          "total_logprob": {
+            "bootstrap_95_ci": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_replicates": 5000,
+            "mean": 0.0,
+            "median": 0.0,
+            "n": 8,
+            "positive_fraction": 0.0
+          }
+        }
+      }
+    }
+  },
+  "cases": 24,
+  "checkpoint7": {
+    "causal_observation": "Source-ID swaps move exact citation preference toward the newly assigned identifier, and late citation-context patches transfer this effect.",
+    "correct_rebinding_conditions": 3,
+    "decision": "causal_correct_rebinding_evidence",
+    "limitations": [
+      "Small Stage 7 cohort; intervals are correspondingly wide.",
+      "Intermediate-layer UUID patches can be off-manifold and must be interpreted with controls and medians.",
+      "The intervention establishes citation-state causality, not a complete source-binding circuit."
+    ],
+    "scope": "teacher-forced exact citation reconstruction on eight synthetic long-context reasoning examples"
+  },
+  "conditions": [
+    "structured",
+    "random_compact",
+    "uuid"
+  ],
+  "interventions": 384,
+  "layers": [
+    1,
+    12,
+    24,
+    28
+  ],
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "prompt_tokens": {
+    "max": 3889,
+    "mean": 3047.3333333333335,
+    "min": 2452
+  },
+  "semantic_examples": 8,
+  "source_id_swap": {
+    "random_compact": {
+      "mean_logprob_per_token": {
+        "bootstrap_95_ci": [
+          0.5179436548445375,
+          1.578243893286188
+        ],
+        "bootstrap_replicates": 5000,
+        "mean": 1.0615721547130557,
+        "median": 1.1291973763598586,
+        "n": 8,
+        "positive_fraction": 0.875
+      },
+      "total_logprob": {
+        "bootstrap_95_ci": [
+          2.4500810620735627,
+          7.437945642074324
+        ],
+        "bootstrap_replicates": 5000,
+        "mean": 4.977722624108651,
+        "median": 5.267499850088257,
+        "n": 8,
+        "positive_fraction": 0.875
+      }
+    },
+    "structured": {
+      "mean_logprob_per_token": {
+        "bootstrap_95_ci": [
+          0.20369380978148457,
+          1.061456315399536
+        ],
+        "bootstrap_replicates": 5000,
+        "mean": 0.6434874439072018,
+        "median": 0.7625032006679249,
+        "n": 8,
+        "positive_fraction": 0.75
+      },
+      "total_logprob": {
+        "bootstrap_95_ci": [
+          0.7807248602897744,
+          4.351007380765799
+        ],
+        "bootstrap_replicates": 5000,
+        "mean": 2.634959720133338,
+        "median": 3.1743224635720253,
+        "n": 8,
+        "positive_fraction": 0.75
+      }
+    },
+    "uuid": {
+      "mean_logprob_per_token": {
+        "bootstrap_95_ci": [
+          -0.041011104928037875,
+          0.15028046414649943
+        ],
+        "bootstrap_replicates": 5000,
+        "mean": 0.05606434351725535,
+        "median": 0.07931658022706861,
+        "n": 8,
+        "positive_fraction": 0.625
+      },
+      "total_logprob": {
+        "bootstrap_95_ci": [
+          -1.3186139832304882,
+          4.927993209551495
+        ],
+        "bootstrap_replicates": 5000,
+        "mean": 1.904645510478563,
+        "median": 2.790790323929059,
+        "n": 8,
+        "positive_fraction": 0.625
+      }
+    }
+  },
+  "span_types": [
+    "source_label",
+    "source_content",
+    "citation_context",
+    "question_control"
+  ]
+}

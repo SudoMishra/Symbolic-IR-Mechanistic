@@ -1,0 +1,5 @@
+{
+  "dataset": "LongProc/tom_tracking_2k",
+  "selection_rule": "prompt tokens in [2048, 4096] and reference tokens in [1024, 2048] for every configured model tokenizer",
+  "indices": [7, 9, 12, 23, 25, 28, 45, 46, 53, 60, 68, 73, 85, 86, 97, 102, 105, 109, 115, 120, 133, 148, 171, 177, 192]
+}

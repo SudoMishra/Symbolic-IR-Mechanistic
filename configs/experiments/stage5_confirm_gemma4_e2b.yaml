@@ -1,0 +1,44 @@
+name: stage5_confirm_gemma4_e2b
+seed: 202606
+dataset:
+  family: reasoning
+  count: 20
+  long_context: true
+  filler_words: 113
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    task_type: [entity_resolution]
+    num_sources: [15, 20]
+identifiers: [numeric, random_compact, uuid]
+backend:
+  type: llama_cpp
+  model_path: models/gemma-4-e2b-it-q4_0.gguf
+  model: google/gemma-4-E2B-it-qat-q4_0-gguf:q4_0
+  revision: 675cff42a74c774d6cb76f76d8eacb49b48c9b93
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202606
+generation:
+  reasoning_budgets: [64, 128, 256, 512, 1024]
+  condition_controls:
+    - {identifier: numeric, require_citations: true}
+    - {identifier: random_compact, require_citations: true}
+    - {identifier: uuid, require_citations: true}
+    - {identifier: uuid, require_citations: false}
+  temperature: 0
+  final_output_tokens: 128
+  tokenizer: {type: llama_cpp, model_path: models/gemma-4-e2b-it-q4_0.gguf}
+output_dir: results/raw
+metadata:
+  stage: 5
+  execution: CUDA
+  quantization: Q4_0
+  confirmatory: true
+  independent_seed: true
+  selection_rule: pilot model-task answer accuracy in [0.30, 0.70]
+  pilot_accuracy: {reasoning_entity_resolution: 0.4333}
+  budget_method: explicit_scratchpad_cap
+  protocol_revision: 5

@@ -1,0 +1,17 @@
+name: 03_token_length_control
+seed: 202603
+dataset:
+  family: citation
+  count: 100
+  task_type: single_hop
+  grid:
+    num_sources: [5, 20, 50]
+identifiers: [len1, len2, len4, len8, len16, structured, random_compact, semantic]
+backend: {type: oracle}
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata: {stage: 3}
+

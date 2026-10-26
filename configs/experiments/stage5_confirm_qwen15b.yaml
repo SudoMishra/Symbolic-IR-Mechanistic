@@ -1,0 +1,44 @@
+name: stage5_confirm_qwen25_15b
+seed: 202606
+dataset:
+  family: reasoning
+  count: 20
+  long_context: true
+  filler_words: 114
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    task_type: [temporal, entity_resolution]
+    num_sources: [15, 20]
+identifiers: [numeric, random_compact, uuid]
+backend:
+  type: llama_cpp
+  model_path: models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+  model: Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m
+  revision: 91cad51170dc346986eccefdc2dd33a9da36ead9
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202606
+generation:
+  reasoning_budgets: [64, 128, 256, 512, 1024]
+  condition_controls:
+    - {identifier: numeric, require_citations: true}
+    - {identifier: random_compact, require_citations: true}
+    - {identifier: uuid, require_citations: true}
+    - {identifier: uuid, require_citations: false}
+  temperature: 0
+  final_output_tokens: 128
+  tokenizer: {type: llama_cpp, model_path: models/qwen2.5-1.5b-instruct-q4_k_m.gguf}
+output_dir: results/raw
+metadata:
+  stage: 5
+  execution: CUDA
+  quantization: Q4_K_M
+  confirmatory: true
+  independent_seed: true
+  selection_rule: pilot model-task answer accuracy in [0.30, 0.70]
+  pilot_accuracy: {reasoning_temporal: 0.3583, reasoning_entity_resolution: 0.5417}
+  budget_method: explicit_scratchpad_cap
+  protocol_revision: 5

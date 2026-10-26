@@ -1,0 +1,31 @@
+name: stage8_pii_gemma4_e2b
+seed: 202608
+dataset:
+  family: pii
+  count: 20
+  task_type: account_resolution
+  long_context: true
+  filler_words: 100
+  prompt_tokens: {min: 2000, max: 4000}
+  grid: {num_sources: [15, 20]}
+identifiers: [raw, random_masked, untyped, typed]
+backend:
+  type: llama_cpp
+  model_path: models/gemma-4-e2b-it-q4_0.gguf
+  model: google/gemma-4-E2B-it-qat-q4_0-gguf:q4_0
+  revision: 675cff42a74c774d6cb76f76d8eacb49b48c9b93
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202608
+generation:
+  temperature: 0
+  max_output_tokens: 64
+  require_citations: false
+  fixed_source_identifiers: structured
+  progress_every: 20
+  tokenizer: {type: llama_cpp, model_path: models/gemma-4-e2b-it-q4_0.gguf}
+output_dir: results/raw
+metadata: {stage: 8, synthetic_only: true, execution: CUDA, quantization: Q4_0, protocol_revision: 2}

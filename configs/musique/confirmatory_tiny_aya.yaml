@@ -1,0 +1,29 @@
+name: musique_confirmatory_tiny_aya_global
+seed: 202603
+dataset:
+  family: musique
+  data_path: data/musique/musique_ans_v1.0_dev.jsonl
+  selection_path: configs/musique/musique_confirmatory_heldout_100.json
+  count: 100
+  prompt_tokens: {min: 2000, max: 3700}
+  scenarios:
+    - {name: confirmatory_15_sources, stage: 2, num_sources: 15, identifiers: [numeric, uuid]}
+    - {name: confirmatory_20_sources, stage: 2, num_sources: 20, identifiers: [numeric, uuid]}
+identifiers: [numeric, uuid]
+backend:
+  type: llama_cpp
+  model_path: models/tiny-aya-global-q4_k_m.gguf
+  model: CohereLabs/tiny-aya-global-GGUF:q4_k_m
+  revision: a602ea7eeec3a4ad6f77a1b8cf6a53512824922b
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202603
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: llama_cpp, model_path: models/tiny-aya-global-q4_k_m.gguf}
+output_dir: results/raw
+metadata: {stage: confirmatory, held_out: true, dataset_license: CC-BY-4.0, model_license: CC-BY-NC-4.0, execution: CUDA, quantization: Q4_K_M}

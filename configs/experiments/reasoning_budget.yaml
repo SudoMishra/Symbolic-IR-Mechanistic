@@ -1,0 +1,18 @@
+name: 05_reasoning_budget
+seed: 202605
+dataset:
+  family: reasoning
+  count: 100
+  task_type: arithmetic
+  grid:
+    num_sources: [8, 20, 50]
+identifiers: [structured, random_compact, hex32, uuid]
+backend: {type: oracle}
+generation:
+  reasoning_budgets: [low, medium, high]
+  temperature: 0
+  max_output_tokens: 512
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata: {stage: 5}
+

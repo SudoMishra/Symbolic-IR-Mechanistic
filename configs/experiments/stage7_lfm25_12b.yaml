@@ -1,0 +1,31 @@
+name: stage7_lfm25_12b
+seed: 202607
+dataset:
+  family: reasoning
+  count: 2
+  long_context: true
+  filler_words: 114
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    task_type: [temporal, entity_resolution]
+    num_sources: [15, 20]
+identifiers: [structured, random_compact, uuid]
+backend:
+  type: huggingface
+  model_path: models/lfm2.5-1.2b-instruct-hf
+  model: LiquidAI/LFM2.5-1.2B-Instruct
+  revision: 0f604ada3f766f9f257460c4c9f0b5d6f69d431b
+  weights_sha256: 1ba63d9adb03ae43581db0e136e4416febe0441aff7296397bd455fb6017f73a
+  device: cuda:0
+  dtype: bfloat16
+generation:
+  tokenizer: {type: huggingface, model: models/lfm2.5-1.2b-instruct-hf}
+  teacher_forced: true
+  max_sequence_tokens: 8192
+  intervention_layers: [1, 6, 13, 16]
+output_dir: results/interventions
+metadata:
+  stage: 7
+  execution: CUDA
+  intervention: paired-source-ID-swap
+  protocol_revision: 2

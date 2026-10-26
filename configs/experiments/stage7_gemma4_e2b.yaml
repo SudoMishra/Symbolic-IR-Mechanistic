@@ -1,0 +1,38 @@
+name: stage7_gemma4_e2b
+seed: 202607
+dataset:
+  family: reasoning
+  count: 2
+  long_context: true
+  filler_words: 113
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    task_type: [temporal, entity_resolution]
+    num_sources: [15, 20]
+identifiers: [structured, random_compact, uuid]
+backend:
+  type: huggingface
+  model_path: models/gemma-4-e2b-it-hf
+  model: google/gemma-4-E2B-it
+  revision: 3e22461f65e89153144f8adb70e3b8c2cc9845a7
+  weights_sha256: 2db5482b20d746879bb3ef79b5203e9075a2e2b98f54ec7c2f281c1477ddc550
+  auto_class: multimodal_lm
+  text_only: true
+  device: cuda:0
+  dtype: bfloat16
+  device_map: auto
+  max_memory: {"0": 7GiB, cpu: 24GiB}
+  offload_folder: results/offload/gemma-4-e2b-it-stage7
+generation:
+  tokenizer: {type: huggingface, model: models/gemma-4-e2b-it-hf}
+  teacher_forced: true
+  chat_template_kwargs: {enable_thinking: false}
+  max_sequence_tokens: 8192
+  intervention_layers: [1, 15, 29, 35]
+output_dir: results/interventions
+metadata:
+  stage: 7
+  execution: CUDA-with-CPU-offload-if-required
+  intervention: paired-source-ID-swap
+  protocol_revision: 2
+  text_only_load: true

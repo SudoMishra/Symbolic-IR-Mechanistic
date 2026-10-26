@@ -1,0 +1,105 @@
+{
+  "cases": 3,
+  "conditions": [
+    "structured",
+    "random_compact",
+    "uuid"
+  ],
+  "config": {
+    "backend": {
+      "device": "cuda:0",
+      "dtype": "bfloat16",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "model_path": "models/qwen2.5-1.5b-instruct-hf",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "type": "huggingface",
+      "weights_sha256": "dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee"
+    },
+    "dataset": {
+      "count": 2,
+      "family": "reasoning",
+      "filler_words": 114,
+      "grid": {
+        "num_sources": [
+          15,
+          20
+        ],
+        "task_type": [
+          "temporal",
+          "entity_resolution"
+        ]
+      },
+      "long_context": true,
+      "prompt_tokens": {
+        "max": 4000,
+        "min": 2000
+      }
+    },
+    "generation": {
+      "intervention_layers": [
+        1,
+        12,
+        24,
+        28
+      ],
+      "max_sequence_tokens": 8192,
+      "teacher_forced": true,
+      "tokenizer": {
+        "model": "models/qwen2.5-1.5b-instruct-hf",
+        "type": "huggingface"
+      }
+    },
+    "identifiers": [
+      "structured",
+      "random_compact",
+      "uuid"
+    ],
+    "metadata": {
+      "execution": "CUDA",
+      "intervention": "paired-source-ID-swap",
+      "protocol_revision": 1,
+      "stage": 7
+    },
+    "name": "stage7_qwen25_15b",
+    "output_dir": "results/interventions",
+    "seed": 202607
+  },
+  "config_digest": "f4b7f6e8be64",
+  "created_at": "2026-10-26T07:25:22.692970+00:00",
+  "cuda_device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "estimand": "change in swapped-minus-clean exact citation log probability after donor-to-recipient patching",
+  "experiment": "stage7_qwen25_15b",
+  "git_revision": null,
+  "layer_module_names": {
+    "1": "model.layers.0",
+    "12": "model.layers.11",
+    "24": "model.layers.23",
+    "28": "model.layers.27"
+  },
+  "layers": [
+    1,
+    12,
+    24,
+    28
+  ],
+  "model_class": "Qwen2ForCausalLM",
+  "num_hidden_layers": 28,
+  "pid": 3043063,
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "prompt_tokens": {
+    "max": 2893,
+    "mean": 2604.6666666666665,
+    "min": 2452
+  },
+  "python": "3.11.14 (main, Nov 19 2025, 22:47:14) [Clang 21.1.4 ]",
+  "semantic_examples": 1,
+  "span_types": [
+    "source_label",
+    "source_content",
+    "pre_citation",
+    "question_control"
+  ],
+  "tokenizer": "hf:/home/sudomishra/Documents/ChatGPT/Symbolic IR Mechanistic/models/qwen2.5-1.5b-instruct-hf",
+  "torch": "2.14.1+cu130",
+  "transformers": "5.20.2"
+}

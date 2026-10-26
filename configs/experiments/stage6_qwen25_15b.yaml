@@ -1,0 +1,32 @@
+name: stage6_qwen25_15b
+seed: 202606
+dataset:
+  family: reasoning
+  count: 20
+  long_context: true
+  filler_words: 114
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    task_type: [temporal, entity_resolution]
+    num_sources: [15, 20]
+identifiers: [structured, random_compact, uuid]
+backend:
+  type: huggingface
+  model_path: models/qwen2.5-1.5b-instruct-hf
+  model: Qwen/Qwen2.5-1.5B-Instruct
+  revision: 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+  weights_sha256: dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee
+  device: cuda:0
+  dtype: bfloat16
+generation:
+  tokenizer: {type: huggingface, model: models/qwen2.5-1.5b-instruct-hf}
+  teacher_forced: true
+  max_sequence_tokens: 8192
+output_dir: results/activations
+metadata:
+  stage: 6
+  execution: CUDA
+  paired_with_stage5_seed: true
+  representation_protocol: source-label/source-fact/question/pre-answer/answer/pre-citation/citation
+  pooled_storage_dtype: float16
+  protocol_revision: 2

@@ -1,0 +1,18 @@
+name: 04_failure_decomposition
+seed: 202604
+dataset:
+  family: citation
+  count: 100
+  task_type: multi_hop
+  grid:
+    num_sources: [10, 20]
+identifiers: [structured, uuid, uuid_with_alias]
+backend: {type: oracle}
+generation:
+  require_citations: [true, false]
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata: {stage: 4}
+

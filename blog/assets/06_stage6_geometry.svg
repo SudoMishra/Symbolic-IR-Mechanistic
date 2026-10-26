@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 720" role="img" aria-labelledby="title desc">
+<title id="title">Stage 6 representation geometry</title>
+<desc id="desc">Four panels show source-content and source-label CKA between structured and UUID conditions across normalized model depth.</desc>
+<style>
+text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
+.title{font-size:28px;font-weight:700}.subtitle{font-size:15px;fill:#5f6b7a}
+.label{font-size:14px;font-weight:600}.body{font-size:14px}.small{font-size:12px;fill:#5f6b7a}
+.mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;font-size:13px}
+.axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.4}
+</style>
+<text x="50" y="48" class="title" text-anchor="start">Facts stay aligned while identifier labels converge through the stack</text>
+<text x="50" y="76" class="subtitle" text-anchor="start">Structured-versus-UUID linear CKA across 80 paired examples per model.</text>
+<text x="80" y="115" class="label" text-anchor="start">Qwen</text>
+<line x1="80" y1="370.0" x2="680" y2="370.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="72" y="374.0" class="small" text-anchor="end">0.0</text>
+<line x1="80" y1="250.0" x2="680" y2="250.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="72" y="254.0" class="small" text-anchor="end">0.5</text>
+<line x1="80" y1="130.0" x2="680" y2="130.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="72" y="134.0" class="small" text-anchor="end">1.0</text>
+<polyline points="80.00,130.00 101.43,130.02 122.86,130.13 144.29,130.26 165.71,130.36 187.14,130.30 208.57,130.41 230.00,130.36 251.43,130.61 272.86,130.35 294.29,130.50 315.71,130.39 337.14,130.52 358.57,130.41 380.00,137.43 401.43,133.39 422.86,133.75 444.29,133.08 465.71,132.35 487.14,135.09 508.57,134.96 530.00,134.28 551.43,133.03 572.86,132.55 594.29,131.83 615.71,131.43 637.14,131.26 658.57,131.18 680.00,132.03" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="80.00,291.95 101.43,274.89 122.86,260.62 144.29,237.90 165.71,230.25 187.14,224.18 208.57,214.73 230.00,206.34 251.43,201.19 272.86,198.55 294.29,179.90 315.71,172.30 337.14,167.38 358.57,164.17 380.00,202.98 401.43,185.36 422.86,191.41 444.29,185.98 465.71,186.36 487.14,208.46 508.57,216.65 530.00,210.02 551.43,198.58 572.86,188.31 594.29,178.26 615.71,170.82 637.14,171.89 658.57,188.05 680.00,191.77" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="80" y="395" class="small" text-anchor="start">embedding</text>
+<text x="680" y="395" class="small" text-anchor="end">final layer</text>
+<text x="740" y="115" class="label" text-anchor="start">LFM</text>
+<line x1="740" y1="370.0" x2="1340" y2="370.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="732" y="374.0" class="small" text-anchor="end">0.0</text>
+<line x1="740" y1="250.0" x2="1340" y2="250.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="732" y="254.0" class="small" text-anchor="end">0.5</text>
+<line x1="740" y1="130.0" x2="1340" y2="130.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="732" y="134.0" class="small" text-anchor="end">1.0</text>
+<polyline points="740.00,130.00 777.50,130.00 815.00,130.04 852.50,130.53 890.00,130.39 927.50,130.55 965.00,131.06 1002.50,131.06 1040.00,131.24 1077.50,131.37 1115.00,131.71 1152.50,133.48 1190.00,133.99 1227.50,132.92 1265.00,137.15 1302.50,132.91 1340.00,134.61" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="740.00,202.66 777.50,193.28 815.00,204.47 852.50,161.46 890.00,168.70 927.50,175.86 965.00,155.30 1002.50,156.99 1040.00,170.11 1077.50,164.46 1115.00,185.45 1152.50,195.80 1190.00,209.20 1227.50,189.76 1265.00,192.06 1302.50,178.38 1340.00,193.30" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="740" y="395" class="small" text-anchor="start">embedding</text>
+<text x="1340" y="395" class="small" text-anchor="end">final layer</text>
+<text x="80" y="410" class="label" text-anchor="start">Gemma E2B</text>
+<line x1="80" y1="665.0" x2="680" y2="665.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="72" y="669.0" class="small" text-anchor="end">0.0</text>
+<line x1="80" y1="545.0" x2="680" y2="545.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="72" y="549.0" class="small" text-anchor="end">0.5</text>
+<line x1="80" y1="425.0" x2="680" y2="425.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="72" y="429.0" class="small" text-anchor="end">1.0</text>
+<polyline points="80.00,425.00 97.14,426.13 114.29,427.48 131.43,427.88 148.57,430.19 165.71,426.17 182.86,426.05 200.00,425.74 217.14,425.71 234.29,426.93 251.43,427.11 268.57,426.80 285.71,426.71 302.86,427.12 320.00,428.09 337.14,427.49 354.29,428.92 371.43,428.08 388.57,428.26 405.71,428.59 422.86,429.59 440.00,427.92 457.14,426.60 474.29,426.37 491.43,426.76 508.57,427.47 525.71,427.63 542.86,427.75 560.00,428.01 577.14,428.31 594.29,428.89 611.43,428.99 628.57,429.29 645.71,429.29 662.86,428.35 680.00,439.09" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="80.00,560.88 97.14,558.42 114.29,518.71 131.43,513.18 148.57,449.39 165.71,456.95 182.86,467.85 200.00,459.98 217.14,447.67 234.29,453.98 251.43,483.66 268.57,446.55 285.71,443.77 302.86,447.76 320.00,462.66 337.14,441.61 354.29,454.94 371.43,454.42 388.57,464.03 405.71,468.50 422.86,476.98 440.00,468.15 457.14,463.15 474.29,463.76 491.43,469.54 508.57,463.33 525.71,471.45 542.86,469.48 560.00,466.66 577.14,478.61 594.29,473.32 611.43,471.61 628.57,470.16 645.71,478.71 662.86,496.92 680.00,574.47" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="80" y="690" class="small" text-anchor="start">embedding</text>
+<text x="680" y="690" class="small" text-anchor="end">final layer</text>
+<text x="740" y="410" class="label" text-anchor="start">Gemma E4B</text>
+<line x1="740" y1="665.0" x2="1340" y2="665.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="732" y="669.0" class="small" text-anchor="end">0.0</text>
+<line x1="740" y1="545.0" x2="1340" y2="545.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="732" y="549.0" class="small" text-anchor="end">0.5</text>
+<line x1="740" y1="425.0" x2="1340" y2="425.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="732" y="429.0" class="small" text-anchor="end">1.0</text>
+<polyline points="740.00,425.00 754.29,425.87 768.57,426.50 782.86,428.01 797.14,427.79 811.43,429.96 825.71,426.85 840.00,426.45 854.29,426.25 868.57,426.10 882.86,425.70 897.14,425.84 911.43,425.67 925.71,425.64 940.00,425.96 954.29,426.34 968.57,426.39 982.86,426.78 997.14,426.73 1011.43,426.35 1025.71,426.22 1040.00,426.29 1054.29,426.60 1068.57,429.94 1082.86,426.13 1097.14,426.16 1111.43,426.45 1125.71,426.28 1140.00,426.11 1154.29,426.30 1168.57,426.89 1182.86,426.48 1197.14,426.99 1211.43,427.28 1225.71,427.51 1240.00,427.25 1254.29,427.13 1268.57,427.00 1282.86,426.85 1297.14,426.68 1311.43,426.44 1325.71,426.24 1340.00,426.26" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="740.00,560.54 754.29,524.06 768.57,498.61 782.86,499.63 797.14,495.81 811.43,446.76 825.71,446.13 840.00,453.75 854.29,458.56 868.57,455.78 882.86,461.20 897.14,446.26 911.43,463.41 925.71,457.12 940.00,452.13 954.29,452.45 968.57,446.64 982.86,445.18 997.14,453.35 1011.43,446.53 1025.71,449.05 1040.00,449.21 1054.29,449.39 1068.57,472.10 1082.86,439.81 1097.14,436.47 1111.43,440.90 1125.71,445.10 1140.00,444.87 1154.29,460.03 1168.57,481.45 1182.86,463.92 1197.14,458.00 1211.43,458.20 1225.71,455.71 1240.00,453.02 1254.29,452.71 1268.57,450.92 1282.86,451.59 1297.14,452.52 1311.43,453.30 1325.71,458.87 1340.00,466.15" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="740" y="690" class="small" text-anchor="start">embedding</text>
+<text x="1340" y="690" class="small" text-anchor="end">final layer</text>
+<line x1="540" y1="700" x2="575" y2="700" stroke="#008c83" stroke-width="3"/>
+<text x="585" y="705" class="small" text-anchor="start">source-fact CKA</text>
+<line x1="745" y1="700" x2="780" y2="700" stroke="#7656c9" stroke-width="3"/>
+<text x="790" y="705" class="small" text-anchor="start">source-label CKA</text>
+</svg>

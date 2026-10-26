@@ -1,0 +1,29 @@
+name: 03_token_matched_numeric_lfm25_12b_q4km
+seed: 202601
+dataset:
+  family: citation
+  count: 100
+  task_type: single_hop
+  num_sources: 20
+identifiers: [numeric]
+backend:
+  type: llama_cpp
+  model_path: models/lfm2.5-1.2b-instruct-q4_k_m.gguf
+  model: LiquidAI/LFM2.5-1.2B-Instruct-GGUF:q4_k_m
+  revision: 8ed288026e23958ad9dfa92d53ed773a8eee7125
+  n_ctx: 4096
+  n_threads: 12
+  seed: 202601
+generation:
+  temperature: 0
+  max_output_tokens: 80
+  tokenizer:
+    type: llama_cpp
+    model_path: models/lfm2.5-1.2b-instruct-q4_k_m.gguf
+output_dir: results/raw
+metadata:
+  stage: 3
+  focused_control: numeric_vs_structured_same_examples
+  quantization: Q4_K_M
+  execution: CPU
+  comparison: cross_model

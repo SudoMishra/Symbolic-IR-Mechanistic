@@ -1,0 +1,78 @@
+{
+  "adversarial": {
+    "expected_issue_code_by_type": {
+      "action_argument_type_mismatch": 500,
+      "action_limit": 500,
+      "duplicate_reference": 500,
+      "invalid_action_arguments": 500,
+      "malformed_handle": 500,
+      "raw_exposure": 500,
+      "schema_extension": 500,
+      "type_mismatch": 500,
+      "unauthorized_action": 500,
+      "unknown_handle": 500
+    },
+    "overall_rejection_rate": 1.0,
+    "rehydration_blocked_by_type": {
+      "action_argument_type_mismatch": 500,
+      "action_limit": 500,
+      "duplicate_reference": 500,
+      "invalid_action_arguments": 500,
+      "malformed_handle": 500,
+      "raw_exposure": 500,
+      "schema_extension": 500,
+      "type_mismatch": 500,
+      "unauthorized_action": 500,
+      "unknown_handle": 500
+    },
+    "rejected_by_type": {
+      "action_argument_type_mismatch": 500,
+      "action_limit": 500,
+      "duplicate_reference": 500,
+      "invalid_action_arguments": 500,
+      "malformed_handle": 500,
+      "raw_exposure": 500,
+      "schema_extension": 500,
+      "type_mismatch": 500,
+      "unauthorized_action": 500,
+      "unknown_handle": 500
+    }
+  },
+  "correct": {
+    "acceptance_rate": 1.0,
+    "accepted": 500,
+    "rehydrated_exactly": 500,
+    "roundtrip_rate": 1.0
+  },
+  "isolation": {
+    "cross_request_rehydration_attempts": 499,
+    "cross_request_rehydration_blocked": 499,
+    "deterministic_replays": 500,
+    "protected_model_payloads": 500,
+    "redacted_audits": 500
+  },
+  "latency_ms": {
+    "canonicalization_median": 3.5144700668752193,
+    "canonicalization_p95": 4.846060182899237,
+    "validation_median": 0.03737187944352627,
+    "validation_p95": 0.04939595237374306
+  },
+  "protocol": "stage9-operational-eval-v1",
+  "records_per_request": 20,
+  "representation": {
+    "canonical_characters": 2886213,
+    "canonical_chars_per_request_mean": 5772.426,
+    "character_reduction_fraction": 0.5226194843546196,
+    "raw_characters": 6045938,
+    "raw_chars_per_request_mean": 12091.876
+  },
+  "requests": 500,
+  "semantic_boundary": {
+    "semantically_wrong_after_rehydration": 500,
+    "structurally_accepted": 500,
+    "wrong_existing_handle_cases": 500
+  },
+  "synthetic_only": true,
+  "total_attack_cases": 5000,
+  "total_records": 10000
+}

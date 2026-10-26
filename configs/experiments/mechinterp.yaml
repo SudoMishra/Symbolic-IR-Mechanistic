@@ -1,0 +1,19 @@
+name: 07_mechinterp
+seed: 202607
+dataset:
+  family: citation
+  count: 20
+  task_type: single_hop
+  num_sources: 5
+identifiers: [structured, uuid]
+backend:
+  type: oracle  # Replace with a pinned Hugging Face backend after Checkpoint 6.
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata:
+  stage: 7
+  gated: true
+

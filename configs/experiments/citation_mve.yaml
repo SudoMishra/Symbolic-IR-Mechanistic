@@ -1,0 +1,19 @@
+name: 01_citation_mve
+seed: 202601
+dataset:
+  family: citation
+  count: 100
+  task_type: single_hop
+  grid:
+    num_sources: [5, 20]
+identifiers: [structured, uuid]
+backend:
+  type: oracle  # Replace with a pinned real backend before collecting research results.
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata:
+  stage: 1
+
