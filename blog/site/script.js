@@ -30,16 +30,23 @@ function showSourceCount(sourceCount) {
   });
 
   valueNodes.forEach((node) => {
-    node.animate(
+    const anim = node.animate(
       [
         { opacity: 1, transform: "translateY(0)" },
-        { opacity: 0, transform: "translateY(-0.35rem)" },
-        { opacity: 0, transform: "translateY(0.35rem)" },
-        { opacity: 1, transform: "translateY(0)" },
+        { opacity: 0, transform: "translateY(-0.25rem)" },
       ],
-      { duration: 280, easing: "ease-out" },
+      { duration: 120, easing: "ease-in" },
     );
-    node.textContent = values[node.dataset.value];
+    anim.onfinish = () => {
+      node.textContent = values[node.dataset.value];
+      node.animate(
+        [
+          { opacity: 0, transform: "translateY(0.25rem)" },
+          { opacity: 1, transform: "translateY(0)" },
+        ],
+        { duration: 160, easing: "ease-out" },
+      );
+    };
   });
 }
 

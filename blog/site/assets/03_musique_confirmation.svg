@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1250 720" role="img" aria-labelledby="title desc">
+<title id="title">Held-out MuSiQue binding effects</title>
+<desc id="desc">Forest plot of UUID minus numeric source-binding recall across five models and two source counts.</desc>
+<style>
+text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
+.title{font-size:28px;font-weight:700}.subtitle{font-size:15px;fill:#5f6b7a}
+.label{font-size:14px;font-weight:600}.body{font-size:14px}.small{font-size:12px;fill:#5f6b7a}
+.mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;font-size:13px}
+.axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.4}
+</style>
+<text x="50" y="48" class="title" text-anchor="start">UUID binding was lower in every held-out cell</text>
+<text x="50" y="76" class="subtitle" text-anchor="start">Effect is UUID minus numeric relaxed source-binding recall; 95% paired bootstrap intervals.</text>
+<line x1="490.0" y1="112" x2="490.0" y2="632" stroke="#d8dee8" stroke-width="1"/>
+<text x="490.0" y="658" class="small" text-anchor="middle">-20 pp</text>
+<line x1="615.0" y1="112" x2="615.0" y2="632" stroke="#d8dee8" stroke-width="1"/>
+<text x="615.0" y="658" class="small" text-anchor="middle">-15 pp</text>
+<line x1="740.0" y1="112" x2="740.0" y2="632" stroke="#d8dee8" stroke-width="1"/>
+<text x="740.0" y="658" class="small" text-anchor="middle">-10 pp</text>
+<line x1="865.0" y1="112" x2="865.0" y2="632" stroke="#d8dee8" stroke-width="1"/>
+<text x="865.0" y="658" class="small" text-anchor="middle">-5 pp</text>
+<line x1="990.0" y1="112" x2="990.0" y2="632" stroke="#172033" stroke-width="1.5"/>
+<text x="990.0" y="658" class="small" text-anchor="middle">+0 pp</text>
+<line x1="1115.0" y1="112" x2="1115.0" y2="632" stroke="#d8dee8" stroke-width="1"/>
+<text x="1115.0" y="658" class="small" text-anchor="middle">+5 pp</text>
+<rect x="45" y="104" width="1150" height="45" fill="#f7f9fc"/>
+<text x="58" y="135" class="body" text-anchor="start">Tiny Aya</text>
+<text x="230" y="135" class="small" text-anchor="start">15 sources</text>
+<line x1="562.9166666666667" y1="130" x2="837.9166666666665" y2="130" stroke="#315efb" stroke-width="3"/>
+<line x1="562.9166666666667" y1="124" x2="562.9166666666667" y2="136" stroke="#315efb" stroke-width="2"/>
+<line x1="837.9166666666665" y1="124" x2="837.9166666666665" y2="136" stroke="#315efb" stroke-width="2"/>
+<circle cx="704.5833333333334" cy="130" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="135" class="small" text-anchor="start">-11.4</text>
+<text x="58" y="187" class="body" text-anchor="start">Tiny Aya</text>
+<text x="230" y="187" class="small" text-anchor="start">20 sources</text>
+<line x1="483.7500000000001" y1="182" x2="748.3333333333334" y2="182" stroke="#315efb" stroke-width="3"/>
+<line x1="483.7500000000001" y1="176" x2="483.7500000000001" y2="188" stroke="#315efb" stroke-width="2"/>
+<line x1="748.3333333333334" y1="176" x2="748.3333333333334" y2="188" stroke="#315efb" stroke-width="2"/>
+<circle cx="621.25" cy="182" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="187" class="small" text-anchor="start">-14.8</text>
+<rect x="45" y="208" width="1150" height="45" fill="#f7f9fc"/>
+<text x="58" y="239" class="body" text-anchor="start">LFM 1.2B</text>
+<text x="230" y="239" class="small" text-anchor="start">15 sources</text>
+<line x1="654.5833333333334" y1="234" x2="950.4166666666666" y2="234" stroke="#315efb" stroke-width="3"/>
+<line x1="654.5833333333334" y1="228" x2="654.5833333333334" y2="240" stroke="#315efb" stroke-width="2"/>
+<line x1="950.4166666666666" y1="228" x2="950.4166666666666" y2="240" stroke="#315efb" stroke-width="2"/>
+<circle cx="802.5" cy="234" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="239" class="small" text-anchor="start">-7.5</text>
+<text x="58" y="291" class="body" text-anchor="start">LFM 1.2B</text>
+<text x="230" y="291" class="small" text-anchor="start">20 sources</text>
+<line x1="687.8645833333333" y1="286" x2="977.5" y2="286" stroke="#315efb" stroke-width="3"/>
+<line x1="687.8645833333333" y1="280" x2="687.8645833333333" y2="292" stroke="#315efb" stroke-width="2"/>
+<line x1="977.5" y1="280" x2="977.5" y2="292" stroke="#315efb" stroke-width="2"/>
+<circle cx="837.9166666666665" cy="286" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="291" class="small" text-anchor="start">-6.1</text>
+<rect x="45" y="312" width="1150" height="45" fill="#f7f9fc"/>
+<text x="58" y="343" class="body" text-anchor="start">Qwen 1.5B</text>
+<text x="230" y="343" class="small" text-anchor="start">15 sources</text>
+<line x1="681.6666666666665" y1="338" x2="958.75" y2="338" stroke="#315efb" stroke-width="3"/>
+<line x1="681.6666666666665" y1="332" x2="681.6666666666665" y2="344" stroke="#315efb" stroke-width="2"/>
+<line x1="958.75" y1="332" x2="958.75" y2="344" stroke="#315efb" stroke-width="2"/>
+<circle cx="819.1666666666666" cy="338" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="343" class="small" text-anchor="start">-6.8</text>
+<text x="58" y="395" class="body" text-anchor="start">Qwen 1.5B</text>
+<text x="230" y="395" class="small" text-anchor="start">20 sources</text>
+<line x1="862.9166666666667" y1="390" x2="1071.25" y2="390" stroke="#315efb" stroke-width="3"/>
+<line x1="862.9166666666667" y1="384" x2="862.9166666666667" y2="396" stroke="#315efb" stroke-width="2"/>
+<line x1="1071.25" y1="384" x2="1071.25" y2="396" stroke="#315efb" stroke-width="2"/>
+<circle cx="969.1666666666667" cy="390" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="395" class="small" text-anchor="start">-0.8</text>
+<rect x="45" y="416" width="1150" height="45" fill="#f7f9fc"/>
+<text x="58" y="447" class="body" text-anchor="start">Gemma E2B</text>
+<text x="230" y="447" class="small" text-anchor="start">15 sources</text>
+<line x1="781.6145833333334" y1="442" x2="1050.4166666666667" y2="442" stroke="#315efb" stroke-width="3"/>
+<line x1="781.6145833333334" y1="436" x2="781.6145833333334" y2="448" stroke="#315efb" stroke-width="2"/>
+<line x1="1050.4166666666667" y1="436" x2="1050.4166666666667" y2="448" stroke="#315efb" stroke-width="2"/>
+<circle cx="912.9166666666667" cy="442" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="447" class="small" text-anchor="start">-3.1</text>
+<text x="58" y="499" class="body" text-anchor="start">Gemma E2B</text>
+<text x="230" y="499" class="small" text-anchor="start">20 sources</text>
+<line x1="737.9166666666667" y1="494" x2="992.0833333333333" y2="494" stroke="#315efb" stroke-width="3"/>
+<line x1="737.9166666666667" y1="488" x2="737.9166666666667" y2="500" stroke="#315efb" stroke-width="2"/>
+<line x1="992.0833333333333" y1="488" x2="992.0833333333333" y2="500" stroke="#315efb" stroke-width="2"/>
+<circle cx="869.1666666666667" cy="494" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="499" class="small" text-anchor="start">-4.8</text>
+<rect x="45" y="520" width="1150" height="45" fill="#f7f9fc"/>
+<text x="58" y="551" class="body" text-anchor="start">Gemma E4B</text>
+<text x="230" y="551" class="small" text-anchor="start">15 sources</text>
+<line x1="717.0833333333333" y1="546" x2="967.0833333333333" y2="546" stroke="#315efb" stroke-width="3"/>
+<line x1="717.0833333333333" y1="540" x2="717.0833333333333" y2="552" stroke="#315efb" stroke-width="2"/>
+<line x1="967.0833333333333" y1="540" x2="967.0833333333333" y2="552" stroke="#315efb" stroke-width="2"/>
+<circle cx="846.25" cy="546" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="551" class="small" text-anchor="start">-5.8</text>
+<text x="58" y="603" class="body" text-anchor="start">Gemma E4B</text>
+<text x="230" y="603" class="small" text-anchor="start">20 sources</text>
+<line x1="762.9166666666667" y1="598" x2="1048.3333333333335" y2="598" stroke="#315efb" stroke-width="3"/>
+<line x1="762.9166666666667" y1="592" x2="762.9166666666667" y2="604" stroke="#315efb" stroke-width="2"/>
+<line x1="1048.3333333333335" y1="592" x2="1048.3333333333335" y2="604" stroke="#315efb" stroke-width="2"/>
+<circle cx="904.5833333333334" cy="598" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="1155" y="603" class="small" text-anchor="start">-3.4</text>
+<text x="390" y="675" class="label" text-anchor="start">← Favors numeric</text>
+<text x="1140" y="675" class="label" text-anchor="end">Favors UUID →</text>
+</svg>

@@ -242,10 +242,6 @@ code {
   align-items: start;
 }
 
-.research-map-head p + p {
-  margin-top: 1.2rem;
-}
-
 .research-map-head h2,
 .research-map-head > div {
   grid-column: 1 / -1;
@@ -258,7 +254,7 @@ code {
 }
 
 .research-map-head p + p {
-  margin-top: 0;
+  margin-top: 1.2rem;
 }
 
 .contents {
@@ -616,21 +612,6 @@ pre code {
 .study-copy p + p,
 .entities-copy p + p {
   margin-top: 1.25rem;
-}
-
-.study-copy p,
-.entities-copy p,
-.mechanism-head p,
-.boundary-head p {
-  grid-column: 2;
-}
-
-.study-copy h2,
-.entities-copy h2,
-.mechanism-head h2,
-.boundary-head h2 {
-  grid-column: 1;
-  grid-row: 1 / span 2;
 }
 
 .study-copy h2,
@@ -1345,6 +1326,93 @@ pre code {
   .footer-mark {
     font-size: 20vw;
   }
+}
+
+.part-kicker {
+  display: block;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.prompt-diff {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.prompt-panel {
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  padding: 1.5rem;
+}
+
+.prompt-panel--symbolic {
+  background: color-mix(in srgb, #e2f5f1 35%, var(--surface));
+  border-color: color-mix(in srgb, #008c83 35%, transparent);
+}
+
+.prompt-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.prompt-panel-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.token-badge {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+}
+
+.token-badge--warn {
+  color: #8c1e28;
+  border-color: #8c1e28;
+  background: rgba(140, 30, 40, 0.08);
+}
+
+.token-badge--good {
+  color: #00736c;
+  border-color: #00736c;
+  background: rgba(0, 115, 108, 0.08);
+}
+
+.sidebar-callout {
+  border-left: 3px solid var(--ink);
+  padding: 1.75rem 2rem;
+  margin: 3rem 0;
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+}
+
+.sidebar-callout-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.byline {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-top: 1.25rem;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+.byline a {
+  text-decoration: underline;
 }
 
 @media (prefers-reduced-motion: reduce) {

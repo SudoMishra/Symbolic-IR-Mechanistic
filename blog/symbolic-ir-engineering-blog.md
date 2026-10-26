@@ -1,478 +1,416 @@
 ---
 title: "The Hidden Cost of UUIDs: Building a Symbolic IR for LLM Systems"
-description: "What 18,020 model generations, 960 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial tests taught us about the boundary between probabilistic models and deterministic software."
-author: "Symbolic IR Research Project"
+description: "What 18,020 model generations, 960 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial tests taught us about UUIDs in LLM interfaces."
+author: "Sudo Mishra (Symbolic IR Project)"
+date: "October 2026"
+repository: "https://github.com/SudoMishra/Symbolic-IR-Mechanistic"
 ---
 
 # The Hidden Cost of UUIDs: Building a Symbolic IR for LLM Systems
 
-Modern LLM applications routinely place machine-generated identifiers directly
-inside prompts: document UUIDs, database keys, account numbers, transaction IDs,
-URLs, tool-call IDs, and workflow handles. Those strings are convenient for the
-application because they already exist. That does not mean they are a good
-reasoning interface for the model.
+**Author:** Sudo Mishra (Symbolic IR Project)  
+**Date:** October 2026  
+**Repository:** [github.com/SudoMishra/Symbolic-IR-Mechanistic](https://github.com/SudoMishra/Symbolic-IR-Mechanistic)
 
-Consider a retrieval prompt containing this source label:
+Modern LLM applications routinely place machine-generated identifiers directly inside prompts: document UUIDs, database primary keys, account numbers, transaction hashes, tool-call IDs, and workflow handles. Because these strings already exist in backend databases, engineers treat the LLM context window as a transparent transport pipe.
 
-```text
-8ce71ad9-71f2-4a03-b7f2-26f64e0db302
-```
+That assumption is expensive and fundamentally flawed. An autoregressive language model is not a relational database index. It is a probabilistic token predictor with finite attention capacity and tokenization constraints. Passing high-entropy, opaque strings forces the model to encode, track, and reproduce meaningless characters—often degrading attribution accuracy and inflating latency.
 
-The model must attend to it, distinguish it from similar strings, preserve its
-binding to a passage, and reproduce it at the end. Yet its literal characters
-usually contribute nothing to answering the question. The application could
-instead show `<SOURCE_1>` and keep the reversible mapping outside the model.
+This engineering report synthesizes a comprehensive empirical investigation: **18,020 model generations** (across synthetic baselines, multi-hop retrieval, reasoning budgets, long procedural traces, and entity resolution), **960 paired hidden-state passes**, **1,056 causal interventions**, and **5,000 adversarial tests** of a deterministic symbolic boundary.
 
-That small interface change motivated a much larger investigation. We ran
-18,020 model generations across citation, multi-hop retrieval, reasoning-budget,
-long-output, and entity-resolution tasks. We then added 960 paired hidden-state
-passes, 66 counterfactual source-ID swaps, 1,056 activation interventions, and a
-systems evaluation containing 500 valid round trips and 5,000 adversarial
-outputs.
+The central thesis is not the naive claim that “short aliases make models smarter.” The defensible, systems-grounded rule is:
 
-The result is not the simplistic claim that “short aliases make models smarter.”
-The stronger and more useful conclusion is this:
-
-> Keep a literal value in model context when its characters are part of the
-> problem. Otherwise, expose a compact request-scoped handle, validate the
-> symbolic response, and resolve it in trusted software.
+> **Keep a literal value in model context when its characters are part of the problem. Otherwise, expose a compact request-scoped symbolic handle, validate the model’s symbolic output, and rehydrate it in trusted software.**
 
 ![A UUID-heavy model prompt is canonicalized into typed request-local handles while the reversible map remains outside model context.](assets/01_raw_vs_symbolic.svg)
 
-## The actual hypothesis
+---
 
-Canonicalization could help for several different reasons, and conflating them
-would make the experiments hard to interpret.
+## PART I: THE CRIME SCENE & THE METRIC TRAP
 
-First, there is a straightforward **transport cost**. A UUID may occupy roughly
-30 tokens where a short alias occupies three or four. Repeating twenty of them
-through a prompt changes context length, prefill work, output length, and the
-chance of a literal copying error.
+### The Crime Scene: Opaque Literals in Context
 
-Second, there is a **binding problem**. The model must associate a fact with the
-right source or entity. Identifier surface form might make that association
-easier or harder even when the underlying content is identical.
-
-Third, there is a **reconstruction problem**. The model may know which source it
-wants but fail to reproduce the required string or wrapper. A citation evaluator
-that treats `S7` and `[S7]` as entirely different answers can mistake a formatting
-failure for an evidence-selection failure.
-
-Finally, there is a possible **reasoning-budget problem**. Under a fixed output
-budget, identifier bookkeeping might compete with task reasoning. This was the
-most ambitious hypothesis—and, importantly, the one that did not generalize
-cleanly.
-
-The experiments were designed to pull those mechanisms apart rather than report
-one undifferentiated accuracy number.
-
-![The experiment sequence moves from behavioral tests to stress tests, mechanistic analysis, entity generalization, and an operational system boundary.](assets/02_evidence_funnel.svg)
-
-## Making the comparison trustworthy
-
-The central experimental unit was not a prompt string. It was a canonical
-example containing semantic source keys, passages, questions, answers, and gold
-evidence. Identifier renderers were applied afterward. That allowed the same
-example, source order, and task content to be shown with numeric labels,
-structured labels, random compact strings, hexadecimal strings, UUIDs, or typed
-entity handles.
-
-Every completed local-model run used deterministic decoding and a pinned model
-revision. Native tokenizers measured each representation rather than relying on
-a common approximation. The runner wrote append-only JSONL records containing
-the complete prompt, mapping, raw response, evaluation, latency, token usage,
-model metadata, configuration digest, and stable request key. Re-running an
-experiment resumed it instead of silently overwriting it.
-
-The evaluator deliberately separated:
-
-- answer correctness;
-- strict citation syntax;
-- relaxed source binding;
-- identifier reconstruction;
-- malformed or invented identifiers;
-- raw-value exposure;
-- and, for LongProc, the correct prefix of an intermediate state trace.
-
-Paired bootstrap intervals used the same semantic examples on both sides of a
-comparison. Confirmatory cohorts were selected independently from the pilots.
-That detail matters because many apparent identifier effects disappear when
-content, source order, or example difficulty is allowed to change with the
-condition.
-
-## The first result: UUIDs are expensive
-
-The first minimum viable experiment compared structured labels such as `[S1]`
-with UUIDs on a fictional citation task. Qwen2.5-1.5B saw 100 paired examples at
-five sources and another 100 at twenty sources under each representation.
-
-At five sources, exact source binding was 96% with structured labels and 63%
-with UUIDs. At twenty sources it was 66% versus 37%. Answer content, however,
-was almost unchanged: 100% versus 98% at five sources and 90% versus 92% at
-twenty. The representation changed the model’s ability to return the right
-reference much more than its ability to recover the answer.
-
-The cost difference was just as visible. At twenty sources, Qwen’s UUID prompt
-used 1,237 input tokens versus 639 for structured labels, produced 46.5 output
-tokens versus 14.8, and took 12.0 seconds versus 5.3 on the original CPU run.
-
-The early cross-model replication complicated the behavioral story. Qwen and
-LFM bound compact labels more reliably; Gemma E2B initially favored UUIDs; Gemma
-E4B was at ceiling for both. But the efficiency result did not depend on that
-behavioral disagreement. Across the four models at twenty sources, UUIDs added
-roughly 70–94% input tokens and 77–129% latency.
-
-That distinction became a theme of the project: canonicalization can be a sound
-systems optimization even when its accuracy effect is architecture-dependent.
-
-## The metric trap
-
-The same first experiment also produced a result that looked contradictory. At
-twenty sources, Qwen’s **strict** citation score was 7% for structured labels and
-34% for UUIDs—even though relaxed source binding was 66% versus 37% in the other
-direction.
-
-The model often selected the right structured source but emitted `S7` instead
-of `[S7]`. The strict metric classified that as fully wrong. UUIDs were harder to
-select and reconstruct, but when a UUID was emitted it more often preserved the
-expected wrapper.
-
-The project therefore treated citation generation as a pipeline:
+To see the problem clearly, consider what happens when a standard retrieval-augmented generation (RAG) system feeds retrieved documents to a model:
 
 ```text
-solve the question
-    -> select the supporting evidence
-    -> bind evidence to its identifier
-    -> reconstruct the identifier string
-    -> emit the required syntax
+=== RAW APPLICATION PAYLOAD (High-Entropy Backend Literals) ===
+Source 8ce71ad9-71f2-4a03-b7f2-26f64e0db302:
+Account ACCT-GB-4490-9812 belongs to Maya Chen. Contact: maya.chen@internal.corp.
+
+Source b3a02e31-4f09-4d31-b90f-8a884315c28a:
+Account ACCT-US-8177-2044 belongs to Luis Ortiz. Contact: luis.ortiz@internal.corp.
+
+Question: Which account belongs to Maya Chen? Cite the source document UUID.
 ```
 
-This is more than an evaluation nicety. Each failure suggests a different
-engineering response. A selection failure may require better retrieval or a
-stronger model. A reconstruction failure may be eliminated by moving backend
-identifiers outside the prompt. A wrapper failure belongs in a parser or
-structured-output layer, not in the factuality score.
+Under modern subword tokenizers (such as Qwen's or Gemma's BPE), the 36-character hexadecimal string `8ce71ad9-71f2-4a03-b7f2-26f64e0db302` fractures into **18 to 30 noisy tokens**:
 
-An exploratory family sweep reinforced the difference. At twenty sources,
-Qwen’s exact binding declined from 85% with numeric labels to 80% with semantic
-labels, 70% with random compact labels, 65% with six-character hexadecimal
-labels, 45% with 32-character hexadecimal labels, and 40% with UUIDs. Identifier
-length and binding had a descriptive Spearman association of -0.72 in that small
-seven-family pilot.
+$$\text{Tokens: } \texttt{["8", "ce", "71", "ad", "9-", "71", "f", "2-", "4a", "03-", "b", "7f", "2-", "26", "f", "64", "e0", "db", "30", "2"]}$$
 
-But a token-matched comparison between `[1]` and `[S1]` showed why length alone
-was not a sufficient explanation. Both averaged 3.55 tokens per identifier and
-639 input tokens. Numeric labels beat structured labels by 67 percentage points
-on strict citation formatting, yet the relaxed binding difference was only eight
-points with an interval spanning zero. Most of the dramatic “advantage” was the
-model preserving brackets around `[1]` while dropping them around `[S1]`.
-
-The practical rule is simple: never publish one citation score without saying
-whether it measures evidence selection, identifier reconstruction, or exact
-surface formatting.
-
-## Multi-hop retrieval: the effect survives a harder task
-
-The next behavioral study moved to MuSiQue, a public multi-hop question-answering
-dataset. One hundred balanced questions—34 two-hop, 33 three-hop, and 33
-four-hop—were screened so that every prompt fit within 2,000–3,700 raw tokens
-under all five native tokenizers. Each model completed 1,500 generations across
-three stages, for 7,500 outputs total.
-
-Stage 2 varied numeric, random compact, long hexadecimal, and UUID identifiers
-at 15 and 20 passages. Stage 3 introduced length-matched structural controls such
-as `[S#]`, `[X#]`, `<SOURCE_#>`, and `<ENTITY_#>`. Stage 4 separated four cases:
-
-1. compact alias only, citation required;
-2. UUID present and reproduced;
-3. UUID present but no citation required;
-4. UUID present with a compact citation alias.
-
-Across the original MuSiQue cohort, relaxed source-binding recall was lower with
-UUIDs in all ten numeric-versus-UUID model/source-count comparisons. Seven of
-the ten paired intervals excluded zero. Answer-F1 differences all had intervals
-spanning zero.
-
-Strict citation F1 again told a noisier story. Tiny Aya appeared to favor UUIDs
-because it frequently omitted brackets around numeric citations. Relaxed binding
-reversed that conclusion: numeric labels led UUIDs by 9.2 points at 15 sources
-and 13.7 points at 20.
-
-The failure controls showed that reproduction can consume useful capacity. When
-UUIDs remained in the prompt but did not have to be emitted, answer F1 improved
-by 3.5 points for LFM and 5.1 points for Gemma E4B. Merely adding a short alias
-next to each UUID did not reliably recover alias-only behavior. Showing both
-representations still asks the model to encode and disambiguate both.
-
-We then repeated the primary numeric-versus-UUID comparison on a disjoint,
-balanced set of 100 MuSiQue questions: 2,000 more deterministic generations.
-UUID binding recall was lower in all ten model/source-count cells, and six paired
-95% intervals excluded zero in the negative direction.
-
-![Held-out paired effects show lower relaxed source-binding recall for UUIDs in all ten model and source-count cells.](assets/03_musique_confirmation.svg)
-
-This is the strongest behavioral result in the project. It is consistent in
-direction across five architectures, two context sizes, and a held-out cohort.
-It still does not imply that UUIDs always lower answer accuracy. They primarily
-made evidence tracking and reference realization less reliable.
-
-## The reasoning-budget hypothesis did not generalize
-
-The initial theory predicted an interaction: if opaque identifiers consume
-bookkeeping capacity, their accuracy penalty should be largest under a tight
-reasoning budget and shrink as more scratchpad tokens become available.
-
-Stage 5 tested that prediction with a two-pass design. The first pass received
-the 2K–4K-token source prompt and a visible scratchpad cap of 64, 128, 256, 512,
-or 1,024 tokens. The second pass received only that scratchpad and a fixed
-128-token answer budget. This manipulated observable output capacity; it did not
-claim access to proprietary hidden reasoning tokens.
-
-The five-model pilot contained 2,400 generations. A separately seeded
-confirmation added 3,200 generations and retained only task/model cells that met
-a predeclared 30–70% pilot calibration rule.
-
-The broad monotonic prediction failed. Every confirmatory slope and low-to-high
-interaction interval included zero. Qwen retained significant UUID deficits at
-128 and 1,024 tokens, but not a smooth recovery curve. Gemma E2B failed badly
-with UUIDs at 64 tokens, then reversed non-monotonically; removing UUID
-reproduction improved its accuracy by 45 and 50 points at the 512- and
-1,024-token budgets. Tiny Aya’s positive pilot slope did not replicate.
-
-![UUID-minus-numeric accuracy moves non-monotonically across visible scratchpad budgets and differs by model.](assets/04_reasoning_budget.svg)
-
-One cost did survive: UUIDs increased total generated output in 14 of 15
-confirmatory model-budget cells. The direction of scratchpad-token use was
-model-dependent, so the data support a reconstruction and output-cost claim—not
-a universal theory that UUIDs consume a fixed quantity of reasoning.
-
-This negative result narrowed the project in a productive way. The final system
-does not depend on speculative reasoning-token savings. It depends on directly
-measured transport cost, binding reliability, output burden, and exposure
-reduction.
-
-## Long output is not evidence of correct reasoning
-
-LongProc provided a separate stress test. Twenty-five matched theory-of-mind
-tracking problems required deterministic belief-state traces of 1,024–2,048
-reference tokens. Four models produced 100 GPU generations with an 8,192-token
-context and a 2,048-token output cap.
-
-Gemma E4B was clearly strongest: 38.0% mean correct-prefix accuracy, 76% final
-answer accuracy, and two completely correct traces. Gemma E2B reached 9.4%
-correct-prefix accuracy and no exact traces.
-
-Qwen illustrates why output length is a poor proxy for reasoning. It produced a
-mean of 2,027 tokens and hit the cap on 84% of examples, yet its mean correct
-prefix was only 1.2%. LFM looked extremely fast because it emitted only 434
-tokens on average and never completed a trace.
-
-![LongProc results distinguish the correct trace prefix, final-answer accuracy, and exact full-trace accuracy.](assets/05_longproc.svg)
-
-Even for Gemma E4B, 76% endpoint accuracy coexisted with only 8% exact trace
-accuracy. If an application cares about procedural state, evaluating only the
-final answer can hide nearly all of the interesting failures.
-
-## Inside the model: stable facts, late surface realization
-
-Behavioral results cannot tell us whether a model internally represents the same
-source similarly across identifier formats. Stage 6 recorded hidden states from
-official BF16 Qwen, LFM, Gemma E2B, and Gemma E4B checkpoints. Each model saw the
-same 80 semantic examples under structured, random compact, and UUID formats,
-for 960 paired forward passes.
-
-Three patterns replicated across all four models.
-
-First, source-content geometry was largely format-invariant: the minimum
-cross-format source-fact CKA ranged from 0.941 to 0.979. Second, source-label
-geometry began farther apart at the embedding layer but converged substantially
-inside the stack. Third, states near citation generation became more
-format-specific late in the model, while question representations remained
-highly similar.
-
-![Across four models, source-content geometry remains highly aligned while source-label geometry converges after different lexical embeddings.](assets/06_stage6_geometry.svg)
-
-That is consistent with a model maintaining similar semantic facts while
-realizing different identifier strings near the output. But the likelihood
-results warned against a single universal copying story. UUID answer likelihood
-was worse in Gemma E2B, UUID citation likelihood was worse in LFM, and UUID
-citation likelihood was actually better in Qwen and Gemma E4B under the
-teacher-forced measure.
-
-Representation similarity is correlational. Stage 7 therefore changed the
-source-to-identifier relationship and tested whether the model followed it.
-
-For each semantic example, the identifier assigned to one relevant source was
-swapped with a distractor while source text, identifier set, question, and answer
-remained fixed. A positive direct effect means the model shifted probability
-toward the relevant source’s newly assigned identifier.
-
-Qwen followed the source to its new compact identifiers. The smaller Gemma
-pilots also showed correct rebinding. LFM was causally sensitive but moved in the
-opposite direction: its compact-ID condition significantly strengthened the old
-association.
-
-![Counterfactual source-ID swaps produce correct rebinding in Qwen and the Gemma pilots but inverted compact-ID binding in LFM.](assets/07_stage7_swaps.svg)
-
-Residual-stream patching located a second shared property. Final-layer citation
-state patches transferred approximately the full prompt-swap response in every
-model, confirming that a causally effective representation of the output choice
-was present by the end. The onset differed sharply: Qwen already transferred
-74–108% at layer 24; Gemma E2B showed partial UUID transfer at layer 29; Gemma
-E4B’s sampled layer 32 barely transferred UUID behavior and moved short IDs in
-the wrong direction. Patching one source-label endpoint or one fact span was far
-less consistent than patching the citation-generation trajectory.
-
-The mechanistic conclusion is deliberately bounded. Semantic source tracking
-and literal identifier realization are often separable, but similar
-cross-format geometry does not imply that different model families implement
-the same causal binding algorithm.
-
-## Generalizing beyond citations
-
-If canonical structure only helped citation formatting, it would be a narrow
-result. Stage 8 removed citations entirely and tested synthetic account
-resolution. Forty semantic examples containing 15 or 20 records were rendered
-four ways:
-
-- raw names, emails, and account values;
-- arbitrary masked values;
-- untyped canonical handles;
-- typed handles such as `<EMAIL_2>` and `<ACCOUNT_3>`.
-
-Source labels were fixed across all conditions. Five models produced 800
-generations.
-
-Qwen reached 97.5% accuracy with typed handles versus 80.0% with untyped
-handles—a 17.5-point paired gain with exactly identical input-token counts. Tiny
-Aya’s typed handles beat arbitrary masking by 15 points with near-matched length.
-The two Gemma models were ceiling-limited; LFM was near floor after masking.
-
-![Typed handles improve synthetic account resolution for some models while masked conditions eliminate raw-value exposure.](assets/08_stage8_entities.svg)
-
-Across all 200 model/example pairs, typed handles beat untyped handles by eight
-points with no paired typed losses, but that pooled number should not erase the
-architecture differences. The defensible claim is that typed canonicalization
-can improve non-citation binding after controlling for length—not that it always
-will.
-
-Every masked-condition output avoided all synthetic raw names, emails, and
-account numbers because those values were removed before inference. That is
-useful exposure reduction. It is not anonymization: surrounding facts can remain
-identifying, the mapping vault is reversible, and the provider still sees the
-canonicalized context.
-
-## From experiment to system boundary
-
-The behavioral and mechanistic evidence suggests an application architecture,
-but it also establishes its limits. Stage 9 implemented that boundary as a
-request-scoped typed IR.
-
-Trusted application code canonicalizes fields according to an explicit schema.
-The model receives compact typed handles and returns strict symbolic JSON. A
-validator checks the schema, raw-value leakage, handle syntax, request registry,
-field type, tool name, argument schema, argument types, and action-count policy.
-Only accepted output can be rehydrated, and the resulting object still passes
-through the application’s normal authorization and side-effect layer.
-
-```json
-{
-  "answer": "<ACCOUNT_3>",
-  "references": ["<SOURCE_7>"],
-  "actions": [
-    {"name": "lookup_account", "arguments": {"account": "<ACCOUNT_3>"}}
-  ]
-}
-```
-
-The operational evaluation created 500 synthetic requests with 20 records each.
-All 500 valid outputs were accepted and rehydrated exactly. All 5,000 adversarial
-outputs across ten failure classes were rejected, including malformed and
-unknown handles, raw exposure, schema extensions, type confusion, unauthorized
-actions, invalid argument schemas, excessive action counts, and duplicate
-references. All 499 possible cross-request rehydration attempts were blocked.
-
-The canonical model view used 52.26% fewer serialized characters than the raw
-state and instruction. Median canonicalization took 3.51 ms and median
-validation 0.037 ms on the measured synthetic Python workload. Those are
-experiment timings, not deployment service-level objectives.
-
-![The symbolic IR boundary validates representation integrity before rehydration, while semantic correctness and authorization remain separate responsibilities.](assets/09_trust_boundary.svg)
-
-The most important Stage 9 result is the one the validator could not catch. In
-500 deliberately constructed cases, the output contained the wrong account
-handle—but it was a well-formed handle registered to the current request. Every
-case passed structural validation and rehydrated to the wrong account.
-
-That behavior is not a bug in the validator. It marks the semantic boundary:
+Now compare this with an **Intermediate Representation (IR)** using request-scoped symbolic handles:
 
 ```text
-malformed or unknown handle
-    -> deterministic validation can reject it
+=== SYMBOLIC MODEL VIEW (Typed Request-Scoped Handles) ===
+<SOURCE_1>:
+<ACCOUNT_1> belongs to Maya Chen. Contact: <EMAIL_1>.
 
-known but semantically wrong handle
-    -> requires task verification, business rules, confirmation, or review
+<SOURCE_2>:
+<ACCOUNT_2> belongs to Luis Ortiz. Contact: <EMAIL_2>.
+
+Question: Which account belongs to Maya Chen? Return the account and supporting source handle.
 ```
 
-A handle is a reference, not a bearer token, permission, or proof that the
-model chose the correct object.
+Under the same tokenizer, `<SOURCE_1>` occupies **3 to 4 tokens**. Across 20 retrieved passages, UUIDs add hundreds of tokens of high-entropy noise to prefill, consume KV-cache memory, risk literal copying errors at the output head, and needlessly expose internal database identifiers and personal data to the model.
 
-## An engineering decision rule
+### The Core Engineering Questions
 
-Canonical handles are a strong fit when the literal value is merely transport
-identity: retrieval IDs, database keys, UUIDs, transaction IDs, tool results,
-account references, email addresses used only as identity, or URLs used only as
-opaque object keys.
+We set out to answer three concrete questions:
+1. **The Transport Question:** How much do opaque identifiers inflate input tokens, output tokens, and end-to-end generation latency?
+2. **The Attribution Question:** Does identifier surface form actively degrade the model’s ability to bind facts to sources, even when task content and source order are held identical?
+3. **The System Boundary Question:** Can a lightweight, deterministic software layer manage the mapping outside model context, validate symbolic responses, and guarantee representation integrity?
 
-Keep or selectively expose the literal when its characters carry task meaning:
-classifying an email domain, comparing URL paths, validating a checksum, editing
-code, inspecting morphology, preserving legal text, or reasoning about a
-substring. A mixed representation is often correct. Alias the account number
-while preserving the transaction amount; alias the source ID while preserving
-the quoted passage.
+### Experimental Design: Paired by Construction
 
-For production RAG and agent systems, the evidence supports the following
-pattern:
+To measure representation effects without confounding them with content difficulty, our harness enforced strict controls:
 
-1. Canonicalize only fields whose surface form is irrelevant.
-2. Keep the reversible map outside model context and ordinary logs.
-3. Bind handles to request and tenant identity with a short lifecycle.
-4. Ask for strict structured output rather than free-form identifier copying.
-5. Validate schema, leakage, registry membership, type, and action policy.
-6. Rehydrate only validated outputs.
-7. Re-check authorization, object freshness, idempotency, ranges, and business
-   rules after resolution.
-8. Require user confirmation or an independent verifier for consequential
-   wrong-target risk.
-9. Evaluate answer quality, source selection, and surface formatting separately.
-10. Benchmark every representation on the actual model and task family.
+- **Canonical Semantic Units:** Prompts were never authored as isolated strings. Each example was generated as a canonical object (question, passages, gold answer, gold source keys) and rendered into target identifier families (*numeric* `[1]`, *structured* `[S1]`, *random compact* `[XQ7M]`, *long hex*, *UUID*, and *typed entity handles*) only at inference time.
+- **Identical Sequence Order:** Within every paired comparison, passage order, question phrasing, and distractor sets were identical.
+- **Native Tokenizer Accounting:** Input and output lengths were logged using each model's native tokenizer, rather than character approximations.
+- **Pinned Model Revisions & Deterministic Decoding:** All behavioral runs used temperature 0 decoding against pinned local GGUF models across five small/edge model families (1.2B to 4B parameters):
+  - Qwen2.5-1.5B-Instruct (Q4_K_M)
+  - LiquidAI LFM2.5-1.2B-Instruct (Q4_K_M)
+  - Google Gemma 4 E2B Instruct (Q4_0)
+  - Google Gemma 4 E4B Instruct (Q4_0)
+  - Cohere Tiny Aya Global (Q4_K_M)
+- **Scale:** The dataset comprises **18,020 model generations** across behavioral stages (including an initial 20-record end-to-end smoke test), 960 BF16 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial test cases.
 
-## What remains uncertain
+### The Citation Metric Trap: Why Benchmarks Lie
 
-These experiments use small local models, several of them quantized. Decoding is
-deterministic, and most behavioral studies use one assignment/order seed.
-Paired intervals quantify example variation, not every source of deployment
-variance. The Gemma causal cohorts are small pilots. The entity study is
-synthetic. The reference IR has not been integrated with a production identity
-system, retriever, database, encrypted vault, or tool executor.
+Our initial tests revealed an immediate trap in citation evaluation. When we tested Qwen2.5-1.5B on 20-source prompts, its **strict citation accuracy** was **7% for structured labels `[S1]` versus 34% for UUIDs**. 
 
-The next mechanistic step is component-level patching in the architecture-specific
-transition regions: Qwen layers 20–24, LFM 6–13, Gemma E2B 29–35, and Gemma E4B
-33–42. The next systems step is external validation against a real retrieval or
-agent workflow with independent authorization and semantic checks.
+On the surface, it looked like UUIDs performed five times better. But inspecting the raw outputs revealed the truth: Qwen almost always identified the correct structured source, but emitted `S7` instead of `[S7]`. Because strict evaluation requires exact character matching of the enclosing brackets, the evaluator marked the entire citation as completely wrong. With UUIDs, the model failed to find the right source far more often, but when it did copy a UUID, it happened to retain the prompt's formatting wrapper.
 
-The project nevertheless resolves the original engineering question well enough
-to change a design. Backend identifiers should not enter model context simply
-because they are available. The right boundary is semantic:
+To prevent surface syntax from masquerading as reasoning failure, we decomposed citation evaluation into a multi-stage pipeline:
 
-> If the literal characters are part of the problem, preserve them. If they are
-> only a transport key, replace them with a compact typed handle and make
-> deterministic software own the mapping, validation, and authorization.
+$$\text{Solve Problem} \longrightarrow \text{Select Evidence} \longrightarrow \text{Bind to Handle} \longrightarrow \text{Reconstruct Literal} \longrightarrow \text{Format Syntax}$$
+
+Throughout this work, we report separate metrics:
+- **Answer Exact Match / F1:** Does the model produce the correct answer string?
+- **Relaxed Source Binding:** Does the emitted identifier map back to the gold source in the mapping vault, tolerating surface formatting variations (e.g., omitted brackets)?
+- **Strict Citation:** Requires exact identifier reconstruction AND exact syntax wrapper matching.
+- **Surface-Only Failure:** The model selected the correct source, but violated the requested wrapper or casing.
+
+> [!IMPORTANT]
+> **Takeaway for Evaluators:** Never publish a single citation metric. If you do not decouple semantic evidence selection from surface wrapper formatting, you are measuring bracket retention, not model factuality.
+
+### Grounding in Related Work
+
+This investigation connects three previously disparate threads in ML systems:
+1. **Binding IDs in Transformers:** Feng & Steinhardt (2023) demonstrated that transformers track entities across long contexts by binding them to identifier tokens. Our work tests how identifier entropy and tokenization boundaries interact with that binding mechanism in production retrieval.
+2. **Citation Evaluation:** The ALCE benchmark (Gao et al., 2023) established standard citation recall and precision metrics for RAG. Our metric decomposition directly addresses ALCE’s vulnerability to surface formatting discrepancies.
+3. **Symbolic Trust Boundaries & Untrusted Views:** The CaMeL framework (Debenedetti et al., 2024) and the Dual-LLM pattern (Willison, 2023) propose isolating untrusted data and privileged tools. Our reference architecture operationalizes this concept by demonstrating how a request-scoped symbolic mapping vault neutralizes PII leakage and structural injection.
 
 ---
 
-The complete experiment matrix, metric definitions, model and dataset
-provenance, limitations, and reproduction commands are in the
-[technical appendix](appendix.md). The machine-readable claim inventory is in
-[`evidence_manifest.csv`](evidence_manifest.csv), and all figures are generated
-from checked-in result artifacts by [`scripts/build_figures.py`](scripts/build_figures.py).
+## PART II: THE BEHAVIORAL EVIDENCE (SYNTHETIC TO MULTI-HOP)
+
+### Controlled Baseline: Qwen 5 vs. 20 Sources
+
+Our baseline experiment compared structured labels `[S1]` against full UUIDs across 100 paired questions at 5 sources, and another 100 at 20 sources:
+
+| Sources | Identifier Type | Answer Accuracy | Strict Citation | Relaxed Source Binding | Mean Input Tokens | Mean Latency |
+|:---:|:---|:---:|:---:|:---:|:---:|:---:|
+| **5** | Structured `[S1]` | **100%** | 68% | **96%** | 234.6 | **1.74 s** |
+| **5** | UUID | 98% | 29% | 63% | 385.5 | 4.36 s |
+| **20** | Structured `[S1]` | 90% | 7% | **66%** | 639.3 | **5.27 s** |
+| **20** | UUID | **92%** | **34%** | 37% | 1,237.4 | 11.96 s |
+
+The results illustrate the core phenomenon:
+1. **Answer accuracy is invariant:** At 20 sources, answer correctness was 90% vs. 92%—well within statistical parity. The model found the required fact regardless of identifier format.
+2. **Relaxed binding degrades severely:** Relaxed source binding collapsed from **66% down to 37%** under UUIDs. The model knew the answer, but lost track of which document provided it.
+3. **The Transport Tax is massive:** At 20 sources, UUIDs added **93.5% more input tokens** (1,237.4 vs. 639.3) and increased generation latency from **5.3 seconds to 12.0 seconds** on the local CPU runtime.
+
+Across all four initial models at 20 sources, UUIDs imposed a **70% to 94% input token tax** and a **77% to 129% latency overhead**.
+
+### Skeptical Follow-Up: Does This Survive Real Multi-Hop Retrieval?
+
+Synthetic single-hop citation prompts isolate variables cleanly, but real-world engineering workloads involve noisy, multi-hop retrieval. Does the UUID binding penalty persist when questions require reasoning across multiple passages?
+
+To test this, we evaluated the models on **MuSiQue**, a challenging multi-hop benchmark. We filtered 100 balanced questions (34 two-hop, 33 three-hop, and 33 four-hop examples) screened so that every prompt fell within 2,000 to 3,700 tokens across all native tokenizers. We tested across 15 and 20 retrieval passages.
+
+Across the initial 7,500 generations (MuSiQue Stages 2–4), UUID relaxed source binding recall was lower in all 10 model/source-count cells. 
+
+To ensure this was not an artifact of example selection, we drew a **completely disjoint, held-out cohort of 100 balanced MuSiQue questions** and ran **2,000 independent confirmatory generations** across all five model families:
+
+![Held-out paired effects show lower relaxed source-binding recall for UUIDs in all ten model and source-count cells.](assets/03_musique_confirmation.svg)
+
+| Model Family | Sources | UUID − Numeric Binding Recall (pp) | Paired 95% Bootstrap CI | Excludes Zero? |
+|:---|:---:|:---:|:---:|:---:|
+| **Tiny Aya** | 15 | **-11.4** | [-17.1, -6.1] | **Yes** |
+| **Tiny Aya** | 20 | **-14.8** | [-20.2, -9.7] | **Yes** |
+| **LFM 1.2B** | 15 | **-7.5** | [-13.4, -1.6] | **Yes** |
+| **LFM 1.2B** | 20 | **-6.1** | [-12.1, -0.5] | **Yes** |
+| **Qwen 1.5B** | 15 | **-6.8** | [-12.3, -1.2] | **Yes** |
+| **Qwen 1.5B** | 20 | -0.8 | [-5.1, +3.2] | No |
+| **Gemma E2B** | 15 | -3.1 | [-8.3, +2.4] | No |
+| **Gemma E2B** | 20 | -4.8 | [-10.1, +0.1] | No |
+| **Gemma E4B** | 15 | **-5.8** | [-10.9, -0.9] | **Yes** |
+| **Gemma E4B** | 20 | -3.4 | [-9.1, +2.3] | No |
+
+### The Critical Findings from Held-Out MuSiQue:
+1. **Directional Consistency:** In **10 out of 10 cells**, the estimated point effect of UUIDs on relaxed source binding was negative. In 6 of 10 cells, the 95% confidence interval strictly excluded zero.
+2. **Answer F1 Remains Flat:** As in the synthetic task, Answer F1 differences between UUID and numeric conditions were small and centered near zero (all 95% intervals spanned zero).
+3. **The Buried Engineering Insight (Dual Labels):** Many teams attempt a shortcut: keeping the raw UUID in the prompt but appending a short alias next to it (e.g., `Source 8ce71... [S1]`). In MuSiQue Stage 4, **dual labels failed to reliably recover alias-only performance**. Giving the model both representations forces attention heads to encode and disambiguate both tokens. You cannot fix the UUID tax by adding more text.
+
+---
+
+## PART III: ABLATIONS & MECHANISTIC DEEP DIVE
+
+Having observed consistent binding penalties and transport costs, we designed targeted ablations to test competing hypotheses.
+
+### Ablation 1: Is It Just Token Length, or Syntax Formatting?
+
+Could the difference between `[S1]` and UUIDs simply be that UUIDs are longer?
+
+We ran a controlled token-matched pilot comparing `[1]` with `[S1]` across four models. Both representations averaged exactly **3.55 tokens per identifier** and identical prompt lengths (639 tokens). 
+
+On Qwen, numeric labels `[1]` beat structured labels `[S1]` by **67 percentage points on strict citation formatting**, yet the relaxed binding difference was only **8 points** (with a confidence interval spanning zero). Most of the "gain" came from the tokenizer/prior bias: the model reliably retained brackets around standalone digits `[1]`, but frequently stripped brackets from `[S1]`.
+
+Next, we tested the **no-reproduction control**: leaving UUIDs in the prompt for reading, but removing the requirement to cite them in the output. When citation reproduction was removed:
+- LiquidAI LFM answer F1 improved by **+3.5 points**.
+- Gemma E4B answer F1 improved by **+5.1 points**.
+
+This isolates the burden: requiring a model to autoregressively emit high-entropy strings actively steals probability mass and attention focus from generating the correct answer.
+
+### Ablation 2: Can Chain-of-Thought / Reasoning Budgets Overcome It?
+
+A seductive theoretical hypothesis is that opaque identifiers consume *internal bookkeeping capacity*. If true, giving the model more reasoning tokens (a larger scratchpad) should allow it to "think through" the bookkeeping, causing the UUID penalty to shrink monotonically as budget increases.
+
+We tested this hypothesis across **5,600 model calls** (2,800 paired two-pass generations) across five models. Pass 1 received the multi-source prompt and a visible scratchpad cap of 64, 128, 256, 512, or 1,024 tokens. Pass 2 received only that generated scratchpad and had a fixed 128-token budget to emit the final answer.
+
+A separately seeded confirmatory experiment (3,200 model calls) evaluated cells meeting a pre-declared calibration threshold:
+
+![UUID-minus-numeric accuracy moves non-monotonically across visible scratchpad budgets and differs by model.](assets/04_reasoning_budget.svg)
+
+**The Result: The Monotonic Hypothesis Failed.**
+- Every confirmatory slope estimate and every low-to-high interaction interval included zero. Additional reasoning budget did not smoothly erase the UUID penalty.
+- Qwen maintained significant UUID deficits at 128 tokens (-20.0 pp) and 1,024 tokens (-21.2 pp).
+- **The Gemma E2B Anomaly Explained:** At 64 tokens, Gemma E2B showed a catastrophic -35.0 pp UUID deficit. At 256 tokens, UUIDs paradoxically beat numeric by +50.0 pp (+30.0, +70.0 CI). Inspecting the traces revealed why: on numeric prompts, Gemma E2B under-generated, emitting curt scratchpads that failed to unpack the problem. UUID prompts forced the model into verbose output, accidentally preserving more context for Pass 2. Once reproduction was eliminated at 512 and 1,024 tokens, Gemma E2B reached **95% and 100% accuracy**.
+- **What Did Replicate:** UUIDs increased total generated output in **14 of 15 confirmatory cells**. The transport and generation cost is universal; the cognitive scratchpad interaction is not.
+
+> [!NOTE]
+> ### Sidebar: Why Long Traces Are Not Reasoning (The LongProc Reality Check)
+> To ensure we did not equate verbose generation with correct reasoning, we benchmarked our four models on **LongProc**, a public benchmark requiring deterministic belief-state tracking over 1,024–2,048 token reference traces.
+> 
+> The results offer a stark warning:
+> - **Qwen2.5-1.5B** generated an average of **2,027 output tokens** and hit the hard 2,048 token cap on **84% of runs**, yet achieved a mean correct-prefix accuracy of only **1.2%**. It looped verbosely without maintaining state.
+> - **Gemma 4 E4B** achieved **76% final-answer accuracy**, but produced an exact state trace only **8% of the time**.
+> 
+> ![LongProc results distinguish the correct trace prefix, final-answer accuracy, and exact full-trace accuracy.](assets/05_longproc.svg)
+> 
+> An application that evaluates only the final answer or celebrates long Chain-of-Thought traces is blind to procedural failure.
+
+### Ablation 3: Inside the Transformer — Stable Facts, Late Realization
+
+If the model knows the answer but misattributes the source, what is happening inside the network?
+
+In Stage 6, we extracted residual-stream hidden states from **960 paired forward passes** across official BF16 checkpoints of Qwen2.5-1.5B, LFM2.5-1.2B, Gemma 4 E2B, and Gemma 4 E4B on 80 semantic examples rendered under structured, random compact, and UUID formats.
+
+![Across four models, source-content geometry remains highly aligned while source-label geometry converges after different lexical embeddings.](assets/06_stage6_geometry.svg)
+
+Using Linear Centered Kernel Alignment (CKA) across normalized model depth, three patterns emerged:
+1. **Source-Fact Geometry is Format-Invariant:** The per-model minimum CKA for source-content tokens ranged from **0.941 to 0.979**. Because fact tokens share identical text across conditions, high correlation is expected; the important finding is that surrounding high-entropy UUIDs do not distort the semantic representation of the passage text.
+2. **Source Labels Converge:** Source-label representations start far apart at the lexical embedding layer, but converge significantly in mid-network layers as the model binds them to their respective passages. (Note: in LFM, label CKA fluctuates between 0.67 and 0.89, while in Gemma E2B, label representations collapse to ~0.37 at the final layer).
+3. **Late Surface Divergence:** Representations at the position immediately preceding citation emission diverge, becoming highly format-specific near the output heads.
+
+### Causal Interventions: Source-ID Swaps & Activation Patching
+
+CKA is purely correlational. To prove causality, Stage 7 performed **66 counterfactual source-ID swaps** and **1,056 residual-stream activation patches**.
+
+For each example, we swapped the identifier assigned to the relevant source with a distractor identifier while holding all passage text, questions, and distractor sets constant. A positive log-probability delta indicates the model successfully followed the source fact to its reassigned identifier.
+
+![Counterfactual source-ID swaps produce correct rebinding in Qwen and the Gemma pilots but inverted compact-ID binding in LFM.](assets/07_stage7_swaps.svg)
+
+The causal interventions produced a critical revelation: **Shared representational geometry does not imply a shared causal circuit.**
+- **Qwen and Gemma pilots** showed positive direct swap effects: their internal attention heads actively routed probability to the new identifier.
+- **LiquidAI LFM** was causally sensitive but reacted in reverse: under compact IDs, swapping the source ID caused LFM to strongly reinforce its *prior* lexical association.
+- **Activation Patching & Onset Layers:** Patching the residual stream at the final layer transferred ~100% of the counterfactual swap effect in all models (an expected property, as the final residual directly projects to logits). The real distinction lies in the **onset layer** where the binding decision becomes locked:
+  - In **Qwen**, transferable citation states emerge early at **layer 24** (74–108% transfer).
+  - In **Gemma E2B**, onset occurs at **layer 29**.
+  - In **Gemma E4B**, sampled **layer 32** barely transferred UUID behavior.
+
+---
+
+## PART IV: SYSTEMS PAYOFF & PRODUCTION ARCHITECTURE
+
+### Generalizing Beyond Citations: Typed Entity Resolution
+
+Does canonicalization help outside citation formatting? In Stage 8, we evaluated synthetic account resolution across **800 model generations** with citations completely disabled. Prompts contained 15 or 20 customer records rendered in four conditions: raw PII, arbitrary random masking, untyped canonical handles, and typed handles (`<ACCOUNT_1>`, `<EMAIL_2>`).
+
+![Typed handles improve synthetic account resolution for some models while masked conditions eliminate raw-value exposure.](assets/08_stage8_entities.svg)
+
+- **Qwen2.5-1.5B** achieved **97.5% task accuracy** with typed handles versus **80.0%** with untyped handles—a **+17.5 percentage-point gain at identical prompt lengths**.
+- **Tiny Aya** gained **+15.0 percentage points** with typed handles over arbitrary masking (though typed vs. untyped remained parity at 97.5%).
+- **Gemma E2B/E4B** were ceiling-limited (~95%+ across all conditions), while LFM suffered when masked (falling to 0–7.5%).
+- **Exposure Reduction:** Masked conditions completely eliminated raw names, emails, and account numbers from outputs (0% vs. 85–100% in raw prompts).
+
+Headline finding: *Typed handles can improve non-citation entity binding, but gains are architecture-dependent.*
+
+---
+
+### The Reference Architecture: Symbolic IR & Mapping Vault
+
+The empirical findings culminate in Stage 9: a reference implementation of a **Request-Scoped Symbolic IR** boundary.
+
+Instead of passing raw backend IDs to the model, trusted software interposes a canonicalizer and mapping vault:
+
+```text
+Trusted Application Context (DB UUIDs, PII, Tool IDs)
+         │
+         ▼
+┌─────────────────────────────────┐
+│  Request-Scoped Canonicalizer   │ ────► Protected Mapping Vault
+└─────────────────────────────────┘       (Never enters model context)
+         │
+         ▼
+Model-Facing Typed IR (<SOURCE_1>, <ACCOUNT_2>)
+         │
+         ▼
+┌─────────────────────────────────┐
+│       LLM JSON Generation       │
+└─────────────────────────────────┘
+         │
+         ▼
+┌─────────────────────────────────┐
+│   Deterministic IR Validator    │
+└─────────────────────────────────┘
+  ├── 1. Strict JSON Syntax
+  ├── 2. Raw-Value Leakage Check
+  ├── 3. Handle Syntax Check
+  ├── 4. Request Registry Membership
+  ├── 5. Type Consistency
+  └── 6. Tool Argument Schema
+         │
+         ▼ (Accepted Only)
+Deterministic Same-Request Rehydration
+         │
+         ▼
+Application Authorization & Business Rules
+```
+
+### Production Implementation Pattern
+
+Below is a complete, standalone Python implementation illustrating the core pattern:
+
+```python
+import re, json
+from dataclasses import dataclass, field
+from typing import Dict, Any, List
+
+@dataclass
+class MappingVault:
+    request_id: str
+    forward: Dict[str, str] = field(default_factory=dict)  # raw -> handle
+    reverse: Dict[str, str] = field(default_factory=dict)  # handle -> raw
+    counters: Dict[str, int] = field(default_factory=dict)
+
+    def canonicalize(self, raw_val: str, entity_type: str) -> str:
+        if raw_val in self.forward:
+            return self.forward[raw_val]
+        count = self.counters.get(entity_type, 0) + 1
+        self.counters[entity_type] = count
+        handle = f"<{entity_type}_{count}>"
+        self.forward[raw_val] = handle
+        self.reverse[handle] = raw_val
+        return handle
+
+    def rehydrate(self, handle: str) -> str:
+        if handle not in self.reverse:
+            raise ValueError(f"Unknown or unmapped handle: {handle}")
+        return self.reverse[handle]
+
+def validate_and_rehydrate(response_json: str, vault: MappingVault) -> Dict[str, Any]:
+    # 1. Strict JSON parse
+    payload = json.loads(response_json)
+    
+    # 2. Raw value leakage check
+    for raw in vault.forward.keys():
+        if raw.lower() in response_json.lower():
+            raise SecurityError(f"Raw protected literal leaked in output: {raw}")
+            
+    # 3. Registry & Handle Validation
+    target_handle = payload.get("selected_account")
+    if not re.match(r"^<[A-Z]+_\d+>$", target_handle):
+        raise ValueError(f"Malformed handle syntax: {target_handle}")
+    if target_handle not in vault.reverse:
+        raise KeyError(f"Handle {target_handle} not registered to request {vault.request_id}")
+        
+    # 4. Rehydrate inside trusted boundary
+    payload["selected_account"] = vault.rehydrate(target_handle)
+    return payload
+```
+
+### Operational Stress Test: 5,000 Adversarial Attacks
+
+To verify the deterministic boundary, we subjected the reference implementation to an adversarial regression suite of **500 synthetic requests** and **5,000 adversarial payloads** across 10 failure classes:
+- **100% Structural Enforcement:** All 500 valid responses were accepted and rehydrated without loss. All 5,000 malformed, leaked, mistyped, unauthorized tool, and unregistered-handle outputs were rejected.
+- **Cross-Request Isolation:** All 499 attempted cross-request handle replay attacks were blocked.
+- **Payload Efficiency:** The canonical model view reduced prompt characters by **52.26%** and reduced tokens by **41.8%**. Median validation overhead was **0.037 ms**.
+
+### The Critical Semantic Limit
+
+In 500 deliberately crafted test cases, we fed the validator a response containing a **well-formed handle registered to the current request, but pointing to the wrong account**.
+
+**Every single one (500 / 500) passed structural validation and rehydrated to the wrong account.**
+
+This is not a bug in the validator; it is a fundamental principle of software security:
+
+$$\begin{aligned}
+\text{Malformed or Unregistered Handle} &\implies \text{Deterministic Validation Can Reject} \\
+\text{Valid but Semantically Wrong Handle} &\implies \text{Requires Authorization, Business Rules, or Review}
+\end{aligned}$$
+
+A symbolic handle is a **reference**, not a capability token, permission proof, or guarantee of model correctness. Post-rehydration code must still check permissions, account ownership, and idempotency.
+
+---
+
+### The Practical Decision Matrix for ML Engineers
+
+When should an engineering team implement Symbolic IR?
+
+| Scenario | Recommendation | Why? |
+|---|:---:|---|
+| **RAG Retrieval Passages** | **Alias It** | Document UUIDs are arbitrary transport pointers. Aliasing saves 70–94% tokens and eliminates bracket-parsing failures. |
+| **Tool / Agent Object IDs** | **Alias It** | Database keys, session tokens, and transaction IDs should never be emitted directly by the LLM. |
+| **Privacy / PII Redaction** | **Alias It** | Scrub account numbers and emails before prompting; rehydrate locally after generation. |
+| **Code Refactoring & Diffs** | **Keep Literal** | Variable names, function signatures, and line content carry syntax meaning. |
+| **URL Path & Domain Analysis** | **Keep Literal** | Subdomains, query parameters, and paths contain semantic tokens needed for categorization. |
+| **Quoted Legal / Source Text** | **Keep Literal** | Verbatim quotes require preserving exact surface morphology. |
+
+> **Rule of Thumb:** If the string is a **pointer or address**, alias it to a request-scoped handle. If the string is the **payload or subject of analysis**, keep it raw.
+
+---
+
+## Limitations & Open Questions
+
+1. **Model Parameter Scale:** Our behavioral and mechanistic tests ran on local models between 1.2B and 4B parameters. While the transport cost (tokens, latency, KV-cache) applies equally to 70B+ and proprietary models (GPT-4o, Claude 3.5 Sonnet), frontier models possess much higher attention capacity and may exhibit higher baseline UUID binding fidelity. Testing the held-out MuSiQue cohort on frontier APIs remains an open research priority.
+2. **Context Length Regimes:** Our experiments operated in the 2K–8K token window. In 100K+ context contexts, identifier token bloat accumulates into megabytes of KV cache, but attention dilution over long contexts requires dedicated measurement.
+3. **State Management in Distributed Systems:** Maintaining a `MappingVault` requires request-scoped state. In serverless or distributed streaming agent loops, vaults must be tied to ephemeral cache stores (e.g., Redis with short TTLs) and managed across conversational turns.
+
+---
+
+## Summary & Conclusion
+
+Placing machine-generated UUIDs into LLM prompts is an antipattern born of convenience. Autoregressive models pay a heavy penalty in token consumption, generation latency, and citation binding recall when forced to juggle high-entropy strings.
+
+By introducing a clean, deterministic **Symbolic IR** boundary—canonicalizing transport keys into compact typed handles and keeping the mapping vault in trusted software—engineering teams can cut prompt tokens by up to 50%, eliminate literal PII exposure, and establish a verifiable trust boundary between probabilistic models and production applications.
+
+---
+
+### Reproducibility & Artifacts
+
+All figures in this post are generated directly from checked-in result logs using native Python scripts.
+- **Figure Generator:** [`blog/scripts/build_figures.py`](scripts/build_figures.py)
+- **Technical Appendix & Evidence Ledger:** [`blog/appendix.md`](appendix.md)
+- **Machine-Readable Evidence Manifest:** [`blog/evidence_manifest.csv`](evidence_manifest.csv)
+- **Test Suite:** Run `.venv/bin/python scripts/run_tests.py` to verify the deterministic test suite.

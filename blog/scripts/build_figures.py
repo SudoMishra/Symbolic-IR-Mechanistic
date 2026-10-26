@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "blog" / "assets"
+OUT_SITE = ROOT / "blog" / "site" / "assets"
 
 INK = "#172033"
 MUTED = "#5f6b7a"
@@ -116,7 +117,10 @@ class SVG:
     def save(self, name: str):
         self.items.append("</svg>")
         OUT.mkdir(parents=True, exist_ok=True)
-        (OUT / name).write_text("\n".join(self.items) + "\n")
+        OUT_SITE.mkdir(parents=True, exist_ok=True)
+        content = "\n".join(self.items) + "\n"
+        (OUT / name).write_text(content)
+        (OUT_SITE / name).write_text(content)
 
 
 def header(svg: SVG, title: str, subtitle: str):
@@ -205,21 +209,21 @@ def musique_confirmation():
         for effect in model["effects"]:
             if effect["metric"] == "binding_recall":
                 rows.append((label, effect["sources"], effect["b_minus_a"] * 100, [v * 100 for v in effect["bootstrap_95_ci"]]))
-    s = SVG(1200, 720, "Held-out MuSiQue binding effects", "Forest plot of UUID minus numeric source-binding recall across five models and two source counts.")
+    s = SVG(1250, 720, "Held-out MuSiQue binding effects", "Forest plot of UUID minus numeric source-binding recall across five models and two source counts.")
     header(s, "UUID binding was lower in every held-out cell", "Effect is UUID minus numeric relaxed source-binding recall; 95% paired bootstrap intervals.")
-    x0, x1 = 360, 1110
-    lo, hi = -18, 4
+    x0, x1 = 390, 1140
+    lo, hi = -24, 6
     y0, gap = 130, 52
-    for tick in (-15, -10, -5, 0):
+    for tick in (-20, -15, -10, -5, 0, 5):
         x = x0 + (tick - lo) / (hi - lo) * (x1 - x0)
         s.line(x, y0 - 18, x, y0 + gap * len(rows) - 18, INK if tick == 0 else GRID, 1.5 if tick == 0 else 1)
         s.text(x, y0 + gap * len(rows) + 8, f"{tick:+d} pp", "small", "middle")
     for i, (label, sources, est, ci) in enumerate(rows):
         y = y0 + i * gap
         if i % 2 == 0:
-            s.add(f'<rect x="45" y="{y-26}" width="1065" height="45" fill="#f7f9fc"/>')
+            s.add(f'<rect x="45" y="{y-26}" width="1150" height="45" fill="#f7f9fc"/>')
         s.text(58, y + 5, label, "body")
-        s.text(250, y + 5, f"{sources} sources", "small")
+        s.text(230, y + 5, f"{sources} sources", "small")
         xa = x0 + (ci[0] - lo) / (hi - lo) * (x1 - x0)
         xb = x0 + (ci[1] - lo) / (hi - lo) * (x1 - x0)
         xe = x0 + (est - lo) / (hi - lo) * (x1 - x0)
@@ -227,9 +231,9 @@ def musique_confirmation():
         s.line(xa, y - 6, xa, y + 6, BLUE, 2)
         s.line(xb, y - 6, xb, y + 6, BLUE, 2)
         s.circle(xe, y, 6, BLUE)
-        s.text(1122, y + 5, f"{est:+.1f}", "small")
-    s.text(x0, 675, "Favors numeric", "label")
-    s.text(x1, 675, "Favors UUID", "label", "end")
+        s.text(1155, y + 5, f"{est:+.1f}", "small")
+    s.text(x0, 675, "← Favors numeric", "label")
+    s.text(x1, 675, "Favors UUID →", "label", "end")
     s.save("03_musique_confirmation.svg")
 
 
@@ -237,20 +241,20 @@ def reasoning_budget():
     data = load("results/processed/stage5_confirmatory.json")
     names = [("Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m", "Qwen 1.5B"), ("google/gemma-4-E2B-it-qat-q4_0-gguf:q4_0", "Gemma E2B"), ("CohereLabs/tiny-aya-global-GGUF:q4_k_m", "Tiny Aya")]
     budgets = [64, 128, 256, 512, 1024]
-    s = SVG(1350, 560, "Reasoning-budget confirmation", "Three small multiples showing UUID minus numeric accuracy by visible scratchpad budget.")
+    s = SVG(1400, 600, "Reasoning-budget confirmation", "Three small multiples showing UUID minus numeric accuracy by visible scratchpad budget.")
     header(s, "More scratchpad did not produce a universal UUID recovery curve", "UUID minus numeric accuracy; paired 95% intervals. Positive values favor UUID.")
-    panel_w, panel_gap = 380, 45
-    y_top, y_bottom = 130, 455
-    ylo, yhi = -45, 55
+    panel_w, panel_gap = 370, 50
+    y_top, y_bottom = 135, 480
+    ylo, yhi = -60, 80
     for p, (key, label) in enumerate(names):
-        left = 65 + p * (panel_w + panel_gap)
+        left = 100 + p * (panel_w + panel_gap)
         right = left + panel_w
-        s.text(left, 112, label, "label")
-        for tick in (-40, -20, 0, 20, 40):
+        s.text(left, 115, label, "label")
+        for tick in (-60, -40, -20, 0, 20, 40, 60):
             y = y_bottom - (tick - ylo) / (yhi - ylo) * (y_bottom - y_top)
             s.line(left, y, right, y, INK if tick == 0 else GRID, 1.4 if tick == 0 else 1)
             if p == 0:
-                s.text(left - 10, y + 4, f"{tick:+d}", "small", "end")
+                s.text(left - 12, y + 4, f"{tick:+d}", "small", "end")
         points = []
         for i, budget in enumerate(budgets):
             cell = data["models"][key]["budgets"][str(budget)]["uuid_minus_numeric_accuracy"]
@@ -264,11 +268,11 @@ def reasoning_budget():
             s.line(x - 5, ya, x + 5, ya, ORANGE, 2)
             s.line(x - 5, yb, x + 5, yb, ORANGE, 2)
             s.circle(x, y, 5, ORANGE)
-            s.text(x, 485, str(budget), "small", "middle")
+            s.text(x, 508, str(budget), "small", "middle")
             points.append((x, y))
         s.polyline(points, ORANGE, 2)
-        s.text((left + right) / 2, 520, "Visible scratchpad cap (tokens)", "small", "middle")
-    s.text(22, 300, "Accuracy delta (pp)", "small", "middle")
+        s.text((left + right) / 2, 545, "Visible scratchpad cap (tokens)", "small", "middle")
+    s.text(42, 310, "Accuracy delta (pp)", "small", "middle")
     s.save("04_reasoning_budget.svg")
 
 
@@ -310,10 +314,10 @@ def stage6_geometry():
         ("results/processed/stage6_gemma4_e2b.json", "Gemma E2B"),
         ("results/processed/stage6_gemma4_e4b.json", "Gemma E4B"),
     ]
-    s = SVG(1400, 720, "Stage 6 representation geometry", "Four panels show source-content and source-label CKA between structured and UUID conditions across normalized model depth.")
+    s = SVG(1400, 800, "Stage 6 representation geometry", "Four panels show source-content and source-label CKA between structured and UUID conditions across normalized model depth.")
     header(s, "Facts stay aligned while identifier labels converge through the stack", "Structured-versus-UUID linear CKA across 80 paired examples per model.")
-    panel_w, panel_h = 600, 240
-    positions = [(80, 130), (740, 130), (80, 425), (740, 425)]
+    panel_w, panel_h = 600, 230
+    positions = [(80, 130), (740, 130), (80, 470), (740, 470)]
     for (path, label), (left, top) in zip(files, positions):
         data = load(path)
         cc = data["cross_condition"]["structured_vs_uuid"]
@@ -336,10 +340,10 @@ def stage6_geometry():
         s.polyline(lab_pts, PURPLE, 2.5)
         s.text(left, bottom + 25, "embedding", "small")
         s.text(right, bottom + 25, "final layer", "small", "end")
-    s.line(540, 700, 575, 700, TEAL, 3)
-    s.text(585, 705, "source-fact CKA", "small")
-    s.line(745, 700, 780, 700, PURPLE, 3)
-    s.text(790, 705, "source-label CKA", "small")
+    s.line(540, 760, 575, 760, TEAL, 3)
+    s.text(585, 765, "source-fact CKA", "small")
+    s.line(745, 760, 780, 760, PURPLE, 3)
+    s.text(790, 765, "source-label CKA", "small")
     s.save("06_stage6_geometry.svg")
 
 
@@ -351,18 +355,19 @@ def stage7_swaps():
         ("results/analysis/stage7_gemma4_e4b.json", "Gemma E4B"),
     ]
     conditions = [("structured", "[S#]", BLUE), ("random_compact", "[XQ7M]", TEAL), ("uuid", "UUID", ORANGE)]
-    s = SVG(1250, 650, "Stage 7 source-ID swap effects", "Counterfactual citation log-probability effect after swapping a relevant source identifier with a distractor.")
+    s = SVG(1250, 680, "Stage 7 source-ID swap effects", "Counterfactual citation log-probability effect after swapping a relevant source identifier with a distractor.")
     header(s, "The same geometric signature produced different causal behavior", "Positive values follow the relevant source to its new ID; negative values retain the old association.")
-    left, right, top, bottom = 175, 1160, 125, 500
+    left, right, top, bottom = 175, 1160, 125, 490
     lo, hi = -22, 74
     for tick in (-20, 0, 20, 40, 60):
         x = left + (tick - lo) / (hi - lo) * (right - left)
         s.line(x, top, x, bottom, INK if tick == 0 else GRID, 1.5 if tick == 0 else 1)
-        s.text(x, bottom + 30, f"{tick:+d}", "small", "middle")
-    row_gap = 90
+        s.text(x, bottom + 28, f"{tick:+d}", "small", "middle")
+    s.text((left + right) / 2, bottom + 55, "Source-ID swap effect (log-probability delta)", "small", "middle")
+    row_gap = 88
     for i, (path, label) in enumerate(files):
         data = load(path)
-        y_center = top + 50 + i * row_gap
+        y_center = top + 48 + i * row_gap
         s.text(55, y_center + 5, label, "label")
         for ci, (key, _, color) in enumerate(conditions):
             stat = data["source_id_swap"][key]["total_logprob"]
@@ -375,10 +380,10 @@ def stage7_swaps():
             s.circle(xe, y, 5, color)
     lx = 390
     for _, label, color in conditions:
-        s.circle(lx, 580, 6, color)
-        s.text(lx + 14, 585, label, "small")
+        s.circle(lx, 600, 6, color)
+        s.text(lx + 14, 605, label, "small")
         lx += 145
-    s.text(55, 620, "Cohorts: Qwen/LFM n=8, Gemma E2B n=4, Gemma E4B n=2; Gemma estimates are pilot-level.", "subtitle")
+    s.text(55, 645, "Cohorts: Qwen/LFM n=8, Gemma E2B n=4, Gemma E4B n=2 (pilot); positive values follow source to new ID.", "subtitle")
     s.save("07_stage7_swaps.svg")
 
 
@@ -392,7 +397,7 @@ def stage8_entities():
     ]
     conds = [("raw", "Raw", RED), ("random_masked", "Random", ORANGE), ("untyped", "Untyped", PURPLE), ("typed", "Typed", TEAL)]
     s = SVG(1350, 670, "Stage 8 typed entity canonicalization", "Grouped task accuracy bars for raw, random-masked, untyped, and typed entity representations across five models.")
-    header(s, "Typed handles helped some models, while masking removed raw-value exposure", "40 synthetic account-resolution examples per model; citations disabled.")
+    header(s, "Typed handles improve entity binding for some architectures", "40 synthetic account-resolution examples per model; citations disabled.")
     left, right, top, bottom = 100, 1280, 135, 505
     for tick in (0, 25, 50, 75, 100):
         y = bottom - tick / 100 * (bottom - top)

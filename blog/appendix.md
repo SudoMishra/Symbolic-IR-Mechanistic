@@ -20,9 +20,11 @@ guidance.
 | Stage 8 | 800 generations | Five models | Do typed handles help beyond citation formatting? | Significant controlled gains appear in Qwen and Tiny Aya; not universal. |
 | Stage 9 | 500 valid requests and 5,000 attacks | Deterministic reference system | Can a typed IR enforce representation integrity? | Yes for structural classes; not for a wrong but registered handle. |
 
-The behavioral model-generation total is 18,020. Forward passes,
-interventions, valid systems requests, and adversarial tests are reported
-separately.
+The behavioral model-generation total is 18,020 (18,000 experimental generations
+across Stages 1–8 plus the 20-record Stage 0 pipeline gate). Stage 5 comprises
+5,600 model calls across 2,800 two-pass queries (2,400 pilot calls and 3,200
+confirmatory calls). Forward passes, causal interventions, valid systems requests,
+and adversarial unit tests are reported separately.
 
 ## Metric definitions
 

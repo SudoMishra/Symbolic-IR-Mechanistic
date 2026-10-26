@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 610" role="img" aria-labelledby="title desc">
+<title id="title">Evidence program</title>
+<desc id="desc">The sequence and scale of the behavioral, mechanistic, privacy, and systems experiments.</desc>
+<style>
+text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
+.title{font-size:28px;font-weight:700}.subtitle{font-size:15px;fill:#5f6b7a}
+.label{font-size:14px;font-weight:600}.body{font-size:14px}.small{font-size:12px;fill:#5f6b7a}
+.mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;font-size:13px}
+.axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.4}
+</style>
+<text x="50" y="48" class="title" text-anchor="start">One engineering question, progressively stronger tests</text>
+<text x="50" y="76" class="subtitle" text-anchor="start">Counts keep model generations, forward passes, interventions, and deterministic attacks distinct.</text>
+<rect x="45" y="150" width="245" height="290" rx="16" fill="#e8edff" stroke="#315efb" stroke-width="1.5"/>
+<circle cx="79" cy="188" r="18" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="79" y="194" class="label" text-anchor="middle" fill="#ffffff">1</text>
+<text x="107" y="194" class="label" text-anchor="start" fill="#315efb">Behavior</text>
+<text x="70" y="255" class="label" text-anchor="start">11,520 generations</text>
+<text x="70" y="305" class="body" text-anchor="start">
+<tspan x="70" dy="0">Citation MVE, cross-model controls,</tspan>
+<tspan x="70" dy="25">MuSiQue + held-out replication</tspan>
+</text>
+<line x1="298" y1="295" x2="332" y2="295" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="332" y1="295" x2="323.6994646476478" y2="300.57683717391416" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="332" y1="295" x2="323.6994646476478" y2="289.42316282608584" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="325" y="150" width="245" height="290" rx="16" fill="#fff0e5" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="359" cy="188" r="18" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="359" y="194" class="label" text-anchor="middle" fill="#ffffff">2</text>
+<text x="387" y="194" class="label" text-anchor="start" fill="#e97824">Stress tests</text>
+<text x="350" y="255" class="label" text-anchor="start">5,700 generations</text>
+<text x="350" y="305" class="body" text-anchor="start">
+<tspan x="350" dy="0">Reasoning-budget confirmation</tspan>
+<tspan x="350" dy="25">and LongProc traces</tspan>
+</text>
+<line x1="578" y1="295" x2="612" y2="295" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="612" y1="295" x2="603.6994646476478" y2="300.57683717391416" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="612" y1="295" x2="603.6994646476478" y2="289.42316282608584" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="605" y="150" width="245" height="290" rx="16" fill="#f0ebff" stroke="#7656c9" stroke-width="1.5"/>
+<circle cx="639" cy="188" r="18" fill="#7656c9" stroke="none" stroke-width="1"/>
+<text x="639" y="194" class="label" text-anchor="middle" fill="#ffffff">3</text>
+<text x="667" y="194" class="label" text-anchor="start" fill="#7656c9">Mechanism</text>
+<text x="630" y="255" class="label" text-anchor="start">960 + 1,122</text>
+<text x="630" y="305" class="body" text-anchor="start">
+<tspan x="630" dy="0">Paired forward passes, source-ID</tspan>
+<tspan x="630" dy="25">swaps, residual interventions</tspan>
+</text>
+<line x1="858" y1="295" x2="892" y2="295" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="892" y1="295" x2="883.6994646476478" y2="300.57683717391416" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="892" y1="295" x2="883.6994646476478" y2="289.42316282608584" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="885" y="150" width="245" height="290" rx="16" fill="#e2f5f1" stroke="#008c83" stroke-width="1.5"/>
+<circle cx="919" cy="188" r="18" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="919" y="194" class="label" text-anchor="middle" fill="#ffffff">4</text>
+<text x="947" y="194" class="label" text-anchor="start" fill="#008c83">Generalize</text>
+<text x="910" y="255" class="label" text-anchor="start">800 generations</text>
+<text x="910" y="305" class="body" text-anchor="start">
+<tspan x="910" dy="0">Typed entity binding and</tspan>
+<tspan x="910" dy="25">synthetic exposure reduction</tspan>
+</text>
+<line x1="1138" y1="295" x2="1172" y2="295" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="1172" y1="295" x2="1163.6994646476478" y2="300.57683717391416" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="1172" y1="295" x2="1163.6994646476478" y2="289.42316282608584" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="1165" y="150" width="245" height="290" rx="16" fill="#e8f5ed" stroke="#2d8a57" stroke-width="1.5"/>
+<circle cx="1199" cy="188" r="18" fill="#2d8a57" stroke="none" stroke-width="1"/>
+<text x="1199" y="194" class="label" text-anchor="middle" fill="#ffffff">5</text>
+<text x="1227" y="194" class="label" text-anchor="start" fill="#2d8a57">System</text>
+<text x="1190" y="255" class="label" text-anchor="start">500 + 5,000</text>
+<text x="1190" y="305" class="body" text-anchor="start">
+<tspan x="1190" dy="0">Valid round trips and</tspan>
+<tspan x="1190" dy="25">adversarial boundary cases</tspan>
+</text>
+<text x="50" y="505" class="label" text-anchor="start">Total behavioral model generations: 18,020, including the 20-record smoke test.</text>
+<text x="50" y="537" class="subtitle" text-anchor="start">Mechanistic and systems counts are reported separately to avoid inflating the generation total.</text>
+</svg>
