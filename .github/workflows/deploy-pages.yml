@@ -5,9 +5,6 @@ on:
     branches:
       - master
       - narrative-restructure
-    paths:
-      - 'blog/site/**'
-      - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
 permissions:
