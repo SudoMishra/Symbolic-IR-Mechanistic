@@ -78,6 +78,14 @@ Return the account and supporting source handle.</code></pre>
 
         <blockquote class="thesis reveal-side">If characters are not the task, replace literals with request-scoped handles and keep the reversible map in software.</blockquote>
 
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/01_raw_vs_symbolic.svg" alt="Figure 1 — Representation boundary between software and model: Trusted software replaces transport keys with request-scoped handles; literal values never enter model context." width="1350" height="750" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 1 &mdash; Representation boundary between software and model.</strong> Trusted software replaces transport keys with request-scoped handles; literal values never enter model context.</p>
+            <p class="figure-companion">This figure shows a representation boundary, not a new reasoning algorithm. The application begins with literal database identifiers and potentially sensitive values. Before constructing the prompt, trusted software replaces those values with request-scoped handles such as <code>&lt;SOURCE_1&gt;</code> and records the reversible mapping in a protected vault. The model sees the same semantic facts but not the backend identifiers. Its symbolic response is validated before trusted software uses the vault to restore the original values. Canonicalization controls representation and exposure; it does not prove that the model selected the correct record or had permission to act on it.</p>
+          </figcaption>
+        </figure>
+
         <div class="facts" aria-label="Scale of the evidence">
           <div class="fact reveal-count">
             <p class="fact-copy"><b>18,020</b> behavioral records / 23,620 calls</p>
@@ -106,6 +114,14 @@ Return the account and supporting source handle.</code></pre>
             <li><strong>Calibrated model scale:</strong> All behavioral runs used temperature 0 decoding against pinned local GGUF models across five small/edge model families (1.2B to 4B parameters): Qwen2.5-1.5B, LiquidAI LFM2.5-1.2B, Gemma 4 E2B, Gemma 4 E4B, and Tiny Aya Global.</li>
             <li><strong>Native tokenizer accounting:</strong> Input and output lengths were logged using each model's native tokenizer, rather than character approximations.</li>
           </ul>
+
+          <figure class="figure figure--wide reveal-image" data-ui>
+            <img src="assets/02_evidence_funnel.svg" alt="Figure 2 — Experimental evidence program across five testing regimes: Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate." width="1300" height="600" loading="lazy">
+            <figcaption>
+              <p><strong>Figure 2 &mdash; Experimental evidence program across five testing regimes.</strong> Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate.</p>
+              <p class="figure-companion">This figure summarizes the evidence program and keeps different kinds of observations separate. The behavioral stages measure what models generate under controlled identifier formats. The stress tests ask whether additional scratchpad budget or verbose reasoning repairs the problem. The mechanistic stages inspect internal representations and intervene on them, without counting those forward passes as behavioral generations. The entity-resolution stage tests whether the idea generalizes beyond citations. Finally, the system stage evaluates deterministic software rather than model intelligence. The stages therefore strengthen different parts of the argument and should not be combined into one inflated sample count.</p>
+            </figcaption>
+          </figure>
 
           <h3>The citation metric trap</h3>
           <p>Our initial tests revealed an immediate trap in citation evaluation. When we tested Qwen2.5-1.5B on 20-source prompts, its <strong>strict citation accuracy</strong> was <strong>7% for structured labels <code>[S1]</code> versus 34% for UUIDs</strong>.</p>
@@ -197,8 +213,11 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/03_musique_confirmation.svg" alt="Forest plot of ten paired MuSiQue effects, all showing lower relaxed source-binding recall for UUIDs than numeric labels." width="1250" height="720" loading="lazy">
-          <figcaption>Held-out MuSiQue confirmation (2,000 generations). Every point is UUID minus numeric relaxed binding recall; values below zero favor compact labels.</figcaption>
+          <img src="assets/03_musique_confirmation.svg" alt="Figure 3 — Every held-out estimate favored numeric labels; six were conclusive: UUID minus numeric relaxed source-binding recall across 10 model/source-count cells in held-out MuSiQue (2,000 generations)." width="1250" height="720" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 3 &mdash; Held-out MuSiQue binding effects.</strong> Every held-out estimate favored numeric labels; six were conclusive (UUID minus numeric relaxed source-binding recall across 10 model/source-count cells in held-out MuSiQue, 2,000 generations).</p>
+            <p class="figure-companion">Each row compares the same held-out questions under UUID and numeric source labels. A value of &minus;10 percentage points means that UUIDs reduced relaxed source-binding recall by ten points relative to numeric labels. The dot is the observed paired difference, and the horizontal line shows its 95% bootstrap interval. All ten point estimates fall to the left of zero, so every observed comparison favored numeric labels. Six intervals remain entirely below zero, providing clearer evidence of a difference; four cross zero and should be treated as directionally consistent but statistically inconclusive. Answer F1 did not show the same pattern, so the result concerns attribution rather than general question answering.</p>
+          </figcaption>
         </figure>
 
         <div class="article-prose article-prose--inverse">
@@ -225,9 +244,12 @@ Return the account and supporting source handle.</code></pre>
           <p>We tested this across <strong>5,600 two-pass generations (11,200 model calls)</strong>: 2,400 pilot generations across five models and 3,200 separately seeded confirmatory generations in retained cells. Pass 1 received a visible scratchpad cap of 64, 128, 256, 512, or 1,024 tokens. Pass 2 received only that generated scratchpad and had 128 tokens to emit the answer.</p>
         </div>
 
-        <figure class="figure figure--edge reveal-image" data-ui>
-          <img src="assets/04_reasoning_budget.svg" alt="UUID-minus-numeric accuracy changing non-monotonically across scratchpad budgets and model families." width="1400" height="600" loading="lazy">
-          <figcaption>Reasoning budget confirmation: UUID minus numeric accuracy across visible scratchpad budgets. The monotonic recovery hypothesis failed across all models.</figcaption>
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/04_reasoning_budget.svg" alt="Figure 4 — More scratchpad did not consistently repair UUID performance: UUID minus numeric final-answer accuracy across visible scratchpad budgets (64 to 1,024 tokens) across 5,600 two-pass generations (11,200 model calls)." width="1400" height="620" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 4 &mdash; Reasoning-budget experiment.</strong> More scratchpad did not consistently repair UUID performance (UUID minus numeric final-answer accuracy across visible scratchpad budgets, 64 to 1,024 tokens, across 5,600 two-pass generations / 11,200 model calls).</p>
+            <p class="figure-companion">The experiment used two passes. Pass 1 received the original multi-source problem and a scratchpad limit ranging from 64 to 1,024 tokens. Pass 2 saw only that scratchpad and produced the final answer. Each point reports final-answer accuracy under UUID identifiers minus accuracy under numeric labels. Values below zero favor numeric labels; values above zero favor UUIDs. Qwen remained mostly below zero, Gemma E2B changed direction sharply, and Tiny Aya moved toward parity at larger budgets. Because the effects do not move consistently toward zero as the budget grows&mdash;and most intervals are broad&mdash;the data reject a universal monotonic recovery story. They do not prove why Gemma E2B changes direction.</p>
+          </figcaption>
         </figure>
 
         <div class="article-prose">
@@ -245,8 +267,11 @@ Return the account and supporting source handle.</code></pre>
           <p>To ensure we did not equate verbose generation with correct reasoning, we benchmarked our models on <strong>LongProc</strong>, a benchmark requiring deterministic belief-state tracking over 1,024&ndash;2,048 token reference traces.</p>
           <p><strong>Qwen2.5-1.5B</strong> generated an average of <strong>2,027 output tokens</strong> and hit the hard 2,048-token cap on 84% of runs, yet achieved a mean correct-prefix accuracy of only <strong>1.2%</strong>. It looped verbosely without maintaining state. Meanwhile, <strong>Gemma 4 E4B</strong> reached 76% final-answer accuracy, but matched the exact procedural trace only 8% of the time. Long generation is not proof of sound reasoning.</p>
           <figure class="figure reveal-image" data-ui>
-            <img src="assets/05_longproc.svg" alt="LongProc results comparing correct trace prefix, final-answer accuracy, and exact full-trace accuracy for four models." width="1200" height="650" loading="lazy">
-            <figcaption>LongProc results: correct trace prefix, final-answer accuracy, and exact full-trace accuracy diverge sharply.</figcaption>
+            <img src="assets/05_longproc.svg" alt="Figure 5 — Long generation does not establish procedural correctness: Comparing mean correct-trace prefix before first error, final-answer accuracy, and exact full-trace accuracy across 25 LongProc belief-state instances." width="1250" height="720" loading="lazy">
+            <figcaption>
+              <p><strong>Figure 5 &mdash; LongProc trace quality.</strong> Long generation does not establish procedural correctness (comparing mean correct-trace prefix before first error, final-answer accuracy, and exact full-trace accuracy across 25 LongProc belief-state instances).</p>
+              <p class="figure-companion">LongProc supplies a deterministic reference sequence of state updates, allowing the generated procedure to be checked step by step. The blue bar measures how much of that reference trace the model completes before its first error. The green bar measures only whether the final answer is correct, while the orange bar requires the complete generated trace to match. These metrics can diverge: Gemma E4B answered 76% of examples correctly but produced the exact full trace only 8% of the time. Qwen generated about 2,027 tokens on average yet achieved only a 1.2% correct-prefix score. The result is not that long outputs are always bad; it is that output length and final-answer accuracy do not establish procedural correctness.</p>
+            </figcaption>
           </figure>
         </div>
 
@@ -255,16 +280,21 @@ Return the account and supporting source handle.</code></pre>
           <p>In Stage 6, we recorded residual-stream hidden states from <strong>960 paired forward passes</strong> across official BF16 checkpoints of Qwen, LFM, Gemma E2B, and Gemma E4B on 80 semantic examples rendered under structured, random compact, and UUID formats.</p>
         </div>
 
-        <div class="figure-pair">
-          <figure class="figure reveal-image" data-ui>
-            <img src="assets/06_stage6_geometry.svg" alt="Cross-format source-content geometry remains highly aligned while source-label geometry converges after lexical embeddings." width="1400" height="800" loading="lazy">
-            <figcaption>Linear CKA across normalized model depth: source-fact representations stay aligned (&ge;0.94 CKA) while citation states diverge late in the network.</figcaption>
-          </figure>
-          <figure class="figure figure--lower reveal-image" data-ui>
-            <img src="assets/07_stage7_swaps.svg" alt="Counterfactual source-ID swaps showing correct rebinding in Qwen and Gemma pilots and inverted compact-ID binding in LFM." width="1250" height="680" loading="lazy">
-            <figcaption>66 counterfactual source-ID swaps: Qwen and Gemma follow the source to its newly assigned ID; LFM reinforces the prior binding.</figcaption>
-          </figure>
-        </div>
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/06_stage6_geometry.svg" alt="Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent: Structured-vs-UUID linear CKA similarity across normalized model depth across 960 paired hidden-state passes (80 examples)." width="1400" height="820" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 6 &mdash; Representation geometry across layers.</strong> Fact-token geometry stays stable; identifier geometry is model- and depth-dependent (structured-vs-UUID linear CKA similarity across normalized model depth across 960 paired hidden-state passes, 80 examples).</p>
+            <p class="figure-companion">Linear CKA compares the geometry of hidden representations across the same 80 examples under two prompt formats: structured source labels and UUIDs. A value near one means that the relationships among examples are represented similarly in both conditions; it does not mean that individual vectors or model outputs are identical. The teal curves remain above roughly 0.94 because the passage facts are unchanged and surrounding UUIDs do not substantially reorganize their representation. Identifier-label states begin less aligned and often become more similar in middle layers, but the pattern varies by architecture and Gemma E2B diverges sharply at the final layer. This is correlational evidence about representation geometry, not proof of a particular causal circuit.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/07_stage7_swaps.svg" alt="Figure 7 — After an ID swap, models do not all rebind to the relevant source: Mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps (66 counterfactual swaps and 1,056 activation interventions)." width="1250" height="700" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 7 &mdash; Counterfactual source-ID swaps.</strong> After an ID swap, models do not all rebind to the relevant source (mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps, 66 counterfactual swaps and 1,056 activation interventions).</p>
+            <p class="figure-companion">This intervention changes only which identifier is attached to the relevant passage. The facts, question, distractors, and set of available identifiers remain unchanged. The plotted effect asks whether the prompt swap moves the model’s probability from the formerly correct identifier toward the identifier now attached to the relevant source. Positive values indicate successful rebinding; negative values indicate persistence of the old association. Qwen is positive across formats, whereas LFM is negative for the compact formats. The Gemma estimates are positive but come from very small pilot cohorts and should not be treated as stable population estimates. Because full UUIDs contain more tokens, total sequence log-probability magnitudes are not directly comparable across identifier formats.</p>
+          </figcaption>
+        </figure>
 
         <div class="article-prose">
           <p>Linear Centered Kernel Alignment (CKA) confirmed that <strong>source-content geometry is largely format-invariant</strong> (per-model minimum CKA ranged from 0.941 to 0.979). Because fact tokens share identical text across conditions, high correlation is expected; the important finding is that surrounding UUIDs do not distort the semantic representation of the passage text. Near citation generation, representations diverge into format-specific surface realizations.</p>
@@ -285,8 +315,11 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/08_stage8_entities.svg" alt="Typed, untyped, and arbitrary masked handle accuracy across five model families." width="1350" height="670" loading="lazy">
-          <figcaption>Stage 8 account resolution: typed handles improve entity binding for some architectures while masking eliminates raw-value exposure.</figcaption>
+          <img src="assets/08_stage8_entities.svg" alt="Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model: Panel A: Account-resolution accuracy (%) by model and representation; Panel B: Outputs containing raw PII (%) across 800 model generations." width="1350" height="770" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 8 &mdash; Typed entity canonicalization.</strong> Canonicalization eliminates raw-value exposure; accuracy effects vary by model (Panel A: Account-resolution accuracy by model and representation; Panel B: Outputs containing raw PII across 800 model generations).</p>
+            <p class="figure-companion">Each model resolved synthetic customer accounts from prompts containing the same records under four representations. &ldquo;Raw&rdquo; includes literal names, emails, and account numbers. &ldquo;Random&rdquo; replaces them with arbitrary masks. &ldquo;Untyped&rdquo; uses consistent but semantically neutral handles, while &ldquo;typed&rdquo; uses handles such as <code>&lt;ACCOUNT_1&gt;</code> and <code>&lt;EMAIL_2&gt;</code>. Typed handles improved Qwen by 17.5 percentage points relative to untyped handles and helped Tiny Aya relative to random masking. Gemma was near ceiling across conditions, while LFM performed poorly whenever values were masked. Separately, every masked representation reduced raw-value output exposure to zero in this dataset. Thus canonicalization reliably controlled literal exposure, but its task-accuracy effect depended on the model.</p>
+          </figcaption>
         </figure>
 
         <div class="article-prose">
@@ -297,8 +330,11 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/09_trust_boundary.svg" alt="Symbolic IR boundary validating representation integrity before rehydration while separating semantic correctness and authorization." width="1400" height="760" loading="lazy">
-          <figcaption>The Symbolic IR trust boundary: structural validation ensures representation integrity before rehydration, while authorization remains separate.</figcaption>
+          <img src="assets/09_trust_boundary.svg" alt="Figure 9 — A symbolic handle is a reference, not a capability: The request-scoped Symbolic IR boundary validates structural representation before rehydration; semantic correctness and authorization require independent application checks." width="1400" height="820" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 9 &mdash; Symbolic IR trust boundary.</strong> A symbolic handle is a reference, not a capability (the request-scoped Symbolic IR boundary validates structural representation before rehydration; semantic correctness and authorization require independent application checks).</p>
+            <p class="figure-companion">The canonicalizer creates typed request-scoped handles and stores their literal values in a protected vault. The model receives only the symbolic representation. Its response is treated as untrusted: a deterministic validator checks the JSON shape, raw-value leakage, handle syntax, request membership, type consistency, and allowed action schema. Only an accepted response may be rehydrated. This boundary successfully accepted 500 valid round trips, rejected 5,000 malformed or unauthorized symbolic payloads, and blocked 499 cross-request replay attempts. However, all 500 deliberately wrong-but-registered handles passed structural validation. A valid handle proves only that the reference is well formed and belongs to the request; ownership, semantic correctness, freshness, and authorization still require separate checks.</p>
+          </figcaption>
         </figure>
 
         <div class="article-prose">
