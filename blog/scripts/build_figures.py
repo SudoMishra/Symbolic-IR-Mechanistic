@@ -260,6 +260,63 @@ def evidence_funnel():
 
     s.save("02_evidence_funnel.svg")
 
+    mobile = SVG(
+        440,
+        1580,
+        "Figure 2: Experimental evidence program, mobile layout",
+        "Five testing regimes stacked vertically for a narrow screen.",
+    )
+    mobile.add(
+        "<style>.title{font-size:24px}.subtitle{font-size:13px}"
+        ".label{font-size:15px}.body{font-size:15px}</style>"
+    )
+    mobile.text(24, 40, "Figure 2 — Experimental evidence", "title")
+    mobile.text(24, 70, "program across five testing regimes", "title")
+    mobile.text(24, 100, "Counts preserve the native unit for each regime:", "subtitle")
+    mobile.text(24, 120, "generations, passes, interventions, or software tests.", "subtitle")
+
+    x, y, w, h = 24, 145, 392, 220
+    for i, (name, count, unit, detail, color, fill) in enumerate(stages):
+        mobile.rect(x, y, w, h, fill=fill, stroke=color, radius=14, sw=1.75)
+        mobile.circle(x + 28, y + 32, 16, color)
+        mobile.text(x + 28, y + 37, str(i + 1), "label", "middle", fill="#ffffff", weight="700")
+        mobile.text(x + 52, y + 37, name.split(". ", 1)[1], "label", fill=color, weight="700")
+        mobile.text(x + 24, y + 85, count, "title", fill=INK)
+        mobile.text(x + 24, y + 110, unit, "label", fill=MUTED)
+        mobile.line(x + 20, y + 128, x + w - 20, y + 128, color, 1, dash="3,3")
+        mobile.multiline(x + 24, y + 155, detail.split("\n"), "body", 20)
+
+        if i < len(stages) - 1:
+            mobile.arrow(220, y + h + 2, 220, y + h + 18, MUTED, 2)
+        y += 240
+
+    mobile.rect(24, 1355, 392, 205, fill="#ffffff", stroke=GRID, radius=14)
+    mobile.text(44, 1386, "Accounting contract", "label", fill=INK, weight="700")
+    mobile.multiline(
+        44,
+        1412,
+        [
+            "18,020+ behavioral records represent",
+            "23,620+ model calls. Stage 5 uses",
+            "two sequential model calls per record.",
+        ],
+        "body",
+        21,
+    )
+    mobile.text(44, 1490, "Scientific distinction", "label", fill=INK, weight="700")
+    mobile.multiline(
+        44,
+        1516,
+        [
+            "Forward passes, causal interventions,",
+            "and software tests stay in native units",
+            "instead of one inflated total.",
+        ],
+        "body",
+        21,
+    )
+    mobile.save("02_evidence_funnel_mobile.svg")
+
 
 MODEL_SHORT = {
     "CohereLabs/tiny-aya-global-GGUF:q4_k_m": "Tiny Aya",

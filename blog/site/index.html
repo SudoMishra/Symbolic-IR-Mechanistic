@@ -119,8 +119,11 @@ Return the account and supporting source handle.</code></pre>
           </ul>
         </div>
 
-        <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/02_evidence_funnel.svg" alt="Figure 2 — Experimental evidence program across five testing regimes: Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate." width="1400" height="660" loading="lazy">
+        <figure class="figure figure--wide figure--evidence reveal-image">
+          <picture>
+            <source media="(max-width: 900px)" srcset="assets/02_evidence_funnel_mobile.svg">
+            <img src="assets/02_evidence_funnel.svg" alt="Figure 2 — Experimental evidence program across five testing regimes: Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate." width="1400" height="660" loading="lazy">
+          </picture>
           <figcaption>
             <p><strong>Figure 2 &mdash; Experimental evidence program across five testing regimes.</strong> Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate.</p>
             <p class="figure-companion">This figure summarizes the evidence program and keeps different kinds of observations separate. The behavioral stages measure what models generate under controlled identifier formats. The stress tests ask whether additional scratchpad budget or verbose reasoning repairs the problem. The mechanistic stages inspect internal representations and intervene on them, without counting those forward passes as behavioral generations. The entity-resolution stage tests whether the idea generalizes beyond citations. Finally, the system stage evaluates deterministic software rather than model intelligence. The stages therefore strengthen different parts of the argument and should not be combined into one inflated sample count.</p>
@@ -132,8 +135,10 @@ Return the account and supporting source handle.</code></pre>
           <p>To systematically decouple transport overhead, attribution fidelity, cognitive capacity, and systems security, the investigation progressed through nine distinct stages across five testing regimes:</p>
         </div>
 
-        <div class="table-wrap reveal-up" role="region" aria-label="Overview of the 9 experimental stages" tabindex="0">
-          <table class="experiment-table" aria-label="Overview of the 9 experimental stages">
+        <details class="experiment-details reveal-up">
+          <summary>Explore the complete nine-stage experimental matrix</summary>
+          <div class="table-wrap" role="region" aria-label="Overview of the 9 experimental stages" tabindex="0">
+            <table class="experiment-table experiment-table--stages" aria-label="Overview of the 9 experimental stages">
             <thead>
               <tr>
                 <th>Stage / Experiment</th>
@@ -204,8 +209,9 @@ Return the account and supporting source handle.</code></pre>
                 <td>Deterministic banking and database request payloads: 500 valid round trips, 5,000 adversarial payloads across 10 failure classes, and 500 semantic bypass cases.</td>
               </tr>
             </tbody>
-          </table>
-        </div>
+            </table>
+          </div>
+        </details>
 
         <div class="article-prose">
           <h3>The citation metric trap</h3>
@@ -517,7 +523,7 @@ assert resolved.answer == "ACCT-GB-4490-9812"</code></pre>
         </div>
 
         <div class="table-wrap reveal-up" role="region" aria-label="Decision matrix" tabindex="0">
-          <table class="experiment-table">
+          <table class="experiment-table experiment-table--decision">
             <thead><tr><th>Workload</th><th>Recommendation</th><th>Why?</th></tr></thead>
             <tbody>
               <tr><td>RAG Retrieval Passages</td><td><strong>Alias it</strong></td><td>Document UUIDs are transport pointers. Aliasing saves 70&ndash;94% tokens and eliminates bracket-parsing failures.</td></tr>

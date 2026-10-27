@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 1580" role="img" aria-labelledby="title desc">
+<title id="title">Figure 2: Experimental evidence program, mobile layout</title>
+<desc id="desc">Five testing regimes stacked vertically for a narrow screen.</desc>
+<style>
+text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
+.title{font-size:26px;font-weight:700}.subtitle{font-size:14px;fill:#5f6b7a}
+.label{font-size:14px;font-weight:600}.body{font-size:13px}.small{font-size:12px;fill:#5f6b7a}
+.mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;font-size:12.5px}
+.axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.5}
+</style>
+<style>.title{font-size:24px}.subtitle{font-size:13px}.label{font-size:15px}.body{font-size:15px}</style>
+<text x="24" y="40" class="title" text-anchor="start">Figure 2 — Experimental evidence</text>
+<text x="24" y="70" class="title" text-anchor="start">program across five testing regimes</text>
+<text x="24" y="100" class="subtitle" text-anchor="start">Counts preserve the native unit for each regime:</text>
+<text x="24" y="120" class="subtitle" text-anchor="start">generations, passes, interventions, or software tests.</text>
+<rect x="24" y="145" width="392" height="220" rx="14" fill="#e8edff" stroke="#315efb" stroke-width="1.75"/>
+<circle cx="52" cy="177" r="16" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="52" y="182" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">1</text>
+<text x="76" y="182" class="label" text-anchor="start" fill="#315efb" font-weight="700">Behavioral</text>
+<text x="48" y="230" class="title" text-anchor="start" fill="#172033">11,920</text>
+<text x="48" y="255" class="label" text-anchor="start" fill="#5f6b7a">model generations</text>
+<line x1="44" y1="273" x2="396" y2="273" stroke="#315efb" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="48" y="300" class="body" text-anchor="start">
+<tspan x="48" dy="0">Citation MVE (2,000)</tspan>
+<tspan x="48" dy="20">MuSiQue primary (7,500)</tspan>
+<tspan x="48" dy="20">Held-out MuSiQue (2,400)</tspan>
+<tspan x="48" dy="20">Smoke gate (20)</tspan>
+</text>
+<line x1="220" y1="367" x2="220" y2="383" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="383" x2="214.98084654347724" y2="375.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="383" x2="225.01915345652276" y2="375.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="24" y="385" width="392" height="220" rx="14" fill="#fff0e5" stroke="#e97824" stroke-width="1.75"/>
+<circle cx="52" cy="417" r="16" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="52" y="422" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">2</text>
+<text x="76" y="422" class="label" text-anchor="start" fill="#e97824" font-weight="700">Stress tests</text>
+<text x="48" y="470" class="title" text-anchor="start" fill="#172033">5,700</text>
+<text x="48" y="495" class="label" text-anchor="start" fill="#5f6b7a">model generations</text>
+<line x1="44" y1="513" x2="396" y2="513" stroke="#e97824" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="48" y="540" class="body" text-anchor="start">
+<tspan x="48" dy="0">Reasoning-budget 2-pass</tspan>
+<tspan x="48" dy="20">(5,600 calls / 2,800 pairs)</tspan>
+<tspan x="48" dy="20">LongProc traces (100)</tspan>
+</text>
+<line x1="220" y1="607" x2="220" y2="623" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="623" x2="214.98084654347724" y2="615.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="623" x2="225.01915345652276" y2="615.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="24" y="625" width="392" height="220" rx="14" fill="#f0ebff" stroke="#7656c9" stroke-width="1.75"/>
+<circle cx="52" cy="657" r="16" fill="#7656c9" stroke="none" stroke-width="1"/>
+<text x="52" y="662" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">3</text>
+<text x="76" y="662" class="label" text-anchor="start" fill="#7656c9" font-weight="700">Mechanisms</text>
+<text x="48" y="710" class="title" text-anchor="start" fill="#172033">960 + 1,122</text>
+<text x="48" y="735" class="label" text-anchor="start" fill="#5f6b7a">passes &amp; interventions</text>
+<line x1="44" y1="753" x2="396" y2="753" stroke="#7656c9" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="48" y="780" class="body" text-anchor="start">
+<tspan x="48" dy="0">BF16 CKA geometry (960)</tspan>
+<tspan x="48" dy="20">Source-ID swaps (66)</tspan>
+<tspan x="48" dy="20">Residual patches (1,056)</tspan>
+</text>
+<line x1="220" y1="847" x2="220" y2="863" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="863" x2="214.98084654347724" y2="855.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="863" x2="225.01915345652276" y2="855.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="24" y="865" width="392" height="220" rx="14" fill="#e2f5f1" stroke="#008c83" stroke-width="1.75"/>
+<circle cx="52" cy="897" r="16" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="52" y="902" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">4</text>
+<text x="76" y="902" class="label" text-anchor="start" fill="#008c83" font-weight="700">Entities</text>
+<text x="48" y="950" class="title" text-anchor="start" fill="#172033">960</text>
+<text x="48" y="975" class="label" text-anchor="start" fill="#5f6b7a">model generations</text>
+<line x1="44" y1="993" x2="396" y2="993" stroke="#008c83" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="48" y="1020" class="body" text-anchor="start">
+<tspan x="48" dy="0">Synthetic account resolution</tspan>
+<tspan x="48" dy="20">across 6 model families</tspan>
+<tspan x="48" dy="20">Raw vs masked vs typed</tspan>
+</text>
+<line x1="220" y1="1087" x2="220" y2="1103" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="1103" x2="214.98084654347724" y2="1095.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<line x1="220" y1="1103" x2="225.01915345652276" y2="1095.529518182883" stroke="#5f6b7a" stroke-width="2"/>
+<rect x="24" y="1105" width="392" height="220" rx="14" fill="#e8f5ed" stroke="#2d8a57" stroke-width="1.75"/>
+<circle cx="52" cy="1137" r="16" fill="#2d8a57" stroke="none" stroke-width="1"/>
+<text x="52" y="1142" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">5</text>
+<text x="76" y="1142" class="label" text-anchor="start" fill="#2d8a57" font-weight="700">Systems</text>
+<text x="48" y="1190" class="title" text-anchor="start" fill="#172033">500 + 5,000</text>
+<text x="48" y="1215" class="label" text-anchor="start" fill="#5f6b7a">software test cases</text>
+<line x1="44" y1="1233" x2="396" y2="1233" stroke="#2d8a57" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="48" y="1260" class="body" text-anchor="start">
+<tspan x="48" dy="0">Valid round trips (500)</tspan>
+<tspan x="48" dy="20">Adversarial tests (5,000)</tspan>
+<tspan x="48" dy="20">Cross-request replays (499)</tspan>
+</text>
+<rect x="24" y="1355" width="392" height="205" rx="14" fill="#ffffff" stroke="#d8dee8" stroke-width="1"/>
+<text x="44" y="1386" class="label" text-anchor="start" fill="#172033" font-weight="700">Accounting contract</text>
+<text x="44" y="1412" class="body" text-anchor="start">
+<tspan x="44" dy="0">18,020+ behavioral records represent</tspan>
+<tspan x="44" dy="21">23,620+ model calls. Stage 5 uses</tspan>
+<tspan x="44" dy="21">two sequential model calls per record.</tspan>
+</text>
+<text x="44" y="1490" class="label" text-anchor="start" fill="#172033" font-weight="700">Scientific distinction</text>
+<text x="44" y="1516" class="body" text-anchor="start">
+<tspan x="44" dy="0">Forward passes, causal interventions,</tspan>
+<tspan x="44" dy="21">and software tests stay in native units</tspan>
+<tspan x="44" dy="21">instead of one inflated total.</tspan>
+</text>
+</svg>
