@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
     <link href="https://api.fontshare.com/v2/css?f[]=sentient@300,400,401,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\[', right: '\\]', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}], throwOnError: false});"></script>
     <script>document.documentElement.classList.add('js');</script>
   </head>
   <body>
@@ -359,9 +362,11 @@ Return the account and supporting source handle.</code></pre>
             <li><strong>The Invariance Problem:</strong> A transformer layer can apply arbitrary orthogonal rotations (<span class="mono">X &rarr; XQ</span>, where <span class="mono">Q<sup>T</sup>Q = I</span>) or isotropic scaling to its hidden activation space without altering the output or information content. Raw vector comparisons will show massive divergence even when internal representation structures are functionally identical.</li>
             <li><strong>The CKA Solution:</strong> Introduced by <a href="https://arxiv.org/abs/1905.00414" target="_blank" rel="noopener noreferrer"><strong>Kornblith et al. (2019)</strong> in <em>Similarity of Neural Network Representations Revisited</em></a>, <strong>Linear Centered Kernel Alignment (CKA)</strong> compares representations by measuring the similarity of the <em>relative geometric relationships</em> (the similarity structure) among a set of stimuli, rather than comparing raw coordinate values.</li>
           </ul>
-          <p>Mathematically, given activation matrices <span class="mono">X &isin; &Ropf;<sup>n&times;d<sub>1</sub></sup></span> and <span class="mono">Y &isin; &Ropf;<sup>n&times;d<sub>2</sub></sup></span> from <span class="mono">n</span> prompt examples across conditions, Linear CKA computes centered linear Gram similarity matrices (<span class="mono">K = XX<sup>T</sup></span>, <span class="mono">L = YY<sup>T</sup></span>) and evaluates their normalized Hilbert-Schmidt Independence Criterion (HSIC):</p>
-          <pre><code>CKA(K, L) = HSIC(K, L) / sqrt(HSIC(K, K) * HSIC(L, L)) = ||Y^T X||_F^2 / (||X^T X||_F * ||Y^T Y||_F)</code></pre>
-          <p>Linear CKA is strictly invariant to orthogonal rotations (<span class="mono">CKA(XQ, Y) = CKA(X, Y)</span>) and isotropic scaling (<span class="mono">CKA(&alpha;X, Y) = CKA(X, Y)</span>), outputting a scalar between <span class="mono">0.0</span> (no shared geometry) and <span class="mono">1.0</span> (identical pairwise geometry). In Stage 6, it allows us to isolate representation geometry cleanly: <em>Does surrounding factual text with UUIDs distort the model's internal geometry of the facts themselves (which would yield CKA &ll; 1.0), or does it preserve fact geometry while only altering identifier binding states?</em></p>
+          <p>Mathematically, given activation matrices $X \in \mathbb{R}^{n \times d_1}$ and $Y \in \mathbb{R}^{n \times d_2}$ from $n$ prompt examples across conditions, Linear CKA computes centered linear Gram similarity matrices ($K = X X^T$, $L = Y Y^T$) and evaluates their normalized Hilbert-Schmidt Independence Criterion (HSIC):</p>
+          <div class="math-block" aria-label="Linear CKA formula">
+            $$\text{CKA}(K, L) = \frac{\text{HSIC}(K, L)}{\sqrt{\text{HSIC}(K, K)\,\text{HSIC}(L, L)}} = \frac{\|Y^T X\|_F^2}{\|X^T X\|_F\,\|Y^T Y\|_F}$$
+          </div>
+          <p>Linear CKA is strictly invariant to orthogonal rotations ($\text{CKA}(XQ, Y) = \text{CKA}(X, Y)$) and isotropic scaling ($\text{CKA}(\alpha X, Y) = \text{CKA}(X, Y)$), outputting a scalar between $0.0$ (no shared geometry) and $1.0$ (identical pairwise geometry). In Stage 6, it allows us to isolate representation geometry cleanly: <em>Does surrounding factual text with UUIDs distort the model's internal geometry of the facts themselves (which would yield CKA &ll; 1.0), or does it preserve fact geometry while only altering identifier binding states?</em></p>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>

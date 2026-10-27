@@ -359,6 +359,31 @@ pre code {
   white-space: pre;
 }
 
+.math-block {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid currentColor;
+  overflow-x: auto;
+  text-align: center;
+  font-size: 1.15rem;
+}
+
+.article-prose--inverse .math-block {
+  background: rgba(230, 219, 199, 0.08);
+}
+
+.katex-display {
+  margin: 0.5rem 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.katex {
+  font-size: 1.15em !important;
+  color: inherit !important;
+}
+
 .code-pair {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

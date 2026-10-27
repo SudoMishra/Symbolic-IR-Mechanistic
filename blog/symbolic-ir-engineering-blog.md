@@ -271,7 +271,10 @@ Mathematically, given activation matrices $X \in \mathbb{R}^{n \times d_1}$ and 
 - We compute linear Gram similarity matrices $K = X X^T$ and $L = Y Y^T$, capturing the pairwise inner products between all pairs of examples.
 - We center the matrices using centering matrix $H = I_n - \frac{1}{n}\mathbf{1}\mathbf{1}^T$: $K_c = H K H$ and $L_c = H L H$.
 - We compute the normalized Hilbert-Schmidt Independence Criterion (HSIC):
-  $$\text{CKA}(K, L) = \frac{\text{HSIC}(K, L)}{\sqrt{\text{HSIC}(K, K)\,\text{HSIC}(L, L)}} = \frac{\|Y^T X\|_F^2}{\|X^T X\|_F\,\|Y^T Y\|_F}$$
+
+$$
+\text{CKA}(K, L) = \frac{\text{HSIC}(K, L)}{\sqrt{\text{HSIC}(K, K)\,\text{HSIC}(L, L)}} = \frac{\|Y^T X\|_F^2}{\|X^T X\|_F\,\|Y^T Y\|_F}
+$$
 
 **Key Properties:**
 - **Orthogonal Invariance:** $\text{CKA}(XQ, Y) = \text{CKA}(X, Y)$ for any orthogonal matrix $Q$.

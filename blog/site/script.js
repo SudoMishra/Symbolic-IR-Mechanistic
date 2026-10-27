@@ -74,3 +74,24 @@ if ("IntersectionObserver" in window) {
 } else {
   revealNodes.forEach((node) => node.classList.add("is-visible"));
 }
+
+function renderMath() {
+  if (typeof renderMathInElement === "function") {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+      ],
+      throwOnError: false,
+    });
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", renderMath);
+} else {
+  renderMath();
+}
+window.addEventListener("load", renderMath);
