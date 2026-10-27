@@ -136,58 +136,69 @@ Return the account and supporting source handle.</code></pre>
                   <th>Stage / Experiment</th>
                   <th>Core Question &amp; Motivation</th>
                   <th>What We Did &amp; Controlled</th>
+                  <th>Data &amp; Benchmark Used</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><strong>Stage 1: Controlled Synthetic Baseline</strong></td>
                   <td><em>Does replacing compact keys with UUIDs degrade attribution even when factual content and prompt order are identical?</em></td>
-                  <td>Tested Qwen across 5 vs. 20 retrieval passages; measured answer EM, relaxed binding recall, strict syntax citation, tokens, and latency.</td>
+                  <td>Tested Qwen and LFM across 5 vs. 20 retrieval passages; measured answer EM, relaxed binding recall, strict syntax citation, tokens, and latency.</td>
+                  <td>Synthetic single-hop citation corpus (<code>src/symbolic_ir/data/citations.py</code>); 100 paired items across 5 &amp; 20 passages (2,500 candidate passages).</td>
                 </tr>
                 <tr>
                   <td><strong>Stages 2 &amp; 3: MuSiQue Multi-Hop &amp; Held-Out Confirmation</strong></td>
                   <td><em>Does the UUID binding penalty survive real multi-hop reasoning, or was Stage 1 an artifact of synthetic questions?</em></td>
-                  <td>Evaluated 5 model families on 100 balanced multi-hop MuSiQue questions (Stage 2), followed by 2,000 confirmatory generations on a strictly disjoint held-out cohort (Stage 3).</td>
+                  <td>Evaluated 6 model configurations on 100 balanced multi-hop MuSiQue questions (Stage 2), followed by 2,400 confirmatory generations on a strictly disjoint held-out cohort (Stage 3).</td>
+                  <td>Official MuSiQue dev split (<code>musique_ans_v1.0_dev.jsonl</code>, CC-BY-4.0); 100-item primary cohort + 100-item disjoint held-out cohort (34 2-hop, 33 3-hop, 33 4-hop; 2,000&ndash;3,700 tokens).</td>
                 </tr>
                 <tr>
                   <td><strong>Stage 4: Dual-Label Ablation</strong></td>
                   <td><em>Can engineers fix UUID degradation cheaply by keeping raw UUIDs in context and appending short aliases next to them?</em></td>
                   <td>Tested dual labels (<code>Source &lt;UUID&gt; [S1]</code>) against alias-only and UUID-only conditions across 15 and 20 sources in MuSiQue.</td>
+                  <td>Stage 2 MuSiQue 100-question multi-hop cohort at 20 retrieval passages per question (2,000 candidate passages).</td>
                 </tr>
                 <tr>
                   <td><strong>Ablation 1: Length vs. Bracket Priors</strong></td>
                   <td><em>Is attribution loss driven by token length, tokenizer/prior bias around bracket characters, or generation-time literal emission?</em></td>
                   <td>Compared token-matched <code>[1]</code> vs. <code>[S1]</code> (identical length: 3.55 tokens) and ran a no-reproduction control removing citation emission.</td>
+                  <td>Stage 1 20-source citation corpus (100 items; 2,000 candidate passages) formatted under matched numeric vs. structured labels.</td>
                 </tr>
                 <tr>
                   <td><strong>Stage 5: Reasoning Budget Scaling</strong></td>
                   <td><em>If UUIDs consume internal bookkeeping capacity, can giving models a larger scratchpad monotonically erase the penalty?</em></td>
                   <td>Tested 5,600 two-pass generations (11,200 model calls) across 5 visible scratchpad budgets (64 to 1,024 tokens) to check for monotonic recovery.</td>
+                  <td>Synthetic multi-source reasoning suite (<code>data/reasoning/</code>: arithmetic, temporal, constraint, entity resolution; 2,000&ndash;4,000 tokens); 2,400 pilot + 3,200 confirmatory evaluations.</td>
                 </tr>
                 <tr>
                   <td><strong>LongProc Reality Check</strong></td>
                   <td><em>Does verbose output indicate sound multi-step deduction, or can models generate thousands of tokens while losing state?</em></td>
                   <td>Evaluated 25 belief-state instances with deterministic reference traces, measuring correct prefix, final-answer accuracy, and full trace accuracy.</td>
+                  <td>Official Princeton PLI LongProc ToM benchmark (<code>LongProc/tom_tracking_2k</code>, Apache-2.0); 25 belief-state tracking instances with 1,024&ndash;2,048 token reference traces.</td>
                 </tr>
                 <tr>
                   <td><strong>Stage 6: Representation Geometry (Linear CKA)</strong></td>
                   <td><em>Where inside the transformer does attribution break down? Do UUIDs distort semantic fact tokens or only identifier states?</em></td>
                   <td>Extracted residual-stream states across 960 paired BF16 passes (80 examples) and computed Linear CKA across normalized network depth.</td>
+                  <td>Residual-stream hidden states from 80 paired semantic examples (temporal &amp; entity resolution) across 15 &amp; 20 sources from the calibrated Stage 5 suite.</td>
                 </tr>
                 <tr>
                   <td><strong>Stage 7: Counterfactual ID Swaps &amp; Patching</strong></td>
                   <td><em>Does shared geometry imply shared causal circuits, and at which layer does the model lock in its source-binding decision?</em></td>
                   <td>Executed 66 counterfactual identifier swaps and 1,056 residual activation patches to identify model-specific onset layers.</td>
+                  <td>66 counterfactual prompt examples with single-source ID swaps and 1,056 residual-stream activation patch interventions across donor and recipient passes.</td>
                 </tr>
                 <tr>
                   <td><strong>Stage 8: Cross-Domain Entity Resolution</strong></td>
                   <td><em>Does request-scoped canonicalization help tasks outside citations, and does it eliminate sensitive data exposure?</em></td>
-                  <td>Evaluated 800 generations across customer account resolution under Raw, Random, Untyped, and Typed (<code>&lt;ACCOUNT_1&gt;</code>) formats.</td>
+                  <td>Evaluated 960 generations across customer account resolution under Raw, Random, Untyped, and Typed (<code>&lt;ACCOUNT_1&gt;</code>) formats across 6 models.</td>
+                  <td>Synthetic customer support account dataset (<code>src/symbolic_ir/data/pii.py</code>) with realistic PII fields (name, email, phone, address, accounts; 40 examples &times; 15 &amp; 20 records).</td>
                 </tr>
                 <tr>
                   <td><strong>Stage 9: Systems Boundary &amp; Stress Testing</strong></td>
                   <td><em>Can deterministic software guarantee representation integrity without fine-tuning, and where is its semantic boundary?</em></td>
                   <td>Tested <code>ModelIR</code> and <code>MappingVault</code> against 5,000 adversarial payloads across 10 failure classes and 500 semantic bypass cases.</td>
+                  <td>Deterministic banking and database request payloads: 500 valid round trips, 5,000 adversarial payloads across 10 failure classes, and 500 semantic bypass cases.</td>
                 </tr>
               </tbody>
             </table>
@@ -226,6 +237,7 @@ Return the account and supporting source handle.</code></pre>
         <div class="comparison-head reveal-up">
           <h2 id="comparison-title">The UUID binding penalty.</h2>
           <p><strong>Stage 1 Motivation:</strong> Before evaluating complex pipelines, we establish an uncontaminated behavioral baseline under laboratory conditions: when we manipulate only the identifier surface form—holding factual text, question wording, and distractor sets identical—how much do high-entropy UUIDs inflate token counts, increase latency, and degrade attribution accuracy?</p>
+          <p><strong>Data Used:</strong> A synthetic, single-hop factual citation corpus generated programmatically (<code>src/symbolic_ir/data/citations.py</code>). Each example contains a single gold factual sentence (<code>"In {city}, the primary export is {commodity}."</code>) surrounded by 4 or 19 plausible distractors. The benchmark comprises 100 paired questions tested at 5 sources (500 candidate passages) and another 100 paired questions tested at 20 sources (2,000 candidate passages). Distractor facts, prompt phrasing, and passage ordering are held deterministically identical across identifier conditions.</p>
           <p>These are the paired Qwen Stage&nbsp;1 results. Toggle the number of sources: task content stays matched while only the identifier representation changes.</p>
         </div>
 
@@ -281,6 +293,7 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose article-prose--inverse">
           <h3>The skeptic&rsquo;s question: does it survive real multi-hop retrieval? (Stages 2 &amp; 3)</h3>
           <p><strong>Stages 2 &amp; 3 Motivation:</strong> Synthetic single-hop citation prompts isolate representation variables, but production retrieval involves noisy, multi-hop evidence. We set out to test: <em>Does the UUID source-binding deficit persist when queries require multi-step reasoning across 15 to 20 passages? And is it consistent across diverse model architectures, or was Stage 1 an artifact of a specific benchmark?</em></p>
+          <p><strong>Data Used:</strong> Official development split of the <strong>MuSiQue</strong> multi-hop benchmark (<code>data/musique/musique_ans_v1.0_dev.jsonl</code>, CC-BY-4.0). For Stage 2, we sampled 100 balanced questions (34 two-hop, 33 three-hop, and 33 four-hop) screened across tokenizers to fit within 2,000&ndash;3,700 tokens across 15 and 20 retrieval passages. For Stage 3, we extracted an independent, strictly disjoint cohort of 100 held-out questions using identical hop distribution and length constraints, evaluating 2,400 confirmatory generations across six models.</p>
           <p>Synthetic passages are clean. To test whether the UUID binding penalty survives noisy, multi-hop retrieval, we evaluated the models on <strong>MuSiQue</strong>: 100 balanced questions consisting of 34 two-hop, 33 three-hop, and 33 four-hop examples, screened across all five tokenizers to fit within 2,000&ndash;3,700 tokens across 15 and 20 passages.</p>
           <p>Across an initial 7,500 generations and an independent confirmatory cohort of 2,400 generations on held-out questions across six models, UUID relaxed source-binding recall was lower in <strong>all 12 model/source-count comparisons</strong>, with 7 of 12 paired 95% bootstrap intervals strictly excluding zero.</p>
         </div>
@@ -296,6 +309,7 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose article-prose--inverse">
           <h3>The buried insight: dual labels do not fix the problem (Stage 4)</h3>
           <p><strong>Stage 4 Motivation:</strong> When confronted with UUID retrieval taxes, engineers frequently attempt a common workaround: keeping the raw UUID in context while appending a compact alias next to it (e.g., <code>Source 8ce71... [S1]</code>). We tested whether this "dual label" strategy successfully provides the benefit of aliases, or simply imposes the dual cognitive burden of both representations.</p>
+          <p><strong>Data Used:</strong> The 100-question multi-hop MuSiQue Stage 2 cohort evaluated at 20 retrieval passages per question (2,000 candidate passages), comparing three prompt conditions on identical evidence: raw UUID-only (<code>Source &lt;UUID&gt;</code>), dual-label (<code>Source &lt;UUID&gt; [S1]</code>), and alias-only (<code>Source [S1]</code>).</p>
           <p>In MuSiQue Stage 4, <strong>dual labels failed to reliably recover alias-only performance</strong>. The result is consistent with extra representation burden, but Stage 4 does not identify an attention-head mechanism. You cannot remove the UUID tax by adding more text.</p>
         </div>
       </section>
@@ -310,12 +324,14 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <h3>Ablation 1: Is it token length or bracket syntax?</h3>
           <p><strong>Ablation 1 Motivation:</strong> Before accepting that UUIDs damage reasoning, we must eliminate simpler mechanical confounds: <em>Is attribution loss driven by identifier token length alone, prior tokenizer biases for specific bracket syntax, or the requirement to reproduce high-entropy characters at generation time?</em></p>
+          <p><strong>Data Used:</strong> The 20-source Stage 1 retrieval questions (100 items; 2,000 candidate passages) formatted under token-matched numeric labels <code>[1]</code> versus structured labels <code>[S1]</code>, both calibrated to exactly 3.55 tokens per identifier and 639 prompt tokens. The no-reproduction control used the same multi-source retrieval questions but removed the <code>CITATIONS:</code> reproduction instruction from the prompt.</p>
           <p>Could the structured advantage over UUIDs simply be that structured labels are shorter? We ran a token-matched control comparing <code>[1]</code> with <code>[S1]</code> across four models. Both representations averaged exactly 3.55 tokens per identifier and identical prompt lengths (639 tokens).</p>
           <p>On Qwen, numeric labels beat structured labels by 67 percentage points on strict citation formatting, but relaxed source binding differed by only 8 points and its confidence interval spanned zero. Length matters, but tokenization boundaries and formatting priors dominate strict scores.</p>
           <p>Next, we tested the <strong>no-reproduction control</strong>: leaving UUIDs in the prompt for reading, but removing the requirement to cite them in the output. When citation reproduction was removed, LiquidAI LFM answer F1 improved by <strong>+3.5 points</strong>, and Gemma E4B answer F1 improved by <strong>+5.1 points</strong>. In those cells, reproduction was associated with lower answer F1; the control does not isolate literal emission from the stricter output instruction.</p>
 
           <h3>Ablation 2: Can Chain-of-Thought / reasoning budget fix it? (Stage 5)</h3>
           <p><strong>Stage 5 Motivation:</strong> A popular hypothesis in prompt engineering is that high-entropy identifiers consume &ldquo;internal working memory&rdquo; or bookkeeping capacity. If true, providing the model with a larger visible reasoning budget (Chain-of-Thought scratchpad) should allow it to &ldquo;think through&rdquo; the bookkeeping, causing the UUID deficit to monotonically disappear as the token budget expands.</p>
+          <p><strong>Data Used:</strong> A synthetic multi-source reasoning benchmark (<code>data/reasoning/</code>, <code>src/symbolic_ir/data/reasoning.py</code>) covering four distinct multi-step task families: <code>arithmetic</code> (balance and value tracking), <code>temporal</code> (chronological state updates), <code>constraint</code> (multi-source variable satisfaction), and <code>entity_resolution</code> (cross-record attribute matching). Each problem embeds target facts across 15 or 20 sources, padded with 114 filler words per passage to hold prompt lengths within 2,000&ndash;4,000 tokens. The pilot used 2,400 two-pass generations across 5 models; the confirmatory phase used an independent seed (202606) generating 3,200 two-pass evaluations (160 complete semantic examples) strictly drawn from tasks meeting the pre-declared 30%&ndash;70% accuracy calibration window.</p>
           <p>A seductive hypothesis is that opaque identifiers consume internal bookkeeping capacity, and that giving the model more reasoning scratchpad tokens should allow it to "think through" the bookkeeping, smoothly erasing the UUID penalty.</p>
           <p>We tested this across <strong>5,600 two-pass generations (11,200 model calls)</strong>: 2,400 pilot generations across five models and 3,200 separately seeded confirmatory generations in retained cells. Pass 1 received a visible scratchpad cap of 64, 128, 256, 512, or 1,024 tokens. Pass 2 received only that generated scratchpad and had 128 tokens to emit the answer.</p>
         </div>
@@ -341,6 +357,7 @@ Return the account and supporting source handle.</code></pre>
             <span class="token-badge token-badge--warn">LongProc reality check</span>
           </div>
           <p><strong>LongProc Motivation:</strong> If we evaluate models only on final-answer accuracy or total generated length, verbose models might appear to &ldquo;reason through&rdquo; difficult prompts while actually looping or hallucinating. LongProc provides an explicit, deterministic test of multi-step belief-state tracking over 1,024&ndash;2,048 tokens to verify whether longer generation indicates sound reasoning.</p>
+          <p><strong>Data Used:</strong> Princeton PLI's official public <strong>LongProc</strong> benchmark (<code>LongProc/tom_tracking_2k</code>, revision <code>673ec4c2</code>, Apache-2.0, <code>data/longproc/tom_tracking/tom_tracking_2k.json</code>). We selected 25 Theory-of-Mind (ToM) belief-state tracking instances (<code>configs/longproc/tom_tracking_2k_cross_tokenizer_indices.json</code>) where validated prompt lengths range between 2,568 and 2,680 tokens and reference procedural traces range between 1,791 and 2,043 tokens. Each reference trace contains a deterministic step-by-step sequence of container movements, character observations, and belief updates.</p>
           <p>To ensure we did not equate verbose generation with correct reasoning, we benchmarked our models on <strong>LongProc</strong>, a benchmark requiring deterministic belief-state tracking over 1,024&ndash;2,048 token reference traces.</p>
           <p><strong>Qwen2.5-1.5B</strong> generated an average of <strong>2,027 output tokens</strong> and hit the hard 2,048-token cap on 84% of runs, yet achieved a mean correct-prefix accuracy of only <strong>1.2%</strong>. It looped verbosely without maintaining state. <strong>LFM 1.2B</strong> stopped prematurely (mean 434 tokens) with 0.0% full traces, while <strong>LFM 2.6B</strong> sustained 1,085 tokens (16% full-length traces) but achieved only 0.2% partial accuracy. Meanwhile, <strong>Gemma 4 E4B</strong> reached 76% final-answer accuracy, but matched the exact procedural trace only 8% of the time. Long generation is not proof of sound reasoning.</p>
           <figure class="figure reveal-image" data-ui>
@@ -355,6 +372,7 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <h3>Ablation 3: Inside the transformer &mdash; stable facts, late realization (Stage 6)</h3>
           <p><strong>Stage 6 Motivation:</strong> To move beyond external behavioral outputs, we inspect the transformer's internal residual stream across all layers: <em>When high-entropy UUIDs are inserted into the prompt, does the model fail because the factual semantic representations of the passages are corrupted, or do the passage representations remain stable while only the identifier-binding states diverge?</em></p>
+          <p><strong>Data Used:</strong> Residual-stream hidden state activations extracted from 80 paired semantic prompt examples (40 temporal, 40 entity-resolution) from the calibrated Stage 5 suite across 15 and 20 sources. Hidden states were captured in native BF16 precision at every transformer layer across structured, random compact, and UUID conditions (960 paired forward passes per model family), segmented into source-label, source-fact, question, pre-answer, answer, and pre-citation token spans.</p>
           <p>In Stage 6, we recorded residual-stream hidden states from <strong>960 paired forward passes</strong> across official BF16 checkpoints of Qwen, LFM, Gemma E2B, and Gemma E4B on 80 semantic examples rendered under structured, random compact, and UUID formats.</p>
 
           <h4>What is Linear CKA and why use it?</h4>
@@ -391,6 +409,7 @@ Return the account and supporting source handle.</code></pre>
 
           <h3>Causal interventions: source-ID swaps &amp; activation patching (Stage 7)</h3>
           <p><strong>Stage 7 Motivation:</strong> Hidden-state geometry (CKA) is purely correlational—it shows that representations are aligned, but does not prove which representations causally determine the output. We use counterfactual identifier swaps and activation patching to test: <em>Does the model actively rebind its prediction to the newly assigned identifier, and at which specific layer does the binding circuit lock in?</em></p>
+          <p><strong>Data Used:</strong> 66 counterfactual prompt examples constructed by taking calibrated multi-source retrieval questions and permuting only the identifier attached to the gold evidence passage (swapping it with an existing distractor handle while preserving all passage text, distractor sets, and question phrasing). For causal localization, 1,056 residual-stream activation patches intervened on specific token positions and layers between donor (swapped) and recipient (unswapped) runs.</p>
           <p>Stage 7 performed <strong>66 counterfactual source-ID swaps</strong> and <strong>1,056 activation interventions</strong>. The critical finding: <strong>shared representational geometry does not imply a shared causal circuit</strong>. Qwen and the Gemma pilots followed the source to its new identifier, but LiquidAI LFM reacted in reverse under compact IDs, reinforcing its prior binding. Final-layer residual patching transferred ~100% of the swap effect in all models, but the onset layer where binding becomes locked varied sharply: layer 24 in Qwen versus layer 29 in Gemma E2B.</p>
         </div>
       </section>
@@ -405,6 +424,7 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <h3>Generalizing beyond citations: typed entity resolution (Stage 8)</h3>
           <p><strong>Stage 8 Motivation:</strong> Citations are only one application of identifiers. In production agents and retrieval pipelines, models manipulate sensitive customer records (names, account numbers, emails). We set out to test: <em>Does request-scoped canonicalization improve non-citation entity resolution? Can typed handles (<code>&lt;ACCOUNT_1&gt;</code>) help models track entities across contexts better than arbitrary masks while guaranteeing 0% literal PII leakage in outputs?</em></p>
+          <p><strong>Data Used:</strong> A synthetic customer support account-resolution benchmark (<code>src/symbolic_ir/data/pii.py</code>) containing 15 or 20 customer records per prompt (40 semantic examples per model across 6 models, totaling 960 generations). Each record contains realistic synthetic PII: customer full name, personal email address, phone number, physical address, and sensitive account numbers. Examples were rendered in four parallel representations: raw literal PII, random alphanumeric masking, untyped handles (<code>&lt;HANDLE_1&gt;</code>), and typed handles (<code>&lt;ACCOUNT_1&gt;</code>, <code>&lt;EMAIL_2&gt;</code>).</p>
           <p>Stage 8 tested synthetic account resolution across <strong>960 generations across six models</strong> with citations disabled. Prompts contained 15 or 20 customer records rendered as raw PII, arbitrary masked strings, untyped handles, or typed handles (<code>&lt;ACCOUNT_1&gt;</code>, <code>&lt;EMAIL_2&gt;</code>).</p>
         </div>
 
@@ -469,6 +489,12 @@ assert resolved.answer == "ACCT-GB-4490-9812"</code></pre>
 
           <h3>Operational stress test: 5,000 adversarial test cases (Stage 9)</h3>
           <p><strong>Stage 9 Motivation:</strong> Having observed that opaque backend literals degrade attribution and expose sensitive data, we needed to demonstrate an operational production boundary: <em>Can a deterministic, sub-millisecond software layer manage request-scoped handle mappings outside model context, validate symbolic responses against strict security schemas, and reject adversarial attacks without model fine-tuning? And what is the fundamental boundary where software validation ends and application authorization begins?</em></p>
+          <p><strong>Data Used:</strong> A comprehensive deterministic software evaluation suite (<code>tests/test_system_ir.py</code> and <code>results/processed/stage9_system_eval.json</code>):</p>
+          <ul>
+            <li><strong>500 Valid Round-Trips:</strong> Synthetic customer banking and database requests containing customer IDs, account numbers, routing codes, and transaction UUIDs to verify lossless canonicalization and rehydration.</li>
+            <li><strong>5,000 Adversarial Attack Payloads:</strong> 500 test cases across 10 distinct attack and corruption classes: prompt injection attempts, handle fabrication, type confusion, syntax degradation, schema mutation, cross-request token replay, case-variant PII leaks, nested JSON tampering, unknown entity handle injection, and unauthorized tool calls.</li>
+            <li><strong>500 Semantic Bypass Cases:</strong> Deliberately wrong-but-registered handles to evaluate whether structural validation catches semantic hallucination (proving why authorization and semantic checks must remain independent).</li>
+          </ul>
           <p>To verify the deterministic boundary, we subjected the reference implementation to an adversarial regression suite of 500 synthetic requests and 5,000 adversarial payloads across ten failure classes. All 500 valid responses were accepted and rehydrated without loss; all 5,000 malformed, leaked, mistyped, and unregistered-handle outputs were rejected; and all 499 cross-request handle replay attempts were blocked. The canonical model view reduced serialized prompt characters by 52.26%, with 0.037 ms median validation overhead. Stage 9 did not record tokenizer counts, so no token-reduction figure is claimed.</p>
 
           <h3>The critical semantic limit</h3>
