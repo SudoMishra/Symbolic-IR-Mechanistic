@@ -1,6 +1,6 @@
 # Held-out MuSiQue confirmatory replication
 
-**Design:** 2000 deterministic GPU generations across 5 models, using 100 MuSiQue dev examples disjoint from the original 100-example cohort. Each example is paired across numeric and UUID identifiers at 15 and 20 sources.
+**Design:** 2400 deterministic GPU generations across 6 models, using 100 MuSiQue dev examples disjoint from the original 100-example cohort. Each example is paired across numeric and UUID identifiers at 15 and 20 sources.
 
 Primary outcomes are relaxed source-binding recall, official answer F1, strict citation F1, and malformed/invalid identifier rates.
 
@@ -12,6 +12,8 @@ Primary outcomes are relaxed source-binding recall, official answer F1, strict c
 | CohereLabs/tiny-aya-global-GGUF:q4_k_m | 20 | 37.5% | 22.8% | -14.8 pp [-20.2, -9.7] | 24.8% | 25.6% | +22.0 pp [+16.9, +27.1] | +13.0 pp [+7.0, +20.0] | +0.0 pp [-3.0, +3.0] |
 | LiquidAI/LFM2.5-1.2B-Instruct-GGUF:q4_k_m | 15 | 21.3% | 13.8% | -7.5 pp [-13.4, -1.6] | 7.5% | 7.0% | -10.7 pp [-16.7, -4.8] | +14.0 pp [+6.0, +22.0] | +1.0 pp [-2.0, +5.0] |
 | LiquidAI/LFM2.5-1.2B-Instruct-GGUF:q4_k_m | 20 | 17.5% | 11.4% | -6.1 pp [-12.1, -0.5] | 5.9% | 5.7% | -8.2 pp [-13.2, -3.0] | +15.0 pp [+8.0, +23.0] | +6.0 pp [+1.0, +12.0] |
+| LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m | 15 | 24.2% | 13.8% | -10.4 pp [-16.3, -4.5] | 22.9% | 15.4% | -13.1 pp [-20.1, -6.1] | +2.0 pp [+0.0, +5.0] | +1.0 pp [+0.0, +3.0] |
+| LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m | 20 | 19.8% | 15.2% | -4.7 pp [-10.2, +0.8] | 17.4% | 17.3% | -4.0 pp [-10.2, +2.0] | +3.0 pp [-1.0, +7.0] | +1.0 pp [+0.0, +3.0] |
 | Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m | 15 | 18.8% | 12.0% | -6.8 pp [-12.3, -1.2] | 17.4% | 17.0% | -10.4 pp [-16.5, -4.1] | +3.0 pp [+0.0, +7.0] | +0.0 pp [+0.0, +0.0] |
 | Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m | 20 | 9.7% | 8.8% | -0.8 pp [-5.1, +3.2] | 15.1% | 17.1% | -1.5 pp [-6.6, +3.6] | +1.0 pp [+0.0, +3.0] | +0.0 pp [+0.0, +0.0] |
 | google/gemma-4-E2B-it-qat-q4_0-gguf:q4_0 | 15 | 39.1% | 36.0% | -3.1 pp [-8.3, +2.4] | 13.8% | 14.5% | -1.0 pp [-7.5, +5.5] | +1.0 pp [-8.0, +9.0] | +1.0 pp [-3.0, +5.0] |
@@ -21,7 +23,7 @@ Primary outcomes are relaxed source-binding recall, official answer F1, strict c
 
 ## Replication verdict
 
-UUID binding recall was lower in **10/10** model/source-count cells; **6/10** paired bootstrap intervals excluded zero in the negative direction.
+UUID binding recall was lower in **12/12** model/source-count cells; **7/12** paired bootstrap intervals excluded zero in the negative direction.
 
 Answer F1 and strict citation changes should be interpreted separately: answer F1 tests task solution, while strict citation F1 also penalizes identifier reconstruction and formatting.
 

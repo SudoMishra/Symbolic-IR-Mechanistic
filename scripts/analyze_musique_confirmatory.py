@@ -109,8 +109,8 @@ def main() -> int:
     for row in rows:
         grouped[row["model"]].append(row)
     if not args.allow_partial:
-        if len(grouped) != 5 or any(len(items) != 400 for items in grouped.values()):
-            raise ValueError(f"Expected five complete 400-record runs; found {dict((k, len(v)) for k, v in grouped.items())}")
+        if len(grouped) < 5 or any(len(items) != 400 for items in grouped.values()):
+            raise ValueError(f"Expected at least five complete 400-record runs; found {dict((k, len(v)) for k, v in grouped.items())}")
     models = [analyze_model(items) for _, items in sorted(grouped.items())]
     result = {"records": len(rows), "models": models, "raw_results": [str(path) for path in paths]}
     json_path, report_path = Path(args.json_output), Path(args.report_output)

@@ -160,6 +160,8 @@ The results illustrate the core phenomenon:
 
 Across all four initial models at 20 sources, UUIDs imposed a **70% to 94% input token tax** and a **77% to 129% latency overhead**.
 
+When evaluating LiquidAI's architecture, model capacity and decoding controls interact directly with identifier format. In our initial LFM 1.2B benchmark, uninhibited internal generation loops caused 100% of 5-source UUID runs to hit the generation cap with repetitive reasoning fragments, dragging relaxed binding recall at 20 sources down to 33%. When evaluated on the larger 2.6B checkpoint (LFM2.5-2.6B) with thinking suppressed via assistant prefill, this failure mode vanishes: at 5 sources, LFM 2.6B achieved **100% relaxed binding recall** (97% strict citation) under UUIDs in 37.6 tokens with zero truncation; at 20 sources, UUID binding recall reached **60.0%** (+27.0 pp over the 1.2B baseline), demonstrating that the catastrophic looping failure was a capacity and prompt-control artifact rather than an inherent architectural limitation of the non-transformer architecture.
+
 The binding result was not universal. Gemma E2B reversed the Qwen/LFM pattern in this synthetic baseline: UUID binding exceeded structured-label binding by **37 points at five sources** and **25 points at twenty sources**, with both paired intervals excluding zero. Gemma E4B was at ceiling for both formats. That counter-result is why the later held-out MuSiQue study reports each model and source-count cell separately rather than claiming a universal accuracy advantage.
 
 ### Skeptical Follow-Up: Does This Survive Real Multi-Hop Retrieval? (Stages 2 & 3)
@@ -170,11 +172,11 @@ To test this, we evaluated the models on **MuSiQue**, a challenging multi-hop be
 
 Across the initial 7,500 generations (MuSiQue Stages 2–4), UUID relaxed source binding recall was lower in all 10 model/source-count cells. 
 
-To ensure this was not an artifact of example selection, we drew a **completely disjoint, held-out cohort of 100 balanced MuSiQue questions** and ran **2,000 independent confirmatory generations** across all five model families:
+To ensure this was not an artifact of example selection, we drew a **completely disjoint, held-out cohort of 100 balanced MuSiQue questions** and ran **independent confirmatory generations across all model families (2,400 total generations across six models)**:
 
-![Figure 3 — Every held-out estimate favored numeric labels; six were conclusive: UUID minus numeric relaxed source-binding recall across 10 model/source-count cells in held-out MuSiQue (2,000 generations).](assets/03_musique_confirmation.svg)
+![Figure 3 — Every held-out estimate favored numeric labels; seven were conclusive: UUID minus numeric relaxed source-binding recall across 12 model/source-count cells in held-out MuSiQue (2,400 generations).](assets/03_musique_confirmation.svg)
 
-> **Figure 3 — Held-out MuSiQue binding effects.** Each row compares the same held-out questions under UUID and numeric source labels. A value of −10 percentage points means that UUIDs reduced relaxed source-binding recall by ten points relative to numeric labels. The dot is the observed paired difference, and the horizontal line shows its 95% bootstrap interval. All ten point estimates fall to the left of zero, so every observed comparison favored numeric labels. Six intervals remain entirely below zero, providing clearer evidence of a difference; four cross zero and should be treated as directionally consistent but statistically inconclusive. Answer F1 did not show the same pattern, so the result concerns attribution rather than general question answering.
+> **Figure 3 — Held-out MuSiQue binding effects.** Each row compares the same held-out questions under UUID and numeric source labels. A value of −10 percentage points means that UUIDs reduced relaxed source-binding recall by ten points relative to numeric labels. The dot is the observed paired difference, and the horizontal line shows its 95% bootstrap interval. All twelve point estimates fall to the left of zero, so every observed comparison favored numeric labels. Seven intervals remain entirely below zero, providing clearer evidence of a difference; five cross zero and should be treated as directionally consistent but statistically inconclusive. Answer F1 did not show the same pattern, so the result concerns attribution rather than general question answering.
 
 | Model Family | Sources | UUID − Numeric Binding Recall (pp) | Paired 95% Bootstrap CI | Excludes Zero? |
 |:---|:---:|:---:|:---:|:---:|
@@ -182,6 +184,8 @@ To ensure this was not an artifact of example selection, we drew a **completely 
 | **Tiny Aya** | 20 | **-14.8** | [-20.2, -9.7] | **Yes** |
 | **LFM 1.2B** | 15 | **-7.5** | [-13.4, -1.6] | **Yes** |
 | **LFM 1.2B** | 20 | **-6.1** | [-12.1, -0.5] | **Yes** |
+| **LFM 2.6B** | 15 | **-10.4** | [-16.3, -4.5] | **Yes** |
+| **LFM 2.6B** | 20 | -4.7 | [-10.2, +0.8] | No |
 | **Qwen 1.5B** | 15 | **-6.8** | [-12.3, -1.2] | **Yes** |
 | **Qwen 1.5B** | 20 | -0.8 | [-5.1, +3.2] | No |
 | **Gemma E2B** | 15 | -3.1 | [-8.3, +2.4] | No |
@@ -190,7 +194,7 @@ To ensure this was not an artifact of example selection, we drew a **completely 
 | **Gemma E4B** | 20 | -3.4 | [-9.1, +2.3] | No |
 
 ### The Critical Findings from Held-Out MuSiQue:
-1. **Directional Consistency:** In **10 out of 10 cells**, the estimated point effect of UUIDs on relaxed source binding was negative. In 6 of 10 cells, the 95% confidence interval strictly excluded zero.
+1. **Directional Consistency:** In **12 out of 12 cells**, the estimated point effect of UUIDs on relaxed source binding was negative. In 7 of 12 cells, the 95% confidence interval strictly excluded zero.
 2. **Answer F1 Remains Flat:** As in the synthetic task, Answer F1 differences between UUID and numeric conditions were small and centered near zero (all 95% intervals spanned zero).
 3. **The Buried Engineering Insight (Dual Labels, Stage 4):**
    > **Stage 4 Motivation:** When confronted with UUID retrieval taxes, engineers frequently attempt a common workaround: keeping the raw UUID in context while appending a compact alias next to it (e.g., `Source 8ce71... [S1]`). We tested whether this "dual label" strategy successfully provides the benefit of aliases, or simply imposes the dual cognitive burden of both representations.
@@ -241,10 +245,12 @@ The confirmatory experiment evaluated cells meeting a pre-declared calibration t
 >
 > **LongProc Motivation:** If we evaluate models only on final-answer accuracy or total generated length, verbose models might appear to "reason through" difficult prompts while actually looping or hallucinating. LongProc provides an explicit, deterministic test of multi-step belief-state tracking over 1,024–2,048 tokens to verify whether longer generation indicates sound reasoning.
 >
-> To ensure we did not equate verbose generation with correct reasoning, we benchmarked our four models on **LongProc**, a public benchmark requiring deterministic belief-state tracking over 1,024–2,048 token reference traces.
+> To ensure we did not equate verbose generation with correct reasoning, we benchmarked our models on **LongProc**, a public benchmark requiring deterministic belief-state tracking over 1,024–2,048 token reference traces.
 > 
 > The results offer a stark warning:
 > - **Qwen2.5-1.5B** generated an average of **2,027 output tokens** and hit the hard 2,048 token cap on **84% of runs**, yet achieved a mean correct-prefix accuracy of only **1.2%**. It looped verbosely without maintaining state.
+> - **LFM 1.2B** stopped prematurely (mean 434 tokens) with **0.0% full trace accuracy** and 0.9% partial accuracy.
+> - **LFM 2.6B** sustained substantially longer outputs (mean 1,085.5 tokens, 16% full-length traces), but procedural accuracy remained low: **0.2% partial accuracy** and **4.0% final-answer accuracy**, reinforcing that longer generation does not equal procedural tracking.
 > - **Gemma 4 E4B** achieved **76% final-answer accuracy**, but produced an exact state trace only **8% of the time**.
 > 
 > ![Figure 5 — Long generation does not establish procedural correctness: Comparing mean correct-trace prefix before first error, final-answer accuracy, and exact full-trace accuracy across 25 LongProc belief-state instances.](assets/05_longproc.svg)
@@ -320,15 +326,16 @@ The causal interventions produced a critical revelation: **Shared representation
 
 > **Stage 8 Motivation:** Citations are only one application of identifiers. In production agents and retrieval pipelines, models manipulate sensitive customer records (names, account numbers, emails). We set out to test: *Does request-scoped canonicalization improve non-citation entity resolution? Can typed handles (`<ACCOUNT_1>`) help models track entities across contexts better than arbitrary masks while guaranteeing 0% literal PII leakage in outputs?*
 
-Does canonicalization help outside citation formatting? In Stage 8, we evaluated synthetic account resolution across **800 model generations** with citations completely disabled. Prompts contained 15 or 20 customer records rendered in four conditions: raw PII, arbitrary random masking, untyped canonical handles, and typed handles (`<ACCOUNT_1>`, `<EMAIL_2>`).
+Does canonicalization help outside citation formatting? In Stage 8, we evaluated synthetic account resolution across **960 model generations across six models** with citations completely disabled. Prompts contained 15 or 20 customer records rendered in four conditions: raw PII, arbitrary random masking, untyped canonical handles, and typed handles (`<ACCOUNT_1>`, `<EMAIL_2>`).
 
-![Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model: Panel A: Account-resolution accuracy (%) by model and representation; Panel B: Outputs containing raw PII (%) across 800 model generations.](assets/08_stage8_entities.svg)
+![Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model: Panel A: Account-resolution accuracy (%) by model and representation; Panel B: Outputs containing raw PII (%) across 960 model generations.](assets/08_stage8_entities.svg)
 
-> **Figure 8 — Typed entity canonicalization.** Each model resolved synthetic customer accounts from prompts containing the same records under four representations. “Raw” includes literal names, emails, and account numbers. “Random” replaces them with arbitrary masks. “Untyped” uses consistent but semantically neutral handles, while “typed” uses handles such as `<ACCOUNT_1>` and `<EMAIL_2>`. Typed handles improved Qwen by 17.5 percentage points relative to untyped handles and helped Tiny Aya relative to random masking. Gemma was near ceiling across conditions, while LFM performed poorly whenever values were masked. Separately, every masked representation reduced raw-value output exposure to zero in this dataset. Thus canonicalization reliably controlled literal exposure, but its task-accuracy effect depended on the model.
+> **Figure 8 — Typed entity canonicalization.** Each model resolved synthetic customer accounts from prompts containing the same records under four representations. “Raw” includes literal names, emails, and account numbers. “Random” replaces them with arbitrary masks. “Untyped” uses consistent but semantically neutral handles, while “typed” uses handles such as `<ACCOUNT_1>` and `<EMAIL_2>`. Typed handles improved Qwen by 17.5 percentage points relative to untyped handles and helped Tiny Aya relative to random masking. Gemma was near ceiling across conditions, while LFM 1.2B performed poorly whenever values were masked. Crucially, scaling LiquidAI to LFM 2.6B fully recovered performance: typed handles reached 97.5% mean accuracy (+70.0 pp over untyped). Separately, every masked representation reduced raw-value output exposure to zero in this dataset. Thus canonicalization reliably controlled literal exposure, but its task-accuracy effect depended on model capacity and architecture.
 
 - **Qwen2.5-1.5B** achieved **97.5% task accuracy** with typed handles versus **80.0%** with untyped handles—a **+17.5 percentage-point gain at identical prompt lengths**.
 - **Tiny Aya** gained **+15.0 percentage points** with typed handles over arbitrary masking (though typed vs. untyped remained parity at 97.5%).
-- **Gemma E2B/E4B** were ceiling-limited (~95%+ across all conditions), while LFM suffered when masked (falling to 0–7.5%).
+- **LFM 1.2B vs. LFM 2.6B (Model Capacity Reversal):** While LFM 1.2B collapsed under masking (0–7.5% accuracy) because it defaulted to customer name subjects, **LFM 2.6B achieved 100.0% accuracy on 15 sources and 95.0% on 20 sources under typed handles (`<ACCOUNT_1>`)**. Comparing paired representations on LFM 2.6B, typed handles outperformed untyped handles by **+70.0 percentage points** (95% CI: `[+52.5, +85.0]`, $p = 5.77 \times 10^{-8}$) and exceeded raw unmasked accuracy by **+5.0 pp** (97.5% vs. 92.5%), demonstrating that semantic type hints allow capable models to track entities reliably while eliminating 100% of raw PII output exposure.
+- **Gemma E2B/E4B** were ceiling-limited (~95%+ across all conditions).
 - **Exposure Reduction:** Masked conditions completely eliminated raw names, emails, and account numbers from outputs (0% vs. 85–100% in raw prompts).
 
 Headline finding: *Typed handles can improve non-citation entity binding, but gains are architecture-dependent.*

@@ -263,6 +263,7 @@ def evidence_funnel():
 MODEL_SHORT = {
     "CohereLabs/tiny-aya-global-GGUF:q4_k_m": "Tiny Aya",
     "LiquidAI/LFM2.5-1.2B-Instruct-GGUF:q4_k_m": "LFM 1.2B",
+    "LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m": "LFM 2.6B",
     "Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m": "Qwen 1.5B",
     "google/gemma-4-E2B-it-qat-q4_0-gguf:q4_0": "Gemma E2B",
     "google/gemma-4-E4B-it-qat-q4_0-gguf:q4_0": "Gemma E4B",
@@ -273,16 +274,19 @@ def musique_confirmation():
     data = load("results/processed/musique_confirmatory.json")
     rows = []
     for model in data["models"]:
-        label = MODEL_SHORT[model["model"]]
+        label = MODEL_SHORT.get(model["model"], model["model"])
         for effect in model["effects"]:
             if effect["metric"] == "binding_recall":
                 rows.append((label, effect["sources"], effect["b_minus_a"] * 100, [v * 100 for v in effect["bootstrap_95_ci"]]))
-    s = SVG(1350, 770, "Figure 3: Held-out MuSiQue binding effects", "Forest plot of UUID minus numeric source-binding recall across five models and two source counts.")
+
+    y0, gap = 140, 46
+    key_y = y0 + gap * len(rows) + 20
+    total_h = key_y + 85
+    s = SVG(1350, total_h, "Figure 3: Held-out MuSiQue binding effects", "Forest plot of UUID minus numeric source-binding recall across models and source counts.")
     header(s, "Figure 3 — Every held-out estimate favored numeric labels; six were conclusive", "UUID minus numeric relaxed source-binding recall; paired 95% bootstrap intervals across 100 held-out MuSiQue questions.")
 
     x0, x1 = 430, 1180
     lo, hi = -24, 6
-    y0, gap = 140, 50
 
     # Gridlines and ticks
     for tick in (-20, -15, -10, -5, 0, 5):
@@ -301,7 +305,7 @@ def musique_confirmation():
     for i, (label, sources, est, ci) in enumerate(rows):
         y = y0 + i * gap
         if i % 2 == 0:
-            s.add(f'<rect x="45" y="{y-24}" width="1260" height="42" fill="#f7f9fc"/>')
+            s.add(f'<rect x="45" y="{y-22}" width="1260" height="40" fill="#f7f9fc"/>')
         s.text(58, y + 5, label, "body", weight="600")
         s.text(250, y + 5, f"{sources} sources", "small")
 
@@ -323,13 +327,13 @@ def musique_confirmation():
         s.text(1200, y + 5, f"{est:+.1f} pp{star}", "small", fill=INK if conclusive else MUTED, weight="600" if conclusive else "normal")
 
     # In-figure Key
-    s.rect(45, 680, 1260, 65, fill="#f8fafc", stroke=GRID, radius=10)
-    s.circle(70, 712, 6, BLUE, BLUE, 1)
-    s.text(85, 716, "Filled dot = Paired estimate whose 95% CI strictly excludes zero (conclusive difference)", "small")
-    s.circle(680, 712, 6, PAPER, INK, 2)
-    s.text(695, 716, "Hollow dot = Paired estimate whose 95% CI crosses zero (inconclusive)", "small")
-    s.line(1140, 712, 1180, 712, BLUE, 2.5)
-    s.text(1190, 716, "Horizontal bar = 95% bootstrap CI", "small")
+    s.rect(45, key_y, 1260, 65, fill="#f8fafc", stroke=GRID, radius=10)
+    s.circle(70, key_y + 32, 6, BLUE, BLUE, 1)
+    s.text(85, key_y + 36, "Filled dot = Paired estimate whose 95% CI strictly excludes zero (conclusive difference)", "small")
+    s.circle(680, key_y + 32, 6, PAPER, INK, 2)
+    s.text(695, key_y + 36, "Hollow dot = Paired estimate whose 95% CI crosses zero (inconclusive)", "small")
+    s.line(1140, key_y + 32, 1180, key_y + 32, BLUE, 2.5)
+    s.text(1190, key_y + 36, "Horizontal bar = 95% bootstrap CI", "small")
 
     s.save("03_musique_confirmation.svg")
 
@@ -399,14 +403,20 @@ def reasoning_budget():
 
 def longproc():
     data = load("results/processed/longproc_gpu_summary.json")
-    order = [("Qwen", "Qwen 1.5B"), ("LFM", "LFM 1.2B"), ("Gemma-E2B", "Gemma E2B"), ("Gemma-E4B", "Gemma E4B")]
+    order = [
+        ("Qwen", "Qwen 1.5B"),
+        ("LFM", "LFM 1.2B"),
+        ("LFM-2.6B", "LFM 2.6B"),
+        ("Gemma-E2B", "Gemma E2B"),
+        ("Gemma-E4B", "Gemma E4B"),
+    ]
     metrics = [
         ("partial_accuracy_mean", "Mean correct-trace prefix before first error", BLUE),
         ("final_answer_accuracy", "Final-answer accuracy (%)", GREEN),
         ("strict_accuracy", "Exact full-trace accuracy (%)", ORANGE),
     ]
-    s = SVG(1350, 710, "Figure 5: LongProc trace quality", "Grouped bars compare correct-prefix accuracy, final-answer accuracy, and exact full-trace accuracy for four models.")
-    header(s, "Figure 5 — Long generation does not establish procedural correctness", "Strict trace, correct-prefix, and endpoint accuracy diverge on 25 multi-step theory-of-mind problems (100 GPU runs).")
+    s = SVG(1350, 710, "Figure 5: LongProc trace quality", "Grouped bars compare correct-prefix accuracy, final-answer accuracy, and exact full-trace accuracy for five models.")
+    header(s, "Figure 5 — Long generation does not establish procedural correctness", "Strict trace, correct-prefix, and endpoint accuracy diverge on 25 multi-step theory-of-mind problems (125 GPU runs).")
 
     left, right, top, bottom = 120, 1260, 140, 480
     for tick in (0, 20, 40, 60, 80, 100):
@@ -417,12 +427,12 @@ def longproc():
     s.text(45, 310, "Trace or answer score (%)", "label", "middle")
 
     group_w = (right - left) / len(order)
-    bar_w = 48
+    bar_w = 40
     for gi, (key, label) in enumerate(order):
         center = left + group_w * (gi + 0.5)
         for mi, (metric, _, color) in enumerate(metrics):
             value = data[key][metric] * 100
-            x = center + (mi - 1) * (bar_w + 10) - bar_w / 2
+            x = center + (mi - 1) * (bar_w + 8) - bar_w / 2
             y = bottom - value / 100 * (bottom - top)
             s.add(f'<rect x="{x}" y="{y}" width="{bar_w}" height="{bottom-y}" fill="{color}" rx="3"/>')
             if value > 0:
@@ -434,8 +444,17 @@ def longproc():
 
         # Output length box cleanly separated
         tok = data[key]["output_tokens"]["mean"]
-        cap_note = "84% hit cap" if "Qwen" in key else ("0% completed" if "LFM" in key else "8% exact trace" if "E4B" in key else "0% exact trace")
-        s.rect(center - 105, 532, 210, 44, fill="#f8fafc", stroke=GRID, radius=8)
+        if key == "Qwen":
+            cap_note = "84% hit cap"
+        elif key == "LFM":
+            cap_note = "0% completed"
+        elif key == "LFM-2.6B":
+            cap_note = "16% full trace"
+        elif key == "Gemma-E4B":
+            cap_note = "8% exact trace"
+        else:
+            cap_note = "0% exact trace"
+        s.rect(center - 100, 532, 200, 44, fill="#f8fafc", stroke=GRID, radius=8)
         s.text(center, 550, f"Mean output: {tok:.0f} tokens", "small", "middle", weight="600")
         s.text(center, 568, f"Behavior: {cap_note}", "small", "middle")
 
@@ -573,6 +592,7 @@ def stage8_entities():
     files = [
         ("results/analysis/stage8_pii_qwen15b.json", "Qwen 1.5B"),
         ("results/analysis/stage8_pii_lfm25_12b.json", "LFM 1.2B"),
+        ("results/analysis/stage8_pii_lfm25_26b.json", "LFM 2.6B"),
         ("results/analysis/stage8_pii_gemma4_e2b.json", "Gemma E2B"),
         ("results/analysis/stage8_pii_gemma4_e4b.json", "Gemma E4B"),
         ("results/analysis/stage8_pii_tiny_aya.json", "Tiny Aya"),
@@ -580,7 +600,7 @@ def stage8_entities():
     conds = [("raw", "Raw", RED), ("random_masked", "Random", ORANGE), ("untyped", "Untyped", PURPLE), ("typed", "Typed", TEAL)]
 
     s = SVG(1400, 780, "Figure 8: Stage 8 typed entity canonicalization", "Two panels show task accuracy and raw PII output exposure across raw, random-masked, untyped, and typed representations.")
-    header(s, "Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model", "40 synthetic account-resolution examples per model (800 total generations); citations disabled.")
+    header(s, "Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model", "40 synthetic account-resolution examples per model (960 total generations across six models); citations disabled.")
 
     # Panel A: Accuracy (Left)
     left_a, right_a, top_a, bottom_a = 90, 740, 160, 520
@@ -592,7 +612,7 @@ def stage8_entities():
         s.text(left_a - 10, y + 4, f"{tick}%", "small", "end")
 
     group_w_a = (right_a - left_a) / len(files)
-    bar_w_a = 26
+    bar_w_a = 21
     for gi, (path, label) in enumerate(files):
         data = load(path)
         by_condition = {}
@@ -603,7 +623,7 @@ def stage8_entities():
         for ci, (key, _, color) in enumerate(conds):
             cells = by_condition[key]
             acc = sum(c["task_accuracy"] * c["n"] for c in cells) / sum(c["n"] for c in cells) * 100
-            x = center + (ci - 1.5) * (bar_w_a + 4) - bar_w_a / 2
+            x = center + (ci - 1.5) * (bar_w_a + 3) - bar_w_a / 2
             y = bottom_a - acc / 100 * (bottom_a - top_a)
             s.add(f'<rect x="{x}" y="{y}" width="{bar_w_a}" height="{bottom_a-y}" fill="{color}" rx="2"/>')
             if acc > 0:
@@ -623,7 +643,7 @@ def stage8_entities():
         s.text(left_b - 10, y + 4, f"{tick}%", "small", "end")
 
     group_w_b = (right_b - left_b) / len(files)
-    bar_w_b = 36
+    bar_w_b = 30
     for gi, (path, label) in enumerate(files):
         data = load(path)
         by_condition = {}

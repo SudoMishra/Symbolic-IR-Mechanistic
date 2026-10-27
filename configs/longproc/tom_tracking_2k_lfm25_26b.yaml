@@ -1,0 +1,30 @@
+name: longproc_tom_tracking_2k_lfm25_26b
+seed: 202601
+dataset:
+  family: longproc_tom_tracking
+  data_path: data/longproc/tom_tracking/tom_tracking_2k.json
+  prompt_path: data/longproc/tom_tracking/prompts.yaml
+  selection_path: configs/longproc/tom_tracking_2k_cross_tokenizer_indices.json
+  source_revision: 673ec4c230876e941d674116d66d28783c186b15
+  prompt_tokens: {min: 2048, max: 4096}
+  reference_tokens: {min: 1024, max: 2048}
+  count: 25
+identifiers: [original]
+backend:
+  type: llama_cpp
+  model_path: models/LFM2.5-2.6B-Q4_K_M.gguf
+  model: LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m
+  revision: main
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  assistant_prefill: "<think>\n</think>\n"
+  seed: 202601
+generation:
+  temperature: 0
+  max_output_tokens: 2048
+  tokenizer: {type: llama_cpp, model_path: models/LFM2.5-2.6B-Q4_K_M.gguf}
+output_dir: results/raw
+metadata: {dataset_license: Apache-2.0, execution: CUDA, quantization: Q4_K_M}

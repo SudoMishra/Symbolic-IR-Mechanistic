@@ -89,6 +89,36 @@
     ],
     "throughput_tokens_per_second": 182.4865574635414
   },
+  "LFM-2.6B": {
+    "final_answer_accuracy": 0.04,
+    "final_answer_accuracy_wilson_95": [
+      0.007096233501987542,
+      0.19544063736193124
+    ],
+    "full_trace_rate": 0.16,
+    "generation_cap_rate": 0.2,
+    "latency_seconds_mean": 11.645697577837854,
+    "latency_seconds_total": 291.14243944594637,
+    "n": 25,
+    "output_tokens": {
+      "max": 2048,
+      "mean": 1085.52,
+      "median": 617,
+      "min": 578
+    },
+    "partial_accuracy_bootstrap_95": [
+      0.0,
+      0.004878048780487805
+    ],
+    "partial_accuracy_mean": 0.001951219512195122,
+    "partial_accuracy_median": 0.0,
+    "strict_accuracy": 0.0,
+    "strict_accuracy_wilson_95": [
+      0.0,
+      0.13319225093904213
+    ],
+    "throughput_tokens_per_second": 93.21210625164956
+  },
   "Qwen": {
     "final_answer_accuracy": 0.04,
     "final_answer_accuracy_wilson_95": [

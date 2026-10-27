@@ -22,6 +22,7 @@ class LlamaCppBackend(ModelBackend):
         offload_kqv: bool = True,
         seed: int = 0,
         chat_format: str | None = None,
+        assistant_prefill: str | None = None,
     ) -> None:
         try:
             from llama_cpp import Llama
@@ -44,6 +45,7 @@ class LlamaCppBackend(ModelBackend):
         self._llm = Llama(**options)
         self._model_name = model
         self._revision = revision
+        self._assistant_prefill = assistant_prefill
 
     @property
     def model_name(self) -> str:
@@ -55,15 +57,27 @@ class LlamaCppBackend(ModelBackend):
 
     def generate(self, request: GenerationRequest) -> GenerationResponse:
         started = time.perf_counter()
-        response = self._llm.create_chat_completion(
-            messages=[{"role": "user", "content": request.prompt}],
-            temperature=request.temperature,
-            max_tokens=request.max_output_tokens,
-            seed=int(request.metadata.get("generation_seed", 0)),
-        )
-        latency = time.perf_counter() - started
-        text = str(response["choices"][0]["message"]["content"] or "")
-        usage = response.get("usage", {})
+        if self._assistant_prefill is not None:
+            raw_prompt = f"<|im_start|>user\n{request.prompt}<|im_end|>\n<|im_start|>assistant\n{self._assistant_prefill}"
+            response = self._llm(
+                raw_prompt,
+                temperature=request.temperature,
+                max_tokens=request.max_output_tokens,
+                seed=int(request.metadata.get("generation_seed", 0)),
+            )
+            latency = time.perf_counter() - started
+            text = str(response["choices"][0]["text"] or "").strip()
+            usage = response.get("usage", {})
+        else:
+            response = self._llm.create_chat_completion(
+                messages=[{"role": "user", "content": request.prompt}],
+                temperature=request.temperature,
+                max_tokens=request.max_output_tokens,
+                seed=int(request.metadata.get("generation_seed", 0)),
+            )
+            latency = time.perf_counter() - started
+            text = str(response["choices"][0]["message"]["content"] or "")
+            usage = response.get("usage", {})
         return GenerationResponse(
             text=text,
             model=self.model_name,
