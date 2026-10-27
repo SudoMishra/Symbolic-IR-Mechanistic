@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the blog's SVG figures from checked-in result artifacts."""
+"""Build empirical SVGs from processed results and deterministic schematics."""
 
 from __future__ import annotations
 

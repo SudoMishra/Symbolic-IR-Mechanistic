@@ -4,9 +4,9 @@ stage1,Initial citation MVE and cross-model controls,"2,000 matched generations"
 musique_2_4,MuSiQue scaling structure and failure controls,"7,500 generations",FINDINGS_MUSIQUE_STAGES_2_4.md,results/processed/musique_stages_2_4.json,Multi-hop stress test
 musique_confirm,Held-out MuSiQue confirmation,"2,000 generations",FINDINGS_MUSIQUE_CONFIRMATORY.md,results/processed/musique_confirmatory.json,Independent confirmation
 longproc,LongProc procedural tracking,"100 generations",FINDINGS_LONGPROC_GPU.md,results/processed/longproc_gpu_summary.json,Long-output trace evaluation
-stage5_pilot,Reasoning-budget pilot,"2,400 two-pass generations",FINDINGS_STAGE5.md,results/processed/stage5_five_model.json,Hypothesis generation and calibration
-stage5_confirm,Reasoning-budget confirmation,"3,200 two-pass generations",FINDINGS_STAGE5_CONFIRMATORY.md,results/processed/stage5_confirmatory.json,Confirmatory budget result
-stage6,Representation analysis,"960 paired forward passes",FINDINGS_STAGE6_CROSS_MODEL.md,results/processed/stage6_qwen25_15b.json,Correlational mechanistic evidence
-stage7,Causal source-ID swaps and patching,"66 swaps; 1,056 interventions",FINDINGS_STAGE7_CROSS_MODEL.md,results/analysis/stage7_qwen25_15b.json,Causal mechanistic evidence
-stage8,Typed entity canonicalization,"800 generations",FINDINGS_STAGE8_CROSS_MODEL.md,results/analysis/stage8_pii_qwen15b.json,Non-citation generalization and exposure
+stage5_pilot,Reasoning-budget pilot,"2,400 two-pass generations; 4,800 model calls",FINDINGS_STAGE5.md,results/processed/stage5_five_model.json,Hypothesis generation and calibration
+stage5_confirm,Reasoning-budget confirmation,"3,200 two-pass generations; 6,400 model calls",FINDINGS_STAGE5_CONFIRMATORY.md,results/processed/stage5_confirmatory.json,Confirmatory budget result
+stage6,Representation analysis,"960 paired forward passes",FINDINGS_STAGE6_CROSS_MODEL.md,"results/processed/stage6_qwen25_15b.json; results/processed/stage6_lfm25_12b.json; results/processed/stage6_gemma4_e2b.json; results/processed/stage6_gemma4_e4b.json",Correlational mechanistic evidence
+stage7,Causal source-ID swaps and patching,"66 swaps; 1,056 interventions",FINDINGS_STAGE7_CROSS_MODEL.md,"results/analysis/stage7_qwen25_15b.json; results/analysis/stage7_lfm25_12b.json; results/analysis/stage7_gemma4_e2b.json; results/analysis/stage7_gemma4_e4b.json",Causal mechanistic evidence
+stage8,Typed entity canonicalization,"800 generations",FINDINGS_STAGE8_CROSS_MODEL.md,"results/analysis/stage8_pii_qwen15b.json; results/analysis/stage8_pii_lfm25_12b.json; results/analysis/stage8_pii_gemma4_e2b.json; results/analysis/stage8_pii_gemma4_e4b.json; results/analysis/stage8_pii_tiny_aya.json",Non-citation generalization and exposure
 stage9,Operational symbolic IR boundary,"500 valid requests; 5,000 attacks",FINDINGS_STAGE9.md,results/processed/stage9_system_eval.json,Systems synthesis and boundary test

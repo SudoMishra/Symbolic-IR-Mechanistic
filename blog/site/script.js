@@ -35,7 +35,7 @@ function showSourceCount(sourceCount) {
         { opacity: 1, transform: "translateY(0)" },
         { opacity: 0, transform: "translateY(-0.25rem)" },
       ],
-      { duration: 120, easing: "ease-in" },
+      { duration: 120, easing: "ease-out" },
     );
     anim.onfinish = () => {
       node.textContent = values[node.dataset.value];

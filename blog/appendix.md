@@ -18,13 +18,16 @@ guidance.
 | Stage 6 | 960 paired forward passes | Qwen, LFM, Gemma E2B/E4B BF16 | Do different surfaces converge internally? | Fact geometry is stable; labels converge; citation states specialize late. |
 | Stage 7 | 66 swaps and 1,056 interventions | Qwen, LFM, Gemma E2B/E4B | Is the source-to-ID relationship causal and transferable? | Yes, but causal direction and timing are architecture-dependent. |
 | Stage 8 | 800 generations | Five models | Do typed handles help beyond citation formatting? | Significant controlled gains appear in Qwen and Tiny Aya; not universal. |
-| Stage 9 | 500 valid requests and 5,000 attacks | Deterministic reference system | Can a typed IR enforce representation integrity? | Yes for structural classes; not for a wrong but registered handle. |
+| Stage 9 | 500 valid requests and 5,000 adversarial test cases | Deterministic reference system | Can a typed IR enforce representation integrity? | Yes for structural classes; not for a wrong but registered handle. |
 
-The behavioral model-generation total is 18,020 (18,000 experimental generations
-across Stages 1–8 plus the 20-record Stage 0 pipeline gate). Stage 5 comprises
-5,600 model calls across 2,800 two-pass queries (2,400 pilot calls and 3,200
-confirmatory calls). Forward passes, causal interventions, valid systems requests,
-and adversarial unit tests are reported separately.
+The behavioral-record total is 18,020 (18,000 experimental records across
+Stages 1–8 plus the 20-record Stage 0 pipeline gate), representing 23,620 model
+calls. Each Stage 5 record
+contains two sequential model calls. Stage 5 therefore comprises 5,600 two-pass
+generations and 11,200 model calls: 2,400 pilot generations (4,800 calls) plus
+3,200 confirmatory generations (6,400 calls). Forward passes, causal
+interventions, valid systems requests, and adversarial test cases are reported
+separately.
 
 ## Metric definitions
 
@@ -148,6 +151,13 @@ synthetic requests and records.
 The reversal between strict citation and relaxed binding at twenty sources is a
 formatting effect, not evidence of better UUID source selection.
 
+This baseline was model-dependent. Gemma E2B showed the opposite binding
+direction: UUID minus structured was +37 points at five sources (95% CI +24 to
++50) and +25 points at twenty sources (+16 to +34). Gemma E4B was at ceiling
+for both formats. The later held-out MuSiQue experiment is therefore the primary
+cross-model confirmation rather than evidence that Stage 1 generalized
+uniformly.
+
 ### Held-out MuSiQue binding effects
 
 Effects are UUID minus numeric binding recall in percentage points.
@@ -253,8 +263,18 @@ PYTHONPATH=src .venv/bin/python experiments/01_citation_mve.py
 ```
 
 Model experiments can require large local artifacts, CUDA support, and
-substantial runtime. The checked-in raw and processed results allow the reports
-and figures to be reproduced without rerunning inference.
+substantial runtime. Processed results and generated figures are checked in, so
+the reports and empirical charts can be reproduced without rerunning inference.
+Raw generation logs are retained locally and hash-recorded in the findings and
+provenance files, but are not tracked in Git.
+
+The hidden-state experiments used two intentionally separate dependency
+environments: Qwen/LFM used `transformers==4.57.6`, while Gemma 4 used
+`transformers==5.20.2`. Exact package versions are recorded in
+[`../MODEL_PROVENANCE.md`](../MODEL_PROVENANCE.md) and the historical constraints
+files for [Qwen/LFM](../constraints/stage6-qwen-lfm.txt) and
+[Gemma 4](../constraints/stage6-gemma4.txt). The broad `hf` project extra is
+convenient for current runs, not a historical lockfile.
 
 ## Interpretation boundaries
 

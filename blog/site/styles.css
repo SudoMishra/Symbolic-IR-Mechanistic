@@ -207,7 +207,7 @@ code {
   min-height: 3.35rem;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1.4rem;
   padding: 0.85rem 1.15rem;
   color: var(--accent-ink);
@@ -317,7 +317,7 @@ code {
 
 .experiment-table {
   width: 100%;
-  min-width: 58rem;
+  min-width: 0;
   border-collapse: collapse;
   font-size: 0.95rem;
   line-height: 1.35;
@@ -382,9 +382,9 @@ pre code {
 }
 
 .thesis {
-  max-width: 31ch;
+  max-width: 38ch;
   margin: clamp(7rem, 12vw, 13rem) 0 clamp(6rem, 10vw, 10rem) auto;
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(2rem, 2.5vw, 2.4rem);
   line-height: 1.06;
   text-wrap: balance;
 }
@@ -410,14 +410,14 @@ pre code {
   border-left: 2px solid var(--ink);
 }
 
-.fact span {
+.fact-copy {
   max-width: 18ch;
   font-size: 0.88rem;
   line-height: 1.25;
 }
 
-.fact strong {
-  order: -1;
+.fact-copy b {
+  display: block;
   font-weight: 400;
   font-size: clamp(2.2rem, 4.8vw, 5.4rem);
   letter-spacing: -0.045em;
@@ -635,6 +635,15 @@ pre code {
   font-size: clamp(1.2rem, 1.7vw, 1.55rem);
 }
 
+.boundary-head h2 {
+  grid-column: 1 / -1;
+}
+
+.boundary-head p {
+  grid-column: 1 / -1;
+  max-width: none;
+}
+
 .figure {
   margin-bottom: 0;
 }
@@ -761,13 +770,17 @@ pre code {
 }
 
 .boundary-limit {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.55fr);
-  gap: clamp(2rem, 8vw, 10rem);
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(2rem, 5vw, 6rem);
   align-items: end;
   margin-top: clamp(6rem, 10vw, 12rem);
   padding-top: 1.5rem;
   border-top: 3px solid var(--ink);
+}
+
+.boundary-limit > * {
+  flex: 1 1 0;
 }
 
 .boundary-number {
@@ -1006,6 +1019,15 @@ pre code {
     grid-row: auto;
   }
 
+  .boundary-limit {
+    display: block;
+  }
+
+  .boundary-limit p + p {
+    max-width: 55ch;
+    margin-top: 2rem;
+  }
+
   .longproc {
     grid-template-columns: 1fr;
   }
@@ -1129,10 +1151,17 @@ pre code {
 
   .nav {
     min-height: 4.5rem;
+    flex-wrap: wrap;
+    gap: 0.7rem 1rem;
+    padding: 0.8rem 0;
   }
 
-  .nav-links a:not(:first-child) {
-    display: none;
+  .nav-links {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem 1rem;
+    font-size: 0.82rem;
   }
 
   .hero-title {
@@ -1189,13 +1218,14 @@ pre code {
 
   .code-pair,
   .boundary-limit {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
     gap: 2.2rem;
   }
 
   pre {
-    margin-right: calc(var(--gutter) * -1);
-    margin-left: calc(var(--gutter) * -1);
+    margin-right: 0;
+    margin-left: 0;
     font-size: 0.82rem;
   }
 
@@ -1204,30 +1234,42 @@ pre code {
   }
 
   .fact {
-    min-height: 6rem;
+    min-height: 5rem;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
     gap: 1rem;
     padding: 1rem 0;
   }
 
   .fact + .fact {
     padding-left: 0;
-    border-top: 2px solid var(--ink);
+    border-top: 0;
     border-left: 0;
   }
 
   .fact:nth-child(3) {
-    border-top: 2px solid var(--ink);
+    border-top: 0;
+    border-left: 0;
   }
 
   .fact:nth-child(4) {
-    border-top: 2px solid var(--ink);
+    border-top: 0;
   }
 
-  .fact span {
+  .fact-copy {
+    width: 100%;
+    flex: 1 1 auto;
+    max-width: none;
+    margin-left: 0;
     padding-bottom: 0.2rem;
-    text-align: right;
+    text-align: left;
+  }
+
+  .fact-copy b {
+    display: inline;
+    margin-right: 0.6rem;
+    font-size: inherit;
+    font-weight: 600;
   }
 
   .comparison-grid {
@@ -1290,7 +1332,9 @@ pre code {
   }
 
   .callout {
-    margin-right: var(--gutter);
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
     font-size: 1.5rem;
   }
 
@@ -1299,6 +1343,9 @@ pre code {
   }
 
   .mechanism-conclusion {
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
     font-size: 1.5rem;
   }
 
@@ -1326,17 +1373,36 @@ pre code {
   .footer-mark {
     font-size: 20vw;
   }
-}
 
-.part-kicker {
-  display: block;
-  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.75rem;
+  .footer {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .footer-credit {
+    min-width: 0;
+    max-width: 100%;
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+    overflow-wrap: anywhere;
+  }
+
+  .article-prose ul {
+    padding-left: 0;
+    list-style-position: inside;
+  }
+
+  .sidebar-callout {
+    padding-right: 0;
+    padding-left: 0;
+    border-top: 3px solid var(--ink);
+    border-left: 0;
+  }
+
+  .sidebar-callout .figure {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
 
 .prompt-diff {
@@ -1348,13 +1414,13 @@ pre code {
 
 .prompt-panel {
   background: color-mix(in srgb, var(--surface) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  border-top: 3px solid color-mix(in srgb, var(--ink) 28%, transparent);
   padding: 1.5rem;
 }
 
 .prompt-panel--symbolic {
   background: color-mix(in srgb, #e2f5f1 35%, var(--surface));
-  border-color: color-mix(in srgb, #008c83 35%, transparent);
+  border-top-color: color-mix(in srgb, #008c83 45%, transparent);
 }
 
 .prompt-panel-head {
@@ -1371,23 +1437,21 @@ pre code {
 }
 
 .token-badge {
-  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
-  font-size: 0.75rem;
-  padding: 0.2rem 0.5rem;
-  border: 1px solid currentColor;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.28rem 0.58rem;
+  border: 0;
   border-radius: 2px;
 }
 
 .token-badge--warn {
   color: #8c1e28;
-  border-color: #8c1e28;
-  background: rgba(140, 30, 40, 0.08);
+  background: rgba(140, 30, 40, 0.13);
 }
 
 .token-badge--good {
-  color: #00736c;
-  border-color: #00736c;
-  background: rgba(0, 115, 108, 0.08);
+  color: #00635d;
+  background: rgba(0, 115, 108, 0.13);
 }
 
 .sidebar-callout {
@@ -1408,7 +1472,6 @@ pre code {
   font-size: 0.92rem;
   color: var(--muted);
   margin-top: 1.25rem;
-  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
 }
 
 .byline a {
@@ -1439,5 +1502,42 @@ pre code {
     opacity: 1;
     clip-path: none;
     transform: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .sidebar-callout {
+    padding-right: 0;
+    padding-left: 0;
+    border-top: 3px solid var(--ink);
+    border-left: 0;
+  }
+
+  .sidebar-callout .figure {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .footer-credit {
+    width: calc(100vw - 3rem);
+    min-width: 0;
+    max-width: calc(100vw - 3rem);
+    padding-right: 0;
+    padding-left: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .footer-thesis {
+    width: calc(100vw - 3rem);
+    min-width: 0;
+    max-width: calc(100vw - 3rem);
+    overflow-wrap: anywhere;
+  }
+
+  .footer-mark {
+    max-width: calc(100vw - 3rem);
+    font-size: 15vw;
+    white-space: normal;
   }
 }

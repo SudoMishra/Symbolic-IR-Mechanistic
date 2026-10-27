@@ -1,0 +1,6 @@
+# Historical Stage 6 environment recorded in MODEL_PROVENANCE.md.
+# Install the torch CUDA wheel from the index appropriate to the host platform.
+torch==2.14.1+cu130
+transformers==4.57.6
+accelerate==1.15.0
+safetensors==0.8.0
