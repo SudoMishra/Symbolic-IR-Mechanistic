@@ -227,7 +227,7 @@ def evidence_funnel():
 
     stages = [
         ("1. Behavioral", "11,920", "model generations", "Citation MVE (2,000)\nMuSiQue primary (7,500)\nHeld-out MuSiQue (2,400)\nSmoke gate (20)", BLUE, LIGHT_BLUE),
-        ("2. Stress tests", "5,700", "model generations", "Reasoning-budget 2-pass\n(5,600 calls / 2,800 pairs)\nLongProc traces (100)", ORANGE, LIGHT_ORANGE),
+        ("2. Stress tests", "5,725", "model generations", "Reasoning-budget 2-pass\n(5,600 records / 11,200 calls)\nLongProc traces (125)", ORANGE, LIGHT_ORANGE),
         ("3. Mechanisms", "960 + 1,122", "passes & interventions", "BF16 CKA geometry (960)\nSource-ID swaps (66)\nResidual patches (1,056)", PURPLE, LIGHT_PURPLE),
         ("4. Entities", "960", "model generations", "Synthetic account resolution\nacross 6 model families\nRaw vs masked vs typed", TEAL, LIGHT_TEAL),
         ("5. Systems", "500 + 5,000", "software test cases", "Valid round trips (500)\nAdversarial tests (5,000)\nCross-request replays (499)", GREEN, "#e8f5ed"),
@@ -254,7 +254,7 @@ def evidence_funnel():
 
     s.rect(44, 515, 1312, 115, fill="#ffffff", stroke=GRID, radius=14)
     s.text(68, 552, "Accounting contract:", "label", fill=INK, weight="700")
-    s.text(235, 552, "18,020+ behavioral records representing 23,620+ model calls (Stage 5 uses two sequential model calls per record).", "body")
+    s.text(235, 552, "18,605 primary behavioral records (24,205 calls) + 2,000 validation generations: 20,605 total records / 26,205 model calls.", "body")
     s.text(68, 592, "Scientific distinction:", "label", fill=INK, weight="700")
     s.text(235, 592, "Forward passes, causal interventions, and deterministic software test cases are reported in native units—not combined into one inflated number.", "subtitle")
 
@@ -296,9 +296,9 @@ def evidence_funnel():
         44,
         1412,
         [
-            "18,020+ behavioral records represent",
-            "23,620+ model calls. Stage 5 uses",
-            "two sequential model calls per record.",
+            "18,605 primary records (24,205 calls)",
+            "+ 2,000 validation generations =",
+            "20,605 total records / 26,205 calls.",
         ],
         "body",
         21,

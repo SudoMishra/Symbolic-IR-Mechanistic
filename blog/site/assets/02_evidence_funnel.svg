@@ -30,13 +30,13 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <circle cx="340" cy="159" r="16" fill="#e97824" stroke="none" stroke-width="1"/>
 <text x="340" y="164" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">2</text>
 <text x="364" y="164" class="label" text-anchor="start" fill="#e97824" font-weight="700">2. Stress tests</text>
-<text x="336" y="225" class="title" text-anchor="start" fill="#172033">5,700</text>
+<text x="336" y="225" class="title" text-anchor="start" fill="#172033">5,725</text>
 <text x="336" y="251" class="label" text-anchor="start" fill="#5f6b7a">model generations</text>
 <line x1="332" y1="273" x2="542" y2="273" stroke="#e97824" stroke-width="1" stroke-dasharray="3,3"/>
 <text x="336" y="310" class="body" text-anchor="start">
 <tspan x="336" dy="0">Reasoning-budget 2-pass</tspan>
-<tspan x="336" dy="26">(5,600 calls / 2,800 pairs)</tspan>
-<tspan x="336" dy="26">LongProc traces (100)</tspan>
+<tspan x="336" dy="26">(5,600 records / 11,200 calls)</tspan>
+<tspan x="336" dy="26">LongProc traces (125)</tspan>
 </text>
 <line x1="564" y1="310" x2="578" y2="310" stroke="#5f6b7a" stroke-width="2"/>
 <line x1="578" y1="310" x2="570.529518182883" y2="315.01915345652276" stroke="#5f6b7a" stroke-width="2"/>
@@ -85,7 +85,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 </text>
 <rect x="44" y="515" width="1312" height="115" rx="14" fill="#ffffff" stroke="#d8dee8" stroke-width="1"/>
 <text x="68" y="552" class="label" text-anchor="start" fill="#172033" font-weight="700">Accounting contract:</text>
-<text x="235" y="552" class="body" text-anchor="start">18,020+ behavioral records representing 23,620+ model calls (Stage 5 uses two sequential model calls per record).</text>
+<text x="235" y="552" class="body" text-anchor="start">18,605 primary behavioral records (24,205 calls) + 2,000 validation generations: 20,605 total records / 26,205 model calls.</text>
 <text x="68" y="592" class="label" text-anchor="start" fill="#172033" font-weight="700">Scientific distinction:</text>
 <text x="235" y="592" class="subtitle" text-anchor="start">Forward passes, causal interventions, and deterministic software test cases are reported in native units—not combined into one inflated number.</text>
 </svg>

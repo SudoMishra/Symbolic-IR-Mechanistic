@@ -1,6 +1,6 @@
 ---
 title: "The Hidden Cost of UUIDs: Building a Symbolic IR for LLM Systems"
-description: "What 18,020 behavioral records, 23,620 model calls, 960 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial tests taught us about UUIDs in LLM interfaces."
+description: "What 18,605 primary behavioral records, 2,000 post-hoc validation generations, 26,205 model calls, 960 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial tests taught us about UUIDs in LLM interfaces."
 author: "Sudo Mishra (Symbolic IR Project)"
 date: "October 2026"
 repository: "https://github.com/SudoMishra/Symbolic-IR-Mechanistic"
@@ -16,7 +16,7 @@ Modern LLM applications routinely place machine-generated identifiers directly i
 
 That assumption is expensive and fundamentally flawed. An autoregressive language model is not a relational database index. It is a probabilistic token predictor with finite attention capacity and tokenization constraints. Passing high-entropy, opaque strings forces the model to encode, track, and reproduce meaningless characters—often degrading attribution accuracy and inflating latency.
 
-This engineering report synthesizes a comprehensive empirical investigation: **18,020 behavioral records / 23,620 model calls** (the difference comes from 5,600 two-pass records), **960 paired hidden-state passes**, **1,056 causal interventions**, and **5,000 adversarial tests** of a deterministic symbolic boundary.
+This engineering report synthesizes a comprehensive empirical investigation: **18,605 primary behavioral records, plus 2,000 post-hoc validation generations: 20,605 total records and 26,205 model calls** (with 5,600 two-pass generations accounting for 11,200 calls in Stage 5), **960 paired hidden-state passes**, **1,056 causal interventions**, and **5,000 adversarial tests** of a deterministic symbolic boundary.
 
 The central thesis is not the naive claim that “short aliases make models smarter.” The defensible, systems-grounded rule is:
 
@@ -86,7 +86,7 @@ To measure representation effects without confounding them with content difficul
   - Google Gemma 4 E2B Instruct (Q4_0)
   - Google Gemma 4 E4B Instruct (Q4_0)
   - Cohere Tiny Aya Global (Q4_K_M)
-- **Scale:** The dataset comprises **18,020 behavioral records / 23,620 model calls** across behavioral stages (including an initial 20-record end-to-end smoke test), 960 BF16 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial test cases.
+- **Scale:** The dataset comprises **18,605 primary behavioral records, plus 2,000 post-hoc validation generations: 20,605 total records and 26,205 model calls** across behavioral stages (including an initial 20-record end-to-end smoke test, with 5,600 two-pass generations accounting for 11,200 calls in Stage 5), 960 BF16 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial test cases.
 
 ![Figure 2 — Experimental evidence program across five testing regimes: Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate.](assets/02_evidence_funnel.svg)
 
@@ -162,7 +162,13 @@ The results illustrate the core phenomenon:
 
 Across all four initial models at 20 sources, UUIDs imposed a **70% to 94% input token tax** and a **77% to 129% latency overhead**.
 
-When evaluating LiquidAI's architecture, model capacity and decoding controls interact directly with identifier format. In our initial LFM 1.2B benchmark, uninhibited internal generation loops caused 100% of 5-source UUID runs to hit the generation cap with repetitive reasoning fragments, dragging relaxed binding recall at 20 sources down to 33%. When evaluated on the larger 2.6B checkpoint (LFM2.5-2.6B) with thinking suppressed via assistant prefill, this failure mode vanishes: at 5 sources, LFM 2.6B achieved **100% relaxed binding recall** (97% strict citation) under UUIDs in 37.6 tokens with zero truncation; at 20 sources, UUID binding recall reached **60.0%** (+27.0 pp over the 1.2B baseline), demonstrating that the catastrophic looping failure was a capacity and prompt-control artifact rather than an inherent architectural limitation of the non-transformer architecture.
+When evaluating LiquidAI's architecture, chat-template decoding controls interact directly with generation budgets and identifier formats. In our initial tests, LFM models appeared severely impaired under strict output caps. To rigorously isolate the mechanism, we ran a **1,600-generation factorial ablation** on LFM 2.5-2.6B across the 100 paired Stage 1 examples at 5 and 20 sources, crossing decoding template (*default reasoning* vs *prefilled closed-thinking* `<think>\n</think>\n`) with output budget (*80* vs *512* tokens):
+
+- **Default Chat (80 Tokens):** Under default decoding with an 80-token cap, 100% of generations truncated inside `<think>...</think>` before producing an answer or citation, resulting in artificial 0% accuracy and recall scores across all conditions.
+- **Closed Thinking Prefill:** Suppressing the deliberation phase via `<think>\n</think>\n` prefill eliminated truncation entirely (0.0% across all cells). Crucially, generations at 80 and 512 tokens were byte-identical. Under closed thinking, LFM 2.6B proved highly capable: at 5 sources, UUID relaxed binding recall reached **100%** (97% strict citation, 99% content accuracy) in 37.6 mean output tokens; at 20 sources, UUID relaxed recall reached **60.0%** (57% strict citation, 85% content accuracy).
+- **Default Chat with Expanded Budget (512 Tokens):** Allowing up to 512 tokens permitted answers to emerge under structured labels (96% content accuracy, 99% recall at 5 sources), but high-entropy UUIDs triggered extensive deliberation loops: UUID generations truncated 82%–84% of the time, collapsing 20-source UUID recall to 15.0%.
+
+This controlled factorial ablation demonstrates that the anomalous Stage 1 result on LFM 2.6B was primarily a **decoding and template interaction**—where default reasoning tags exhausted the token budget—rather than evidence of an inherent architectural inability to process or bind identifiers.
 
 The binding result was not universal. Gemma E2B reversed the Qwen/LFM pattern in this synthetic baseline: UUID binding exceeded structured-label binding by **37 points at five sources** and **25 points at twenty sources**, with both paired intervals excluding zero. Gemma E4B was at ceiling for both formats. That counter-result is why the later held-out MuSiQue study reports each model and source-count cell separately rather than claiming a universal accuracy advantage.
 
@@ -202,7 +208,12 @@ To ensure this was not an artifact of example selection, we drew a **completely 
 ### The Critical Findings from Held-Out MuSiQue:
 1. **Directional Consistency:** In **12 out of 12 cells**, the estimated point effect of UUIDs on relaxed source binding was negative. In 7 of 12 cells, the 95% confidence interval strictly excluded zero.
 2. **Answer F1 Remains Flat:** As in the synthetic task, Answer F1 differences between UUID and numeric conditions were small and centered near zero (all 95% intervals spanned zero).
-3. **The Buried Engineering Insight (Dual Labels, Stage 4):**
+3. **Post-Hoc Output Budget Sensitivity (LFM 2.6B):** Because LFM 2.6B exhibited high truncation under UUIDs at the default 256-token limit (50% at 15 sources; 51% at 20 sources), we evaluated whether the observed -10.4 pp penalty was an artifact of output starvation by doubling the generation budget to 512 tokens across the 100 held-out examples (400 generations):
+   - At 15 sources, doubling the budget reduced UUID truncation to 37%, yet the UUID binding penalty remained essentially identical: **-10.58 pp** (95% CI: `[-16.83, -4.50]`, compared to -10.42 pp, CI: `[-16.25, -4.50]` at 256 tokens).
+   - At 20 sources, UUID truncation fell to 39%, with a binding penalty of **-4.00 pp** (95% CI: `[-10.00, +1.83]`, compared to -4.67 pp at 256 tokens).
+   - Answer F1 differences continued to cross zero across both budgets ($-4.50\text{ pp}$, 95% CI: `[-13.16, +4.29]` at 512 tokens).
+   - *Interpretation:* The 15-source UUID binding penalty was robust to doubling the output budget and reducing truncation; its estimated magnitude remained approximately -10.5 percentage points. However, because residual truncation remained at 37%–39% under UUIDs even at 512 tokens, truncation cannot be definitively ruled out as a contributing factor without even larger budgets.
+4. **The Buried Engineering Insight (Dual Labels, Stage 4):**
    > **Stage 4 Motivation:** When confronted with UUID retrieval taxes, engineers frequently attempt a common workaround: keeping the raw UUID in context while appending a compact alias next to it (e.g., `Source 8ce71... [S1]`). We tested whether this "dual label" strategy successfully provides the benefit of aliases, or simply imposes the dual cognitive burden of both representations.
    >
    > **Data Used:** The 100-question multi-hop MuSiQue Stage 2 cohort evaluated at 20 retrieval passages per question (2,000 candidate passages), comparing three prompt conditions on identical evidence: raw UUID-only (`Source <UUID>`), dual-label (`Source <UUID> [S1]`), and alias-only (`Source [S1]`).
@@ -350,11 +361,11 @@ Does canonicalization help outside citation formatting? In Stage 8, we evaluated
 
 ![Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model: Panel A: Account-resolution accuracy (%) by model and representation; Panel B: Outputs containing raw PII (%) across 960 model generations.](assets/08_stage8_entities.svg)
 
-> **Figure 8 — Typed entity canonicalization.** Each model resolved synthetic customer accounts from prompts containing the same records under four representations. “Raw” includes literal names, emails, and account numbers. “Random” replaces them with arbitrary masks. “Untyped” uses consistent but semantically neutral handles, while “typed” uses handles such as `<ACCOUNT_1>` and `<EMAIL_2>`. Typed handles improved Qwen by 17.5 percentage points relative to untyped handles and helped Tiny Aya relative to random masking. Gemma was near ceiling across conditions, while LFM 1.2B performed poorly whenever values were masked. Crucially, scaling LiquidAI to LFM 2.6B fully recovered performance: typed handles reached 97.5% mean accuracy (+70.0 pp over untyped). Separately, every masked representation reduced raw-value output exposure to zero in this dataset. Thus canonicalization reliably controlled literal exposure, but its task-accuracy effect depended on model capacity and architecture.
+> **Figure 8 — Typed entity canonicalization.** Each model resolved synthetic customer accounts from prompts containing the same records under four representations. “Raw” includes literal names, emails, and account numbers. “Random” replaces them with arbitrary masks. “Untyped” uses consistent but semantically neutral handles, while “typed” uses handles such as `<ACCOUNT_1>` and `<EMAIL_2>`. Typed handles improved Qwen by 17.5 percentage points relative to untyped handles and helped Tiny Aya relative to random masking. Gemma was near ceiling across conditions, while LFM 1.2B performed poorly whenever values were masked. Crucially, evaluating the larger LFM 2.6B checkpoint with closed thinking fully recovered performance: typed handles reached 97.5% mean accuracy (+70.0 pp over untyped). Separately, every masked representation reduced raw-value output exposure to zero in this dataset. Thus canonicalization reliably controlled literal exposure, but its task-accuracy effect depended on model scale and configuration.
 
 - **Qwen2.5-1.5B** achieved **97.5% task accuracy** with typed handles versus **80.0%** with untyped handles—a **+17.5 percentage-point gain at identical prompt lengths**.
 - **Tiny Aya** gained **+15.0 percentage points** with typed handles over arbitrary masking (though typed vs. untyped remained parity at 97.5%).
-- **LFM 1.2B vs. LFM 2.6B (Model Capacity Reversal):** While LFM 1.2B collapsed under masking (0–7.5% accuracy) because it defaulted to customer name subjects, **LFM 2.6B achieved 100.0% accuracy on 15 sources and 95.0% on 20 sources under typed handles (`<ACCOUNT_1>`)**. Comparing paired representations on LFM 2.6B, typed handles outperformed untyped handles by **+70.0 percentage points** (95% CI: `[+52.5, +85.0]`, $p = 5.77 \times 10^{-8}$) and exceeded raw unmasked accuracy by **+5.0 pp** (97.5% vs. 92.5%), demonstrating that semantic type hints allow capable models to track entities reliably while eliminating 100% of raw PII output exposure.
+- **LFM 1.2B vs. LFM 2.6B (Checkpoint-Scale / Configuration Reversal):** While LFM 1.2B collapsed under masking (0–7.5% accuracy) because it defaulted to customer name subjects, **LFM 2.6B achieved 100.0% accuracy on 15 sources and 95.0% on 20 sources under typed handles (`<ACCOUNT_1>`)** under closed-thinking prefill. Comparing paired representations on LFM 2.6B, typed handles outperformed untyped handles by **+70.0 percentage points** (95% CI: `[+52.5, +85.0]`, $p = 5.77 \times 10^{-8}$) and exceeded raw unmasked accuracy by **+5.0 pp** (97.5% vs. 92.5%), demonstrating that semantic type hints allow models with suitable scale and decoding configuration to track entities reliably while eliminating 100% of raw PII output exposure.
 - **Gemma E2B/E4B** were ceiling-limited (~95%+ across all conditions).
 - **Exposure Reduction:** Masked conditions completely eliminated raw names, emails, and account numbers from outputs (0% vs. 85–100% in raw prompts).
 

@@ -21,8 +21,8 @@ Post-hoc sensitivity analysis testing whether the observed $-10.4\text{ pp}$ UUI
 | | **512 tokens** | **23.0%** | **39.0%** | 21.4% | 17.4% | **$-4.00\text{ pp}$** | $[-10.00, +1.83]\text{ pp}$ |
 
 ### Official Answer F1
-* **15 sources:** $\Delta = -7.39\text{ pp}$ (95% CI: $[-15.35, +0.57]$) at 256 tokens $\rightarrow$ $\Delta = -4.55\text{ pp}$ (95% CI: $[-13.15, +4.02]$) at 512 tokens.
-* **20 sources:** $\Delta = -0.18\text{ pp}$ (95% CI: $[-5.25, +4.71]$) at 256 tokens $\rightarrow$ $\Delta = -2.43\text{ pp}$ (95% CI: $[-9.02, +3.61]$) at 512 tokens.
+* **15 sources:** $\Delta = -7.50\text{ pp}$ (95% CI: $[-15.46, +0.55]$) at 256 tokens $\rightarrow$ $\Delta = -4.50\text{ pp}$ (95% CI: $[-13.16, +4.29]$) at 512 tokens.
+* **20 sources:** $\Delta = -0.06\text{ pp}$ (95% CI: $[-5.28, +4.86]$) at 256 tokens $\rightarrow$ $\Delta = -2.38\text{ pp}$ (95% CI: $[-9.08, +3.69]$) at 512 tokens.
 
 ## Conclusions
 1. The 15-source UUID binding penalty was robust to doubling the output budget and reducing truncation; its estimated magnitude remained approximately $-10.5\text{ percentage points}$.

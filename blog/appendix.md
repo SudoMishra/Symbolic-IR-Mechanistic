@@ -11,23 +11,24 @@ guidance.
 | Stage 0 | 20 records | Oracle smoke backend | Does the complete pipeline run, resume, and score? | Yes; infrastructure gate passed. |
 | Stage 1 and controls | 2,000 generations | Qwen, LFM, Gemma E2B/E4B | Do compact identifiers change cost and citation binding? | UUID cost is large; binding direction initially varies by model. |
 | MuSiQue Stages 2–4 | 7,500 generations | Qwen, LFM, Gemma E2B/E4B, Tiny Aya | Does the effect survive multi-hop retrieval and controls? | UUID binding is directionally worse in every primary cell; answer effects are smaller. |
-| Held-out MuSiQue | 2,000 generations | Same five | Does the primary binding result replicate? | UUID binding is lower in 10/10 cells; 6/10 intervals exclude zero. |
-| LongProc | 100 generations | Qwen, LFM, Gemma E2B/E4B | Does long generation imply procedural correctness? | No; endpoint, trace, completion, and length diverge sharply. |
+| Held-out MuSiQue | 2,400 generations | Six models | Does the primary binding result replicate? | All 12 cell estimates favor numeric; 7/12 intervals exclude zero. |
+| LongProc | 125 generations | Five models | Does long generation imply procedural correctness? | No; endpoint, trace, completion, and length diverge sharply. |
 | Stage 5 pilot | 2,400 two-pass generations | Five models | Does identifier cost interact monotonically with scratchpad budget? | Pilot effects were heterogeneous and required confirmation. |
 | Stage 5 confirmation | 3,200 two-pass generations | Qwen, Gemma E2B, Tiny Aya retained cells | Does the interaction replicate? | No broad monotonic interaction; output cost persists. |
 | Stage 6 | 960 paired forward passes | Qwen, LFM, Gemma E2B/E4B BF16 | Do different surfaces converge internally? | Fact geometry is stable; labels converge; citation states specialize late. |
 | Stage 7 | 66 swaps and 1,056 interventions | Qwen, LFM, Gemma E2B/E4B | Is the source-to-ID relationship causal and transferable? | Yes, but causal direction and timing are architecture-dependent. |
-| Stage 8 | 800 generations | Five models | Do typed handles help beyond citation formatting? | Significant controlled gains appear in Qwen and Tiny Aya; not universal. |
+| Stage 8 | 960 generations | Six models | Do typed handles help beyond citation formatting? | Significant controlled gains appear in Qwen, Tiny Aya, and LFM 2.6B; not universal. |
 | Stage 9 | 500 valid requests and 5,000 adversarial test cases | Deterministic reference system | Can a typed IR enforce representation integrity? | Yes for structural classes; not for a wrong but registered handle. |
+| Stage 1 factorial ablation | 1,600 generations | LFM 2.6B | Is Stage 1 failure decoding or capacity? | Truncation was a decoding artifact; closed-thinking prefill eliminates budget sensitivity (100% 5-src, 60% 20-src UUID recall). |
+| MuSiQue budget sensitivity | 400 generations | LFM 2.6B | Does doubling budget to 512 tokens eliminate 15-source UUID penalty? | No; penalty remains -10.58 pp [-16.83, -4.50]; truncation drops to 37%. |
 
-The behavioral-record total is 18,020 (18,000 experimental records across
-Stages 1–8 plus the 20-record Stage 0 pipeline gate), representing 23,620 model
-calls. Each Stage 5 record
-contains two sequential model calls. Stage 5 therefore comprises 5,600 two-pass
-generations and 11,200 model calls: 2,400 pilot generations (4,800 calls) plus
-3,200 confirmatory generations (6,400 calls). Forward passes, causal
-interventions, valid systems requests, and adversarial test cases are reported
-separately.
+The evidence base comprises 18,605 primary behavioral records (24,205 primary model
+calls) plus 2,000 post-hoc validation generations, totaling 20,605 records and
+26,205 model calls across Stages 0–8. Each Stage 5 record contains two sequential
+model calls. Stage 5 therefore comprises 5,600 two-pass generations and 11,200 model calls:
+2,400 pilot generations (4,800 calls) plus 3,200 confirmatory generations (6,400 calls).
+Forward passes, causal interventions, valid systems requests, and adversarial test cases
+are reported separately.
 
 ## Metric definitions
 
@@ -166,6 +167,7 @@ Effects are UUID minus numeric binding recall in percentage points.
 |---|---:|---:|
 | Tiny Aya | -11.4 [-17.1, -6.1] | -14.8 [-20.2, -9.7] |
 | LFM 1.2B | -7.5 [-13.4, -1.6] | -6.1 [-12.1, -0.5] |
+| LFM 2.6B | -10.4 [-16.3, -4.5] | -4.7 [-10.2, +0.8] |
 | Qwen 1.5B | -6.8 [-12.3, -1.2] | -0.8 [-5.1, +3.2] |
 | Gemma E2B | -3.1 [-8.3, +2.4] | -4.8 [-10.1, +0.1] |
 | Gemma E4B | -5.8 [-10.9, -0.9] | -3.4 [-9.1, +2.3] |
@@ -175,7 +177,8 @@ Effects are UUID minus numeric binding recall in percentage points.
 | Model | Exact trace | Mean correct prefix | Final answer | Full trace emitted | Mean output |
 |---|---:|---:|---:|---:|---:|
 | Qwen | 0% | 1.2% | 4% | 96% | 2,027 |
-| LFM | 0% | 0.9% | 28% | 0% | 434 |
+| LFM 1.2B | 0% | 0.9% | 28% | 0% | 434 |
+| LFM 2.6B | 0% | 0.2% | 4% | 16% | 1,086 |
 | Gemma E2B | 0% | 9.4% | 16% | 80% | 1,987 |
 | Gemma E4B | 8% | 38.0% | 76% | 96% | 1,996 |
 
@@ -206,14 +209,63 @@ Gemma results are pilot-level because of GPU-memory-constrained cohort sizes.
 
 | Model | Raw | Random masked | Untyped | Typed | Typed - untyped |
 |---|---:|---:|---:|---:|---:|
-| Qwen | 90.0% | 85.0% | 80.0% | 97.5% | +17.5 pp [7.5, 30.0] |
-| LFM | 27.5% | 2.5% | 0.0% | 7.5% | +7.5 pp [0.0, 17.5] |
+| Qwen 1.5B | 90.0% | 85.0% | 80.0% | 97.5% | +17.5 pp [7.5, 30.0] |
+| LFM 1.2B | 27.5% | 2.5% | 0.0% | 7.5% | +7.5 pp [0.0, 17.5] |
+| LFM 2.6B | 92.5% | 52.5% | 27.5% | 97.5% | +70.0 pp [52.5, 85.0] |
 | Gemma E2B | 100% | 100% | 92.5% | 100% | +7.5 pp [0.0, 17.5] |
 | Gemma E4B | 100% | 100% | 92.5% | 100% | +7.5 pp [0.0, 17.5] |
 | Tiny Aya | 87.5% | 82.5% | 97.5% | 97.5% | 0.0 pp |
 
 Raw-value exposure was 85–100% in raw-condition outputs and 0% in every masked
 condition. This describes controlled prompt exposure, not anonymity.
+
+### Post-hoc validation studies
+
+#### Stage 1 factorial ablation (LFM 2.5-2.6B)
+
+A 1,600-generation factorial ablation crossing chat template / thinking mode
+(`default` reasoning vs `prefill` closed thinking `<think>\n</think>\n`) with
+generation output budget (80 vs 512 tokens) across 100 paired Stage 1 items at
+5 and 20 sources:
+
+| Sources | Condition | Arm | Content Acc | Strict Ans Acc | Relaxed Recall | Strict Cit Syntax | Truncation Rate | Mean Output Tokens |
+|---:|---|---|---:|---:|---:|---:|---:|---:|
+| 5 | Structured | `default_80` | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 80.0 |
+| 5 | Structured | `default_512` | 96.0% | 96.0% | 99.0% | 19.0% | 6.0% | 388.2 |
+| 5 | Structured | `prefill_80` | 97.0% | 92.0% | 98.0% | 66.0% | 0.0% | 18.0 |
+| 5 | Structured | `prefill_512` | 97.0% | 92.0% | 98.0% | 66.0% | 0.0% | 18.0 |
+| 5 | UUID | `default_80` | 1.0% | 0.0% | 0.0% | 0.0% | 100.0% | 80.0 |
+| 5 | UUID | `default_512` | 96.0% | 96.0% | 98.0% | 59.0% | 82.0% | 505.6 |
+| 5 | UUID | `prefill_80` | 99.0% | 77.0% | 100.0% | 97.0% | 0.0% | 37.6 |
+| 5 | UUID | `prefill_512` | 99.0% | 77.0% | 100.0% | 97.0% | 0.0% | 37.6 |
+| 20 | Structured | `default_80` | 32.0% | 0.0% | 0.0% | 0.0% | 100.0% | 80.0 |
+| 20 | Structured | `default_512` | 82.0% | 61.0% | 83.0% | 23.0% | 35.0% | 400.7 |
+| 20 | Structured | `prefill_80` | 69.0% | 59.0% | 74.0% | 43.0% | 0.0% | 20.6 |
+| 20 | Structured | `prefill_512` | 69.0% | 59.0% | 74.0% | 43.0% | 0.0% | 20.6 |
+| 20 | UUID | `default_80` | 2.0% | 0.0% | 0.0% | 0.0% | 100.0% | 80.0 |
+| 20 | UUID | `default_512` | 12.0% | 11.0% | 15.0% | 9.0% | 84.0% | 494.0 |
+| 20 | UUID | `prefill_80` | 85.0% | 85.0% | 60.0% | 57.0% | 0.0% | 35.0 |
+| 20 | UUID | `prefill_512` | 85.0% | 85.0% | 60.0% | 57.0% | 0.0% | 35.0 |
+
+Outputs under `prefill_80` and `prefill_512` were byte-identical across all cells.
+
+#### MuSiQue budget sensitivity (LFM 2.5-2.6B)
+
+A 400-generation post-hoc study evaluating whether doubling the output token cap
+from 256 to 512 tokens resolves the 15-source UUID binding penalty on the 100
+held-out MuSiQue examples:
+
+| Sources | Budget | Numeric Truncation | UUID Truncation | Numeric Recall | UUID Recall | Recall Delta (UUID - Num) | 95% Bootstrap CI |
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 15 | 256 tokens | 33.0% | 50.0% | 24.2% | 13.8% | **-10.42 pp** | [-16.25, -4.50] pp |
+| 15 | 512 tokens | 25.0% | 37.0% | 26.3% | 15.8% | **-10.58 pp** | [-16.83, -4.50] pp |
+| 20 | 256 tokens | 31.0% | 51.0% | 19.8% | 15.2% | **-4.67 pp** | [-10.08, +0.83] pp |
+| 20 | 512 tokens | 23.0% | 39.0% | 21.4% | 17.4% | **-4.00 pp** | [-10.00, +1.83] pp |
+
+Answer F1 differences remained centered near zero (-7.50 pp [-15.46, +0.55] at 256
+tokens vs -4.50 pp [-13.16, +4.29] at 512 tokens for 15 sources). The 15-source
+binding penalty was robust to doubling the budget. Residual truncation remained at
+37%–39% under UUIDs.
 
 ## Reproduction
 

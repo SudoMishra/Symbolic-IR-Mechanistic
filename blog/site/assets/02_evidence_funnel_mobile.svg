@@ -33,13 +33,13 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <circle cx="52" cy="417" r="16" fill="#e97824" stroke="none" stroke-width="1"/>
 <text x="52" y="422" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">2</text>
 <text x="76" y="422" class="label" text-anchor="start" fill="#e97824" font-weight="700">Stress tests</text>
-<text x="48" y="470" class="title" text-anchor="start" fill="#172033">5,700</text>
+<text x="48" y="470" class="title" text-anchor="start" fill="#172033">5,725</text>
 <text x="48" y="495" class="label" text-anchor="start" fill="#5f6b7a">model generations</text>
 <line x1="44" y1="513" x2="396" y2="513" stroke="#e97824" stroke-width="1" stroke-dasharray="3,3"/>
 <text x="48" y="540" class="body" text-anchor="start">
 <tspan x="48" dy="0">Reasoning-budget 2-pass</tspan>
-<tspan x="48" dy="20">(5,600 calls / 2,800 pairs)</tspan>
-<tspan x="48" dy="20">LongProc traces (100)</tspan>
+<tspan x="48" dy="20">(5,600 records / 11,200 calls)</tspan>
+<tspan x="48" dy="20">LongProc traces (125)</tspan>
 </text>
 <line x1="220" y1="607" x2="220" y2="623" stroke="#5f6b7a" stroke-width="2"/>
 <line x1="220" y1="623" x2="214.98084654347724" y2="615.529518182883" stroke="#5f6b7a" stroke-width="2"/>
@@ -89,9 +89,9 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <rect x="24" y="1355" width="392" height="205" rx="14" fill="#ffffff" stroke="#d8dee8" stroke-width="1"/>
 <text x="44" y="1386" class="label" text-anchor="start" fill="#172033" font-weight="700">Accounting contract</text>
 <text x="44" y="1412" class="body" text-anchor="start">
-<tspan x="44" dy="0">18,020+ behavioral records represent</tspan>
-<tspan x="44" dy="21">23,620+ model calls. Stage 5 uses</tspan>
-<tspan x="44" dy="21">two sequential model calls per record.</tspan>
+<tspan x="44" dy="0">18,605 primary records (24,205 calls)</tspan>
+<tspan x="44" dy="21">+ 2,000 validation generations =</tspan>
+<tspan x="44" dy="21">20,605 total records / 26,205 calls.</tspan>
 </text>
 <text x="44" y="1490" class="label" text-anchor="start" fill="#172033" font-weight="700">Scientific distinction</text>
 <text x="44" y="1516" class="body" text-anchor="start">
