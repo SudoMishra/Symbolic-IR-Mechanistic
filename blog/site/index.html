@@ -117,93 +117,97 @@ Return the account and supporting source handle.</code></pre>
             <li><strong>Calibrated model scale:</strong> All behavioral runs used temperature 0 decoding against pinned local GGUF models across five small/edge model families (1.2B to 4B parameters): Qwen2.5-1.5B, LiquidAI LFM2.5-1.2B, Gemma 4 E2B, Gemma 4 E4B, and Tiny Aya Global.</li>
             <li><strong>Native tokenizer accounting:</strong> Input and output lengths were logged using each model's native tokenizer, rather than character approximations.</li>
           </ul>
+        </div>
 
-          <figure class="figure figure--wide reveal-image" data-ui>
-            <img src="assets/02_evidence_funnel.svg" alt="Figure 2 — Experimental evidence program across five testing regimes: Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate." width="1300" height="600" loading="lazy">
-            <figcaption>
-              <p><strong>Figure 2 &mdash; Experimental evidence program across five testing regimes.</strong> Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate.</p>
-              <p class="figure-companion">This figure summarizes the evidence program and keeps different kinds of observations separate. The behavioral stages measure what models generate under controlled identifier formats. The stress tests ask whether additional scratchpad budget or verbose reasoning repairs the problem. The mechanistic stages inspect internal representations and intervene on them, without counting those forward passes as behavioral generations. The entity-resolution stage tests whether the idea generalizes beyond citations. Finally, the system stage evaluates deterministic software rather than model intelligence. The stages therefore strengthen different parts of the argument and should not be combined into one inflated sample count.</p>
-            </figcaption>
-          </figure>
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/02_evidence_funnel.svg" alt="Figure 2 — Experimental evidence program across five testing regimes: Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate." width="1400" height="660" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 2 &mdash; Experimental evidence program across five testing regimes.</strong> Keeping behavioral generations, stress tests, mechanistic measurements, generalization, and deterministic software tests separate.</p>
+            <p class="figure-companion">This figure summarizes the evidence program and keeps different kinds of observations separate. The behavioral stages measure what models generate under controlled identifier formats. The stress tests ask whether additional scratchpad budget or verbose reasoning repairs the problem. The mechanistic stages inspect internal representations and intervene on them, without counting those forward passes as behavioral generations. The entity-resolution stage tests whether the idea generalizes beyond citations. Finally, the system stage evaluates deterministic software rather than model intelligence. The stages therefore strengthen different parts of the argument and should not be combined into one inflated sample count.</p>
+          </figcaption>
+        </figure>
 
+        <div class="article-prose">
           <h3>What each experiment is trying to do (the 9 stages)</h3>
           <p>To systematically decouple transport overhead, attribution fidelity, cognitive capacity, and systems security, the investigation progressed through nine distinct stages across five testing regimes:</p>
+        </div>
 
-          <div class="table-wrap">
-            <table class="experiment-table" aria-label="Overview of the 9 experimental stages">
-              <thead>
-                <tr>
-                  <th>Stage / Experiment</th>
-                  <th>Core Question &amp; Motivation</th>
-                  <th>What We Did &amp; Controlled</th>
-                  <th>Data &amp; Benchmark Used</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Stage 1: Controlled Synthetic Baseline</strong></td>
-                  <td><em>Does replacing compact keys with UUIDs degrade attribution even when factual content and prompt order are identical?</em></td>
-                  <td>Tested Qwen and LFM across 5 vs. 20 retrieval passages; measured answer EM, relaxed binding recall, strict syntax citation, tokens, and latency.</td>
-                  <td>Synthetic single-hop citation corpus (<code>src/symbolic_ir/data/citations.py</code>); 100 paired items across 5 &amp; 20 passages (2,500 candidate passages).</td>
-                </tr>
-                <tr>
-                  <td><strong>Stages 2 &amp; 3: MuSiQue Multi-Hop &amp; Held-Out Confirmation</strong></td>
-                  <td><em>Does the UUID binding penalty survive real multi-hop reasoning, or was Stage 1 an artifact of synthetic questions?</em></td>
-                  <td>Evaluated 6 model configurations on 100 balanced multi-hop MuSiQue questions (Stage 2), followed by 2,400 confirmatory generations on a strictly disjoint held-out cohort (Stage 3).</td>
-                  <td>Official MuSiQue dev split (<code>musique_ans_v1.0_dev.jsonl</code>, CC-BY-4.0); 100-item primary cohort + 100-item disjoint held-out cohort (34 2-hop, 33 3-hop, 33 4-hop; 2,000&ndash;3,700 tokens).</td>
-                </tr>
-                <tr>
-                  <td><strong>Stage 4: Dual-Label Ablation</strong></td>
-                  <td><em>Can engineers fix UUID degradation cheaply by keeping raw UUIDs in context and appending short aliases next to them?</em></td>
-                  <td>Tested dual labels (<code>Source &lt;UUID&gt; [S1]</code>) against alias-only and UUID-only conditions across 15 and 20 sources in MuSiQue.</td>
-                  <td>Stage 2 MuSiQue 100-question multi-hop cohort at 20 retrieval passages per question (2,000 candidate passages).</td>
-                </tr>
-                <tr>
-                  <td><strong>Ablation 1: Length vs. Bracket Priors</strong></td>
-                  <td><em>Is attribution loss driven by token length, tokenizer/prior bias around bracket characters, or generation-time literal emission?</em></td>
-                  <td>Compared token-matched <code>[1]</code> vs. <code>[S1]</code> (identical length: 3.55 tokens) and ran a no-reproduction control removing citation emission.</td>
-                  <td>Stage 1 20-source citation corpus (100 items; 2,000 candidate passages) formatted under matched numeric vs. structured labels.</td>
-                </tr>
-                <tr>
-                  <td><strong>Stage 5: Reasoning Budget Scaling</strong></td>
-                  <td><em>If UUIDs consume internal bookkeeping capacity, can giving models a larger scratchpad monotonically erase the penalty?</em></td>
-                  <td>Tested 5,600 two-pass generations (11,200 model calls) across 5 visible scratchpad budgets (64 to 1,024 tokens) to check for monotonic recovery.</td>
-                  <td>Synthetic multi-source reasoning suite (<code>data/reasoning/</code>: arithmetic, temporal, constraint, entity resolution; 2,000&ndash;4,000 tokens); 2,400 pilot + 3,200 confirmatory evaluations.</td>
-                </tr>
-                <tr>
-                  <td><strong>LongProc Reality Check</strong></td>
-                  <td><em>Does verbose output indicate sound multi-step deduction, or can models generate thousands of tokens while losing state?</em></td>
-                  <td>Evaluated 25 belief-state instances with deterministic reference traces, measuring correct prefix, final-answer accuracy, and full trace accuracy.</td>
-                  <td>Official Princeton PLI LongProc ToM benchmark (<code>LongProc/tom_tracking_2k</code>, Apache-2.0); 25 belief-state tracking instances with 1,024&ndash;2,048 token reference traces.</td>
-                </tr>
-                <tr>
-                  <td><strong>Stage 6: Representation Geometry (Linear CKA)</strong></td>
-                  <td><em>Where inside the transformer does attribution break down? Do UUIDs distort semantic fact tokens or only identifier states?</em></td>
-                  <td>Extracted residual-stream states across 960 paired BF16 passes (80 examples) and computed Linear CKA across normalized network depth.</td>
-                  <td>Residual-stream hidden states from 80 paired semantic examples (temporal &amp; entity resolution) across 15 &amp; 20 sources from the calibrated Stage 5 suite.</td>
-                </tr>
-                <tr>
-                  <td><strong>Stage 7: Counterfactual ID Swaps &amp; Patching</strong></td>
-                  <td><em>Does shared geometry imply shared causal circuits, and at which layer does the model lock in its source-binding decision?</em></td>
-                  <td>Executed 66 counterfactual identifier swaps and 1,056 residual activation patches to identify model-specific onset layers.</td>
-                  <td>66 counterfactual prompt examples with single-source ID swaps and 1,056 residual-stream activation patch interventions across donor and recipient passes.</td>
-                </tr>
-                <tr>
-                  <td><strong>Stage 8: Cross-Domain Entity Resolution</strong></td>
-                  <td><em>Does request-scoped canonicalization help tasks outside citations, and does it eliminate sensitive data exposure?</em></td>
-                  <td>Evaluated 960 generations across customer account resolution under Raw, Random, Untyped, and Typed (<code>&lt;ACCOUNT_1&gt;</code>) formats across 6 models.</td>
-                  <td>Synthetic customer support account dataset (<code>src/symbolic_ir/data/pii.py</code>) with realistic PII fields (name, email, phone, address, accounts; 40 examples &times; 15 &amp; 20 records).</td>
-                </tr>
-                <tr>
-                  <td><strong>Stage 9: Systems Boundary &amp; Stress Testing</strong></td>
-                  <td><em>Can deterministic software guarantee representation integrity without fine-tuning, and where is its semantic boundary?</em></td>
-                  <td>Tested <code>ModelIR</code> and <code>MappingVault</code> against 5,000 adversarial payloads across 10 failure classes and 500 semantic bypass cases.</td>
-                  <td>Deterministic banking and database request payloads: 500 valid round trips, 5,000 adversarial payloads across 10 failure classes, and 500 semantic bypass cases.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="table-wrap reveal-up" role="region" aria-label="Overview of the 9 experimental stages" tabindex="0">
+          <table class="experiment-table" aria-label="Overview of the 9 experimental stages">
+            <thead>
+              <tr>
+                <th>Stage / Experiment</th>
+                <th>Core Question &amp; Motivation</th>
+                <th>What We Did &amp; Controlled</th>
+                <th>Data &amp; Benchmark Used</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Stage 1: Controlled Synthetic Baseline</strong></td>
+                <td><em>Does replacing compact keys with UUIDs degrade attribution even when factual content and prompt order are identical?</em></td>
+                <td>Tested Qwen and LFM across 5 vs. 20 retrieval passages; measured answer EM, relaxed binding recall, strict syntax citation, tokens, and latency.</td>
+                <td>Synthetic single-hop citation corpus (<code>src/symbolic_ir/data/citations.py</code>); 100 paired items across 5 &amp; 20 passages (2,500 candidate passages).</td>
+              </tr>
+              <tr>
+                <td><strong>Stages 2 &amp; 3: MuSiQue Multi-Hop &amp; Held-Out Confirmation</strong></td>
+                <td><em>Does the UUID binding penalty survive real multi-hop reasoning, or was Stage 1 an artifact of synthetic questions?</em></td>
+                <td>Evaluated 6 model configurations on 100 balanced multi-hop MuSiQue questions (Stage 2), followed by 2,400 confirmatory generations on a strictly disjoint held-out cohort (Stage 3).</td>
+                <td>Official MuSiQue dev split (<code>musique_ans_v1.0_dev.jsonl</code>, CC-BY-4.0); 100-item primary cohort + 100-item disjoint held-out cohort (34 2-hop, 33 3-hop, 33 4-hop; 2,000&ndash;3,700 tokens).</td>
+              </tr>
+              <tr>
+                <td><strong>Stage 4: Dual-Label Ablation</strong></td>
+                <td><em>Can engineers fix UUID degradation cheaply by keeping raw UUIDs in context and appending short aliases next to them?</em></td>
+                <td>Tested dual labels (<code>Source &lt;UUID&gt; [S1]</code>) against alias-only and UUID-only conditions across 15 and 20 sources in MuSiQue.</td>
+                <td>Stage 2 MuSiQue 100-question multi-hop cohort at 20 retrieval passages per question (2,000 candidate passages).</td>
+              </tr>
+              <tr>
+                <td><strong>Ablation 1: Length vs. Bracket Priors</strong></td>
+                <td><em>Is attribution loss driven by token length, tokenizer/prior bias around bracket characters, or generation-time literal emission?</em></td>
+                <td>Compared token-matched <code>[1]</code> vs. <code>[S1]</code> (identical length: 3.55 tokens) and ran a no-reproduction control removing citation emission.</td>
+                <td>Stage 1 20-source citation corpus (100 items; 2,000 candidate passages) formatted under matched numeric vs. structured labels.</td>
+              </tr>
+              <tr>
+                <td><strong>Stage 5: Reasoning Budget Scaling</strong></td>
+                <td><em>If UUIDs consume internal bookkeeping capacity, can giving models a larger scratchpad monotonically erase the penalty?</em></td>
+                <td>Tested 5,600 two-pass generations (11,200 model calls) across 5 visible scratchpad budgets (64 to 1,024 tokens) to check for monotonic recovery.</td>
+                <td>Synthetic multi-source reasoning suite (<code>data/reasoning/</code>: arithmetic, temporal, constraint, entity resolution; 2,000&ndash;4,000 tokens); 2,400 pilot + 3,200 confirmatory evaluations.</td>
+              </tr>
+              <tr>
+                <td><strong>LongProc Reality Check</strong></td>
+                <td><em>Does verbose output indicate sound multi-step deduction, or can models generate thousands of tokens while losing state?</em></td>
+                <td>Evaluated 25 belief-state instances with deterministic reference traces, measuring correct prefix, final-answer accuracy, and full trace accuracy.</td>
+                <td>Official Princeton PLI LongProc ToM benchmark (<code>LongProc/tom_tracking_2k</code>, Apache-2.0); 25 belief-state tracking instances with 1,024&ndash;2,048 token reference traces.</td>
+              </tr>
+              <tr>
+                <td><strong>Stage 6: Representation Geometry (Linear CKA)</strong></td>
+                <td><em>Where inside the transformer does attribution break down? Do UUIDs distort semantic fact tokens or only identifier states?</em></td>
+                <td>Extracted residual-stream states across 960 paired BF16 passes (80 examples) and computed Linear CKA across normalized network depth.</td>
+                <td>Residual-stream hidden states from 80 paired semantic examples (temporal &amp; entity resolution) across 15 &amp; 20 sources from the calibrated Stage 5 suite.</td>
+              </tr>
+              <tr>
+                <td><strong>Stage 7: Counterfactual ID Swaps &amp; Patching</strong></td>
+                <td><em>Does shared geometry imply shared causal circuits, and at which layer does the model lock in its source-binding decision?</em></td>
+                <td>Executed 66 counterfactual identifier swaps and 1,056 residual activation patches to identify model-specific onset layers.</td>
+                <td>66 counterfactual prompt examples with single-source ID swaps and 1,056 residual-stream activation patch interventions across donor and recipient passes.</td>
+              </tr>
+              <tr>
+                <td><strong>Stage 8: Cross-Domain Entity Resolution</strong></td>
+                <td><em>Does request-scoped canonicalization help tasks outside citations, and does it eliminate sensitive data exposure?</em></td>
+                <td>Evaluated 960 generations across customer account resolution under Raw, Random, Untyped, and Typed (<code>&lt;ACCOUNT_1&gt;</code>) formats across 6 models.</td>
+                <td>Synthetic customer support account dataset (<code>src/symbolic_ir/data/pii.py</code>) with realistic PII fields (name, email, phone, address, accounts; 40 examples &times; 15 &amp; 20 records).</td>
+              </tr>
+              <tr>
+                <td><strong>Stage 9: Systems Boundary &amp; Stress Testing</strong></td>
+                <td><em>Can deterministic software guarantee representation integrity without fine-tuning, and where is its semantic boundary?</em></td>
+                <td>Tested <code>ModelIR</code> and <code>MappingVault</code> against 5,000 adversarial payloads across 10 failure classes and 500 semantic bypass cases.</td>
+                <td>Deterministic banking and database request payloads: 500 valid round trips, 5,000 adversarial payloads across 10 failure classes, and 500 semantic bypass cases.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
+        <div class="article-prose">
           <h3>The citation metric trap</h3>
           <p>Our initial tests revealed an immediate trap in citation evaluation. When we tested Qwen2.5-1.5B on 20-source prompts, its <strong>strict citation accuracy</strong> was <strong>7% for structured labels <code>[S1]</code> versus 34% for UUIDs</strong>.</p>
           <p>On the surface, UUIDs appeared five times better. But inspecting the raw outputs revealed the mismatch: Qwen selected the correct structured source in <strong>66% of cases</strong>, but often emitted <code>S7</code> instead of <code>[S7]</code>. Exact-match evaluation marked those citations wrong. With UUIDs, the model selected the right source less often, but retained the formatting wrapper more reliably when it did.</p>
@@ -510,19 +514,23 @@ assert resolved.answer == "ACCT-GB-4490-9812"</code></pre>
           <p>This is a fundamental principle of software security: deterministic validation can catch malformed or unregistered handles, but detecting a semantically wrong registered handle requires application authorization, business rules, confirmation, or human review.</p>
 
           <h3>The practical decision matrix for ML engineers</h3>
-          <div class="table-wrap reveal-up" role="region" aria-label="Decision matrix" tabindex="0">
-            <table class="experiment-table">
-              <thead><tr><th>Workload</th><th>Recommendation</th><th>Why?</th></tr></thead>
-              <tbody>
-                <tr><td>RAG Retrieval Passages</td><td><strong>Alias it</strong></td><td>Document UUIDs are transport pointers. Aliasing saves 70&ndash;94% tokens and eliminates bracket-parsing failures.</td></tr>
-                <tr><td>Tool / Agent Object IDs</td><td><strong>Alias it</strong></td><td>Database keys, session tokens, and transaction IDs should never be emitted directly by the LLM.</td></tr>
-                <tr><td>Privacy / PII Redaction</td><td><strong>Alias it</strong></td><td>Scrub account numbers and emails before prompting; rehydrate locally after generation.</td></tr>
-                <tr><td>Code Diffs &amp; Refactoring</td><td><strong>Keep literal</strong></td><td>Variable names, function signatures, and line content carry syntax meaning.</td></tr>
-                <tr><td>URL Path &amp; Domain Analysis</td><td><strong>Keep literal</strong></td><td>Subdomains, query parameters, and paths contain semantic tokens needed for categorization.</td></tr>
-                <tr><td>Quoted Legal / Source Text</td><td><strong>Keep literal</strong></td><td>Verbatim quotes require preserving exact surface morphology.</td></tr>
-              </tbody>
-            </table>
-          </div>
+        </div>
+
+        <div class="table-wrap reveal-up" role="region" aria-label="Decision matrix" tabindex="0">
+          <table class="experiment-table">
+            <thead><tr><th>Workload</th><th>Recommendation</th><th>Why?</th></tr></thead>
+            <tbody>
+              <tr><td>RAG Retrieval Passages</td><td><strong>Alias it</strong></td><td>Document UUIDs are transport pointers. Aliasing saves 70&ndash;94% tokens and eliminates bracket-parsing failures.</td></tr>
+              <tr><td>Tool / Agent Object IDs</td><td><strong>Alias it</strong></td><td>Database keys, session tokens, and transaction IDs should never be emitted directly by the LLM.</td></tr>
+              <tr><td>Privacy / PII Redaction</td><td><strong>Alias it</strong></td><td>Scrub account numbers and emails before prompting; rehydrate locally after generation.</td></tr>
+              <tr><td>Code Diffs &amp; Refactoring</td><td><strong>Keep literal</strong></td><td>Variable names, function signatures, and line content carry syntax meaning.</td></tr>
+              <tr><td>URL Path &amp; Domain Analysis</td><td><strong>Keep literal</strong></td><td>Subdomains, query parameters, and paths contain semantic tokens needed for categorization.</td></tr>
+              <tr><td>Quoted Legal / Source Text</td><td><strong>Keep literal</strong></td><td>Verbatim quotes require preserving exact surface morphology.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="article-prose">
           <p><strong>Rule of thumb:</strong> Pointers and addresses get request-scoped handles. Payloads and text under analysis stay literal.</p>
         </div>
       </section>

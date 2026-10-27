@@ -222,40 +222,41 @@ def raw_vs_symbolic():
 
 
 def evidence_funnel():
-    s = SVG(1400, 620, "Figure 2: Experimental evidence program", "Five distinct testing regimes across behavioral, stress, mechanistic, entity, and systems evaluations.")
+    s = SVG(1400, 660, "Figure 2: Experimental evidence program", "Five distinct testing regimes across behavioral, stress, mechanistic, entity, and systems evaluations.")
     header(s, "Figure 2 — Experimental evidence program across five testing regimes", "Counts distinguish behavioral generations from stress tests, mechanistic passes, and software unit attacks.")
 
     stages = [
-        ("1. Behavioral evidence", "11,520", "model generations", "Citation MVE (2,000)\nMuSiQue primary (7,500)\nHeld-out MuSiQue (2,000)\nSmoke gate (20)", BLUE, LIGHT_BLUE),
+        ("1. Behavioral", "11,920", "model generations", "Citation MVE (2,000)\nMuSiQue primary (7,500)\nHeld-out MuSiQue (2,400)\nSmoke gate (20)", BLUE, LIGHT_BLUE),
         ("2. Stress tests", "5,700", "model generations", "Reasoning-budget 2-pass\n(5,600 calls / 2,800 pairs)\nLongProc traces (100)", ORANGE, LIGHT_ORANGE),
-        ("3. Mechanistic analysis", "960 + 1,122", "passes & interventions", "BF16 CKA geometry (960)\nSource-ID swaps (66)\nResidual patches (1,056)", PURPLE, LIGHT_PURPLE),
-        ("4. Entity generalization", "800", "model generations", "Synthetic account resolution\nacross 5 model families\nRaw vs masked vs typed", TEAL, LIGHT_TEAL),
-        ("5. System boundary", "500 + 5,000", "software test cases", "Valid round trips (500)\nAdversarial test cases (5,000)\nCross-request replays (499)", GREEN, "#e8f5ed"),
+        ("3. Mechanisms", "960 + 1,122", "passes & interventions", "BF16 CKA geometry (960)\nSource-ID swaps (66)\nResidual patches (1,056)", PURPLE, LIGHT_PURPLE),
+        ("4. Entities", "960", "model generations", "Synthetic account resolution\nacross 6 model families\nRaw vs masked vs typed", TEAL, LIGHT_TEAL),
+        ("5. Systems", "500 + 5,000", "software test cases", "Valid round trips (500)\nAdversarial tests (5,000)\nCross-request replays (499)", GREEN, "#e8f5ed"),
     ]
 
-    x = 45
-    w = 245
+    x = 44
+    w = 250
     for i, (name, count, unit, detail, color, fill) in enumerate(stages):
-        y = 135
-        s.rect(x, y, w, 330, fill=fill, stroke=color, radius=16, sw=1.5)
-        s.circle(x + 28, y + 32, 16, color)
-        s.text(x + 28, y + 37, str(i + 1), "label", "middle", fill="#ffffff")
-        s.text(x + 52, y + 37, name, "label", fill=color)
+        y = 125
+        s.rect(x, y, w, 360, fill=fill, stroke=color, radius=16, sw=1.75)
+        s.circle(x + 28, y + 34, 16, color)
+        s.text(x + 28, y + 39, str(i + 1), "label", "middle", fill="#ffffff", weight="700")
+        s.text(x + 52, y + 39, name, "label", fill=color, weight="700")
 
-        s.text(x + 22, y + 92, count, "title", fill=INK)
-        s.text(x + 22, y + 116, unit, "label", fill=MUTED)
+        s.text(x + 24, y + 100, count, "title", fill=INK)
+        s.text(x + 24, y + 126, unit, "label", fill=MUTED)
 
-        s.multiline(x + 22, y + 165, detail.split("\n"), "body", 24)
+        s.line(x + 20, y + 148, x + w - 20, y + 148, color, 1, dash="3,3")
+        s.multiline(x + 24, y + 185, detail.split("\n"), "body", 26)
 
         if i < len(stages) - 1:
-            s.arrow(x + w + 4, y + 165, x + w + 30, y + 165, MUTED, 2)
-        x += w + 27
+            s.arrow(x + w + 2, y + 185, x + w + 16, y + 185, MUTED, 2)
+        x += w + 18
 
-    s.rect(45, 495, 1310, 95, fill="#f8fafc", stroke=GRID, radius=12)
-    s.text(70, 532, "Accounting contract:", "label", fill=INK)
-    s.text(230, 532, "18,020 behavioral records representing 23,620 model calls (Stage 5 uses two sequential model calls per record).", "body")
-    s.text(70, 562, "Scientific distinction:", "label", fill=INK)
-    s.text(230, 562, "Forward passes, causal interventions, and deterministic software test cases are reported in native units—not combined into one inflated number.", "subtitle")
+    s.rect(44, 515, 1312, 115, fill="#ffffff", stroke=GRID, radius=14)
+    s.text(68, 552, "Accounting contract:", "label", fill=INK, weight="700")
+    s.text(235, 552, "18,020+ behavioral records representing 23,620+ model calls (Stage 5 uses two sequential model calls per record).", "body")
+    s.text(68, 592, "Scientific distinction:", "label", fill=INK, weight="700")
+    s.text(235, 592, "Forward passes, causal interventions, and deterministic software test cases are reported in native units—not combined into one inflated number.", "subtitle")
 
     s.save("02_evidence_funnel.svg")
 
