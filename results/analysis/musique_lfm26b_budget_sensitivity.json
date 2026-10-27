@@ -1,0 +1,98 @@
+{
+  "model": "LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m",
+  "study": "MuSiQue Budget Sensitivity Analysis (Post-Hoc)",
+  "run_256": {
+    "budget": "256_tokens",
+    "scenarios": {
+      "15_sources": {
+        "n_pairs": 100,
+        "numeric_truncation_rate": 0.33,
+        "uuid_truncation_rate": 0.5,
+        "numeric_binding_recall": 0.2425,
+        "uuid_binding_recall": 0.1383,
+        "binding_recall_delta": -0.1042,
+        "binding_recall_ci_95": [
+          -0.1625,
+          -0.045
+        ],
+        "numeric_answer_f1": 0.229,
+        "uuid_answer_f1": 0.154,
+        "answer_f1_delta": -0.075,
+        "answer_f1_ci_95": [
+          -0.1546,
+          0.0055
+        ],
+        "numeric_malformed_count": 0,
+        "uuid_malformed_count": 3
+      },
+      "20_sources": {
+        "n_pairs": 100,
+        "numeric_truncation_rate": 0.31,
+        "uuid_truncation_rate": 0.51,
+        "numeric_binding_recall": 0.1983,
+        "uuid_binding_recall": 0.1517,
+        "binding_recall_delta": -0.0467,
+        "binding_recall_ci_95": [
+          -0.1008,
+          0.0083
+        ],
+        "numeric_answer_f1": 0.174,
+        "uuid_answer_f1": 0.1735,
+        "answer_f1_delta": -0.0006,
+        "answer_f1_ci_95": [
+          -0.0528,
+          0.0486
+        ],
+        "numeric_malformed_count": 1,
+        "uuid_malformed_count": 4
+      }
+    }
+  },
+  "run_512": {
+    "budget": "512_tokens",
+    "scenarios": {
+      "15_sources": {
+        "n_pairs": 100,
+        "numeric_truncation_rate": 0.25,
+        "uuid_truncation_rate": 0.37,
+        "numeric_binding_recall": 0.2633,
+        "uuid_binding_recall": 0.1575,
+        "binding_recall_delta": -0.1058,
+        "binding_recall_ci_95": [
+          -0.1683,
+          -0.045
+        ],
+        "numeric_answer_f1": 0.227,
+        "uuid_answer_f1": 0.1819,
+        "answer_f1_delta": -0.045,
+        "answer_f1_ci_95": [
+          -0.1316,
+          0.0429
+        ],
+        "numeric_malformed_count": 1,
+        "uuid_malformed_count": 3
+      },
+      "20_sources": {
+        "n_pairs": 100,
+        "numeric_truncation_rate": 0.23,
+        "uuid_truncation_rate": 0.39,
+        "numeric_binding_recall": 0.2142,
+        "uuid_binding_recall": 0.1742,
+        "binding_recall_delta": -0.04,
+        "binding_recall_ci_95": [
+          -0.1,
+          0.0183
+        ],
+        "numeric_answer_f1": 0.2029,
+        "uuid_answer_f1": 0.1792,
+        "answer_f1_delta": -0.0238,
+        "answer_f1_ci_95": [
+          -0.0908,
+          0.0369
+        ],
+        "numeric_malformed_count": 1,
+        "uuid_malformed_count": 5
+      }
+    }
+  }
+}

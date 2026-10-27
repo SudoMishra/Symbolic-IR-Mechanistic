@@ -13,7 +13,7 @@ backend:
   type: llama_cpp
   model_path: models/LFM2.5-2.6B-Q4_K_M.gguf
   model: LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m
-  revision: main
+  revision: e7caca5d835a3901a8e0d63e94009429bafafdfc
   n_ctx: 8192
   n_threads: 12
   n_gpu_layers: -1

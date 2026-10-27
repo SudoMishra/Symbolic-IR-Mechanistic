@@ -46,6 +46,7 @@ class LlamaCppBackend(ModelBackend):
         self._model_name = model
         self._revision = revision
         self._assistant_prefill = assistant_prefill
+        self._model_path = model_path
 
     @property
     def model_name(self) -> str:
@@ -58,13 +59,39 @@ class LlamaCppBackend(ModelBackend):
     def generate(self, request: GenerationRequest) -> GenerationResponse:
         started = time.perf_counter()
         if self._assistant_prefill is not None:
-            raw_prompt = f"<|im_start|>user\n{request.prompt}<|im_end|>\n<|im_start|>assistant\n{self._assistant_prefill}"
-            response = self._llm(
-                raw_prompt,
-                temperature=request.temperature,
-                max_tokens=request.max_output_tokens,
-                seed=int(request.metadata.get("generation_seed", 0)),
-            )
+            handler = self._llm.chat_handler or self._llm._chat_handlers.get(self._llm.chat_format)
+            if handler is None or not hasattr(handler, "__closure__") or not handler.__closure__:
+                raise RuntimeError(
+                    f"No chat template handler available for model {self.model_name} (chat_format={self._llm.chat_format})"
+                )
+            try:
+                formatter = handler.__closure__[0].cell_contents
+                rendered_chat = formatter(messages=[{"role": "user", "content": request.prompt}])
+            except Exception as exc:
+                raise RuntimeError(
+                    f"Failed to render canonical chat template for model {self.model_name}: {exc}"
+                ) from exc
+
+            clean_prompt = rendered_chat.prompt
+            for bos_str in ("<|startoftext|>", "<s>", "<bos>"):
+                if clean_prompt.startswith(bos_str):
+                    clean_prompt = clean_prompt[len(bos_str):]
+                    break
+            if clean_prompt.endswith("<think>"):
+                raw_prompt = clean_prompt + "\n</think>\n"
+            else:
+                raw_prompt = clean_prompt + self._assistant_prefill
+            stop_tokens = rendered_chat.stop
+
+            call_kwargs = {
+                "prompt": raw_prompt,
+                "temperature": request.temperature,
+                "max_tokens": request.max_output_tokens,
+                "seed": int(request.metadata.get("generation_seed", 0)),
+            }
+            if stop_tokens:
+                call_kwargs["stop"] = stop_tokens
+            response = self._llm(**call_kwargs)
             latency = time.perf_counter() - started
             text = str(response["choices"][0]["text"] or "").strip()
             usage = response.get("usage", {})

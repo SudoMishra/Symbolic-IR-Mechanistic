@@ -909,8 +909,10 @@
       ],
       "latency_hours": 0.28574772175776564,
       "model": "LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m",
-      "model_revision": "main",
-      "records": 400
+      "model_revision": "e7caca5d835a3901a8e0d63e94009429bafafdfc",
+      "records": 400,
+      "gguf_sha256": "02a8b7e17487d326e46d68ce0ba24211e1b80a14c4cd0597fa73c1cd697f52ed",
+      "llama_cpp_version": "0.3.36"
     },
     {
       "cells": [
