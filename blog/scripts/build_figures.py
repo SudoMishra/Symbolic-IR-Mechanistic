@@ -341,7 +341,7 @@ def musique_confirmation():
     key_y = y0 + gap * len(rows) + 20
     total_h = key_y + 85
     s = SVG(1350, total_h, "Figure 3: Held-out MuSiQue binding effects", "Forest plot of UUID minus numeric source-binding recall across models and source counts.")
-    header(s, "Figure 3 — Every held-out estimate favored numeric labels; six were conclusive", "UUID minus numeric relaxed source-binding recall; paired 95% bootstrap intervals across 100 held-out MuSiQue questions.")
+    header(s, "Figure 3 — Every held-out estimate favored numeric labels; seven were conclusive", "UUID minus numeric relaxed source-binding recall; paired 95% bootstrap intervals across 100 held-out MuSiQue questions.")
 
     x0, x1 = 430, 1180
     lo, hi = -24, 6
