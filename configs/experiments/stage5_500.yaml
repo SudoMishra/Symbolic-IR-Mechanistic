@@ -1,0 +1,31 @@
+name: stage5_500
+seed: 202610
+dataset:
+  family: reasoning
+  count: 63
+  long_context: true
+  filler_words: 114
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    task_type: [arithmetic, temporal, constraint, entity_resolution]
+    num_sources: [15, 20]
+identifiers: [numeric, random_compact, uuid]
+backend:
+  type: oracle
+generation:
+  reasoning_budgets: [64, 128, 256, 512, 1024]
+  condition_controls:
+    - {identifier: numeric, require_citations: true}
+    - {identifier: random_compact, require_citations: true}
+    - {identifier: uuid, require_citations: true}
+    - {identifier: uuid, require_citations: false}
+  temperature: 0
+  final_output_tokens: 128
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata:
+  stage: 5
+  scaled_evaluation: true
+  sample_size: 504
+  budget_method: explicit_scratchpad_cap
+  protocol_revision: 6

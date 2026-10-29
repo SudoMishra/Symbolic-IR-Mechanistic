@@ -1,0 +1,47 @@
+name: stage8_pii_500_tiny_aya
+seed: 202618
+dataset:
+  family: pii
+  count: 250
+  task_type: account_resolution
+  long_context: true
+  filler_words: 100
+  prompt_tokens:
+    min: 2000
+    max: 4200
+  grid:
+    num_sources:
+    - 15
+    - 20
+identifiers:
+- raw
+- random_masked
+- untyped
+- typed
+backend:
+  type: llama_cpp
+  model_path: models/tiny-aya-global-q4_k_m.gguf
+  model: CohereLabs/tiny-aya-global-GGUF:q4_k_m
+  revision: a602ea7eeec3a4ad6f77a1b8cf6a53512824922b
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202618
+generation:
+  temperature: 0
+  max_output_tokens: 64
+  require_citations: false
+  fixed_source_identifiers: structured
+  progress_every: 25
+  tokenizer:
+    type: llama_cpp
+    model_path: models/tiny-aya-global-q4_k_m.gguf
+output_dir: results/raw
+metadata:
+  stage: 8
+  scaled_evaluation: true
+  sample_size: 500
+  quantization: Q4_K_M
+  execution: CUDA

@@ -1,0 +1,36 @@
+name: musique_stages_2_4_qwen35_2b
+seed: 202602
+dataset: &dataset
+  family: musique
+  data_path: data/musique/musique_ans_v1.0_dev.jsonl
+  selection_path: configs/musique/musique_balanced_100.json
+  count: 100
+  prompt_tokens: {min: 2000, max: 3750}
+  scenarios:
+    - {name: stage2_15_sources, stage: 2, num_sources: 15, identifiers: [numeric, random_compact, hex32, uuid]}
+    - {name: stage2_20_sources, stage: 2, num_sources: 20, identifiers: [numeric, random_compact, hex32, uuid]}
+    - {name: stage3_representation_controls, stage: 3, num_sources: 20, identifiers: [structured, arbitrary, typed, untyped, random_typed_control]}
+    - name: stage4_failure_controls
+      stage: 4
+      num_sources: 20
+      controls:
+        - {identifier: uuid, require_citations: false}
+        - {identifier: uuid_with_alias, require_citations: true}
+identifiers: &identifiers [numeric, random_compact, hex32, uuid, structured, arbitrary, typed, untyped, random_typed_control, uuid_with_alias]
+backend:
+  type: llama_cpp
+  model_path: models/Qwen3.5-2B-Q4_K_M.gguf
+  model: unsloth/Qwen3.5-2B-GGUF:q4_k_m
+  revision: f6d5376be1edb4d416d56da11e5397a961aca8ae
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202602
+generation: &generation
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: llama_cpp, model_path: models/Qwen3.5-2B-Q4_K_M.gguf}
+output_dir: results/raw
+metadata: {stages: [2, 3, 4], dataset_license: CC-BY-4.0, execution: CUDA, quantization: Q4_K_M}

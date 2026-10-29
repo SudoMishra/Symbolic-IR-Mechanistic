@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from .anthropic_api import AnthropicBackend
 from .base import ModelBackend
 from .huggingface import HuggingFaceBackend
 from .llama_cpp import LlamaCppBackend
@@ -19,6 +20,8 @@ def create_backend(config: dict[str, Any]) -> ModelBackend:
         return ReplayBackend(**options)
     if kind == "openai":
         return OpenAIBackend(**options)
+    if kind == "anthropic":
+        return AnthropicBackend(**options)
     if kind == "huggingface":
         return HuggingFaceBackend(**options)
     if kind == "llama_cpp":

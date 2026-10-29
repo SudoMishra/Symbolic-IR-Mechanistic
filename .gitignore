@@ -3,12 +3,17 @@ __pycache__/
 .pytest_cache/
 .coverage
 .venv/
+.env
+.env.*
+.taste-skill/*
 models/
 build/
 dist/
 *.egg-info/
 results/raw/*
+results/batches/prepared/
 results/processed/*
+!results/processed/frontier_anthropic_summary.json
 results/figures/*
 results/activations/*
 results/offload/*

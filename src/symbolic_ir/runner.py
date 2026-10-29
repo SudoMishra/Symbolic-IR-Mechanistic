@@ -138,11 +138,15 @@ def run_experiment(config: ExperimentConfig, *, limit: int | None = None) -> tup
             counts["skipped"] += 1
             continue
         expected_citations = [rendered.mapping.citation_by_source[key] for key in rendered.canonical.relevant_sources]
+        temp_val = config.generation.get("temperature")
+        temperature = float(temp_val) if temp_val is not None else None
         request = GenerationRequest(
             prompt=rendered.prompt, example_id=rendered.canonical.example_id,
             max_output_tokens=int(config.generation.get("max_output_tokens", 256)),
-            temperature=float(config.generation.get("temperature", 0.0)),
+            temperature=temperature,
             reasoning_budget=context["reasoning_budget"],
+            thinking_type=config.generation.get("thinking_type"),
+            effort=config.generation.get("effort"),
             metadata={
                 "request_key": context["request_key"],
                 "expected_answer": rendered.expected_answer or rendered.canonical.answer,
@@ -158,6 +162,12 @@ def run_experiment(config: ExperimentConfig, *, limit: int | None = None) -> tup
             "seed": rendered.canonical.seed, "task_type": rendered.canonical.task_type,
             "model": response.model, "model_revision": response.model_revision,
             "prompt_version": "citation-prompt-v1", "prompt": rendered.prompt,
+            "prompt_hash": response.prompt_hash,
+            "request_id": response.request_id,
+            "stop_reason": response.stop_reason,
+            "retry_count": response.retry_count,
+            "calculated_cost": response.calculated_cost,
+            "request_body": response.request_body,
             "identifier_condition": rendered.mapping.condition,
             "identifier_mapping": asdict(rendered.mapping),
             "identifier_token_lengths": rendered.mapping.token_lengths,
@@ -169,7 +179,12 @@ def run_experiment(config: ExperimentConfig, *, limit: int | None = None) -> tup
             "raw_output": response.text, "raw_response": response.raw,
             "parsed_answer": evaluation["parsed_answer"], "parsed_citations": evaluation["parsed_citations"],
             "evaluation": evaluation,
-            "token_counts": {"input": response.input_tokens, "output": response.output_tokens, "reasoning": response.reasoning_tokens},
+            "token_counts": {
+                "input": response.input_tokens,
+                "output": response.output_tokens,
+                "cache": response.cached_tokens,
+                "reasoning": response.reasoning_tokens,
+            },
             "latency": response.latency_seconds, "dataset_cell": context["cell"],
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }

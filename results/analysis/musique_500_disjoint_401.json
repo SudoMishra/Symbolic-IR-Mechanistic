@@ -1,0 +1,294 @@
+{
+  "records": 12832,
+  "n_examples": 401,
+  "models": [
+    {
+      "model": "CohereLabs/tiny-aya-global-GGUF:q4_k_m",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.13320864505403165,
+          "bootstrap_95_ci": [
+            -0.16189214463840412,
+            -0.10494077306733172
+          ],
+          "a_only": 7,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.16687448046550296,
+          "bootstrap_95_ci": [
+            -0.19617622610141314,
+            -0.13798836242726528
+          ],
+          "a_only": 10,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "model": "LiquidAI/LFM2.5-1.2B-Instruct-GGUF:q4_k_m",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.04343308395677474,
+          "bootstrap_95_ci": [
+            -0.0716957605985037,
+            -0.014962593516209472
+          ],
+          "a_only": 5,
+          "b_only": 1,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.07481296758104736,
+          "bootstrap_95_ci": [
+            -0.09954280964256024,
+            -0.05049875311720698
+          ],
+          "a_only": 3,
+          "b_only": 1,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "model": "LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.07148794679966748,
+          "bootstrap_95_ci": [
+            -0.09934019118869494,
+            -0.042601828761429775
+          ],
+          "a_only": 6,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.09933499584372399,
+          "bootstrap_95_ci": [
+            -0.12968100581878642,
+            -0.06878636741479631
+          ],
+          "a_only": 10,
+          "b_only": 4,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.055070656691604304,
+          "bootstrap_95_ci": [
+            -0.08312551953449708,
+            -0.026600166251039073
+          ],
+          "a_only": 7,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.08520365752285948,
+          "bootstrap_95_ci": [
+            -0.11263507896924359,
+            -0.058187863674147945
+          ],
+          "a_only": 11,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "model": "google/gemma-4-E2B-it-qat-q4_0-gguf",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.041562759767248554,
+          "bootstrap_95_ci": [
+            -0.06650041562759766,
+            -0.017248545303408146
+          ],
+          "a_only": 2,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.05195344970906067,
+          "bootstrap_95_ci": [
+            -0.07668329177057356,
+            -0.027639235245220276
+          ],
+          "a_only": 2,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "model": "google/gemma-4-E4B-it-qat-q4_0-gguf",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.05839567747298421,
+          "bootstrap_95_ci": [
+            -0.08561928512053198,
+            -0.03241895261845386
+          ],
+          "a_only": 7,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.07148794679966751,
+          "bootstrap_95_ci": [
+            -0.0976724854530341,
+            -0.04613466334164588
+          ],
+          "a_only": 5,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "model": "unsloth/Qwen3.5-2B-GGUF:q4_k_m",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.06982543640897752,
+          "bootstrap_95_ci": [
+            -0.09684123025768909,
+            -0.043640897755610975
+          ],
+          "a_only": 4,
+          "b_only": 1,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.04717373233582711,
+          "bootstrap_95_ci": [
+            -0.07315565253532834,
+            -0.020781379883624274
+          ],
+          "a_only": 4,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "model": "unsloth/Qwen3.5-4B-GGUF:q4_k_m",
+      "cells": [],
+      "effects": [
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.02722360764754779,
+          "bootstrap_95_ci": [
+            -0.05174563591022443,
+            -0.00394846217788861
+          ],
+          "a_only": 2,
+          "b_only": 0,
+          "mcnemar_exact_p": null,
+          "sources": 15
+        },
+        {
+          "condition_a": "numeric",
+          "condition_b": "uuid",
+          "metric": "binding_recall",
+          "n_pairs": 401,
+          "b_minus_a": -0.01828761429758936,
+          "bootstrap_95_ci": [
+            -0.04177057356608479,
+            0.0051953449709060675
+          ],
+          "a_only": 1,
+          "b_only": 1,
+          "mcnemar_exact_p": null,
+          "sources": 20
+        }
+      ]
+    }
+  ]
+}

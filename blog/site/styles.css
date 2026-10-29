@@ -103,6 +103,16 @@ h3 {
   text-wrap: balance;
 }
 
+h4 {
+  max-width: 42ch;
+  margin: 0;
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.22;
+  text-wrap: balance;
+}
+
 code {
   padding: 0.08em 0.2em;
   color: currentColor;
@@ -306,6 +316,27 @@ code {
   font-weight: 500;
 }
 
+.stage-index-intro {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(22rem, 1fr);
+  gap: clamp(2rem, 7vw, 9rem);
+  align-items: end;
+  margin-top: clamp(3rem, 5vw, 5rem);
+}
+
+.stage-index-intro p {
+  max-width: 55ch;
+}
+
+.stage-index-details {
+  margin-top: 2rem;
+}
+
+.stage-index-details + .article-prose {
+  margin-top: clamp(3rem, 5vw, 5rem);
+}
+
 .article-prose--inverse {
   color: var(--accent-ink);
 }
@@ -414,7 +445,6 @@ pre code {
   margin: 2rem 0;
   padding: 1.5rem 1.75rem;
   background: var(--surface);
-  border: 1px solid currentColor;
   overflow-x: auto;
   text-align: center;
   font-size: 1.15rem;
@@ -1095,6 +1125,7 @@ pre code {
 
   .section-heading,
   .research-map-head,
+  .stage-index-intro,
   .comparison-head,
   .metric-copy,
   .study-copy,
@@ -1240,6 +1271,44 @@ pre code {
   .experiment-table--decision td:nth-child(1)::before { content: "Workload"; }
   .experiment-table--decision td:nth-child(2)::before { content: "Recommendation"; }
   .experiment-table--decision td:nth-child(3)::before { content: "Why"; }
+
+  .experiment-table--scaled-stage1 td:nth-child(1)::before { content: "Model"; }
+  .experiment-table--scaled-stage1 td:nth-child(2)::before { content: "Sources"; }
+  .experiment-table--scaled-stage1 td:nth-child(3)::before { content: "Structured content"; }
+  .experiment-table--scaled-stage1 td:nth-child(4)::before { content: "UUID content"; }
+  .experiment-table--scaled-stage1 td:nth-child(5)::before { content: "Structured strict"; }
+  .experiment-table--scaled-stage1 td:nth-child(6)::before { content: "UUID strict"; }
+  .experiment-table--scaled-stage1 td:nth-child(7)::before { content: "Structured binding"; }
+  .experiment-table--scaled-stage1 td:nth-child(8)::before { content: "UUID binding"; }
+  .experiment-table--scaled-stage1 td:nth-child(9)::before { content: "Binding delta"; }
+  .experiment-table--scaled-stage1 td:nth-child(10)::before { content: "Exact p"; }
+
+  .experiment-table--scaled-musique td:nth-child(1)::before { content: "Model"; }
+  .experiment-table--scaled-musique td:nth-child(2)::before { content: "Sources"; }
+  .experiment-table--scaled-musique td:nth-child(3)::before { content: "Numeric binding"; }
+  .experiment-table--scaled-musique td:nth-child(4)::before { content: "UUID binding"; }
+  .experiment-table--scaled-musique td:nth-child(5)::before { content: "Binding delta"; }
+  .experiment-table--scaled-musique td:nth-child(6)::before { content: "Numeric answer F1"; }
+  .experiment-table--scaled-musique td:nth-child(7)::before { content: "UUID answer F1"; }
+  .experiment-table--scaled-musique td:nth-child(8)::before { content: "Strict citation F1 delta"; }
+  .experiment-table--scaled-musique td:nth-child(9)::before { content: "Malformed delta"; }
+
+  .experiment-table--frontier td:nth-child(1)::before { content: "Model"; }
+  .experiment-table--frontier td:nth-child(2)::before { content: "Sources"; }
+  .experiment-table--frontier td:nth-child(3)::before { content: "Numeric binding"; }
+  .experiment-table--frontier td:nth-child(4)::before { content: "UUID binding"; }
+  .experiment-table--frontier td:nth-child(5)::before { content: "Binding delta"; }
+  .experiment-table--frontier td:nth-child(6)::before { content: "Numeric answer exact"; }
+  .experiment-table--frontier td:nth-child(7)::before { content: "UUID answer exact"; }
+
+  .experiment-table--scaled-stage8 td:nth-child(1)::before { content: "Model"; }
+  .experiment-table--scaled-stage8 td:nth-child(2)::before { content: "Raw"; }
+  .experiment-table--scaled-stage8 td:nth-child(3)::before { content: "Random masked"; }
+  .experiment-table--scaled-stage8 td:nth-child(4)::before { content: "Untyped"; }
+  .experiment-table--scaled-stage8 td:nth-child(5)::before { content: "Typed"; }
+  .experiment-table--scaled-stage8 td:nth-child(6)::before { content: "Typed minus untyped"; }
+  .experiment-table--scaled-stage8 td:nth-child(7)::before { content: "Exact p"; }
+  .experiment-table--scaled-stage8 td:nth-child(8)::before { content: "Token delta"; }
 }
 
 @media (max-width: 620px) {
@@ -1258,6 +1327,11 @@ pre code {
   }
 
   h3 {
+    max-width: 100%;
+    font-size: 1.25rem;
+  }
+
+  h4 {
     max-width: 100%;
     font-size: 1.25rem;
   }
@@ -1387,6 +1461,22 @@ pre code {
 
   .comparison-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pipeline {
+    grid-template-columns: 1fr;
+    gap: 0;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .pipeline span {
+    min-height: 4rem;
+    border-top: 2px solid var(--ink);
+  }
+
+  .pipeline span:last-child {
+    border-bottom: 2px solid var(--ink);
   }
 
   .format + .format {

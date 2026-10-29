@@ -1,0 +1,25 @@
+{
+  "provider": "openai",
+  "batch_id": "batch_6ae3733e00a48190ab25c555e00ac8a9",
+  "input_file_id": "file-9PtkwF4GJQUqdxoePKQNuw",
+  "status": "completed",
+  "request_count": 500,
+  "created_at": 1793291070,
+  "metadata": {
+    "phase": "musique_500",
+    "model": "luna",
+    "block": "3"
+  },
+  "counts": {
+    "provider": "openai",
+    "batch_id": "batch_6ae3733e00a48190ab25c555e00ac8a9",
+    "output_file_id": "file-FHap9yvrCxRPQyjcRQJrxw",
+    "error_file_id": null,
+    "total_requests": 500,
+    "completed_requests": 500,
+    "failed_requests": 0
+  },
+  "retrieved_at": "2026-10-29T17:49:03.647117+00:00",
+  "actual_cost": 0.07167035000000005,
+  "parsed_success_rate": 100.0
+}

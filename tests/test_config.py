@@ -20,7 +20,7 @@ def test_stage_one_has_400_requests():
 
 def test_all_musique_model_configs_define_complete_stage_matrix():
     paths = sorted(Path("configs/musique").glob("stages_2_4_*.yaml"))
-    assert len(paths) == 5
+    assert len(paths) >= 5
     for path in paths:
         config = load_config(path)
         scenarios = config.dataset["scenarios"]

@@ -1,0 +1,47 @@
+name: stage8_pii_500_gemma4_e4b
+seed: 202618
+dataset:
+  family: pii
+  count: 250
+  task_type: account_resolution
+  long_context: true
+  filler_words: 100
+  prompt_tokens:
+    min: 2000
+    max: 4200
+  grid:
+    num_sources:
+    - 15
+    - 20
+identifiers:
+- raw
+- random_masked
+- untyped
+- typed
+backend:
+  type: llama_cpp
+  model_path: models/gemma-4-e4b-it-q4_0.gguf
+  model: google/gemma-4-E4B-it-qat-q4_0-gguf
+  revision: c074be2035ce675c963fb1f71df05a0d31ff6be4
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202618
+generation:
+  temperature: 0
+  max_output_tokens: 64
+  require_citations: false
+  fixed_source_identifiers: structured
+  progress_every: 25
+  tokenizer:
+    type: llama_cpp
+    model_path: models/gemma-4-e4b-it-q4_0.gguf
+output_dir: results/raw
+metadata:
+  stage: 8
+  scaled_evaluation: true
+  sample_size: 500
+  quantization: Q4_0
+  execution: CUDA

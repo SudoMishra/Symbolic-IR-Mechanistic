@@ -1,0 +1,29 @@
+name: longproc_tom_tracking_2k_qwen35_4b
+seed: 202601
+dataset:
+  family: longproc_tom_tracking
+  data_path: data/longproc/tom_tracking/tom_tracking_2k.json
+  prompt_path: data/longproc/tom_tracking/prompts.yaml
+  selection_path: configs/longproc/tom_tracking_2k_cross_tokenizer_indices.json
+  source_revision: 673ec4c230876e941d674116d66d28783c186b15
+  prompt_tokens: {min: 2048, max: 4096}
+  reference_tokens: {min: 1024, max: 2100}
+  count: 25
+identifiers: [original]
+backend:
+  type: llama_cpp
+  model_path: models/Qwen3.5-4B-Q4_K_M.gguf
+  model: unsloth/Qwen3.5-4B-GGUF:q4_k_m
+  revision: e87f176479d0855a907a41277aca2f8ee7a09523
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202601
+generation:
+  temperature: 0
+  max_output_tokens: 2048
+  tokenizer: {type: llama_cpp, model_path: models/Qwen3.5-4B-Q4_K_M.gguf}
+output_dir: results/raw
+metadata: {dataset_license: Apache-2.0, execution: CUDA, quantization: Q4_K_M}

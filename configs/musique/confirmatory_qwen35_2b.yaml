@@ -1,0 +1,29 @@
+name: musique_confirmatory_qwen35_2b
+seed: 202603
+dataset:
+  family: musique
+  data_path: data/musique/musique_ans_v1.0_dev.jsonl
+  selection_path: configs/musique/musique_confirmatory_heldout_100.json
+  count: 100
+  prompt_tokens: {min: 2000, max: 3750}
+  scenarios:
+    - {name: confirmatory_15_sources, stage: 2, num_sources: 15, identifiers: [numeric, uuid]}
+    - {name: confirmatory_20_sources, stage: 2, num_sources: 20, identifiers: [numeric, uuid]}
+identifiers: [numeric, uuid]
+backend:
+  type: llama_cpp
+  model_path: models/Qwen3.5-2B-Q4_K_M.gguf
+  model: unsloth/Qwen3.5-2B-GGUF:q4_k_m
+  revision: f6d5376be1edb4d416d56da11e5397a961aca8ae
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202603
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer: {type: llama_cpp, model_path: models/Qwen3.5-2B-Q4_K_M.gguf}
+output_dir: results/raw
+metadata: {stage: confirmatory, held_out: true, dataset_license: CC-BY-4.0, execution: CUDA, quantization: Q4_K_M}

@@ -14,12 +14,12 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <circle cx="72" cy="159" r="16" fill="#315efb" stroke="none" stroke-width="1"/>
 <text x="72" y="164" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">1</text>
 <text x="96" y="164" class="label" text-anchor="start" fill="#315efb" font-weight="700">1. Behavioral</text>
-<text x="68" y="225" class="title" text-anchor="start" fill="#172033">11,920</text>
+<text x="68" y="225" class="title" text-anchor="start" fill="#172033">13,820</text>
 <text x="68" y="251" class="label" text-anchor="start" fill="#5f6b7a">model generations</text>
 <line x1="64" y1="273" x2="274" y2="273" stroke="#315efb" stroke-width="1" stroke-dasharray="3,3"/>
 <text x="68" y="310" class="body" text-anchor="start">
-<tspan x="68" dy="0">Citation MVE (2,000)</tspan>
-<tspan x="68" dy="26">MuSiQue primary (7,500)</tspan>
+<tspan x="68" dy="0">Citation MVE (2,400)</tspan>
+<tspan x="68" dy="26">MuSiQue primary (9,000)</tspan>
 <tspan x="68" dy="26">Held-out MuSiQue (2,400)</tspan>
 <tspan x="68" dy="26">Smoke gate (20)</tspan>
 </text>
@@ -30,12 +30,12 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <circle cx="340" cy="159" r="16" fill="#e97824" stroke="none" stroke-width="1"/>
 <text x="340" y="164" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">2</text>
 <text x="364" y="164" class="label" text-anchor="start" fill="#e97824" font-weight="700">2. Stress tests</text>
-<text x="336" y="225" class="title" text-anchor="start" fill="#172033">5,725</text>
+<text x="336" y="225" class="title" text-anchor="start" fill="#172033">3,005</text>
 <text x="336" y="251" class="label" text-anchor="start" fill="#5f6b7a">model generations</text>
 <line x1="332" y1="273" x2="542" y2="273" stroke="#e97824" stroke-width="1" stroke-dasharray="3,3"/>
 <text x="336" y="310" class="body" text-anchor="start">
 <tspan x="336" dy="0">Reasoning-budget 2-pass</tspan>
-<tspan x="336" dy="26">(5,600 records / 11,200 calls)</tspan>
+<tspan x="336" dy="26">(2,880 records / 5,760 calls)</tspan>
 <tspan x="336" dy="26">LongProc traces (125)</tspan>
 </text>
 <line x1="564" y1="310" x2="578" y2="310" stroke="#5f6b7a" stroke-width="2"/>
@@ -45,13 +45,13 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <circle cx="608" cy="159" r="16" fill="#7656c9" stroke="none" stroke-width="1"/>
 <text x="608" y="164" class="label" text-anchor="middle" fill="#ffffff" font-weight="700">3</text>
 <text x="632" y="164" class="label" text-anchor="start" fill="#7656c9" font-weight="700">3. Mechanisms</text>
-<text x="604" y="225" class="title" text-anchor="start" fill="#172033">960 + 1,122</text>
+<text x="604" y="225" class="title" text-anchor="start" fill="#172033">720 + 714</text>
 <text x="604" y="251" class="label" text-anchor="start" fill="#5f6b7a">passes &amp; interventions</text>
 <line x1="600" y1="273" x2="810" y2="273" stroke="#7656c9" stroke-width="1" stroke-dasharray="3,3"/>
 <text x="604" y="310" class="body" text-anchor="start">
-<tspan x="604" dy="0">BF16 CKA geometry (960)</tspan>
-<tspan x="604" dy="26">Source-ID swaps (66)</tspan>
-<tspan x="604" dy="26">Residual patches (1,056)</tspan>
+<tspan x="604" dy="0">BF16 CKA geometry (720)</tspan>
+<tspan x="604" dy="26">Source-ID swaps (42)</tspan>
+<tspan x="604" dy="26">Residual patches (672)</tspan>
 </text>
 <line x1="832" y1="310" x2="846" y2="310" stroke="#5f6b7a" stroke-width="2"/>
 <line x1="846" y1="310" x2="838.529518182883" y2="315.01915345652276" stroke="#5f6b7a" stroke-width="2"/>
@@ -65,7 +65,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <line x1="868" y1="273" x2="1078" y2="273" stroke="#008c83" stroke-width="1" stroke-dasharray="3,3"/>
 <text x="872" y="310" class="body" text-anchor="start">
 <tspan x="872" dy="0">Synthetic account resolution</tspan>
-<tspan x="872" dy="26">across 6 model families</tspan>
+<tspan x="872" dy="26">across 6 models</tspan>
 <tspan x="872" dy="26">Raw vs masked vs typed</tspan>
 </text>
 <line x1="1100" y1="310" x2="1114" y2="310" stroke="#5f6b7a" stroke-width="2"/>
@@ -85,7 +85,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 </text>
 <rect x="44" y="515" width="1312" height="115" rx="14" fill="#ffffff" stroke="#d8dee8" stroke-width="1"/>
 <text x="68" y="552" class="label" text-anchor="start" fill="#172033" font-weight="700">Accounting contract:</text>
-<text x="235" y="552" class="body" text-anchor="start">18,605 primary behavioral records (24,205 calls) + 2,000 validation generations: 20,605 total records / 26,205 model calls.</text>
+<text x="235" y="552" class="body" text-anchor="start">21,397 baseline behavioral records (27,706 calls) + 36,000 scaled confirmatory generations: 57,397 total records / 63,706 model calls.</text>
 <text x="68" y="592" class="label" text-anchor="start" fill="#172033" font-weight="700">Scientific distinction:</text>
 <text x="235" y="592" class="subtitle" text-anchor="start">Forward passes, causal interventions, and deterministic software test cases are reported in native units—not combined into one inflated number.</text>
 </svg>

@@ -39,8 +39,19 @@ def mcnemar_exact(a_only: int, b_only: int) -> float:
 
 
 def citation_field(output: str) -> str:
-    match = re.search(r"(?im)^\s*CITATIONS?\s*:\s*(.*?)\s*$", output)
-    return match.group(1) if match else ""
+    clean = output.strip()
+    if "</think>" in clean:
+        post = clean.split("</think>")[-1].strip()
+        if post:
+            clean = post
+    m = re.search(r"(?i)\bCITATIONS?\s*:\s*(.*)", clean)
+    if not m:
+        return ""
+    rest = m.group(1)
+    m_ans = re.search(r"(?i)\bANSWER\s*:", rest)
+    if m_ans:
+        rest = rest[:m_ans.start()]
+    return rest.strip()
 
 
 def relaxed_sources(row: dict[str, Any]) -> set[str]:
@@ -302,11 +313,19 @@ def report(result: dict[str, Any]) -> str:
             f"| {item['model']} | {execution['input_tokens_min']} / {execution['input_tokens_mean']:.1f} / {execution['input_tokens_max']} | "
             f"{execution['output_tokens_mean']:.1f} / {execution['output_tokens_max']} | {execution['generation_cap_hits']} | {execution['latency_hours']:.2f} h |"
         )
+    total_stage2_cells = len(result["models"]) * 2
+    neg_binding_cells = 0
+    for item in result["models"]:
+        cells = {(cell["sources"], cell["condition"]): cell for cell in item["stage2"]["cells"]}
+        for s in (15, 20):
+            if cells[(s, "uuid")]["binding_recall"] < cells[(s, "numeric")]["binding_recall"]:
+                neg_binding_cells += 1
+
     lines.extend((
         "", "## Main findings", "",
-        "1. **Identifier format changed evidence tracking far more than answer quality.** Every numeric-vs-UUID answer-F1 comparison had a paired 95% interval spanning zero. In contrast, relaxed source-binding recall was numerically lower with UUIDs in all ten model/source-count cells and significantly lower in seven.",
-        "2. **The strict citation score mixes source selection with reconstruction.** Qwen and LFM favored numeric IDs on strict support F1, while Tiny Aya strongly favored UUIDs because it often omitted brackets around numeric citations. Relaxed source binding reverses that apparent Tiny-Aya advantage: numeric IDs led UUIDs by 9.2 points at 15 sources and 13.7 at 20.",
-        "3. **Tracking load matters.** Binding and answer scores generally fell from 15 to 20 sources. Pooled descriptively across models, the UUID-minus-numeric binding gap was largest on four-hop questions (−8.5 points at 15 sources and −9.1 at 20).",
+        f"1. **Identifier format changed evidence tracking far more than answer quality.** Every numeric-vs-UUID answer-F1 comparison had a paired 95% interval spanning zero. In contrast, relaxed source-binding recall was numerically lower with UUIDs in {neg_binding_cells} of {total_stage2_cells} model/source-count cells.",
+        "2. **The strict citation score mixes source selection with reconstruction.** Models favor numeric IDs on relaxed source binding, while surface bracket omissions can distort strict citation exact match.",
+        "3. **Tracking load matters.** Binding and answer scores generally fell from 15 to 20 sources.",
         "4. **Structure matters beyond token count, but no syntax wins universally.** The exactly length-matched `[S#]`/`[X#]` pair produced significant binding differences only for Tiny Aya, while strict citation differences also appeared for LFM. Typed-vs-untyped effects changed direction across models, ruling out a universal typed-placeholder advantage.",
         "5. **Reproducing identifiers can consume task capacity.** Removing the UUID citation requirement significantly improved answer F1 for LFM (+3.5 points) and Gemma E4B (+5.1); the other models were inconclusive. Merely adding a short citation alias beside each UUID did not reliably recover performance and sometimes worsened binding, indicating that a dual-label prompt is not equivalent to canonicalizing IDs before the model sees them.",
         "", "## Limitations", "",
@@ -354,8 +373,8 @@ def main() -> int:
         grouped[row["model"]].append(row)
     if not args.allow_partial:
         incomplete = {model: len(items) for model, items in grouped.items() if len(items) != 1500}
-        if incomplete or len(grouped) != 5:
-            raise ValueError(f"Expected five complete 1,500-record model runs; found {dict((m, len(v)) for m, v in grouped.items())}")
+        if incomplete or len(grouped) < 5:
+            raise ValueError(f"Expected at least five complete 1,500-record model runs; found {dict((m, len(v)) for m, v in grouped.items())}")
     models = [model_analysis(items) for _, items in sorted(grouped.items())]
     result = {"records": len(rows), "models": models, "raw_results": [str(path) for path in paths]}
     json_path, report_path = Path(args.json_output), Path(args.report_output)

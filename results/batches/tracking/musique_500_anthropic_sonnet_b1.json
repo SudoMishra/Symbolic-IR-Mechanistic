@@ -1,0 +1,17 @@
+{
+  "provider": "anthropic",
+  "batch_id": "msgbatch_01WNYSg459o1qrPH3n4gjK3T",
+  "status": "ended",
+  "request_count": 500,
+  "created_at": "2026-10-29 16:18:50.932998+00:00",
+  "retrieved_at": "2026-10-29T16:21:31.117210+00:00",
+  "actual_cost": 2.4332330000000004,
+  "parsed_success_rate": 100.0,
+  "counts": {
+    "provider": "anthropic",
+    "batch_id": "msgbatch_01WNYSg459o1qrPH3n4gjK3T",
+    "total_requests": 500,
+    "completed_requests": 500,
+    "failed_requests": 0
+  }
+}

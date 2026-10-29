@@ -1,0 +1,27 @@
+name: stage8_pii_500
+seed: 202610
+dataset:
+  family: pii
+  count: 250
+  task_type: account_resolution
+  long_context: true
+  filler_words: 100
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    num_sources: [15, 20]
+identifiers: [raw, random_masked, untyped, typed]
+backend:
+  type: oracle
+generation:
+  temperature: 0
+  max_output_tokens: 64
+  require_citations: false
+  fixed_source_identifiers: structured
+  progress_every: 50
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata:
+  stage: 8
+  synthetic_only: true
+  scaled_evaluation: true
+  sample_size: 500

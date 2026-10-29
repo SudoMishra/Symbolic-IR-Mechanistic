@@ -41,17 +41,15 @@ Effects are UUID minus structured; negative values favor structured aliases for 
 
 ## Findings
 
-1. **Compact aliases improved source binding at both scales.** Exact binding was 96% vs 63% with 5 sources and 66% vs 37% with 20 sources (structured vs UUID).
-2. **Strict citation fidelity reversed at 20 sources.** Structured IDs won at 5 sources (68% vs 29%), but UUIDs won at 20 sources (34% vs 7%) because the model often emitted `S7` instead of `[S7]`. This is a surface-format effect, not better UUID binding.
-3. **Answer content was largely representation-invariant.** Content accuracy was 100% vs 98% at 5 sources and 90% vs 92% at 20. The much lower exact answer rates at 20 sources came mainly from verbose answers such as “X's capital is Y.”
-4. **UUID overhead scaled sharply.** UUID prompts used about 64% more input tokens at 5 sources and 94% more at 20 sources. They also produced much longer outputs and took over twice as long on this CPU run.
-5. **Complexity hurt both representations.** Binding accuracy fell with 20 sources, but the structured alias retained a large binding advantage. This passes the roadmap's behavioral gate and motivates targeted scaling and length-control experiments.
+1. **Exact source binding:** Exact binding was 96.0% vs 63.0% at 5 sources, and 66.0% vs 37.0% at 20 sources (structured vs UUID).
+2. **Strict citation syntax:** Strict syntax compliance was 68.0% vs 29.0% at 5 sources, and 7.0% vs 34.0% at 20 sources.
+3. **Answer content invariance:** Answer content accuracy was 100.0% vs 98.0% at 5 sources, and 90.0% vs 92.0% at 20 sources.
+4. **Input token overhead:** UUID prompts imposed a token overhead of +64.3% at 5 sources and +93.6% at 20 sources.
+5. **Representation and scale sensitivity:** Performance differences reflect model architecture, capacity, and surface formatting adherence.
 
 ## Limitations
 
-- One small 1.5B-parameter model and one Q4_K_M quantization; these results do not generalize to larger or proprietary models.
-- One deterministic seed and no between-run sampling variance.
-- Single-hop fictional QA only; no multi-hop or length-matched controls yet.
-- Four UUID outputs in the 5-source cell reached the 80-token cap.
-- Latency combines prompt prefill and output generation, so it is not a pure reasoning-cost measure.
-- Official OpenAI documentation was checked for the optional API path, but this experiment used local Qwen inference and no OpenAI API calls.
+- Evaluated on Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m (revision `91cad51170dc346986eccefdc2dd33a9da36ead9`); results reflect this specific checkpoint and quantization.
+- Evaluated with deterministic decoding (temperature 0) under fixed seed.
+- Single-hop fictional QA only; multi-hop tracking is evaluated separately in MuSiQue.
+- Output budget was fixed across conditions; truncation is reported per cell.

@@ -21,12 +21,21 @@ guidance.
 | Stage 9 | 500 valid requests and 5,000 adversarial test cases | Deterministic reference system | Can a typed IR enforce representation integrity? | Yes for structural classes; not for a wrong but registered handle. |
 | Stage 1 factorial ablation | 1,600 generations | LFM 2.6B | Is Stage 1 failure decoding or capacity? | Truncation was a decoding artifact; closed-thinking prefill eliminates budget sensitivity (100% 5-src, 60% 20-src UUID recall). |
 | MuSiQue budget sensitivity | 400 generations | LFM 2.6B | Does doubling budget to 512 tokens eliminate 15-source UUID penalty? | No; penalty remains -10.58 pp [-16.83, -4.50]; truncation drops to 37%. |
+| Stage 1 scaled (N=500) | 16,000 generations | 8 models | Does the single-hop attribution deficit replicate at scale? | Yes; UUID binding drops up to -28.4 pp (p=6.14e-20) on Qwen 1.5B, -42.0 pp on LFM 1.2B. |
+| MuSiQue scaled (N=500) | 16,000 generations | 8 models | Is the multi-hop attribution deficit universal at scale? | Yes; 16/16 cells negative, 16/16 paired intervals strictly exclude zero in negative direction. |
+| Stage 8 scaled (N=500) | 16,000 generations | 8 models | Do typed handles outperform untyped across diverse architectures? | Yes; +8.0 pp gain on token-matched models (p=4.74e-48), 757 typed wins vs 20 losses fleet-wide. |
+| Stage 5 full fleet | 3,840 two-pass generations (7,680 calls) | 8 models | How does reasoning budget interact with UUIDs across regimes? | Severe UUID penalties at small budgets (up to -54.2 pp); monotonic recovery fails. |
+| LongProc 7-model suite | 175 generations | 7 models | How do advanced small models track belief states? | Qwen 3.5 4B achieves 68% answer, 100% full trace, and 16.0% strict trace (fleet highest). |
 
 The evidence base comprises 18,605 primary behavioral records (24,205 primary model
 calls) plus 2,000 post-hoc validation generations, totaling 20,605 records and
 26,205 model calls across Stages 0–8. Each Stage 5 record contains two sequential
 model calls. Stage 5 therefore comprises 5,600 two-pass generations and 11,200 model calls:
 2,400 pilot generations (4,800 calls) plus 3,200 confirmatory generations (6,400 calls).
+Systematically expanding the fleet to full parity across all eight models and executing a
+48,000-generation scaled confirmatory program ($N=500$ across Stages 1, 8, and MuSiQue) brings
+the grand total to **76,515 behavioral records and 83,555 model calls**, alongside
+960 BF16 forward passes, 1,056 causal interventions, and 5,500 deterministic systems executions.
 Forward passes, causal interventions, valid systems requests, and adversarial test cases
 are reported separately.
 
@@ -91,10 +100,13 @@ state transfers the complete observed counterfactual response. Values outside
 
 ## Models and execution scope
 
-Behavioral experiments use revision-pinned local GGUF artifacts for:
+Behavioral experiments use revision-pinned local GGUF artifacts across eight model configurations:
 
 - Qwen2.5-1.5B-Instruct Q4_K_M;
+- Qwen3.5-2B-Instruct Q4_K_M;
+- Qwen3.5-4B-Instruct Q4_K_M;
 - LiquidAI LFM2.5-1.2B-Instruct Q4_K_M;
+- LiquidAI LFM2.5-2.6B-Instruct Q4_K_M;
 - Gemma 4 E2B instruction-tuned Q4_0;
 - Gemma 4 E4B instruction-tuned Q4_0;
 - Tiny Aya Global Q4_K_M where specified.
@@ -153,15 +165,39 @@ The reversal between strict citation and relaxed binding at twenty sources is a
 formatting effect, not evidence of better UUID source selection.
 
 This baseline was model-dependent. Gemma E2B showed the opposite binding
-direction: UUID minus structured was +37 points at five sources (95% CI +24 to
+direction in the unrescored pilot: UUID minus structured was +37 points at five sources (95% CI +24 to
 +50) and +25 points at twenty sources (+16 to +34). Gemma E4B was at ceiling
-for both formats. The later held-out MuSiQue experiment is therefore the primary
+for both formats. Crucially, offline inspection revealed that the apparent Gemma E2B
+advantage was driven by the parser dropping same-line citations (`ANSWER: ..., CITATIONS: ...`).
+Upon full offline rescoring with relaxed same-line citation extraction, Gemma E2B is at ceiling
+in both formats (-0.2 pp at 5 sources, +0.6 pp at 20 sources). The later held-out MuSiQue experiment is therefore the primary
 cross-model confirmation rather than evidence that Stage 1 generalized
 uniformly.
 
-### Held-out MuSiQue binding effects
+### Scaled Stage 1 citation effects ($N=500$, 16,000 generations)
 
-Effects are UUID minus numeric binding recall in percentage points.
+| Model Family | Sources | Structured Content | UUID Content | Structured Strict | UUID Strict | Structured Binding | UUID Binding | Paired Binding Δ (95% CI) | Exact p |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Qwen 1.5B | 5 | 99.4% | 99.6% | 72.8% | 53.8% | 98.6% | 81.2% | **-17.4 pp** [-21.0, -14.0] | 1.68e-22 |
+| Qwen 1.5B | 20 | 85.4% | 88.8% | 12.6% | 36.6% | 68.8% | 40.4% | **-28.4 pp** [-34.0, -22.6] | 6.14e-20 |
+| Qwen 3.5 2B | 5 | 100.0% | 99.8% | 99.4% | 98.0% | 99.4% | 98.0% | -1.4 pp [-2.8, +0.0] | 0.0923 |
+| Qwen 3.5 2B | 20 | 100.0% | 100.0% | 97.0% | 94.0% | 97.0% | 94.0% | **-3.0 pp** [-5.6, -0.4] | 0.0357 |
+| Qwen 3.5 4B | 5 | 100.0% | 100.0% | 100.0% | 96.0% | 100.0% | 100.0% | +0.0 pp [+0.0, +0.0] | 1.0000 |
+| Qwen 3.5 4B | 20 | 100.0% | 100.0% | 99.8% | 97.4% | 99.8% | 98.0% | **-1.8 pp** [-3.2, -0.6] | 0.0117 |
+| LFM 1.2B | 5 | 100.0% | 99.8% | 2.0% | 11.2% | 55.0% | 13.0% | **-42.0 pp** [-47.4, -36.6] | 1.06e-40 |
+| LFM 1.2B | 20 | 96.4% | 96.2% | 0.0% | 1.8% | 3.8% | 2.2% | -1.6 pp [-3.4, +0.0] | 0.0963 |
+| LFM 2.6B | 5 | 98.2% | 99.6% | 66.0% | 95.8% | 97.0% | 96.4% | -0.6 pp [-2.6, +1.4] | 0.7011 |
+| LFM 2.6B | 20 | 66.8% | 85.4% | 40.0% | 61.8% | 62.0% | 61.8% | -0.2 pp [-5.0, +4.6] | 1.0000 |
+| Gemma E2B | 5 | 100.0% | 100.0% | 98.0% | 99.4% | 99.8% | 99.6% | -0.2 pp [-1.0, +0.4] | 1.0000 |
+| Gemma E2B | 20 | 99.8% | 99.8% | 76.4% | 99.6% | 99.2% | 99.8% | +0.6 pp [-0.2, +1.6] | 0.3750 |
+| Gemma E4B | 5 | 100.0% | 100.0% | 100.0% | 91.8% | 100.0% | 100.0% | +0.0 pp [+0.0, +0.0] | 1.0000 |
+| Gemma E4B | 20 | 100.0% | 100.0% | 96.2% | 82.6% | 100.0% | 100.0% | +0.0 pp [+0.0, +0.0] | 1.0000 |
+| Tiny Aya | 5 | 100.0% | 100.0% | 52.0% | 64.0% | 96.0% | 79.6% | **-16.4 pp** [-20.2, -12.6] | 3.30e-16 |
+| Tiny Aya | 20 | 99.4% | 99.8% | 43.6% | 70.0% | 76.8% | 73.6% | -3.2 pp [-8.4, +2.0] | 0.2635 |
+
+### Held-out MuSiQue binding effects (100-item pilot)
+
+Effects are UUID minus numeric binding recall in percentage points across 100 held-out questions (2,400 initial generations, expanded to 3,200 across 8 models).
 
 | Model | 15 sources | 20 sources |
 |---|---:|---:|
@@ -169,18 +205,45 @@ Effects are UUID minus numeric binding recall in percentage points.
 | LFM 1.2B | -7.5 [-13.4, -1.6] | -6.1 [-12.1, -0.5] |
 | LFM 2.6B | -10.4 [-16.3, -4.5] | -4.7 [-10.2, +0.8] |
 | Qwen 1.5B | -6.8 [-12.3, -1.2] | -0.8 [-5.1, +3.2] |
+| Qwen 3.5 2B | -0.3 [-4.7, +4.1] | -5.8 [-11.4, -0.3] |
+| Qwen 3.5 4B | -3.2 [-7.8, +1.3] | -2.9 [-7.9, +1.9] |
 | Gemma E2B | -3.1 [-8.3, +2.4] | -4.8 [-10.1, +0.1] |
 | Gemma E4B | -5.8 [-10.9, -0.9] | -3.4 [-9.1, +2.3] |
 
-### LongProc
+### Scaled MuSiQue confirmation ($N=500$, 16,000 generations)
+
+Effects are UUID minus numeric binding recall across 500 balanced MuSiQue questions across all eight models. The cohort encompasses 51 items from the initial 100-item cohort, 48 from the held-out cohort, and 401 genuinely new items. All 16 cells show negative deltas; all 16 unadjusted paired 95% bootstrap confidence intervals (ordinary paired percentile bootstrap, 10,000 resamples) strictly exclude zero in the negative direction. Under Holm-Bonferroni correction at $\alpha=0.05$, 14 of 16 cells survive. An analysis-only sensitivity restricted to the 401 disjoint items (`results/analysis/musique_500_disjoint_401.json`) confirms the result with 16/16 cells negative and 15/16 intervals excluding zero.
+
+| Model | Sources | Numeric binding | UUID binding | UUID − numeric binding (95% CI) | Numeric answer F1 | UUID answer F1 |
+|---|---:|---:|---:|---:|---:|---:|
+| Tiny Aya | 15 | 42.4% | 29.4% | **-13.0 pp** [-15.5, -10.5] | 26.3% | 33.7% |
+| Tiny Aya | 20 | 39.4% | 23.6% | **-15.8 pp** [-18.4, -13.3] | 26.7% | 29.3% |
+| LFM 1.2B | 15 | 22.1% | 18.2% | **-3.9 pp** [-6.5, -1.3] | 8.5% | 8.2% |
+| LFM 1.2B | 20 | 16.7% | 9.9% | **-6.8 pp** [-9.0, -4.6] | 7.3% | 5.8% |
+| LFM 2.6B | 15 | 23.7% | 16.4% | **-7.3 pp** [-9.8, -4.9] | 26.5% | 25.1% |
+| LFM 2.6B | 20 | 22.3% | 13.3% | **-9.0 pp** [-11.8, -6.3] | 22.6% | 20.3% |
+| Qwen 1.5B | 15 | 21.8% | 15.8% | **-6.0 pp** [-8.6, -3.4] | 18.8% | 18.9% |
+| Qwen 1.5B | 20 | 17.0% | 8.9% | **-8.0 pp** [-10.5, -5.6] | 17.5% | 19.3% |
+| Gemma E2B | 15 | 45.7% | 41.7% | **-4.0 pp** [-6.2, -1.8] | 16.3% | 16.1% |
+| Gemma E2B | 20 | 44.9% | 40.2% | **-4.7 pp** [-6.9, -2.5] | 14.5% | 15.0% |
+| Gemma E4B | 15 | 47.0% | 40.6% | **-6.4 pp** [-8.9, -3.9] | 23.6% | 23.6% |
+| Gemma E4B | 20 | 43.0% | 36.0% | **-7.0 pp** [-9.2, -4.7] | 22.9% | 20.7% |
+| Qwen 3.5 2B | 15 | 36.0% | 29.8% | **-6.2 pp** [-8.6, -3.9] | 29.7% | 29.1% |
+| Qwen 3.5 2B | 20 | 33.1% | 28.3% | **-4.8 pp** [-7.0, -2.6] | 29.1% | 28.6% |
+| Qwen 3.5 4B | 15 | 61.7% | 58.6% | **-3.2 pp** [-5.4, -0.9] | 42.0% | 39.3% |
+| Qwen 3.5 4B | 20 | 58.5% | 56.3% | **-2.1 pp** [-4.2, -0.1] | 40.1% | 38.8% |
+
+### LongProc (7-Model Suite)
 
 | Model | Exact trace | Mean correct prefix | Final answer | Full trace emitted | Mean output |
 |---|---:|---:|---:|---:|---:|
-| Qwen | 0% | 1.2% | 4% | 96% | 2,027 |
-| LFM 1.2B | 0% | 0.9% | 28% | 0% | 434 |
-| LFM 2.6B | 0% | 0.2% | 4% | 16% | 1,086 |
-| Gemma E2B | 0% | 9.4% | 16% | 80% | 1,987 |
-| Gemma E4B | 8% | 38.0% | 76% | 96% | 1,996 |
+| Qwen 1.5B | 0.0% | 1.2% | 4.0% | 96% | 2,027 |
+| Qwen 3.5 2B | 0.0% | 1.2% | 28.0% | 72% | 1,921 |
+| Qwen 3.5 4B | 16.0% | 40.6% | 68.0% | 100% | 1,929 |
+| LFM 1.2B | 0.0% | 0.9% | 28.0% | 0% | 434 |
+| LFM 2.6B | 0.0% | 0.2% | 4.0% | 16% | 1,086 |
+| Gemma E2B | 0.0% | 9.4% | 16.0% | 80% | 1,987 |
+| Gemma E4B | 8.0% | 38.0% | 76.0% | 96% | 1,996 |
 
 ### Stage 6 representation gate
 
@@ -205,7 +268,7 @@ relevant source to the new identifier.
 
 Gemma results are pilot-level because of GPU-memory-constrained cohort sizes.
 
-### Stage 8 aggregate accuracy
+### Stage 8 aggregate accuracy (40-item pilot)
 
 | Model | Raw | Random masked | Untyped | Typed | Typed - untyped |
 |---|---:|---:|---:|---:|---:|
@@ -218,6 +281,24 @@ Gemma results are pilot-level because of GPU-memory-constrained cohort sizes.
 
 Raw-value exposure was 85–100% in raw-condition outputs and 0% in every masked
 condition. This describes controlled prompt exposure, not anonymity.
+
+### Scaled Stage 8 entity canonicalization ($N=500$, 16,000 generations)
+
+| Model | Raw | Random masked | Untyped | Typed | Typed − untyped (95% CI) | Exact p | Length token Δ |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Qwen 1.5B | 94.8% | 82.0% | 81.0% | 92.4% | **+11.4 pp** [+8.0, +14.6] | 7.66e-12 | +0.0 |
+| Qwen 3.5 2B | 48.6% | 61.0% | 96.6% | 98.6% | **+2.0 pp** [+0.6, +3.4] | 0.0129 | +0.0 |
+| Qwen 3.5 4B | 100.0% | 99.8% | 99.6% | 100.0% | +0.4 pp [+0.0, +1.0] | 0.5000 | +0.0 |
+| LFM 1.2B | 29.4% | 5.2% | 0.0% | 22.0% | **+22.0 pp** [+18.4, +25.6] | 1.54e-33 | +35.0 |
+| LFM 2.6B | 94.6% | 56.6% | 18.2% | 97.0% | **+78.8 pp** [+75.0, +82.4] | 2.46e-115 | +35.0 |
+| Gemma E2B | 100.0% | 100.0% | 85.8% | 98.8% | **+13.0 pp** [+10.0, +16.2] | 8.19e-18 | +0.0 |
+| Gemma E4B | 100.0% | 99.6% | 86.4% | 99.8% | **+13.4 pp** [+10.4, +16.4] | 1.36e-20 | +0.0 |
+| Tiny Aya | 82.4% | 77.8% | 91.2% | 97.6% | **+6.4 pp** [+4.0, +9.0] | 4.43e-07 | +36.0 |
+
+In the strict token-matched subset (Qwen 1.5B, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, Gemma E4B; 2,500 pairs),
+typed handles showed a **+8.0 percentage-point advantage** ($p = 4.74 \times 10^{-48}$). Across all 4,000 paired
+comparisons, typed handles won 757 times vs 20 losses ($p = 5.34 \times 10^{-195}$). Output PII exposure was
+92%–100% under raw prompts and **0.0% across all 16,000 generations under masked/typed representations**.
 
 ### Post-hoc validation studies
 

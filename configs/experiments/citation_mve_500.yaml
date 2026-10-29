@@ -1,0 +1,20 @@
+name: 01_citation_mve_500
+seed: 202610
+dataset:
+  family: citation
+  count: 500
+  task_type: single_hop
+  grid:
+    num_sources: [5, 20]
+identifiers: [structured, uuid]
+backend:
+  type: oracle
+generation:
+  temperature: 0
+  max_output_tokens: 80
+  tokenizer: {type: regex}
+output_dir: results/raw
+metadata:
+  stage: 1
+  scaled_evaluation: true
+  sample_size: 500

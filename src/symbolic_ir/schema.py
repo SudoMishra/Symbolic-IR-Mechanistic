@@ -62,8 +62,10 @@ class GenerationRequest:
     prompt: str
     example_id: str
     max_output_tokens: int = 256
-    temperature: float = 0.0
+    temperature: float | None = 0.0
     reasoning_budget: str | int | None = None
+    thinking_type: str | None = None
+    effort: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -75,5 +77,12 @@ class GenerationResponse:
     input_tokens: int | None = None
     output_tokens: int | None = None
     reasoning_tokens: int | None = None
+    cached_tokens: int | None = None
     latency_seconds: float | None = None
+    request_id: str | None = None
+    stop_reason: str | None = None
+    prompt_hash: str | None = None
+    request_body: dict[str, Any] = field(default_factory=dict)
+    retry_count: int = 0
+    calculated_cost: float = 0.0
     raw: dict[str, Any] = field(default_factory=dict)

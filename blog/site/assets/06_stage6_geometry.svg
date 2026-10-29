@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
-<title id="title">Figure 6: Stage 6 representation geometry</title>
-<desc id="desc">Four panels show source-content and source-label CKA between structured and UUID conditions across normalized model depth.</desc>
+<title id="title">Figure 6: Stage 6 representation geometry across 3 models</title>
+<desc id="desc">Three panels show source-content and source-label CKA between structured and UUID conditions across normalized model depth.</desc>
 <style>
 text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
 .title{font-size:26px;font-weight:700}.subtitle{font-size:14px;fill:#5f6b7a}
@@ -9,7 +9,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 .axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.5}
 </style>
 <text x="50" y="44" class="title" text-anchor="start">Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent</text>
-<text x="50" y="72" class="subtitle" text-anchor="start">Structured-versus-UUID linear CKA across 80 paired examples (960 BF16 forward passes); normalized model depth.</text>
+<text x="50" y="72" class="subtitle" text-anchor="start">Structured-versus-UUID linear CKA across 80 paired examples (720 BF16 forward passes); normalized model depth across 3 models.</text>
 <text x="90" y="123" class="label" text-anchor="start" fill="#172033">Qwen 1.5B (28 layers)</text>
 <line x1="90" y1="355.0" x2="670" y2="355.0" stroke="#d8dee8" stroke-width="1"/>
 <text x="80" y="359.0" class="small" text-anchor="end">0.0</text>
@@ -28,66 +28,48 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <text x="90" y="379" class="small" text-anchor="start">0.0 (Embedding)</text>
 <text x="670" y="379" class="small" text-anchor="end">1.0 (Final layer)</text>
 <text x="380.0" y="379" class="small" text-anchor="middle">Normalized model depth</text>
-<text x="750" y="123" class="label" text-anchor="start" fill="#172033">LFM 1.2B (16 layers)</text>
-<line x1="750" y1="355.0" x2="1330" y2="355.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="359.0" class="small" text-anchor="end">0.0</text>
-<line x1="750" y1="311.0" x2="1330" y2="311.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="315.0" class="small" text-anchor="end">0.2</text>
-<line x1="750" y1="267.0" x2="1330" y2="267.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="271.0" class="small" text-anchor="end">0.4</text>
-<line x1="750" y1="223.0" x2="1330" y2="223.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="227.0" class="small" text-anchor="end">0.6</text>
-<line x1="750" y1="179.0" x2="1330" y2="179.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="183.0" class="small" text-anchor="end">0.8</text>
-<line x1="750" y1="135.0" x2="1330" y2="135.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="139.0" class="small" text-anchor="end">1.0</text>
-<polyline points="750.00,135.00 786.25,135.00 822.50,135.03 858.75,135.48 895.00,135.35 931.25,135.51 967.50,135.97 1003.75,135.97 1040.00,136.14 1076.25,136.25 1112.50,136.56 1148.75,138.19 1185.00,138.66 1221.25,137.68 1257.50,141.55 1293.75,137.67 1330.00,139.23" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="750.00,201.61 786.25,193.01 822.50,203.26 858.75,163.84 895.00,170.47 931.25,177.04 967.50,158.19 1003.75,159.74 1040.00,171.76 1076.25,166.59 1112.50,185.83 1148.75,195.31 1185.00,207.60 1221.25,189.78 1257.50,191.89 1293.75,179.35 1330.00,193.03" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="750" y="379" class="small" text-anchor="start">0.0 (Embedding)</text>
-<text x="1330" y="379" class="small" text-anchor="end">1.0 (Final layer)</text>
-<text x="1040.0" y="379" class="small" text-anchor="middle">Normalized model depth</text>
-<text x="90" y="453" class="label" text-anchor="start" fill="#172033">Gemma E2B (36 layers)</text>
-<line x1="90" y1="685.0" x2="670" y2="685.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="80" y="689.0" class="small" text-anchor="end">0.0</text>
-<line x1="90" y1="641.0" x2="670" y2="641.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="80" y="645.0" class="small" text-anchor="end">0.2</text>
-<line x1="90" y1="597.0" x2="670" y2="597.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="80" y="601.0" class="small" text-anchor="end">0.4</text>
-<line x1="90" y1="553.0" x2="670" y2="553.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="80" y="557.0" class="small" text-anchor="end">0.6</text>
-<line x1="90" y1="509.0" x2="670" y2="509.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="80" y="513.0" class="small" text-anchor="end">0.8</text>
-<line x1="90" y1="465.0" x2="670" y2="465.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="80" y="469.0" class="small" text-anchor="end">1.0</text>
-<polyline points="90.00,465.00 106.57,466.03 123.14,467.28 139.71,467.64 156.29,469.75 172.86,466.07 189.43,465.96 206.00,465.68 222.57,465.65 239.14,466.77 255.71,466.94 272.29,466.65 288.86,466.57 305.43,466.94 322.00,467.83 338.57,467.28 355.14,468.60 371.71,467.82 388.29,467.99 404.86,468.29 421.43,469.21 438.00,467.67 454.57,466.46 471.14,466.26 487.71,466.61 504.29,467.26 520.86,467.41 537.43,467.52 554.00,467.76 570.57,468.03 587.14,468.56 603.71,468.66 620.29,468.93 636.86,468.93 653.43,468.07 670.00,477.92" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="90.00,589.56 106.57,587.30 123.14,550.90 139.71,545.83 156.29,487.36 172.86,494.29 189.43,504.28 206.00,497.06 222.57,485.78 239.14,491.57 255.71,518.78 272.29,484.75 288.86,482.21 305.43,485.86 322.00,499.52 338.57,480.23 355.14,492.44 371.71,491.97 388.29,500.78 404.86,504.87 421.43,512.65 438.00,504.55 454.57,499.97 471.14,500.53 487.71,505.83 504.29,500.14 520.86,507.58 537.43,505.78 554.00,503.19 570.57,514.15 587.14,509.29 603.71,507.72 620.29,506.40 636.86,514.23 653.43,530.93 670.00,602.01" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="90" y="709" class="small" text-anchor="start">0.0 (Embedding)</text>
-<text x="670" y="709" class="small" text-anchor="end">1.0 (Final layer)</text>
-<text x="380.0" y="709" class="small" text-anchor="middle">Normalized model depth</text>
-<text x="750" y="453" class="label" text-anchor="start" fill="#172033">Gemma E4B (46 layers)</text>
-<line x1="750" y1="685.0" x2="1330" y2="685.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="689.0" class="small" text-anchor="end">0.0</text>
-<line x1="750" y1="641.0" x2="1330" y2="641.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="645.0" class="small" text-anchor="end">0.2</text>
-<line x1="750" y1="597.0" x2="1330" y2="597.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="601.0" class="small" text-anchor="end">0.4</text>
-<line x1="750" y1="553.0" x2="1330" y2="553.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="557.0" class="small" text-anchor="end">0.6</text>
-<line x1="750" y1="509.0" x2="1330" y2="509.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="513.0" class="small" text-anchor="end">0.8</text>
-<line x1="750" y1="465.0" x2="1330" y2="465.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="740" y="469.0" class="small" text-anchor="end">1.0</text>
-<polyline points="750.00,465.00 763.81,465.79 777.62,466.38 791.43,467.76 805.24,467.56 819.05,469.55 832.86,466.70 846.67,466.33 860.48,466.15 874.29,466.01 888.10,465.64 901.90,465.77 915.71,465.61 929.52,465.58 943.33,465.88 957.14,466.23 970.95,466.27 984.76,466.63 998.57,466.59 1012.38,466.23 1026.19,466.12 1040.00,466.19 1053.81,466.47 1067.62,469.53 1081.43,466.03 1095.24,466.07 1109.05,466.33 1122.86,466.17 1136.67,466.02 1150.48,466.19 1164.29,466.73 1178.10,466.36 1191.90,466.83 1205.71,467.09 1219.52,467.30 1233.33,467.06 1247.14,466.95 1260.95,466.83 1274.76,466.70 1288.57,466.54 1302.38,466.32 1316.19,466.14 1330.00,466.16" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="750.00,589.25 763.81,555.81 777.62,532.48 791.43,533.41 805.24,529.91 819.05,484.94 832.86,484.37 846.67,491.35 860.48,495.76 874.29,493.21 888.10,498.18 901.90,484.49 915.71,500.21 929.52,494.44 943.33,489.87 957.14,490.16 970.95,484.84 984.76,483.50 998.57,490.99 1012.38,484.73 1026.19,487.05 1040.00,487.19 1053.81,487.36 1067.62,508.17 1081.43,478.57 1095.24,475.51 1109.05,479.58 1122.86,483.43 1136.67,483.22 1150.48,497.11 1164.29,516.74 1178.10,500.67 1191.90,495.25 1205.71,495.44 1219.52,493.15 1233.33,490.69 1247.14,490.40 1260.95,488.76 1274.76,489.38 1288.57,490.23 1302.38,490.94 1316.19,496.05 1330.00,502.72" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="750" y="709" class="small" text-anchor="start">0.0 (Embedding)</text>
-<text x="1330" y="709" class="small" text-anchor="end">1.0 (Final layer)</text>
-<text x="1040.0" y="709" class="small" text-anchor="middle">Normalized model depth</text>
-<rect x="90" y="740" width="1240" height="85" rx="10" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<line x1="120" y1="765" x2="160" y2="765" stroke="#008c83" stroke-width="3"/>
-<text x="170" y="770" class="small" text-anchor="start" font-weight="600">Teal: Source-content tokens (fact text)</text>
-<line x1="470" y1="765" x2="510" y2="765" stroke="#7656c9" stroke-width="3"/>
-<text x="520" y="770" class="small" text-anchor="start" font-weight="600">Purple: Source-label tokens (identifier string)</text>
-<text x="850" y="770" class="small" text-anchor="start" fill="#5f6b7a">1.0 = highly similar geometry; 0.0 = little shared geometry</text>
-<text x="120" y="805" class="small" text-anchor="start">Note: Passage facts share identical text across conditions; high CKA (≥0.94) is partly expected by construction.</text>
-<text x="800" y="805" class="small" text-anchor="start">Notice: Gemma E2B label CKA collapses to ~0.37 at final layer; LFM fluctuates between 0.67 and 0.89.</text>
+<text x="730" y="123" class="label" text-anchor="start" fill="#172033">Gemma E2B (36 layers)</text>
+<line x1="730" y1="355.0" x2="1310" y2="355.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="720" y="359.0" class="small" text-anchor="end">0.0</text>
+<line x1="730" y1="311.0" x2="1310" y2="311.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="720" y="315.0" class="small" text-anchor="end">0.2</text>
+<line x1="730" y1="267.0" x2="1310" y2="267.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="720" y="271.0" class="small" text-anchor="end">0.4</text>
+<line x1="730" y1="223.0" x2="1310" y2="223.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="720" y="227.0" class="small" text-anchor="end">0.6</text>
+<line x1="730" y1="179.0" x2="1310" y2="179.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="720" y="183.0" class="small" text-anchor="end">0.8</text>
+<line x1="730" y1="135.0" x2="1310" y2="135.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="720" y="139.0" class="small" text-anchor="end">1.0</text>
+<polyline points="730.00,135.00 746.57,136.03 763.14,137.28 779.71,137.64 796.29,139.75 812.86,136.07 829.43,135.96 846.00,135.68 862.57,135.65 879.14,136.77 895.71,136.94 912.29,136.65 928.86,136.57 945.43,136.94 962.00,137.83 978.57,137.28 995.14,138.60 1011.71,137.82 1028.29,137.99 1044.86,138.29 1061.43,139.21 1078.00,137.67 1094.57,136.46 1111.14,136.26 1127.71,136.61 1144.29,137.26 1160.86,137.41 1177.43,137.52 1194.00,137.76 1210.57,138.03 1227.14,138.56 1243.71,138.66 1260.29,138.93 1276.86,138.93 1293.43,138.07 1310.00,147.92" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="730.00,259.56 746.57,257.30 763.14,220.90 779.71,215.83 796.29,157.36 812.86,164.29 829.43,174.28 846.00,167.06 862.57,155.78 879.14,161.57 895.71,188.78 912.29,154.75 928.86,152.21 945.43,155.86 962.00,169.52 978.57,150.23 995.14,162.44 1011.71,161.97 1028.29,170.78 1044.86,174.87 1061.43,182.65 1078.00,174.55 1094.57,169.97 1111.14,170.53 1127.71,175.83 1144.29,170.14 1160.86,177.58 1177.43,175.78 1194.00,173.19 1210.57,184.15 1227.14,179.29 1243.71,177.72 1260.29,176.40 1276.86,184.23 1293.43,200.93 1310.00,272.01" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="730" y="379" class="small" text-anchor="start">0.0 (Embedding)</text>
+<text x="1310" y="379" class="small" text-anchor="end">1.0 (Final layer)</text>
+<text x="1020.0" y="379" class="small" text-anchor="middle">Normalized model depth</text>
+<text x="410" y="453" class="label" text-anchor="start" fill="#172033">Gemma E4B (46 layers)</text>
+<line x1="410" y1="685.0" x2="990" y2="685.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="400" y="689.0" class="small" text-anchor="end">0.0</text>
+<line x1="410" y1="641.0" x2="990" y2="641.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="400" y="645.0" class="small" text-anchor="end">0.2</text>
+<line x1="410" y1="597.0" x2="990" y2="597.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="400" y="601.0" class="small" text-anchor="end">0.4</text>
+<line x1="410" y1="553.0" x2="990" y2="553.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="400" y="557.0" class="small" text-anchor="end">0.6</text>
+<line x1="410" y1="509.0" x2="990" y2="509.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="400" y="513.0" class="small" text-anchor="end">0.8</text>
+<line x1="410" y1="465.0" x2="990" y2="465.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="400" y="469.0" class="small" text-anchor="end">1.0</text>
+<polyline points="410.00,465.00 423.81,465.79 437.62,466.38 451.43,467.76 465.24,467.56 479.05,469.55 492.86,466.70 506.67,466.33 520.48,466.15 534.29,466.01 548.10,465.64 561.90,465.77 575.71,465.61 589.52,465.58 603.33,465.88 617.14,466.23 630.95,466.27 644.76,466.63 658.57,466.59 672.38,466.23 686.19,466.12 700.00,466.19 713.81,466.47 727.62,469.53 741.43,466.03 755.24,466.07 769.05,466.33 782.86,466.17 796.67,466.02 810.48,466.19 824.29,466.73 838.10,466.36 851.90,466.83 865.71,467.09 879.52,467.30 893.33,467.06 907.14,466.95 920.95,466.83 934.76,466.70 948.57,466.54 962.38,466.32 976.19,466.14 990.00,466.16" fill="none" stroke="#008c83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="410.00,589.25 423.81,555.81 437.62,532.48 451.43,533.41 465.24,529.91 479.05,484.94 492.86,484.37 506.67,491.35 520.48,495.76 534.29,493.21 548.10,498.18 561.90,484.49 575.71,500.21 589.52,494.44 603.33,489.87 617.14,490.16 630.95,484.84 644.76,483.50 658.57,490.99 672.38,484.73 686.19,487.05 700.00,487.19 713.81,487.36 727.62,508.17 741.43,478.57 755.24,475.51 769.05,479.58 782.86,483.43 796.67,483.22 810.48,497.11 824.29,516.74 838.10,500.67 851.90,495.25 865.71,495.44 879.52,493.15 893.33,490.69 907.14,490.40 920.95,488.76 934.76,489.38 948.57,490.23 962.38,490.94 976.19,496.05 990.00,502.72" fill="none" stroke="#7656c9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="410" y="709" class="small" text-anchor="start">0.0 (Embedding)</text>
+<text x="990" y="709" class="small" text-anchor="end">1.0 (Final layer)</text>
+<text x="700.0" y="709" class="small" text-anchor="middle">Normalized model depth</text>
+<rect x="90" y="735" width="1240" height="95" rx="10" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<line x1="120" y1="755" x2="160" y2="755" stroke="#008c83" stroke-width="3"/>
+<text x="170" y="760" class="small" text-anchor="start" font-weight="600">Teal: Source-content tokens (fact text)</text>
+<line x1="470" y1="755" x2="510" y2="755" stroke="#7656c9" stroke-width="3"/>
+<text x="520" y="760" class="small" text-anchor="start" font-weight="600">Purple: Source-label tokens (identifier string)</text>
+<text x="850" y="760" class="small" text-anchor="start" fill="#5f6b7a">1.0 = highly similar geometry; 0.0 = little shared geometry</text>
+<text x="120" y="788" class="small" text-anchor="start">Note: Passage facts share identical text across conditions; high CKA (≥0.94) is partly expected by construction.</text>
+<text x="120" y="810" class="small" text-anchor="start" fill="#5f6b7a">Notice: Gemma E2B label CKA collapses to ~0.37 at final layer, showing late divergence in identifier representation.</text>
 </svg>

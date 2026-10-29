@@ -1,0 +1,42 @@
+name: 01_citation_mve_500_lfm25_26b
+seed: 202610
+dataset:
+  family: citation
+  count: 500
+  task_type: single_hop
+  grid:
+    num_sources:
+    - 5
+    - 20
+identifiers:
+- structured
+- uuid
+backend:
+  type: llama_cpp
+  model_path: models/LFM2.5-2.6B-Q4_K_M.gguf
+  model: LiquidAI/LFM2.5-2.6B-GGUF:q4_k_m
+  revision: e7caca5d835a3901a8e0d63e94009429bafafdfc
+  n_ctx: 4096
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202610
+  assistant_prefill: '<think>
+
+    </think>
+
+    '
+generation:
+  temperature: 0
+  max_output_tokens: 80
+  tokenizer:
+    type: llama_cpp
+    model_path: models/LFM2.5-2.6B-Q4_K_M.gguf
+output_dir: results/raw
+metadata:
+  stage: 1
+  scaled_evaluation: true
+  sample_size: 500
+  quantization: Q4_K_M
+  execution: CUDA

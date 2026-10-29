@@ -169,6 +169,8 @@ def run(config: ExperimentConfig, limit: int | None = None, validate_only: bool 
         })
         completed.add(context["request_key"])
         counts["completed"] += 1
+        if (counts["completed"] + counts["skipped"]) % 50 == 0 or (counts["completed"] + counts["skipped"]) == len(matrix):
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Progress: {counts['completed'] + counts['skipped']}/{len(matrix)} ({counts['completed']} completed, {counts['skipped']} skipped)", flush=True)
     return output, counts
 
 

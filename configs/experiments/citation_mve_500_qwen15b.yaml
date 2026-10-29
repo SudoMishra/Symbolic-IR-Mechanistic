@@ -1,0 +1,37 @@
+name: 01_citation_mve_500_qwen15b
+seed: 202610
+dataset:
+  family: citation
+  count: 500
+  task_type: single_hop
+  grid:
+    num_sources:
+    - 5
+    - 20
+identifiers:
+- structured
+- uuid
+backend:
+  type: llama_cpp
+  model_path: models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+  model: Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m
+  revision: d538981f62157dd8d02e8648325a722db3ff9ae8
+  n_ctx: 4096
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202610
+generation:
+  temperature: 0
+  max_output_tokens: 80
+  tokenizer:
+    type: llama_cpp
+    model_path: models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+output_dir: results/raw
+metadata:
+  stage: 1
+  scaled_evaluation: true
+  sample_size: 500
+  quantization: Q4_K_M
+  execution: CUDA

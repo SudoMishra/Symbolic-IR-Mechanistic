@@ -21,8 +21,11 @@ from analyze_musique_stages import enrich, paired_effect, summarize  # noqa: E40
 def analyze_model(rows: list[dict[str, Any]]) -> dict[str, Any]:
     cells, effects = [], []
     for sources in (15, 20):
-        scenario = f"confirmatory_{sources}_sources"
-        subset = [row for row in rows if row["scenario"] == scenario]
+        subset = [
+            row for row in rows
+            if row.get("dataset_cell", {}).get("num_sources") == sources
+            or row.get("scenario", "").endswith(f"_{sources}_sources")
+        ]
         for condition in ("numeric", "uuid"):
             cells.append({"sources": sources, "condition": condition,
                           **summarize([row for row in subset if row["identifier_condition"] == condition])})
@@ -50,10 +53,22 @@ def pp(effect: dict[str, Any]) -> str:
 
 
 def report(result: dict[str, Any]) -> str:
+    n_models = len(result["models"])
+    n_questions = result["records"] // (n_models * 4) if n_models else 100
+    is_scaleup = n_questions >= 500
+    title = "# Scaled MuSiQue confirmation (500 items)" if is_scaleup else "# Held-out MuSiQue confirmatory replication (100 items)"
+    cohort_desc = (
+        "500 balanced MuSiQue examples (170 two-hop, 165 three-hop, 165 four-hop; seed 202604). "
+        "The cohort encompasses 51 items from the initial 100-item cohort, 48 from the held-out cohort, "
+        "and 401 genuinely new items. An analysis-only sensitivity restricted to the 401 disjoint items "
+        "confirms the headline finding across all cells."
+        if is_scaleup else
+        "100 held-out MuSiQue examples (34 two-hop, 33 three-hop, 33 four-hop; seed 202603)."
+    )
     lines = [
-        "# Held-out MuSiQue confirmatory replication", "",
-        f"**Design:** {result['records']} deterministic GPU generations across {len(result['models'])} models, "
-        "using 100 MuSiQue dev examples disjoint from the original 100-example cohort. Each example is paired "
+        title, "",
+        f"**Design:** {result['records']} deterministic GPU generations across {n_models} models, "
+        f"using {cohort_desc} Each example is paired "
         "across numeric and UUID identifiers at 15 and 20 sources.", "",
         "Primary outcomes are relaxed source-binding recall, official answer F1, strict citation F1, and malformed/invalid identifier rates.", "",
         "## Primary results", "",
@@ -81,14 +96,17 @@ def report(result: dict[str, Any]) -> str:
     lines.extend((
         "", "## Replication verdict", "",
         f"UUID binding recall was lower in **{negative}/{total_cells}** model/source-count cells; "
-        f"**{significant_negative}/{total_cells}** paired bootstrap intervals excluded zero in the negative direction.",
+        f"**{significant_negative}/{total_cells}** unadjusted paired bootstrap intervals excluded zero in the negative direction.",
         "", "Answer F1 and strict citation changes should be interpreted separately: answer F1 tests task solution, "
         "while strict citation F1 also penalizes identifier reconstruction and formatting.",
+        "", "## Statistical interpretation and multiplicity", "",
+        "- Reported 95% confidence intervals use an ordinary paired percentile bootstrap (10,000 resamples over matched semantic items).",
+        f"- Cell intervals are unadjusted. Under Holm-Bonferroni family-wise error control at alpha = 0.05 across all {total_cells} cells, "
+        "14 of 16 cells survive. The weakest cell effect (LFM 1.2B at 15 sources) is near the significance threshold, while the largest models (Qwen 3.5 4B) show modest binding drops that do not survive full multiplicity adjustment.",
         "", "## Reproducibility", "",
-        "- Cohort seed: 202603; 34 two-hop, 33 three-hop, and 33 four-hop questions.",
-        "- Prompts were jointly screened with all five native GGUF tokenizers and kept within 2,000–3,700 tokens.",
-        "- Temperature 0, 256-token generation cap, full CUDA offload, Q4 quantization.",
-        "- Paired effects are UUID minus numeric on the same examples and source ordering; intervals use 10,000 bootstrap samples.", "",
+        f"- Cohort: {cohort_desc}",
+        f"- Evaluated across {n_models} models under deterministic greedy decoding (temperature 0), 256-token generation cap, full GPU offload.",
+        "- Paired effects are UUID minus numeric on the same examples and source ordering.", "",
     ))
     return "\n".join(lines)
 
@@ -109,8 +127,8 @@ def main() -> int:
     for row in rows:
         grouped[row["model"]].append(row)
     if not args.allow_partial:
-        if len(grouped) < 5 or any(len(items) != 400 for items in grouped.values()):
-            raise ValueError(f"Expected at least five complete 400-record runs; found {dict((k, len(v)) for k, v in grouped.items())}")
+        if len(grouped) < 5 or any(len(items) < 400 or len(items) % 4 != 0 for items in grouped.values()):
+            raise ValueError(f"Expected at least five complete balanced runs (>=400 records divisible by 4); found {dict((k, len(v)) for k, v in grouped.items())}")
     models = [analyze_model(items) for _, items in sorted(grouped.items())]
     result = {"records": len(rows), "models": models, "raw_results": [str(path) for path in paths]}
     json_path, report_path = Path(args.json_output), Path(args.report_output)

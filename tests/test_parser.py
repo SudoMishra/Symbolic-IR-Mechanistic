@@ -25,3 +25,21 @@ def test_parser_handles_missing_citation_field():
     assert parsed.answer == "Narin"
     assert not parsed.has_citation_field
 
+
+def test_parser_handles_same_line_citations():
+    parsed = parse_output("ANSWER: Caldris, CITATIONS: [S3]", ["[S1]", "[S2]", "[S3]"])
+    assert parsed.answer == "Caldris"
+    assert parsed.citations == ("[S3]",)
+    assert parsed.has_citation_field is True
+    assert parsed.strict_format is False
+
+
+def test_parser_strict_two_line_compliance():
+    two_line = parse_output("ANSWER: Caldris\nCITATIONS: [S3]", ["[S3]"])
+    assert two_line.answer == "Caldris"
+    assert two_line.citations == ("[S3]",)
+    assert two_line.strict_format is True
+
+    same_line = parse_output("ANSWER: Caldris, CITATIONS: [S3]", ["[S3]"])
+    assert same_line.strict_format is False
+

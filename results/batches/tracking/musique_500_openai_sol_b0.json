@@ -1,0 +1,25 @@
+{
+  "provider": "openai",
+  "batch_id": "batch_6ae3734ab48481909bcef6b21ba5ba11",
+  "input_file_id": "file-18oCwf5zsrD8pWA7CdXUKp",
+  "status": "completed",
+  "request_count": 500,
+  "created_at": 1793291082,
+  "metadata": {
+    "phase": "musique_500",
+    "model": "sol",
+    "block": "0"
+  },
+  "counts": {
+    "provider": "openai",
+    "batch_id": "batch_6ae3734ab48481909bcef6b21ba5ba11",
+    "output_file_id": "file-STTHcsm2T5LsemKbGSKBDu",
+    "error_file_id": null,
+    "total_requests": 500,
+    "completed_requests": 500,
+    "failed_requests": 0
+  },
+  "retrieved_at": "2026-10-29T20:20:24.232282+00:00",
+  "actual_cost": 1.4206589999999986,
+  "parsed_success_rate": 100.0
+}

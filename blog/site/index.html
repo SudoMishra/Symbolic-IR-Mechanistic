@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="What 18,605 primary behavioral records, 2,000 post-hoc validation generations, 26,205 model calls, 960 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial tests taught us about UUIDs in LLM systems.">
+    <meta name="description" content="What 57,397 local-model behavioral records, 6,400 Anthropic API generations, 720 hidden-state passes, 714 causal interventions, and 5,000 adversarial tests taught us about UUIDs in LLM systems.">
     <meta name="theme-color" content="#e6dbc7">
     <title>The Hidden Cost of UUIDs: Building a Symbolic IR for LLM Systems</title>
     <link rel="preconnect" href="https://api.fontshare.com">
@@ -91,16 +91,16 @@ Return the account and supporting source handle.</code></pre>
 
         <div class="facts" aria-label="Scale of the evidence">
           <div class="fact reveal-count">
-            <p class="fact-copy"><b>18,605</b> primary (+2,000 validation = 20,605 records) / 26,205 calls</p>
+            <p class="fact-copy"><b>57,397</b> local records &bull; <b>6,400</b> Anthropic API generations</p>
           </div>
           <div class="fact reveal-count">
             <p class="fact-copy"><b>+70&ndash;94%</b> input token tax</p>
           </div>
           <div class="fact reveal-count">
-            <p class="fact-copy"><b>12 / 12</b> held-out cells worse with UUIDs</p>
+            <p class="fact-copy"><b>12 / 12</b> scaled MuSiQue cells strictly worse with UUIDs</p>
           </div>
           <div class="fact reveal-count">
-            <p class="fact-copy"><b>960</b> BF16 hidden-state passes</p>
+            <p class="fact-copy"><b>720</b> BF16 hidden-state passes</p>
           </div>
         </div>
 
@@ -114,9 +114,9 @@ Return the account and supporting source handle.</code></pre>
           <ul>
             <li><strong>Canonical semantic units:</strong> Prompts were never authored as isolated strings. Each example was generated as a canonical object (question, passages, gold answer, gold source keys) and rendered into target identifier families (numeric <code>[1]</code>, structured <code>[S1]</code>, random compact <code>[XQ7M]</code>, long hex, UUID, and typed entity handles) only at inference time.</li>
             <li><strong>Identical sequence order:</strong> Within every paired comparison, passage order, question phrasing, and distractor sets were identical.</li>
-            <li><strong>Calibrated model scale:</strong> All behavioral runs used temperature 0 decoding against pinned local GGUF models across five small/edge model families (1.2B to 4B parameters): Qwen2.5-1.5B, LiquidAI LFM2.5-1.2B, Gemma 4 E2B, Gemma 4 E4B, and Tiny Aya Global.</li>
+            <li><strong>Calibrated model scale:</strong> All behavioral runs used temperature 0 decoding against pinned local GGUF models across six primary edge model configurations (1.5B to 4B parameters) spanning three architectural families: Qwen (Qwen 2.5 1.5B, Qwen 3.5 2B, Qwen 3.5 4B), Google (Gemma 4 E2B, Gemma 4 E4B), and Cohere (Tiny Aya Global).</li>
             <li><strong>Native tokenizer accounting:</strong> Input and output lengths were logged using each model's native tokenizer, rather than character approximations.</li>
-            <li><strong>Scale:</strong> The dataset comprises <strong>18,605 primary behavioral records, plus 2,000 post-hoc validation generations: 20,605 total records and 26,205 model calls</strong> across behavioral stages (including an initial 20-record end-to-end smoke test, with 5,600 two-pass generations accounting for 11,200 calls in Stage 5), 960 BF16 hidden-state passes, 1,056 causal interventions, and 5,000 adversarial test cases.</li>
+            <li><strong>Scale:</strong> The dataset comprises <strong>21,397 baseline behavioral records (27,706 model calls)</strong> across initial behavioral stages (including an initial 20-record end-to-end smoke test, with 2,880 two-pass records accounting for 5,760 calls in Stage 5), augmented by 36,000 scaled $N=500$ generations across Stages 1, 8, and MuSiQue for a local-fleet total of <strong>57,397 behavioral records and 63,706 model calls</strong>. A completed Anthropic frontier extension adds <strong>6,400 API generations</strong> across MuSiQue, reasoning, and entity-resolution protocols. The program also includes 720 BF16 hidden-state passes, 714 causal interventions (42 counterfactual swaps and 672 activation patches), and 5,000 adversarial test cases.</li>
           </ul>
         </div>
 
@@ -131,12 +131,12 @@ Return the account and supporting source handle.</code></pre>
           </figcaption>
         </figure>
 
-        <div class="article-prose">
+        <div class="article-prose stage-index-intro">
           <h3>What each experiment is trying to do (the 9 stages)</h3>
           <p>To systematically decouple transport overhead, attribution fidelity, cognitive capacity, and systems security, the investigation progressed through nine distinct stages across five testing regimes:</p>
         </div>
 
-        <details class="experiment-details reveal-up">
+        <details class="experiment-details stage-index-details reveal-up">
           <summary>Explore the complete nine-stage experimental matrix</summary>
           <div class="table-wrap" role="region" aria-label="Overview of the 9 experimental stages" tabindex="0">
             <table class="experiment-table experiment-table--stages" aria-label="Overview of the 9 experimental stages">
@@ -152,7 +152,7 @@ Return the account and supporting source handle.</code></pre>
               <tr>
                 <td><strong>Stage 1: Controlled Synthetic Baseline</strong></td>
                 <td><em>Does replacing compact keys with UUIDs degrade attribution even when factual content and prompt order are identical?</em></td>
-                <td>Tested Qwen and LFM across 5 vs. 20 retrieval passages; measured answer EM, relaxed binding recall, strict syntax citation, tokens, and latency.</td>
+                <td>Tested Qwen, Gemma, and Tiny Aya across 5 vs. 20 retrieval passages; measured answer EM, relaxed binding recall, strict syntax citation, tokens, and latency.</td>
                 <td>Synthetic single-hop citation corpus (<code>src/symbolic_ir/data/citations.py</code>); 100 paired items across 5 &amp; 20 passages (2,500 candidate passages).</td>
               </tr>
               <tr>
@@ -176,31 +176,31 @@ Return the account and supporting source handle.</code></pre>
               <tr>
                 <td><strong>Stage 5: Reasoning Budget Scaling</strong></td>
                 <td><em>If UUIDs consume internal bookkeeping capacity, can giving models a larger scratchpad monotonically erase the penalty?</em></td>
-                <td>Tested 5,600 two-pass generations (11,200 model calls) across 5 visible scratchpad budgets (64 to 1,024 tokens) to check for monotonic recovery.</td>
-                <td>Synthetic multi-source reasoning suite (<code>data/reasoning/</code>: arithmetic, temporal, constraint, entity resolution; 2,000&ndash;4,000 tokens); 2,400 pilot + 3,200 confirmatory evaluations.</td>
+                <td>Tested 2,880 two-pass records (5,760 model calls) across 5 visible scratchpad budgets (64 to 1,024 tokens) to check for monotonic recovery.</td>
+                <td>Synthetic multi-source reasoning suite (<code>data/reasoning/</code>: arithmetic, temporal, constraint, entity resolution; 2,000&ndash;4,000 tokens) across 6 models.</td>
               </tr>
               <tr>
                 <td><strong>LongProc Reality Check</strong></td>
                 <td><em>Does verbose output indicate sound multi-step deduction, or can models generate thousands of tokens while losing state?</em></td>
-                <td>Evaluated 25 belief-state instances with deterministic reference traces, measuring correct prefix, final-answer accuracy, and full trace accuracy.</td>
+                <td>Evaluated 25 belief-state instances with deterministic reference traces across 5 models (125 GPU runs), measuring correct prefix, final-answer accuracy, and full trace accuracy.</td>
                 <td>Official Princeton PLI LongProc ToM benchmark (<code>LongProc/tom_tracking_2k</code>, Apache-2.0); 25 belief-state tracking instances with 1,024&ndash;2,048 token reference traces.</td>
               </tr>
               <tr>
                 <td><strong>Stage 6: Representation Geometry (Linear CKA)</strong></td>
                 <td><em>Where inside the transformer does attribution break down? Do UUIDs distort semantic fact tokens or only identifier states?</em></td>
-                <td>Extracted residual-stream states across 960 paired BF16 passes (80 examples) and computed Linear CKA across normalized network depth.</td>
+                <td>Extracted residual-stream states across 720 paired BF16 passes (80 examples across 3 models) and computed Linear CKA across normalized network depth.</td>
                 <td>Residual-stream hidden states from 80 paired semantic examples (temporal &amp; entity resolution) across 15 &amp; 20 sources from the calibrated Stage 5 suite.</td>
               </tr>
               <tr>
                 <td><strong>Stage 7: Counterfactual ID Swaps &amp; Patching</strong></td>
                 <td><em>Does shared geometry imply shared causal circuits, and at which layer does the model lock in its source-binding decision?</em></td>
-                <td>Executed 66 counterfactual identifier swaps and 1,056 residual activation patches to identify model-specific onset layers.</td>
-                <td>66 counterfactual prompt examples with single-source ID swaps and 1,056 residual-stream activation patch interventions across donor and recipient passes.</td>
+                <td>Executed 42 counterfactual identifier swaps and 672 residual activation patches across 3 models to identify model-specific onset layers.</td>
+                <td>42 counterfactual prompt examples with single-source ID swaps and 672 residual-stream activation patch interventions across donor and recipient passes.</td>
               </tr>
               <tr>
                 <td><strong>Stage 8: Cross-Domain Entity Resolution</strong></td>
                 <td><em>Does request-scoped canonicalization help tasks outside citations, and does it eliminate sensitive data exposure?</em></td>
-                <td>Evaluated 960 generations across customer account resolution under Raw, Random, Untyped, and Typed (<code>&lt;ACCOUNT_1&gt;</code>) formats across 6 models.</td>
+                <td>Evaluated 960 pilot generations and 12,000 scaled generations across customer account resolution under Raw, Random, Untyped, and Typed (<code>&lt;ACCOUNT_1&gt;</code>) formats across 6 models.</td>
                 <td>Synthetic customer support account dataset (<code>src/symbolic_ir/data/pii.py</code>) with realistic PII fields (name, email, phone, address, accounts; 40 examples &times; 15 &amp; 20 records).</td>
               </tr>
               <tr>
@@ -285,8 +285,7 @@ Return the account and supporting source handle.</code></pre>
           <h3>The controlled baseline</h3>
           <p>Qwen2.5-1.5B saw 100 paired fictional citation problems at five sources and another 100 at twenty sources under each representation. Only the identifiers changed. Across all four initial models at twenty sources, UUIDs added roughly <strong>70&ndash;94% input tokens</strong> and <strong>77&ndash;129% latency</strong>.</p>
           <p>Crucially, answer accuracy remained statistically unchanged (90% vs. 92% at 20 sources). The model knew the answer; it was specifically the attribution and pointer tracking that collapsed.</p>
-          <p>Chat-template decoding controls also interact directly with generation budgets and identifier formats. In a controlled <strong>1,600-generation factorial ablation</strong> on LFM 2.5-2.6B crossing decoding template (<em>default reasoning</em> vs. <em>closed-thinking prefill</em> <code>&lt;think&gt;\n&lt;/think&gt;\n</code>) with token budget (80 vs. 512 tokens), we found that initial 0% scores under default 80-token decoding were 100% truncation artifacts inside deliberation tags. Prefilling closed thinking eliminated truncation completely (0.0%), producing byte-identical outputs at 80 and 512 tokens: 5-source UUID relaxed binding reached <strong>100%</strong> (97% strict citation) in 37 tokens, and 20-source binding reached <strong>60.0%</strong> (57% strict citation). The initial anomaly was a decoding and template interaction rather than an inherent architecture failure.</p>
-          <p><strong>The binding direction was not universal.</strong> Gemma E2B reversed the Qwen/LFM pattern: UUID binding exceeded structured-label binding by 37 points at five sources and 25 points at twenty sources, with both paired intervals excluding zero. Gemma E4B was at ceiling for both. This counter-result motivated the disjoint, held-out MuSiQue confirmation below.</p>
+          <p><strong>The binding direction was not universal in pilot testing.</strong> Gemma E2B reversed the Qwen pattern in pilot evaluations: UUID binding exceeded structured-label binding by 37 points at five sources and 25 points at twenty sources, with both paired intervals excluding zero. Gemma E4B was at ceiling for both. This counter-result motivated the disjoint, held-out MuSiQue confirmation below.</p>
         </div>
 
         <div class="table-wrap table-wrap--inverse reveal-up" role="region" aria-label="Stage 1 Qwen results" tabindex="0">
@@ -302,12 +301,46 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <div class="article-prose article-prose--inverse">
+          <h4>Large-scale evaluation: Stage 1 across 6 primary models (N=500, 12,000 generations)</h4>
+          <p>To verify whether Stage 1 baseline effects persist beyond the initial 100-item pilot cohort, we scaled the benchmark to a 500-example balanced cohort tested across the six primary fleet models (500 paired examples per condition across 5 and 20 sources, totaling <strong>12,000 deterministic generations</strong>):</p>
+        </div>
+
+        <details class="experiment-details result-details reveal-up">
+          <summary>Explore the complete scaled Stage 1 results</summary>
+          <div class="table-wrap table-wrap--inverse" role="region" aria-label="Scaled Stage 1 results across 6 primary models" tabindex="0">
+          <table class="experiment-table experiment-table--scaled-stage1">
+            <thead><tr><th>Model Family</th><th>Sources</th><th>Structured Content</th><th>UUID Content</th><th>Structured Strict</th><th>UUID Strict</th><th>Structured Binding</th><th>UUID Binding</th><th>Paired Binding &Delta; (95% CI)</th><th>Exact p</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Qwen 1.5B</strong></td><td>5</td><td>99.4%</td><td>99.6%</td><td>72.8%</td><td>53.8%</td><td>98.6%</td><td>81.2%</td><td><strong>&minus;17.4 pp</strong> [&minus;21.0, &minus;14.0]</td><td>$1.68 \times 10^{-22}$</td></tr>
+              <tr><td><strong>Qwen 1.5B</strong></td><td>20</td><td>85.4%</td><td>88.8%</td><td>12.6%</td><td>36.6%</td><td>68.8%</td><td>40.4%</td><td><strong>&minus;28.4 pp</strong> [&minus;34.0, &minus;22.6]</td><td>$6.14 \times 10^{-20}$</td></tr>
+              <tr><td><strong>Qwen 3.5 2B</strong></td><td>5</td><td>100.0%</td><td>99.8%</td><td>99.4%</td><td>98.0%</td><td>99.4%</td><td>98.0%</td><td>&minus;1.4 pp [&minus;2.8, +0.0]</td><td>0.0923</td></tr>
+              <tr><td><strong>Qwen 3.5 2B</strong></td><td>20</td><td>100.0%</td><td>100.0%</td><td>97.0%</td><td>94.0%</td><td>97.0%</td><td>94.0%</td><td><strong>&minus;3.0 pp</strong> [&minus;5.6, &minus;0.4]</td><td>0.0357</td></tr>
+              <tr><td><strong>Qwen 3.5 4B</strong></td><td>5</td><td>100.0%</td><td>100.0%</td><td>100.0%</td><td>96.0%</td><td>100.0%</td><td>100.0%</td><td>+0.0 pp [+0.0, +0.0]</td><td>1.0000</td></tr>
+              <tr><td><strong>Qwen 3.5 4B</strong></td><td>20</td><td>100.0%</td><td>100.0%</td><td>99.8%</td><td>97.4%</td><td>99.8%</td><td>98.0%</td><td><strong>&minus;1.8 pp</strong> [&minus;3.2, &minus;0.6]</td><td>0.0117</td></tr>
+              <tr><td><strong>Gemma E2B</strong></td><td>5</td><td>100.0%</td><td>100.0%</td><td>98.0%</td><td>99.4%</td><td>99.8%</td><td>99.6%</td><td>&minus;0.2 pp [&minus;1.0, +0.4]</td><td>1.0000</td></tr>
+              <tr><td><strong>Gemma E2B</strong></td><td>20</td><td>99.8%</td><td>99.8%</td><td>76.4%</td><td>99.6%</td><td>99.2%</td><td>99.8%</td><td>+0.6 pp [&minus;0.2, +1.6]</td><td>0.3750</td></tr>
+              <tr><td><strong>Gemma E4B</strong></td><td>5</td><td>100.0%</td><td>100.0%</td><td>100.0%</td><td>91.8%</td><td>100.0%</td><td>100.0%</td><td>+0.0 pp [+0.0, +0.0]</td><td>1.0000</td></tr>
+              <tr><td><strong>Gemma E4B</strong></td><td>20</td><td>100.0%</td><td>100.0%</td><td>96.2%</td><td>82.6%</td><td>100.0%</td><td>100.0%</td><td>+0.0 pp [+0.0, +0.0]</td><td>1.0000</td></tr>
+              <tr><td><strong>Tiny Aya</strong></td><td>5</td><td>100.0%</td><td>100.0%</td><td>52.0%</td><td>64.0%</td><td>96.0%</td><td>79.6%</td><td><strong>&minus;16.4 pp</strong> [&minus;20.2, &minus;12.6]</td><td>$3.30 \times 10^{-16}$</td></tr>
+              <tr><td><strong>Tiny Aya</strong></td><td>20</td><td>99.4%</td><td>99.8%</td><td>43.6%</td><td>70.0%</td><td>76.8%</td><td>73.6%</td><td>&minus;3.2 pp [&minus;8.4, +2.0]</td><td>0.2635</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </details>
+
+        <div class="article-prose article-prose--inverse">
+          <p>The scaled benchmark reveals a heterogeneous architectural landscape across the primary fleet:</p>
+          <ol>
+            <li><strong>Vulnerable models gain substantially from compact aliases:</strong> On Qwen 1.5B, the paired binding penalty widens from &minus;17.4 pp at 5 sources to <strong>&minus;28.4 pp at 20 sources</strong> ($p = 6.14 \times 10^{-20}$), and on Tiny Aya <strong>&minus;16.4 pp</strong> ($p = 3.30 \times 10^{-16}$). On Qwen 3.5 2B, binding degrades by &minus;3.0 pp at 20 sources ($p = 0.0357$), and on Qwen 3.5 4B by &minus;1.8 pp ($p = 0.0117$) alongside syntax formatting drops of &minus;4.0 pp and &minus;2.4 pp.</li>
+            <li><strong>High-capacity architectures saturate at ceiling:</strong> Gemma E4B achieves perfect 100.0% source binding across both representations and scales (+0.0 pp), though UUID prompts cause strict citation formatting to fall by &minus;8.2 pp at 5 sources and &minus;13.6 pp at 20 sources ($p = 3.6 \times 10^{-13}$).</li>
+            <li><strong>Rescoring clarifies Gemma E2B:</strong> Initial pilot evaluation appeared to show a large UUID advantage on Gemma E2B (+26.0 pp and +17.0 pp). Offline inspection revealed this was entirely a parser artifact: Gemma E2B frequently emitted <code>ANSWER: ..., CITATIONS: ...</code> on a single line under structured conditions (in 60.5% of 5-source outputs), which the initial line-based citation extractor discarded. Once the parser was updated to extract same-line citations, Gemma E2B achieved near-ceiling source binding under both formats: <strong>&minus;0.2 pp</strong> [&minus;1.0, +0.4] at 5 sources (99.8% vs 99.6%) and <strong>+0.6 pp</strong> [&minus;0.2, +1.6] at 20 sources (99.2% vs 99.8%), with both intervals crossing zero. At 20 sources, structured strict citation was 76.4% due to bracket omissions (<code>S1</code> vs <code>[S1]</code>), but true evidence binding remained at ceiling.</li>
+          </ol>
+
           <h3>The skeptic&rsquo;s question: does it survive real multi-hop retrieval? (Stages 2 &amp; 3)</h3>
           <p><strong>Stages 2 &amp; 3 Motivation:</strong> Synthetic single-hop citation prompts isolate representation variables, but production retrieval involves noisy, multi-hop evidence. We set out to test: <em>Does the UUID source-binding deficit persist when queries require multi-step reasoning across 15 to 20 passages? And is it consistent across diverse model architectures, or was Stage 1 an artifact of a specific benchmark?</em></p>
           <p><strong>Data Used:</strong> Official development split of the <strong>MuSiQue</strong> multi-hop benchmark (<code>data/musique/musique_ans_v1.0_dev.jsonl</code>, CC-BY-4.0). For Stage 2, we sampled 100 balanced questions (34 two-hop, 33 three-hop, and 33 four-hop) screened across tokenizers to fit within 2,000&ndash;3,700 tokens across 15 and 20 retrieval passages. For Stage 3, we extracted an independent, strictly disjoint cohort of 100 held-out questions using identical hop distribution and length constraints, evaluating 2,400 confirmatory generations across six models.</p>
           <p>Synthetic passages are clean. To test whether the UUID binding penalty survives noisy, multi-hop retrieval, we evaluated the models on <strong>MuSiQue</strong>: 100 balanced questions consisting of 34 two-hop, 33 three-hop, and 33 four-hop examples, screened across all five tokenizers to fit within 2,000&ndash;3,700 tokens across 15 and 20 passages.</p>
           <p>Across an initial 7,500 generations and an independent confirmatory cohort of 2,400 generations on held-out questions across six models, UUID relaxed source-binding recall was lower in <strong>all 12 model/source-count comparisons</strong>, with 7 of 12 paired 95% bootstrap intervals strictly excluding zero.</p>
-          <p><strong>Post-hoc budget sensitivity (LFM 2.6B):</strong> Because LFM 2.6B exhibited high UUID truncation at 256 tokens (50% at 15 sources; 51% at 20 sources), we tested whether the observed &minus;10.4 pp penalty was an artifact of token starvation by doubling the budget to 512 tokens (400 generations). Truncation fell to 37% and 39%, yet the 15-source UUID penalty remained stable at <strong>&minus;10.58 pp</strong> (95% CI: [&minus;16.83, &minus;4.50]), while the 20-source penalty was &minus;4.00 pp (95% CI: [&minus;10.00, +1.83]) with answer F1 CIs crossing zero. The 15-source penalty was robust to doubling the budget, though residual truncation (37&ndash;39%) means truncation cannot be completely ruled out without larger limits.</p>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
@@ -319,10 +352,70 @@ Return the account and supporting source handle.</code></pre>
         </figure>
 
         <div class="article-prose article-prose--inverse">
-          <h3>The buried insight: dual labels do not fix the problem (Stage 4)</h3>
+          <h4>Principal behavioral evidence: scaled MuSiQue confirmation at N=500 (12,000 generations across 6 primary models)</h4>
+          <p>To test multi-hop evidence tracking at production scale, we evaluated the six primary fleet models across a 500-example balanced cohort under identical deterministic greedy decoding (12,000 generations total across 6 models). The 500-item cohort incorporates 51 questions from the original 100-item cohort, 48 from the held-out cohort, and 401 genuinely new items.</p>
+        </div>
+
+        <details class="experiment-details result-details reveal-up">
+          <summary>Explore the complete scaled MuSiQue results</summary>
+          <div class="table-wrap table-wrap--inverse" role="region" aria-label="Scaled MuSiQue confirmation results across 6 primary models" tabindex="0">
+          <table class="experiment-table experiment-table--scaled-musique">
+            <thead><tr><th>Model Family</th><th>Sources</th><th>Numeric Binding</th><th>UUID Binding</th><th>UUID &minus; Numeric Binding (95% CI)</th><th>Numeric Answer F1</th><th>UUID Answer F1</th><th>Strict Citation F1 &Delta;</th><th>Malformed &Delta;</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Tiny Aya</strong></td><td>15</td><td>42.4%</td><td>29.4%</td><td><strong>&minus;13.0 pp</strong> [&minus;15.5, &minus;10.5]</td><td>26.3%</td><td>33.7%</td><td>+30.1 pp [+27.6, +32.6]</td><td>+16.2 pp [+13.0, +19.4]</td></tr>
+              <tr><td><strong>Tiny Aya</strong></td><td>20</td><td>39.4%</td><td>23.6%</td><td><strong>&minus;15.8 pp</strong> [&minus;18.4, &minus;13.3]</td><td>26.7%</td><td>29.3%</td><td>+24.5 pp [+21.9, +27.1]</td><td>+15.0 pp [+12.0, +18.2]</td></tr>
+              <tr><td><strong>Qwen 1.5B</strong></td><td>15</td><td>21.8%</td><td>15.8%</td><td><strong>&minus;6.0 pp</strong> [&minus;8.6, &minus;3.4]</td><td>18.8%</td><td>18.9%</td><td>&minus;6.4 pp [&minus;9.2, &minus;3.5]</td><td>+2.0 pp [+0.8, +3.4]</td></tr>
+              <tr><td><strong>Qwen 1.5B</strong></td><td>20</td><td>17.0%</td><td>8.9%</td><td><strong>&minus;8.0 pp</strong> [&minus;10.5, &minus;5.6]</td><td>17.5%</td><td>19.3%</td><td>&minus;7.4 pp [&minus;10.0, &minus;4.8]</td><td>+1.6 pp [+0.6, +2.8]</td></tr>
+              <tr><td><strong>Gemma E2B</strong></td><td>15</td><td>45.7%</td><td>41.7%</td><td><strong>&minus;4.0 pp</strong> [&minus;6.2, &minus;1.8]</td><td>16.3%</td><td>16.1%</td><td>+5.0 pp [+1.9, +8.0]</td><td>&minus;5.0 pp [&minus;8.8, &minus;1.2]</td></tr>
+              <tr><td><strong>Gemma E2B</strong></td><td>20</td><td>44.9%</td><td>40.2%</td><td><strong>&minus;4.7 pp</strong> [&minus;6.9, &minus;2.5]</td><td>14.5%</td><td>15.0%</td><td>+2.9 pp [&minus;0.1, +6.1]</td><td>&minus;3.4 pp [&minus;7.2, +0.4]</td></tr>
+              <tr><td><strong>Gemma E4B</strong></td><td>15</td><td>47.0%</td><td>40.6%</td><td><strong>&minus;6.4 pp</strong> [&minus;8.9, &minus;3.9]</td><td>23.6%</td><td>23.6%</td><td>+6.0 pp [+2.4, +9.6]</td><td>+15.8 pp [+10.2, +21.2]</td></tr>
+              <tr><td><strong>Gemma E4B</strong></td><td>20</td><td>43.0%</td><td>36.0%</td><td><strong>&minus;7.0 pp</strong> [&minus;9.2, &minus;4.7]</td><td>22.9%</td><td>20.7%</td><td>+1.1 pp [&minus;2.4, +4.5]</td><td>+18.2 pp [+13.0, +23.6]</td></tr>
+              <tr><td><strong>Qwen 3.5 2B</strong></td><td>15</td><td>36.0%</td><td>29.8%</td><td><strong>&minus;6.2 pp</strong> [&minus;8.6, &minus;3.9]</td><td>29.7%</td><td>29.1%</td><td>&minus;8.3 pp [&minus;10.8, &minus;5.7]</td><td>+1.4 pp [+0.4, +2.6]</td></tr>
+              <tr><td><strong>Qwen 3.5 2B</strong></td><td>20</td><td>33.1%</td><td>28.3%</td><td><strong>&minus;4.8 pp</strong> [&minus;7.0, &minus;2.6]</td><td>29.1%</td><td>28.6%</td><td>&minus;6.6 pp [&minus;9.2, &minus;4.0]</td><td>+1.4 pp [+0.4, +2.6]</td></tr>
+              <tr><td><strong>Qwen 3.5 4B</strong></td><td>15</td><td>61.7%</td><td>58.6%</td><td><strong>&minus;3.2 pp</strong> [&minus;5.4, &minus;0.9]</td><td>42.0%</td><td>39.3%</td><td>&minus;4.2 pp [&minus;6.3, &minus;2.3]</td><td>+4.8 pp [+3.0, +6.8]</td></tr>
+              <tr><td><strong>Qwen 3.5 4B</strong></td><td>20</td><td>58.5%</td><td>56.3%</td><td><strong>&minus;2.1 pp</strong> [&minus;4.2, &minus;0.1]</td><td>40.1%</td><td>38.8%</td><td>&minus;2.5 pp [&minus;4.6, &minus;0.6]</td><td>+5.2 pp [+3.4, +7.2]</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </details>
+
+        <div class="article-prose article-prose--inverse">
+          <p><strong>The Scaled Confirmation Verdict:</strong></p>
+          <ul>
+            <li><strong>Universal Negative Direction:</strong> In <strong>12 out of 12 primary model/source-count cells</strong>, relaxed source-binding recall is lower under UUIDs than under compact numeric labels.</li>
+            <li><strong>Statistical Significance &amp; Multiplicity:</strong> All <strong>12 unadjusted paired percentile bootstrap intervals</strong> (10,000 resamples over matched semantic items) strictly exclude zero in the negative direction. Under Holm-Bonferroni family-wise error control at $\alpha = 0.05$ across the 12 primary cells, <strong>10 of 12 cells survive</strong> (with only the saturated ceiling models Qwen 3.5 4B falling just outside full family-wise adjustment).</li>
+            <li><strong>Sensitivity on 401 Disjoint Items:</strong> Because the 500-item cohort overlaps 51 items from the initial 100-item cohort and 48 items from the held-out cohort, we conducted an analysis-only sensitivity restricted strictly to the <strong>401 genuinely new disjoint items (12,832 generations; <code>results/analysis/musique_500_disjoint_401.json</code>)</strong>. The finding replicates cleanly across all primary cells (ranging from &minus;1.8 pp on Qwen 3.5 4B to &minus;16.7 pp on Tiny Aya).</li>
+            <li><strong>Task Invariance:</strong> Answer F1 differences remain centered near zero across all 12 cells, confirming that the deficit is strictly an attribution and evidence-tracking failure, not general QA reasoning breakdown.</li>
+          </ul>
+
+          <h3>Frontier API extension: Anthropic models (N=500)</h3>
+          <p>We ran the same paired 500-question MuSiQue protocol on two Anthropic models. The table reports <strong>relaxed source-binding recall</strong>, not strict citation syntax; intervals use 10,000 paired bootstrap resamples over matched questions. These completed Anthropic batches are reported separately from the local fleet, and incomplete OpenAI batches are excluded.</p>
+          <div class="table-wrap table-wrap--inverse" role="region" aria-label="Anthropic frontier MuSiQue results" tabindex="0">
+            <table class="experiment-table experiment-table--frontier">
+              <thead><tr><th>Model</th><th>Sources</th><th>Numeric Binding</th><th>UUID Binding</th><th>UUID &minus; Numeric (95% CI)</th><th>Numeric Answer Exact</th><th>UUID Answer Exact</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Claude Haiku 5.5</strong></td><td>15</td><td>73.28%</td><td>6.08%</td><td><strong>&minus;67.20 pp</strong> [&minus;70.05, &minus;64.33]</td><td>11.0%</td><td>12.2%</td></tr>
+                <tr><td><strong>Claude Haiku 5.5</strong></td><td>20</td><td>72.40%</td><td>6.22%</td><td><strong>&minus;66.18 pp</strong> [&minus;69.12, &minus;63.15]</td><td>8.6%</td><td>11.0%</td></tr>
+                <tr><td><strong>Claude Sonnet 5.5</strong></td><td>15</td><td>89.18%</td><td>88.42%</td><td>&minus;0.77 pp [&minus;2.08, +0.47]</td><td>14.6%</td><td>12.6%</td></tr>
+                <tr><td><strong>Claude Sonnet 5.5</strong></td><td>20</td><td>89.07%</td><td>87.27%</td><td><strong>&minus;1.80 pp</strong> [&minus;3.03, &minus;0.63]</td><td>14.6%</td><td>13.6%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>The frontier result is heterogeneous.</strong> Haiku reproduces the binding failure at much larger magnitude while answer accuracy remains comparably low in both formats. Sonnet maintains high binding recall: its 15-source interval crosses zero and its 20-source penalty is small but excludes zero. Frontier status alone does not remove the risk, but the data do not support a universal frontier-model failure claim. Across the 4,000 MuSiQue calls, recorded batch cost was <strong>$0.47 for Haiku</strong> and <strong>$9.87 for Sonnet</strong>; maximum-token stops were at or below 2.2% in every cell.</p>
+
+          <figure class="figure figure--wide reveal-image" data-ui>
+            <img src="assets/03b_frontier_musique.svg" alt="Figure 3B — Anthropic models split sharply on UUID source binding: Claude Haiku 5.5 loses about 66 to 67 percentage points of binding recall under UUID labels, while Claude Sonnet 5.5 changes by less than two points." width="1350" height="455" loading="lazy">
+            <figcaption>
+              <p><strong>Figure 3B &mdash; Anthropic frontier MuSiQue binding effects.</strong> Claude Haiku 5.5 shows a severe UUID source-binding penalty at both source counts, whereas Claude Sonnet 5.5 is nearly invariant.</p>
+              <p class="figure-companion">Each row compares the same 500 MuSiQue questions under UUID and numeric source labels. Dots show the paired difference in relaxed source-binding recall and horizontal bars show 95% bootstrap intervals. Filled dots exclude zero; the hollow Sonnet 15-source estimate crosses zero. This is the completed Anthropic N=500 extension and is reported separately from the six-model local fleet.</p>
+            </figcaption>
+          </figure>
+
+          <h3>The buried insight: dual labels and capacity recovery (Stage 4)</h3>
           <p><strong>Stage 4 Motivation:</strong> When confronted with UUID retrieval taxes, engineers frequently attempt a common workaround: keeping the raw UUID in context while appending a compact alias next to it (e.g., <code>Source 8ce71... [S1]</code>). We tested whether this "dual label" strategy successfully provides the benefit of aliases, or simply imposes the dual cognitive burden of both representations.</p>
-          <p><strong>Data Used:</strong> The 100-question multi-hop MuSiQue Stage 2 cohort evaluated at 20 retrieval passages per question (2,000 candidate passages), comparing three prompt conditions on identical evidence: raw UUID-only (<code>Source &lt;UUID&gt;</code>), dual-label (<code>Source &lt;UUID&gt; [S1]</code>), and alias-only (<code>Source [S1]</code>).</p>
-          <p>In MuSiQue Stage 4, <strong>dual labels failed to reliably recover alias-only performance</strong>. The result is consistent with extra representation burden, but Stage 4 does not identify an attention-head mechanism. You cannot remove the UUID tax by adding more text.</p>
+          <p><strong>Data Used:</strong> The 100-question multi-hop MuSiQue Stage 2 cohort evaluated across models at 20 retrieval passages per question (2,000 candidate passages), comparing alias-only (<code>Source [S1]</code>), dual-label (<code>Source &lt;UUID&gt; [S1]</code>), raw UUID-only (<code>Source &lt;UUID&gt;</code>), and UUID with no citation requirement (<code>uuid_no_citations</code>).</p>
+          <p>In MuSiQue Stage 4, <strong>dual labels failed to reliably recover alias-only performance</strong>. You cannot remove the UUID tax by adding more text.</p>
+          <p>Crucially, removing the requirement to reproduce UUIDs in the output (<code>uuid_no_citations</code>) unlocked massive reasoning capacity: <strong>Qwen 3.5 2B answer F1 jumped from 26.2% under full UUID citation to 41.3% (+15.1 pp)</strong>. Emitting high-entropy UUID strings at generation time directly robs models of working memory.</p>
         </div>
       </section>
 
@@ -339,28 +432,37 @@ Return the account and supporting source handle.</code></pre>
           <p><strong>Data Used:</strong> The 20-source Stage 1 retrieval questions (100 items; 2,000 candidate passages) formatted under token-matched numeric labels <code>[1]</code> versus structured labels <code>[S1]</code>, both calibrated to exactly 3.55 tokens per identifier and 639 prompt tokens. The no-reproduction control used the same multi-source retrieval questions but removed the <code>CITATIONS:</code> reproduction instruction from the prompt.</p>
           <p>Could the structured advantage over UUIDs simply be that structured labels are shorter? We ran a token-matched control comparing <code>[1]</code> with <code>[S1]</code> across four models. Both representations averaged exactly 3.55 tokens per identifier and identical prompt lengths (639 tokens).</p>
           <p>On Qwen, numeric labels beat structured labels by 67 percentage points on strict citation formatting, but relaxed source binding differed by only 8 points and its confidence interval spanned zero. Length matters, but tokenization boundaries and formatting priors dominate strict scores.</p>
-          <p>Next, we tested the <strong>no-reproduction control</strong>: leaving UUIDs in the prompt for reading, but removing the requirement to cite them in the output. When citation reproduction was removed, LiquidAI LFM answer F1 improved by <strong>+3.5 points</strong>, and Gemma E4B answer F1 improved by <strong>+5.1 points</strong>. In those cells, reproduction was associated with lower answer F1; the control does not isolate literal emission from the stricter output instruction.</p>
+          <p>Next, we tested the <strong>no-reproduction control</strong>: leaving UUIDs in the prompt for reading, but removing the requirement to cite them in the output. When citation reproduction was removed, Gemma E4B answer F1 improved by <strong>+5.1 points</strong>. In those cells, reproduction was associated with lower answer F1; the control does not isolate literal emission from the stricter output instruction.</p>
 
           <h3>Ablation 2: Can Chain-of-Thought / reasoning budget fix it? (Stage 5)</h3>
           <p><strong>Stage 5 Motivation:</strong> A popular hypothesis in prompt engineering is that high-entropy identifiers consume &ldquo;internal working memory&rdquo; or bookkeeping capacity. If true, providing the model with a larger visible reasoning budget (Chain-of-Thought scratchpad) should allow it to &ldquo;think through&rdquo; the bookkeeping, causing the UUID deficit to monotonically disappear as the token budget expands.</p>
           <p><strong>Data Used:</strong> A synthetic multi-source reasoning benchmark (<code>data/reasoning/</code>, <code>src/symbolic_ir/data/reasoning.py</code>) covering four distinct multi-step task families: <code>arithmetic</code> (balance and value tracking), <code>temporal</code> (chronological state updates), <code>constraint</code> (multi-source variable satisfaction), and <code>entity_resolution</code> (cross-record attribute matching). Each problem embeds target facts across 15 or 20 sources, padded with 114 filler words per passage to hold prompt lengths within 2,000&ndash;4,000 tokens. The pilot used 2,400 two-pass generations across 5 models; the confirmatory phase used an independent seed (202606) generating 3,200 two-pass evaluations (160 complete semantic examples) strictly drawn from tasks meeting the pre-declared 30%&ndash;70% accuracy calibration window.</p>
           <p>A seductive hypothesis is that opaque identifiers consume internal bookkeeping capacity, and that giving the model more reasoning scratchpad tokens should allow it to "think through" the bookkeeping, smoothly erasing the UUID penalty.</p>
-          <p>We tested this across <strong>5,600 two-pass generations (11,200 model calls)</strong>: 2,400 pilot generations across five models and 3,200 separately seeded confirmatory generations in retained cells. Pass 1 received a visible scratchpad cap of 64, 128, 256, 512, or 1,024 tokens. Pass 2 received only that generated scratchpad and had 128 tokens to emit the answer.</p>
+          <p>We tested this hypothesis across <strong>2,880 two-pass records (5,760 model calls)</strong> across six models in Figure 4. Pass 1 received a visible scratchpad cap of 64, 128, 256, 512, or 1,024 tokens. Pass 2 received only that generated scratchpad and had 128 tokens to emit the answer.</p>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/04_reasoning_budget.svg" alt="Figure 4 — More scratchpad did not consistently repair UUID performance: UUID minus numeric final-answer accuracy across visible scratchpad budgets (64 to 1,024 tokens) across 5,600 two-pass generations (11,200 model calls)." width="1400" height="620" loading="lazy">
+          <img src="assets/04_reasoning_budget.svg" alt="Figure 4 — More scratchpad does not consistently repair UUID deficits across models: Six small multiples showing UUID minus numeric accuracy across visible scratchpad budgets (64 to 1,024 tokens; 5,760 model calls across 6 models)." width="1400" height="940" loading="lazy">
           <figcaption>
-            <p><strong>Figure 4 &mdash; Reasoning-budget experiment.</strong> More scratchpad did not consistently repair UUID performance (UUID minus numeric final-answer accuracy across visible scratchpad budgets, 64 to 1,024 tokens, across 5,600 two-pass generations / 11,200 model calls).</p>
-            <p class="figure-companion">The experiment used two passes. Pass 1 received the original multi-source problem and a scratchpad limit ranging from 64 to 1,024 tokens. Pass 2 saw only that scratchpad and produced the final answer. Each point reports final-answer accuracy under UUID identifiers minus accuracy under numeric labels. Values below zero favor numeric labels; values above zero favor UUIDs. Qwen remained mostly below zero, Gemma E2B changed direction sharply, and Tiny Aya moved toward parity at larger budgets. Because the effects do not move consistently toward zero as the budget grows&mdash;and most intervals are broad&mdash;the data reject a universal monotonic recovery story. They do not prove why Gemma E2B changes direction.</p>
+            <p><strong>Figure 4 &mdash; Reasoning-budget scaling across 6 models.</strong> More scratchpad does not consistently repair UUID deficits across models (UUID minus numeric final-answer accuracy delta across Pass 1 scratchpad budgets, 64 to 1,024 tokens, across 5,760 model calls across six models).</p>
+            <p class="figure-companion">The experiment used two passes. Pass 1 received the original multi-source problem and a scratchpad limit ranging from 64 to 1,024 tokens. Pass 2 saw only that scratchpad and produced the final answer. Each point reports final-answer accuracy under UUID identifiers minus accuracy under numeric labels. Across six architectures, the data reject a universal monotonic recovery hypothesis. Rather, models stratify into two regimes: (1) <strong>Active scaling</strong> (Qwen 1.5B, Qwen 3.5 2B, Tiny Aya, Gemma E2B), where large UUID deficits persist even at 1,024 tokens; and (2) <strong>Ceiling saturation</strong> (Gemma E4B, Qwen 3.5 4B), where severe deficits at 64 tokens (up to &minus;54.2 pp) compress toward zero only once the model approaches task ceiling.</p>
           </figcaption>
         </figure>
 
         <div class="article-prose">
-          <p><strong>The monotonic hypothesis failed.</strong> Every confirmatory slope estimate and every low-to-high interaction interval included zero. Additional reasoning budget did not smoothly erase the UUID penalty.</p>
+          <p><strong>The monotonic hypothesis failed across all regimes.</strong> When scratchpads are constrained (64&ndash;128 tokens), high-capacity models suffer catastrophic UUID penalties: Gemma E4B exhibits a <strong>&minus;54.2 pp deficit at 64 tokens</strong> (95% CI: [&minus;75.0, &minus;33.3]) and &minus;37.5 pp at 128 tokens, while Qwen 3.5 4B exhibits a <strong>&minus;50.0 pp deficit at 64 tokens</strong> (95% CI: [&minus;70.8, &minus;29.2]). In active scaling models (Qwen 3.5 2B, Tiny Aya, Gemma E2B), deficits of &minus;12 to &minus;29 pp persist even at maximum budgets. Expanding the scratchpad does not smoothly erase the UUID penalty.</p>
           <p><strong>The Gemma E2B scratchpad anomaly remains an inference:</strong> At 64 tokens, Gemma E2B showed a -35.0 pp UUID deficit. At 256 tokens, UUIDs beat numeric by +50.0 pp. The traces are consistent with an output-length confound: UUID scratchpads were longer, and the UUID condition hit the cap on every 64- and 128-token pilot run. That may have preserved more information for Pass 2, but this experiment does not establish the mechanism. When reproduction was removed at 512 and 1,024 tokens, Gemma E2B reached <strong>95% and 100% accuracy</strong>.</p>
           <p>UUIDs did reliably increase total generated output in <strong>14 of 15 confirmatory cells</strong>. The transport and generation cost is universal; the cognitive scratchpad interaction is not.</p>
+          <p><strong>Anthropic reasoning-budget check.</strong> On a 100-question Sonnet subset evaluated at both 15 and 20 sources (200 paired source-count cells), switching from the no-reasoning execution to the API's adaptive-low setting changed the UUID-minus-numeric exact-binding gap from &minus;1.0 pp to +2.0 pp. The between-setting difference was +3.0 pp (95% CI [&minus;3.0, +9.0]), so the data do not show a reliable binding repair. The API reported zero reasoning tokens for every response; this is an execution-setting comparison, not evidence about how much hidden reasoning occurred.</p>
         </div>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/04b_anthropic_reasoning.svg" alt="Figure 4B — Claude Sonnet 5.5 adaptive-low reasoning-setting check: the UUID-minus-numeric exact-binding gap moved from minus 1 point to plus 2 points, but the between-setting confidence interval crossed zero." width="1350" height="390" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 4B &mdash; Anthropic Sonnet reasoning-setting check.</strong> Adaptive-low changed the exact-binding gap by +3.0 percentage points, but the 95% interval [&minus;3.0, +9.0] crosses zero.</p>
+            <p class="figure-companion">This is a separate 100-question MuSiQue execution-setting comparison, not another point on Figure 4&rsquo;s five-budget synthetic-task curves. Because the API reported zero reasoning tokens in every response, it does not establish how much hidden reasoning occurred or that reasoning reliably repaired identifier binding.</p>
+          </figcaption>
+        </figure>
 
         <!-- SIDEBAR: LONGPROC -->
         <div class="sidebar-callout reveal-up">
@@ -369,14 +471,19 @@ Return the account and supporting source handle.</code></pre>
             <span class="token-badge token-badge--warn">LongProc reality check</span>
           </div>
           <p><strong>LongProc Motivation:</strong> If we evaluate models only on final-answer accuracy or total generated length, verbose models might appear to &ldquo;reason through&rdquo; difficult prompts while actually looping or hallucinating. LongProc provides an explicit, deterministic test of multi-step belief-state tracking over 1,024&ndash;2,048 tokens to verify whether longer generation indicates sound reasoning.</p>
-          <p><strong>Data Used:</strong> Princeton PLI's official public <strong>LongProc</strong> benchmark (<code>LongProc/tom_tracking_2k</code>, revision <code>673ec4c2</code>, Apache-2.0, <code>data/longproc/tom_tracking/tom_tracking_2k.json</code>). We selected 25 Theory-of-Mind (ToM) belief-state tracking instances (<code>configs/longproc/tom_tracking_2k_cross_tokenizer_indices.json</code>) where validated prompt lengths range between 2,568 and 2,680 tokens and reference procedural traces range between 1,791 and 2,043 tokens. Each reference trace contains a deterministic step-by-step sequence of container movements, character observations, and belief updates.</p>
-          <p>To ensure we did not equate verbose generation with correct reasoning, we benchmarked our models on <strong>LongProc</strong>, a benchmark requiring deterministic belief-state tracking over 1,024&ndash;2,048 token reference traces.</p>
-          <p><strong>Qwen2.5-1.5B</strong> generated an average of <strong>2,027 output tokens</strong> and hit the hard 2,048-token cap on 84% of runs, yet achieved a mean correct-prefix accuracy of only <strong>1.2%</strong>. It looped verbosely without maintaining state. <strong>LFM 1.2B</strong> stopped prematurely (mean 434 tokens) with 0.0% full traces, while <strong>LFM 2.6B</strong> sustained 1,085 tokens (16% full-length traces) but achieved only 0.2% partial accuracy. Meanwhile, <strong>Gemma 4 E4B</strong> reached 76% final-answer accuracy, but matched the exact procedural trace only 8% of the time. Long generation is not proof of sound reasoning.</p>
+          <p><strong>Data Used:</strong> Princeton PLI's official public <strong>LongProc</strong> benchmark (<code>LongProc/tom_tracking_2k</code>, revision <code>673ec4c2</code>, Apache-2.0, <code>data/longproc/tom_tracking/tom_tracking_2k.json</code>). We evaluated 25 Theory-of-Mind (ToM) belief-state tracking instances (<code>configs/longproc/tom_tracking_2k_cross_tokenizer_indices.json</code>) across five models (125 GPU runs; <code>results/processed/longproc_tom_tracking_2k.json</code>) where prompt lengths range between 2,568 and 2,680 tokens and reference procedural traces range between 1,791 and 2,043 tokens.</p>
+          <p>To ensure we did not equate verbose generation with correct reasoning, we benchmarked our models on <strong>LongProc</strong>, evaluating step-by-step state tracking:</p>
+          <ul>
+            <li><strong>Qwen 1.5B</strong> generated 2,027 mean tokens (84% cap hits) with only <strong>1.2% mean correct prefix</strong> and 4.0% final answer accuracy.</li>
+            <li><strong>Qwen 3.5 2B</strong> sustained 1,921 mean tokens (72% full trace rate) achieving 28.0% final answer accuracy, but collapsed on intermediate tracking (1.2% partial accuracy, 0% strict trace).</li>
+            <li><strong>Qwen 3.5 4B</strong> demonstrated remarkable procedural execution: <strong>100% full trace rate</strong>, <strong>68.0% final answer accuracy</strong> (Wilson 95% CI: [48.4%, 82.8%]), 40.6% mean correct-prefix accuracy, and <strong>16.0% exact full-trace accuracy</strong> (Wilson 95% CI: [6.4%, 34.7%])&mdash;the highest procedural trace accuracy across the fleet.</li>
+            <li><strong>Gemma 4 E4B</strong> reached <strong>76.0% final answer accuracy</strong> and 38.0% partial accuracy, but matched the exact procedural trace only 8.0% of the time.</li>
+          </ul>
           <figure class="figure reveal-image" data-ui>
-            <img src="assets/05_longproc.svg" alt="Figure 5 — Long generation does not establish procedural correctness: Comparing mean correct-trace prefix before first error, final-answer accuracy, and exact full-trace accuracy across 25 LongProc belief-state instances." width="1250" height="720" loading="lazy">
+            <img src="assets/05_longproc.svg" alt="Figure 5 — Long generation does not establish procedural correctness: Comparing mean correct-trace prefix before first error, final-answer accuracy, and exact full-trace accuracy across 25 LongProc belief-state instances (125 GPU runs across 5 models)." width="1350" height="710" loading="lazy">
             <figcaption>
-              <p><strong>Figure 5 &mdash; LongProc trace quality.</strong> Long generation does not establish procedural correctness (comparing mean correct-trace prefix before first error, final-answer accuracy, and exact full-trace accuracy across 25 LongProc belief-state instances).</p>
-              <p class="figure-companion">LongProc supplies a deterministic reference sequence of state updates, allowing the generated procedure to be checked step by step. The blue bar measures how much of that reference trace the model completes before its first error. The green bar measures only whether the final answer is correct, while the orange bar requires the complete generated trace to match. These metrics can diverge: Gemma E4B answered 76% of examples correctly but produced the exact full trace only 8% of the time. Qwen generated about 2,027 tokens on average yet achieved only a 1.2% correct-prefix score. The result is not that long outputs are always bad; it is that output length and final-answer accuracy do not establish procedural correctness.</p>
+              <p><strong>Figure 5 &mdash; LongProc trace quality across 5 models.</strong> Long generation does not establish procedural correctness (strict trace, correct-prefix, and endpoint accuracy diverge on 25 multi-step theory-of-mind problems across 5 models).</p>
+              <p class="figure-companion">LongProc supplies a deterministic reference sequence of state updates, allowing the generated procedure to be checked step by step. The blue bar measures how much of that reference trace the model completes before its first error. The green bar measures only whether the final answer is correct, while the orange bar requires the complete generated trace to match. These metrics can diverge: Gemma E4B answered 76% of examples correctly but produced the exact full trace only 8% of the time. Qwen 3.5 4B achieved the highest strict accuracy (16.0%) alongside 68.0% final answer accuracy. Qwen 1.5B generated about 2,027 tokens on average yet achieved only a 1.2% correct-prefix score. The result is not that long outputs are always bad; it is that output length and final-answer accuracy do not establish procedural correctness.</p>
             </figcaption>
           </figure>
         </div>
@@ -384,8 +491,8 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <h3>Ablation 3: Inside the transformer &mdash; stable facts, late realization (Stage 6)</h3>
           <p><strong>Stage 6 Motivation:</strong> To move beyond external behavioral outputs, we inspect the transformer's internal residual stream across all layers: <em>When high-entropy UUIDs are inserted into the prompt, does the model fail because the factual semantic representations of the passages are corrupted, or do the passage representations remain stable while only the identifier-binding states diverge?</em></p>
-          <p><strong>Data Used:</strong> Residual-stream hidden state activations extracted from 80 paired semantic prompt examples (40 temporal, 40 entity-resolution) from the calibrated Stage 5 suite across 15 and 20 sources. Hidden states were captured in native BF16 precision at every transformer layer across structured, random compact, and UUID conditions (960 paired forward passes per model family), segmented into source-label, source-fact, question, pre-answer, answer, and pre-citation token spans.</p>
-          <p>In Stage 6, we recorded residual-stream hidden states from <strong>960 paired forward passes</strong> across official BF16 checkpoints of Qwen, LFM, Gemma E2B, and Gemma E4B on 80 semantic examples rendered under structured, random compact, and UUID formats.</p>
+          <p><strong>Data Used:</strong> Residual-stream hidden state activations extracted from 80 paired semantic prompt examples (40 temporal, 40 entity-resolution) from the calibrated Stage 5 suite across 15 and 20 sources. Hidden states were captured in native BF16 precision at every transformer layer across structured, random compact, and UUID conditions (720 paired forward passes across three model configurations), segmented into source-label, source-fact, question, pre-answer, answer, and pre-citation token spans.</p>
+          <p>In Stage 6, we recorded residual-stream hidden states from <strong>720 paired forward passes</strong> across official BF16 checkpoints of Qwen 1.5B, Gemma E2B, and Gemma E4B on 80 semantic examples rendered under structured, random compact, and UUID formats.</p>
 
           <h4>What is Linear CKA and why use it?</h4>
           <p>When comparing internal activation vectors across different prompt formats (e.g., structured <code>[S1]</code> vs. high-entropy UUIDs), standard distance metrics like Euclidean distance or raw cosine similarity fail because neural networks do not operate on fixed, canonical coordinate axes:</p>
@@ -401,18 +508,18 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/06_stage6_geometry.svg" alt="Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent: Structured-vs-UUID linear CKA similarity across normalized model depth across 960 paired hidden-state passes (80 examples)." width="1400" height="820" loading="lazy">
+          <img src="assets/06_stage6_geometry.svg" alt="Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent: Structured-vs-UUID linear CKA similarity across normalized model depth across 720 paired hidden-state passes (80 examples across 3 models)." width="1400" height="820" loading="lazy">
           <figcaption>
-            <p><strong>Figure 6 &mdash; Representation geometry across layers.</strong> Fact-token geometry stays stable; identifier geometry is model- and depth-dependent (structured-vs-UUID linear CKA similarity across normalized model depth across 960 paired hidden-state passes, 80 examples).</p>
+            <p><strong>Figure 6 &mdash; Representation geometry across layers.</strong> Fact-token geometry stays stable; identifier geometry is model- and depth-dependent (structured-vs-UUID linear CKA similarity across normalized model depth across 720 paired hidden-state passes, 80 examples across 3 models).</p>
             <p class="figure-companion">Linear CKA compares the geometry of hidden representations across the same 80 examples under two prompt formats: structured source labels and UUIDs. A value near one means that the relationships among examples are represented similarly in both conditions; it does not mean that individual vectors or model outputs are identical. The teal curves remain above roughly 0.94 because the passage facts are unchanged and surrounding UUIDs do not substantially reorganize their representation. Identifier-label states begin less aligned and often become more similar in middle layers, but the pattern varies by architecture and Gemma E2B diverges sharply at the final layer. This is correlational evidence about representation geometry, not proof of a particular causal circuit.</p>
           </figcaption>
         </figure>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/07_stage7_swaps.svg" alt="Figure 7 — After an ID swap, models do not all rebind to the relevant source: Mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps (66 counterfactual swaps and 1,056 activation interventions)." width="1250" height="700" loading="lazy">
+          <img src="assets/07_stage7_swaps.svg" alt="Figure 7 — After an ID swap, retained models shift toward the newly assigned identifier: Mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps (42 counterfactual swaps and 672 activation interventions across 3 models)." width="1250" height="700" loading="lazy">
           <figcaption>
-            <p><strong>Figure 7 &mdash; Counterfactual source-ID swaps.</strong> After an ID swap, models do not all rebind to the relevant source (mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps, 66 counterfactual swaps and 1,056 activation interventions).</p>
-            <p class="figure-companion">This intervention changes only which identifier is attached to the relevant passage. The facts, question, distractors, and set of available identifiers remain unchanged. The plotted effect asks whether the prompt swap moves the model’s probability from the formerly correct identifier toward the identifier now attached to the relevant source. Positive values indicate successful rebinding; negative values indicate persistence of the old association. Qwen is positive across formats, whereas LFM is negative for the compact formats. The Gemma estimates are positive but come from very small pilot cohorts and should not be treated as stable population estimates. Because full UUIDs contain more tokens, total sequence log-probability magnitudes are not directly comparable across identifier formats.</p>
+            <p><strong>Figure 7 &mdash; Counterfactual source-ID swaps.</strong> After an ID swap, retained models shift toward the newly assigned identifier (mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps, 42 counterfactual swaps and 672 activation interventions across 3 models).</p>
+            <p class="figure-companion">This intervention changes only which identifier is attached to the relevant passage. The facts, question, distractors, and set of available identifiers remain unchanged. The plotted effect asks whether the prompt swap moves the model’s probability from the formerly correct identifier toward the identifier now attached to the relevant source. Positive values indicate successful rebinding; negative values indicate persistence of the old association. Qwen and Gemma point estimates shift probability toward the newly assigned identifier under compact formats, but Gemma E2B (n=4) and E4B (n=2) are small pilot cohorts whose bootstrap intervals cross zero, so their rebinding is not statistically conclusive. Because full UUIDs contain more tokens, total sequence log-probability magnitudes are not directly comparable across identifier formats.</p>
           </figcaption>
         </figure>
 
@@ -421,8 +528,8 @@ Return the account and supporting source handle.</code></pre>
 
           <h3>Causal interventions: source-ID swaps &amp; activation patching (Stage 7)</h3>
           <p><strong>Stage 7 Motivation:</strong> Hidden-state geometry (CKA) is purely correlational—it shows that representations are aligned, but does not prove which representations causally determine the output. We use counterfactual identifier swaps and activation patching to test: <em>Does the model actively rebind its prediction to the newly assigned identifier, and at which specific layer does the binding circuit lock in?</em></p>
-          <p><strong>Data Used:</strong> 66 counterfactual prompt examples constructed by taking calibrated multi-source retrieval questions and permuting only the identifier attached to the gold evidence passage (swapping it with an existing distractor handle while preserving all passage text, distractor sets, and question phrasing). For causal localization, 1,056 residual-stream activation patches intervened on specific token positions and layers between donor (swapped) and recipient (unswapped) runs.</p>
-          <p>Stage 7 performed <strong>66 counterfactual source-ID swaps</strong> and <strong>1,056 activation interventions</strong>. The critical finding: <strong>shared representational geometry does not imply a shared causal circuit</strong>. Qwen and the Gemma pilots followed the source to its new identifier, but LiquidAI LFM reacted in reverse under compact IDs, reinforcing its prior binding. Final-layer residual patching transferred ~100% of the swap effect in all models, but the onset layer where binding becomes locked varied sharply: layer 24 in Qwen versus layer 29 in Gemma E2B.</p>
+          <p><strong>Data Used:</strong> 42 counterfactual prompt examples constructed by taking calibrated multi-source retrieval questions and permuting only the identifier attached to the gold evidence passage (swapping it with an existing distractor handle while preserving all passage text, distractor sets, and question phrasing). For causal localization, 672 residual-stream activation patches intervened on specific token positions and layers between donor (swapped) and recipient (unswapped) runs.</p>
+          <p>Stage 7 performed <strong>42 counterfactual source-ID swaps</strong> and <strong>672 activation interventions</strong> across three models. The critical finding: <strong>shared representational geometry does not imply a shared causal circuit</strong>. Qwen and the Gemma pilots followed the source to its new identifier under compact formats. Final-layer residual patching transferred ~100% of the swap effect in all models, but the onset layer where binding becomes locked varied sharply: layer 24 in Qwen versus layer 29 in Gemma E2B.</p>
         </div>
       </section>
 
@@ -436,20 +543,45 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <h3>Generalizing beyond citations: typed entity resolution (Stage 8)</h3>
           <p><strong>Stage 8 Motivation:</strong> Citations are only one application of identifiers. In production agents and retrieval pipelines, models manipulate sensitive customer records (names, account numbers, emails). We set out to test: <em>Does request-scoped canonicalization improve non-citation entity resolution? Can typed handles (<code>&lt;ACCOUNT_1&gt;</code>) help models track entities across contexts better than arbitrary masks while guaranteeing 0% literal PII leakage in outputs?</em></p>
-          <p><strong>Data Used:</strong> A synthetic customer support account-resolution benchmark (<code>src/symbolic_ir/data/pii.py</code>) containing 15 or 20 customer records per prompt (40 semantic examples per model across 6 models, totaling 960 generations). Each record contains realistic synthetic PII: customer full name, personal email address, phone number, physical address, and sensitive account numbers. Examples were rendered in four parallel representations: raw literal PII, random alphanumeric masking, untyped handles (<code>&lt;HANDLE_1&gt;</code>), and typed handles (<code>&lt;ACCOUNT_1&gt;</code>, <code>&lt;EMAIL_2&gt;</code>).</p>
-          <p>Stage 8 tested synthetic account resolution across <strong>960 generations across six models</strong> with citations disabled. Prompts contained 15 or 20 customer records rendered as raw PII, arbitrary masked strings, untyped handles, or typed handles (<code>&lt;ACCOUNT_1&gt;</code>, <code>&lt;EMAIL_2&gt;</code>).</p>
+          <p><strong>Data Used:</strong> A synthetic customer support account-resolution benchmark (<code>src/symbolic_ir/data/pii.py</code>) containing 15 or 20 customer records per prompt (500 semantic examples per model across six primary models, totaling 12,000 generations; <code>FINDINGS_STAGE8_500_CROSS_MODEL.md</code>). Each record contains realistic synthetic PII: customer full name, personal email address, phone number, physical address, and sensitive account numbers. Examples were evaluated under four parallel representations: raw literal PII, random alphanumeric masking, untyped handles (<code>&lt;HANDLE_1&gt;</code>), and typed handles (<code>&lt;ACCOUNT_1&gt;</code>, <code>&lt;EMAIL_2&gt;</code>).</p>
+          <p>Does canonicalization help outside citation formatting? In Stage 8, we evaluated synthetic customer account resolution across <strong>12,000 model generations spanning six primary models</strong> (500 semantic examples per model across four parallel representations) with citations completely disabled. Prompts contained 15 or 20 customer records rendered as raw PII, arbitrary masked strings, untyped handles, or typed handles (<code>&lt;ACCOUNT_1&gt;</code>, <code>&lt;EMAIL_2&gt;</code>).</p>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/08_stage8_entities.svg" alt="Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model: Panel A: Account-resolution accuracy (%) by model and representation; Panel B: Outputs containing raw PII (%) across 960 model generations." width="1350" height="770" loading="lazy">
+          <img src="assets/08_stage8_entities.svg" alt="Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model: Account-resolution accuracy and raw PII exposure across 14,000 generations from six local models and Claude Sonnet 5.5." width="1400" height="800" loading="lazy">
           <figcaption>
-            <p><strong>Figure 8 &mdash; Typed entity canonicalization.</strong> Canonicalization eliminates raw-value exposure; accuracy effects vary by model (Panel A: Account-resolution accuracy by model and representation; Panel B: Outputs containing raw PII across 960 model generations across six models).</p>
-            <p class="figure-companion">Each model resolved synthetic customer accounts from prompts containing the same records under four representations. &ldquo;Raw&rdquo; includes literal names, emails, and account numbers. &ldquo;Random&rdquo; replaces them with arbitrary masks. &ldquo;Untyped&rdquo; uses consistent but semantically neutral handles, while &ldquo;typed&rdquo; uses handles such as <code>&lt;ACCOUNT_1&gt;</code> and <code>&lt;EMAIL_2&gt;</code>. Typed handles improved Qwen by 17.5 percentage points relative to untyped handles and helped Tiny Aya relative to random masking. Gemma was near ceiling across conditions, while LFM 1.2B performed poorly whenever values were masked. Crucially, evaluating the larger LFM 2.6B checkpoint under closed-thinking prefill fully recovered performance: typed handles reached 97.5% mean accuracy (+70.0 pp over untyped). Separately, every masked representation reduced raw-value output exposure to zero in this dataset. Thus canonicalization reliably controlled literal exposure, but its task-accuracy effect depended on model scale and configuration.</p>
+            <p><strong>Figure 8 &mdash; Typed entity canonicalization across 7 models.</strong> The scaled N=500 comparison now includes Claude Sonnet 5.5 alongside the six primary local models (14,000 generations total).</p>
+            <p class="figure-companion">Each model resolved synthetic customer accounts from prompts containing the same records under four representations. &ldquo;Raw&rdquo; includes literal names, emails, and account numbers. &ldquo;Random&rdquo; replaces them with arbitrary masks. &ldquo;Untyped&rdquo; uses consistent but semantically neutral handles, while &ldquo;typed&rdquo; uses handles such as <code>&lt;ACCOUNT_1&gt;</code> and <code>&lt;EMAIL_2&gt;</code>. Typed handles improved accuracy over untyped handles in five of six local models; Sonnet was saturated near 100% and showed no typed-handle gain. Every masked representation reduced raw-value output exposure to zero across all seven models.</p>
           </figcaption>
         </figure>
 
+        <details class="experiment-details result-details reveal-up">
+          <summary>Explore the complete scaled entity-resolution results</summary>
+          <div class="table-wrap table-wrap--inverse" role="region" aria-label="Scaled Stage 8 results across 6 primary models" tabindex="0">
+          <table class="experiment-table experiment-table--scaled-stage8">
+            <thead><tr><th>Model Family</th><th>Raw</th><th>Random Masked</th><th>Untyped</th><th>Typed</th><th>Typed &minus; Untyped (95% CI)</th><th>Exact p</th><th>Token &Delta;</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Qwen 1.5B</strong></td><td>94.8%</td><td>82.0%</td><td>81.0%</td><td>92.4%</td><td><strong>+11.4 pp</strong> [+8.0, +14.6]</td><td>$7.66 \times 10^{-12}$</td><td>+0.0</td></tr>
+              <tr><td><strong>Qwen 3.5 2B</strong></td><td>48.6%</td><td>61.0%</td><td>96.6%</td><td>98.6%</td><td><strong>+2.0 pp</strong> [+0.6, +3.4]</td><td>0.0129</td><td>+0.0</td></tr>
+              <tr><td><strong>Qwen 3.5 4B</strong></td><td>100.0%</td><td>99.8%</td><td>99.6%</td><td>100.0%</td><td>+0.4 pp [+0.0, +1.0]</td><td>0.5000</td><td>+0.0</td></tr>
+              <tr><td><strong>Gemma E2B</strong></td><td>100.0%</td><td>100.0%</td><td>85.8%</td><td>98.8%</td><td><strong>+13.0 pp</strong> [+10.0, +16.2]</td><td>$8.19 \times 10^{-18}$</td><td>+0.0</td></tr>
+              <tr><td><strong>Gemma E4B</strong></td><td>100.0%</td><td>99.6%</td><td>86.4%</td><td>99.8%</td><td><strong>+13.4 pp</strong> [+10.4, +16.4]</td><td>$1.36 \times 10^{-20}$</td><td>+0.0</td></tr>
+              <tr><td><strong>Tiny Aya</strong></td><td>82.4%</td><td>77.8%</td><td>91.2%</td><td>97.6%</td><td><strong>+6.4 pp</strong> [+4.0, +9.0]</td><td>$4.43 \times 10^{-7}$</td><td>+36.0</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </details>
+
         <div class="article-prose">
-          <p><strong>Qwen2.5-1.5B</strong> gained <strong>+17.5 percentage points</strong> with typed handles over untyped handles at identical prompt lengths (97.5% vs. 80.0%). <strong>Tiny Aya</strong> gained +15.0 points with typed handles over arbitrary masking. <strong>LFM 2.6B</strong> demonstrated a dramatic checkpoint-scale / configuration reversal over 1.2B, reaching 97.5% mean accuracy under typed handles (+70.0 pp over untyped, 95% CI: [+52.5, +85.0]) under closed-thinking prefill. All masked conditions completely eliminated raw names, emails, and account numbers from outputs (0% vs. 85&ndash;100% in raw prompts).</p>
+          <p><strong>Findings from Scaled Entity Resolution (N=500):</strong></p>
+          <ol>
+            <li><strong>Typed Handles Outperform Untyped Handles Across Primary Models:</strong> Typed handles yielded clear task accuracy gains over untyped handles in five of the six primary evaluated models, while the strongest model, Qwen 3.5 4B, was saturated at ceiling across conditions (99.6% untyped vs. 100.0% typed, +0.4 pp, $p = 0.500$).</li>
+            <li><strong>Strict Token-Matched Advantage:</strong> In the strict token-matched subset—Qwen 1.5B, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, and Gemma E4B (2,500 paired comparisons where input token lengths are exactly identical across untyped and typed conditions)—typed handles show an <strong>+8.0 percentage-point gain over untyped handles</strong> (13 discordant losses vs. 214 discordant wins; exact McNemar $p = 4.74 \times 10^{-48}$).</li>
+            <li><strong>Primary Fleet Win Rates:</strong> In the primary six-model fleet, typed canonical handles won <strong>251 paired comparisons against only 18 paired losses (+7.8 pp)</strong> over 3,000 paired comparisons ($p = 4.74 \times 10^{-48}$ in strict token-matched subset).</li>
+            <li><strong>Massive Untyped Breakdown Recovery:</strong> Models sensitive to arbitrary placeholders collapse under untyped masks but recover under typed semantic hints: Gemma E4B jumps by <strong>+13.4 pp</strong> (86.4% &rarr; 99.8%, $p = 1.36 \times 10^{-20}$), and Gemma E2B jumps by <strong>+13.0 pp</strong> (85.8% &rarr; 98.8%, $p = 8.19 \times 10^{-18}$).</li>
+            <li><strong>Complete Output PII Exposure Elimination:</strong> In the raw PII condition, models exposed raw personal names, phone numbers, emails, or account numbers in <strong>92.0% to 100.0% of generations</strong>. Under both untyped and typed canonicalization, <strong>0.0% of generations across all 12,000 outputs contained any raw PII values</strong>, demonstrating that request-scoped symbolic boundaries reduce model-layer data exposure to zero.</li>
+          </ol>
+          <p><strong>Anthropic Stage 8 extension.</strong> Sonnet was at ceiling on the 500-case account-resolution set: raw, random-masked, and untyped conditions scored 100.0%, while typed handles scored 99.8% (typed minus untyped &minus;0.2 pp, 95% CI [&minus;0.6, 0.0]). Raw-value output exposure was 100.0% in the raw condition and 0.0% in all three masked conditions. This confirms literal-exposure control on this dataset, but provides no evidence that typed handles improve Sonnet's task accuracy because the task was saturated.</p>
 
           <h3>The reference implementation: ModelIR &amp; MappingVault</h3>
           <p>Instead of passing raw backend IDs to the model, trusted software interposes a canonicalizer and mapping vault:</p>
@@ -547,7 +679,7 @@ assert resolved.answer == "ACCT-GB-4490-9812"</code></pre>
       <section class="limits section-pad" aria-labelledby="limits-title">
         <h2 id="limits-title" class="reveal-up">What remains uncertain.</h2>
         <div class="limits-columns reveal-up">
-          <p>Our behavioral and mechanistic experiments ran on local models between 1.2B and 4B parameters. While the transport cost (tokens, latency, KV-cache) applies equally to 70B+ and proprietary models (GPT-4o, Claude 3.5 Sonnet), frontier models possess much higher attention capacity and may exhibit higher baseline UUID binding fidelity. Testing the held-out MuSiQue cohort on frontier APIs remains an open research priority.</p>
+          <p>The completed frontier extension currently covers Anthropic Haiku and Sonnet. Haiku showed a severe UUID binding penalty, whereas Sonnet was nearly invariant, so model capability and configuration clearly matter. OpenAI batches are not included until all planned cells finish; broader provider and version replication remains necessary.</p>
           <p>Measured input prompts ranged from roughly 230 to 4,000 tokens, using 4K&ndash;8K context windows. At 100K+ scale, identifier token bloat can accumulate into substantial KV-cache use, but attention dilution there requires dedicated measurement. Maintaining a <code>MappingVault</code> also requires request-scoped state across distributed workers or multi-turn agent conversations.</p>
         </div>
 

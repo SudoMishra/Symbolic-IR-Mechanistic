@@ -1,0 +1,50 @@
+name: musique_500_gemma4_e2b
+seed: 202620
+dataset:
+  family: musique
+  data_path: data/musique/musique_ans_v1.0_dev.jsonl
+  selection_path: configs/musique/musique_balanced_500.json
+  count: 500
+  prompt_tokens:
+    min: 1500
+    max: 4000
+  scenarios:
+  - name: scaled_15_sources
+    stage: 2
+    num_sources: 15
+    identifiers:
+    - numeric
+    - uuid
+  - name: scaled_20_sources
+    stage: 2
+    num_sources: 20
+    identifiers:
+    - numeric
+    - uuid
+identifiers:
+- numeric
+- uuid
+backend:
+  type: llama_cpp
+  model_path: models/gemma-4-e2b-it-q4_0.gguf
+  model: google/gemma-4-E2B-it-qat-q4_0-gguf
+  revision: e67406c117b34f68ebfe9403d527fa28c5bb74ea
+  n_ctx: 8192
+  n_threads: 12
+  n_gpu_layers: -1
+  main_gpu: 0
+  offload_kqv: true
+  seed: 202620
+generation:
+  temperature: 0
+  max_output_tokens: 256
+  tokenizer:
+    type: llama_cpp
+    model_path: models/gemma-4-e2b-it-q4_0.gguf
+output_dir: results/raw
+metadata:
+  stage: scaled_musique
+  sample_size: 500
+  dataset_license: CC-BY-4.0
+  execution: CUDA
+  quantization: Q4_0

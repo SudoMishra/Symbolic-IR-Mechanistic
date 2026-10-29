@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 680" role="img" aria-labelledby="title desc">
-<title id="title">Figure 4: Reasoning-budget confirmation</title>
-<desc id="desc">Three small multiples showing UUID minus numeric accuracy by visible scratchpad budget.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 940" role="img" aria-labelledby="title desc">
+<title id="title">Figure 4: Reasoning-budget scaling across 6 models</title>
+<desc id="desc">Six small multiples showing UUID minus numeric accuracy across visible scratchpad budgets.</desc>
 <style>
 text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
 .title{font-size:26px;font-weight:700}.subtitle{font-size:14px;fill:#5f6b7a}
@@ -8,135 +8,246 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 .mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;font-size:12.5px}
 .axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.5}
 </style>
-<text x="50" y="44" class="title" text-anchor="start">Figure 4 — More scratchpad did not consistently repair UUID performance</text>
-<text x="50" y="72" class="subtitle" text-anchor="start">Final-answer accuracy delta across Pass 1 scratchpad budgets; paired 95% bootstrap intervals (3,200 confirmatory model calls).</text>
-<text x="110" y="120" class="label" text-anchor="start" fill="#172033">Qwen 1.5B</text>
-<text x="480" y="160" class="small" text-anchor="end" fill="#5f6b7a">UUID better (&gt; 0)</text>
-<text x="480" y="490" class="small" text-anchor="end" fill="#5f6b7a">Numeric better (&lt; 0)</text>
-<line x1="110" y1="500.0" x2="480" y2="500.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="96" y="504.0" class="small" text-anchor="end">-60 pp</text>
-<line x1="110" y1="449.2857142857143" x2="480" y2="449.2857142857143" stroke="#d8dee8" stroke-width="1"/>
-<text x="96" y="453.2857142857143" class="small" text-anchor="end">-40 pp</text>
-<line x1="110" y1="398.57142857142856" x2="480" y2="398.57142857142856" stroke="#d8dee8" stroke-width="1"/>
-<text x="96" y="402.57142857142856" class="small" text-anchor="end">-20 pp</text>
-<line x1="110" y1="347.8571428571429" x2="480" y2="347.8571428571429" stroke="#172033" stroke-width="1.8"/>
-<text x="96" y="351.8571428571429" class="small" text-anchor="end">+0 pp</text>
-<text x="118" y="341.8571428571429" class="small" text-anchor="start" fill="#5f6b7a">0 pp (Equal accuracy)</text>
-<line x1="110" y1="297.14285714285717" x2="480" y2="297.14285714285717" stroke="#d8dee8" stroke-width="1"/>
-<text x="96" y="301.14285714285717" class="small" text-anchor="end">+20 pp</text>
-<line x1="110" y1="246.42857142857142" x2="480" y2="246.42857142857142" stroke="#d8dee8" stroke-width="1"/>
-<text x="96" y="250.42857142857142" class="small" text-anchor="end">+40 pp</text>
-<line x1="110" y1="195.71428571428572" x2="480" y2="195.71428571428572" stroke="#d8dee8" stroke-width="1"/>
-<text x="96" y="199.71428571428572" class="small" text-anchor="end">+60 pp</text>
-<line x1="110" y1="145.0" x2="480" y2="145.0" stroke="#d8dee8" stroke-width="1"/>
-<text x="96" y="149.0" class="small" text-anchor="end">+80 pp</text>
-<line x1="110.0" y1="382.7232142857143" x2="110.0" y2="338.3482142857143" stroke="#e97824" stroke-width="2.5"/>
-<line x1="105.0" y1="382.7232142857143" x2="115.0" y2="382.7232142857143" stroke="#e97824" stroke-width="2"/>
-<line x1="105.0" y1="338.3482142857143" x2="115.0" y2="338.3482142857143" stroke="#e97824" stroke-width="2"/>
-<circle cx="110.0" cy="360.5357142857143" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="110.0" y="528" class="small" text-anchor="middle">64</text>
-<line x1="202.5" y1="433.4375" x2="202.5" y2="363.7053571428571" stroke="#e97824" stroke-width="2.5"/>
-<line x1="197.5" y1="433.4375" x2="207.5" y2="433.4375" stroke="#e97824" stroke-width="2"/>
-<line x1="197.5" y1="363.7053571428571" x2="207.5" y2="363.7053571428571" stroke="#e97824" stroke-width="2"/>
-<circle cx="202.5" cy="398.57142857142856" r="5.5" fill="#e97824" stroke="#e97824" stroke-width="2"/>
-<text x="202.5" y="528" class="small" text-anchor="middle">128</text>
-<line x1="295.0" y1="404.9107142857143" x2="295.0" y2="341.5178571428571" stroke="#e97824" stroke-width="2.5"/>
-<line x1="290.0" y1="404.9107142857143" x2="300.0" y2="404.9107142857143" stroke="#e97824" stroke-width="2"/>
-<line x1="290.0" y1="341.5178571428571" x2="300.0" y2="341.5178571428571" stroke="#e97824" stroke-width="2"/>
-<circle cx="295.0" cy="373.2142857142857" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="295.0" y="528" class="small" text-anchor="middle">256</text>
-<line x1="387.5" y1="392.2321428571429" x2="387.5" y2="322.5" stroke="#e97824" stroke-width="2.5"/>
-<line x1="382.5" y1="392.2321428571429" x2="392.5" y2="392.2321428571429" stroke="#e97824" stroke-width="2"/>
-<line x1="382.5" y1="322.5" x2="392.5" y2="322.5" stroke="#e97824" stroke-width="2"/>
-<circle cx="387.5" cy="357.36607142857144" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="387.5" y="528" class="small" text-anchor="middle">512</text>
-<line x1="480.0" y1="427.0982142857143" x2="480.0" y2="376.38392857142856" stroke="#e97824" stroke-width="2.5"/>
-<line x1="475.0" y1="427.0982142857143" x2="485.0" y2="427.0982142857143" stroke="#e97824" stroke-width="2"/>
-<line x1="475.0" y1="376.38392857142856" x2="485.0" y2="376.38392857142856" stroke="#e97824" stroke-width="2"/>
-<circle cx="480.0" cy="401.74107142857144" r="5.5" fill="#e97824" stroke="#e97824" stroke-width="2"/>
-<text x="480.0" y="528" class="small" text-anchor="middle">1024</text>
-<polyline points="110.00,360.54 202.50,398.57 295.00,373.21 387.50,357.37 480.00,401.74" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
-<text x="295.0" y="560" class="small" text-anchor="middle">Pass 1 scratchpad limit (tokens; log₂-spaced)</text>
-<text x="530" y="120" class="label" text-anchor="start" fill="#172033">Gemma E2B</text>
-<text x="900" y="160" class="small" text-anchor="end" fill="#5f6b7a">UUID better (&gt; 0)</text>
-<text x="900" y="490" class="small" text-anchor="end" fill="#5f6b7a">Numeric better (&lt; 0)</text>
-<line x1="530" y1="500.0" x2="900" y2="500.0" stroke="#d8dee8" stroke-width="1"/>
-<line x1="530" y1="449.2857142857143" x2="900" y2="449.2857142857143" stroke="#d8dee8" stroke-width="1"/>
-<line x1="530" y1="398.57142857142856" x2="900" y2="398.57142857142856" stroke="#d8dee8" stroke-width="1"/>
-<line x1="530" y1="347.8571428571429" x2="900" y2="347.8571428571429" stroke="#172033" stroke-width="1.8"/>
-<text x="538" y="341.8571428571429" class="small" text-anchor="start" fill="#5f6b7a">0 pp (Equal accuracy)</text>
-<line x1="530" y1="297.14285714285717" x2="900" y2="297.14285714285717" stroke="#d8dee8" stroke-width="1"/>
-<line x1="530" y1="246.42857142857142" x2="900" y2="246.42857142857142" stroke="#d8dee8" stroke-width="1"/>
-<line x1="530" y1="195.71428571428572" x2="900" y2="195.71428571428572" stroke="#d8dee8" stroke-width="1"/>
-<line x1="530" y1="145.0" x2="900" y2="145.0" stroke="#d8dee8" stroke-width="1"/>
-<line x1="530.0" y1="474.64285714285717" x2="530.0" y2="398.57142857142856" stroke="#e97824" stroke-width="2.5"/>
-<line x1="525.0" y1="474.64285714285717" x2="535.0" y2="474.64285714285717" stroke="#e97824" stroke-width="2"/>
-<line x1="525.0" y1="398.57142857142856" x2="535.0" y2="398.57142857142856" stroke="#e97824" stroke-width="2"/>
-<circle cx="530.0" cy="436.60714285714283" r="5.5" fill="#e97824" stroke="#e97824" stroke-width="2"/>
-<text x="530.0" y="528" class="small" text-anchor="middle">64</text>
-<line x1="622.5" y1="309.82142857142856" x2="622.5" y2="214.73214285714283" stroke="#e97824" stroke-width="2.5"/>
-<line x1="617.5" y1="309.82142857142856" x2="627.5" y2="309.82142857142856" stroke="#e97824" stroke-width="2"/>
-<line x1="617.5" y1="214.73214285714283" x2="627.5" y2="214.73214285714283" stroke="#e97824" stroke-width="2"/>
-<circle cx="622.5" cy="259.10714285714283" r="5.5" fill="#e97824" stroke="#e97824" stroke-width="2"/>
-<text x="622.5" y="528" class="small" text-anchor="middle">128</text>
-<line x1="715.0" y1="271.7857142857143" x2="715.0" y2="170.35714285714283" stroke="#e97824" stroke-width="2.5"/>
-<line x1="710.0" y1="271.7857142857143" x2="720.0" y2="271.7857142857143" stroke="#e97824" stroke-width="2"/>
-<line x1="710.0" y1="170.35714285714283" x2="720.0" y2="170.35714285714283" stroke="#e97824" stroke-width="2"/>
-<circle cx="715.0" cy="221.07142857142856" r="5.5" fill="#e97824" stroke="#e97824" stroke-width="2"/>
-<text x="715.0" y="528" class="small" text-anchor="middle">256</text>
-<line x1="807.5" y1="373.2142857142857" x2="807.5" y2="259.10714285714283" stroke="#e97824" stroke-width="2.5"/>
-<line x1="802.5" y1="373.2142857142857" x2="812.5" y2="373.2142857142857" stroke="#e97824" stroke-width="2"/>
-<line x1="802.5" y1="259.10714285714283" x2="812.5" y2="259.10714285714283" stroke="#e97824" stroke-width="2"/>
-<circle cx="807.5" cy="316.1607142857143" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="807.5" y="528" class="small" text-anchor="middle">512</text>
-<line x1="900.0" y1="392.2321428571429" x2="900.0" y2="290.80357142857144" stroke="#e97824" stroke-width="2.5"/>
-<line x1="895.0" y1="392.2321428571429" x2="905.0" y2="392.2321428571429" stroke="#e97824" stroke-width="2"/>
-<line x1="895.0" y1="290.80357142857144" x2="905.0" y2="290.80357142857144" stroke="#e97824" stroke-width="2"/>
-<circle cx="900.0" cy="341.5178571428571" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="900.0" y="528" class="small" text-anchor="middle">1024</text>
-<polyline points="530.00,436.61 622.50,259.11 715.00,221.07 807.50,316.16 900.00,341.52" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
-<text x="715.0" y="560" class="small" text-anchor="middle">Pass 1 scratchpad limit (tokens; log₂-spaced)</text>
-<text x="950" y="120" class="label" text-anchor="start" fill="#172033">Tiny Aya</text>
-<text x="1320" y="160" class="small" text-anchor="end" fill="#5f6b7a">UUID better (&gt; 0)</text>
-<text x="1320" y="490" class="small" text-anchor="end" fill="#5f6b7a">Numeric better (&lt; 0)</text>
-<line x1="950" y1="500.0" x2="1320" y2="500.0" stroke="#d8dee8" stroke-width="1"/>
-<line x1="950" y1="449.2857142857143" x2="1320" y2="449.2857142857143" stroke="#d8dee8" stroke-width="1"/>
-<line x1="950" y1="398.57142857142856" x2="1320" y2="398.57142857142856" stroke="#d8dee8" stroke-width="1"/>
-<line x1="950" y1="347.8571428571429" x2="1320" y2="347.8571428571429" stroke="#172033" stroke-width="1.8"/>
-<text x="958" y="341.8571428571429" class="small" text-anchor="start" fill="#5f6b7a">0 pp (Equal accuracy)</text>
-<line x1="950" y1="297.14285714285717" x2="1320" y2="297.14285714285717" stroke="#d8dee8" stroke-width="1"/>
-<line x1="950" y1="246.42857142857142" x2="1320" y2="246.42857142857142" stroke="#d8dee8" stroke-width="1"/>
-<line x1="950" y1="195.71428571428572" x2="1320" y2="195.71428571428572" stroke="#d8dee8" stroke-width="1"/>
-<line x1="950" y1="145.0" x2="1320" y2="145.0" stroke="#d8dee8" stroke-width="1"/>
-<line x1="950.0" y1="354.19642857142856" x2="950.0" y2="284.4642857142857" stroke="#e97824" stroke-width="2.5"/>
-<line x1="945.0" y1="354.19642857142856" x2="955.0" y2="354.19642857142856" stroke="#e97824" stroke-width="2"/>
-<line x1="945.0" y1="284.4642857142857" x2="955.0" y2="284.4642857142857" stroke="#e97824" stroke-width="2"/>
-<circle cx="950.0" cy="322.5" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="950.0" y="528" class="small" text-anchor="middle">64</text>
-<line x1="1042.5" y1="442.94642857142856" x2="1042.5" y2="335.17857142857144" stroke="#e97824" stroke-width="2.5"/>
-<line x1="1037.5" y1="442.94642857142856" x2="1047.5" y2="442.94642857142856" stroke="#e97824" stroke-width="2"/>
-<line x1="1037.5" y1="335.17857142857144" x2="1047.5" y2="335.17857142857144" stroke="#e97824" stroke-width="2"/>
-<circle cx="1042.5" cy="392.2321428571429" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="1042.5" y="528" class="small" text-anchor="middle">128</text>
-<line x1="1135.0" y1="411.25" x2="1135.0" y2="347.8571428571429" stroke="#e97824" stroke-width="2.5"/>
-<line x1="1130.0" y1="411.25" x2="1140.0" y2="411.25" stroke="#e97824" stroke-width="2"/>
-<line x1="1130.0" y1="347.8571428571429" x2="1140.0" y2="347.8571428571429" stroke="#e97824" stroke-width="2"/>
-<circle cx="1135.0" cy="379.55357142857144" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="1135.0" y="528" class="small" text-anchor="middle">256</text>
-<line x1="1227.5" y1="385.8928571428571" x2="1227.5" y2="316.1607142857143" stroke="#e97824" stroke-width="2.5"/>
-<line x1="1222.5" y1="385.8928571428571" x2="1232.5" y2="385.8928571428571" stroke="#e97824" stroke-width="2"/>
-<line x1="1222.5" y1="316.1607142857143" x2="1232.5" y2="316.1607142857143" stroke="#e97824" stroke-width="2"/>
-<circle cx="1227.5" cy="347.8571428571429" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="1227.5" y="528" class="small" text-anchor="middle">512</text>
-<line x1="1320.0" y1="379.55357142857144" x2="1320.0" y2="316.1607142857143" stroke="#e97824" stroke-width="2.5"/>
-<line x1="1315.0" y1="379.55357142857144" x2="1325.0" y2="379.55357142857144" stroke="#e97824" stroke-width="2"/>
-<line x1="1315.0" y1="316.1607142857143" x2="1325.0" y2="316.1607142857143" stroke="#e97824" stroke-width="2"/>
-<circle cx="1320.0" cy="347.8571428571429" r="5.5" fill="#fbfcfe" stroke="#172033" stroke-width="2"/>
-<text x="1320.0" y="528" class="small" text-anchor="middle">1024</text>
-<polyline points="950.00,322.50 1042.50,392.23 1135.00,379.55 1227.50,347.86 1320.00,347.86" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
-<text x="1135.0" y="560" class="small" text-anchor="middle">Pass 1 scratchpad limit (tokens; log₂-spaced)</text>
-<text x="32" y="330" class="label" text-anchor="middle">UUID − numeric final-answer accuracy (percentage points)</text>
-<rect x="110" y="595" width="1210" height="55" rx="10" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<text x="130" y="628" class="small" text-anchor="start" font-weight="600">Key finding: Slopes and interaction intervals span zero; additional scratchpad does not reliably erase UUID deficits.</text>
-<text x="820" y="628" class="small" text-anchor="start">Gemma E2B +50 pp anomaly at 256 tok was caused by scratchpad verbosity.</text>
+<text x="50" y="44" class="title" text-anchor="start">Figure 4 — More scratchpad does not consistently repair UUID deficits across models</text>
+<text x="50" y="72" class="subtitle" text-anchor="start">Final-answer accuracy delta (UUID minus numeric) across Pass 1 scratchpad budgets; paired 95% bootstrap intervals (5,760 model calls across 6 models).</text>
+<text x="95" y="135" class="label" text-anchor="start" fill="#172033" font-weight="700">Qwen 2.5 1.5B</text>
+<text x="455" y="135" class="small" text-anchor="end" fill="#5f6b7a">Active (31% acc)</text>
+<line x1="95" y1="425.0" x2="455" y2="425.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="429.0" class="small" text-anchor="end">-80 pp</text>
+<line x1="95" y1="380.0" x2="455" y2="380.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="384.0" class="small" text-anchor="end">-60 pp</text>
+<line x1="95" y1="335.0" x2="455" y2="335.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="339.0" class="small" text-anchor="end">-40 pp</text>
+<line x1="95" y1="290.0" x2="455" y2="290.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="294.0" class="small" text-anchor="end">-20 pp</text>
+<line x1="95" y1="245.0" x2="455" y2="245.0" stroke="#172033" stroke-width="1.8"/>
+<text x="83" y="249.0" class="small" text-anchor="end">+0 pp</text>
+<text x="101" y="240.0" class="small" text-anchor="start" fill="#5f6b7a">0 pp (Equal)</text>
+<line x1="95" y1="200.0" x2="455" y2="200.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="204.0" class="small" text-anchor="end">+20 pp</text>
+<line x1="95" y1="155.0" x2="455" y2="155.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="159.0" class="small" text-anchor="end">+40 pp</text>
+<line x1="95.0" y1="245.0" x2="95.0" y2="245.0" stroke="#e97824" stroke-width="2"/>
+<line x1="91.0" y1="245.0" x2="99.0" y2="245.0" stroke="#e97824" stroke-width="1.5"/>
+<line x1="91.0" y1="245.0" x2="99.0" y2="245.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="95.0" cy="245.0" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="95.0" y="443" class="small" text-anchor="middle">64</text>
+<line x1="185.0" y1="348.125" x2="185.0" y2="235.62499999999997" stroke="#e97824" stroke-width="2"/>
+<line x1="181.0" y1="348.125" x2="189.0" y2="348.125" stroke="#e97824" stroke-width="1.5"/>
+<line x1="181.0" y1="235.62499999999997" x2="189.0" y2="235.62499999999997" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="185.0" cy="291.875" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="185.0" y="443" class="small" text-anchor="middle">128</text>
+<line x1="275.0" y1="338.75" x2="275.0" y2="226.25000000000003" stroke="#e97824" stroke-width="2"/>
+<line x1="271.0" y1="338.75" x2="279.0" y2="338.75" stroke="#e97824" stroke-width="1.5"/>
+<line x1="271.0" y1="226.25000000000003" x2="279.0" y2="226.25000000000003" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="275.0" cy="282.5" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="275.0" y="443" class="small" text-anchor="middle">256</text>
+<line x1="365.0" y1="320.0" x2="365.0" y2="216.875" stroke="#e97824" stroke-width="2"/>
+<line x1="361.0" y1="320.0" x2="369.0" y2="320.0" stroke="#e97824" stroke-width="1.5"/>
+<line x1="361.0" y1="216.875" x2="369.0" y2="216.875" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="365.0" cy="263.75" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="365.0" y="443" class="small" text-anchor="middle">512</text>
+<line x1="455.0" y1="329.375" x2="455.0" y2="216.875" stroke="#e97824" stroke-width="2"/>
+<line x1="451.0" y1="329.375" x2="459.0" y2="329.375" stroke="#e97824" stroke-width="1.5"/>
+<line x1="451.0" y1="216.875" x2="459.0" y2="216.875" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="455.0" cy="273.125" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="455.0" y="443" class="small" text-anchor="middle">1024</text>
+<polyline points="95.00,245.00 185.00,291.88 275.00,282.50 365.00,263.75 455.00,273.12" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
+<text x="275.0" y="463" class="small" text-anchor="middle" fill="#5f6b7a">Pass 1 scratchpad (tokens)</text>
+<text x="500" y="135" class="label" text-anchor="start" fill="#172033" font-weight="700">Qwen 3.5 2B</text>
+<text x="860" y="135" class="small" text-anchor="end" fill="#5f6b7a">Active (51% acc)</text>
+<line x1="500" y1="425.0" x2="860" y2="425.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="380.0" x2="860" y2="380.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="335.0" x2="860" y2="335.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="290.0" x2="860" y2="290.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="245.0" x2="860" y2="245.0" stroke="#172033" stroke-width="1.8"/>
+<line x1="500" y1="200.0" x2="860" y2="200.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="155.0" x2="860" y2="155.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500.0" y1="338.75" x2="500.0" y2="245.0" stroke="#e97824" stroke-width="2"/>
+<line x1="496.0" y1="338.75" x2="504.0" y2="338.75" stroke="#e97824" stroke-width="1.5"/>
+<line x1="496.0" y1="245.0" x2="504.0" y2="245.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="500.0" cy="291.875" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="500.0" y="443" class="small" text-anchor="middle">64</text>
+<line x1="590.0" y1="357.5" x2="590.0" y2="263.75" stroke="#e97824" stroke-width="2"/>
+<line x1="586.0" y1="357.5" x2="594.0" y2="357.5" stroke="#e97824" stroke-width="1.5"/>
+<line x1="586.0" y1="263.75" x2="594.0" y2="263.75" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="590.0" cy="310.625" r="4.5" fill="#e97824" stroke="#e97824" stroke-width="1.75"/>
+<text x="590.0" y="443" class="small" text-anchor="middle">128</text>
+<line x1="680.0" y1="291.875" x2="680.0" y2="216.875" stroke="#e97824" stroke-width="2"/>
+<line x1="676.0" y1="291.875" x2="684.0" y2="291.875" stroke="#e97824" stroke-width="1.5"/>
+<line x1="676.0" y1="216.875" x2="684.0" y2="216.875" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="680.0" cy="254.375" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="680.0" y="443" class="small" text-anchor="middle">256</text>
+<line x1="770.0" y1="310.625" x2="770.0" y2="216.875" stroke="#e97824" stroke-width="2"/>
+<line x1="766.0" y1="310.625" x2="774.0" y2="310.625" stroke="#e97824" stroke-width="1.5"/>
+<line x1="766.0" y1="216.875" x2="774.0" y2="216.875" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="770.0" cy="263.75" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="770.0" y="443" class="small" text-anchor="middle">512</text>
+<line x1="860.0" y1="310.625" x2="860.0" y2="235.62499999999997" stroke="#e97824" stroke-width="2"/>
+<line x1="856.0" y1="310.625" x2="864.0" y2="310.625" stroke="#e97824" stroke-width="1.5"/>
+<line x1="856.0" y1="235.62499999999997" x2="864.0" y2="235.62499999999997" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="860.0" cy="273.125" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="860.0" y="443" class="small" text-anchor="middle">1024</text>
+<polyline points="500.00,291.88 590.00,310.62 680.00,254.38 770.00,263.75 860.00,273.12" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
+<text x="680.0" y="463" class="small" text-anchor="middle" fill="#5f6b7a">Pass 1 scratchpad (tokens)</text>
+<text x="905" y="135" class="label" text-anchor="start" fill="#172033" font-weight="700">Qwen 3.5 4B</text>
+<text x="1265" y="135" class="small" text-anchor="end" fill="#5f6b7a">High Saturation</text>
+<line x1="905" y1="425.0" x2="1265" y2="425.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="380.0" x2="1265" y2="380.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="335.0" x2="1265" y2="335.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="290.0" x2="1265" y2="290.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="245.0" x2="1265" y2="245.0" stroke="#172033" stroke-width="1.8"/>
+<line x1="905" y1="200.0" x2="1265" y2="200.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="155.0" x2="1265" y2="155.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="1265" y="171" class="small" text-anchor="end" fill="#5f6b7a">UUID better (&gt; 0)</text>
+<text x="1265" y="417" class="small" text-anchor="end" fill="#5f6b7a">Numeric better (&lt; 0)</text>
+<line x1="905.0" y1="404.375" x2="905.0" y2="310.625" stroke="#e97824" stroke-width="2"/>
+<line x1="901.0" y1="404.375" x2="909.0" y2="404.375" stroke="#e97824" stroke-width="1.5"/>
+<line x1="901.0" y1="310.625" x2="909.0" y2="310.625" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="905.0" cy="357.5" r="4.5" fill="#e97824" stroke="#e97824" stroke-width="1.75"/>
+<text x="905.0" y="443" class="small" text-anchor="middle">64</text>
+<line x1="995.0" y1="329.375" x2="995.0" y2="245.0" stroke="#e97824" stroke-width="2"/>
+<line x1="991.0" y1="329.375" x2="999.0" y2="329.375" stroke="#e97824" stroke-width="1.5"/>
+<line x1="991.0" y1="245.0" x2="999.0" y2="245.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="995.0" cy="282.5" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="995.0" y="443" class="small" text-anchor="middle">128</text>
+<line x1="1085.0" y1="273.125" x2="1085.0" y2="216.875" stroke="#e97824" stroke-width="2"/>
+<line x1="1081.0" y1="273.125" x2="1089.0" y2="273.125" stroke="#e97824" stroke-width="1.5"/>
+<line x1="1081.0" y1="216.875" x2="1089.0" y2="216.875" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="1085.0" cy="245.0" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="1085.0" y="443" class="small" text-anchor="middle">256</text>
+<line x1="1175.0" y1="273.125" x2="1175.0" y2="245.0" stroke="#e97824" stroke-width="2"/>
+<line x1="1171.0" y1="273.125" x2="1179.0" y2="273.125" stroke="#e97824" stroke-width="1.5"/>
+<line x1="1171.0" y1="245.0" x2="1179.0" y2="245.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="1175.0" cy="254.375" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="1175.0" y="443" class="small" text-anchor="middle">512</text>
+<line x1="1265.0" y1="245.0" x2="1265.0" y2="245.0" stroke="#e97824" stroke-width="2"/>
+<line x1="1261.0" y1="245.0" x2="1269.0" y2="245.0" stroke="#e97824" stroke-width="1.5"/>
+<line x1="1261.0" y1="245.0" x2="1269.0" y2="245.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="1265.0" cy="245.0" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="1265.0" y="443" class="small" text-anchor="middle">1024</text>
+<polyline points="905.00,357.50 995.00,282.50 1085.00,245.00 1175.00,254.38 1265.00,245.00" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
+<text x="1085.0" y="463" class="small" text-anchor="middle" fill="#5f6b7a">Pass 1 scratchpad (tokens)</text>
+<text x="95" y="505" class="label" text-anchor="start" fill="#172033" font-weight="700">Tiny Aya Global</text>
+<text x="455" y="505" class="small" text-anchor="end" fill="#5f6b7a">Active (29% acc)</text>
+<line x1="95" y1="795.0" x2="455" y2="795.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="799.0" class="small" text-anchor="end">-80 pp</text>
+<line x1="95" y1="750.0" x2="455" y2="750.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="754.0" class="small" text-anchor="end">-60 pp</text>
+<line x1="95" y1="705.0" x2="455" y2="705.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="709.0" class="small" text-anchor="end">-40 pp</text>
+<line x1="95" y1="660.0" x2="455" y2="660.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="664.0" class="small" text-anchor="end">-20 pp</text>
+<line x1="95" y1="615.0" x2="455" y2="615.0" stroke="#172033" stroke-width="1.8"/>
+<text x="83" y="619.0" class="small" text-anchor="end">+0 pp</text>
+<text x="101" y="610.0" class="small" text-anchor="start" fill="#5f6b7a">0 pp (Equal)</text>
+<line x1="95" y1="570.0" x2="455" y2="570.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="574.0" class="small" text-anchor="end">+20 pp</text>
+<line x1="95" y1="525.0" x2="455" y2="525.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="83" y="529.0" class="small" text-anchor="end">+40 pp</text>
+<line x1="95.0" y1="661.875" x2="95.0" y2="615.0" stroke="#e97824" stroke-width="2"/>
+<line x1="91.0" y1="661.875" x2="99.0" y2="661.875" stroke="#e97824" stroke-width="1.5"/>
+<line x1="91.0" y1="615.0" x2="99.0" y2="615.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="95.0" cy="633.75" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="95.0" y="813" class="small" text-anchor="middle">64</text>
+<line x1="185.0" y1="736.875" x2="185.0" y2="652.5" stroke="#e97824" stroke-width="2"/>
+<line x1="181.0" y1="736.875" x2="189.0" y2="736.875" stroke="#e97824" stroke-width="1.5"/>
+<line x1="181.0" y1="652.5" x2="189.0" y2="652.5" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="185.0" cy="690.0" r="4.5" fill="#e97824" stroke="#e97824" stroke-width="1.75"/>
+<text x="185.0" y="813" class="small" text-anchor="middle">128</text>
+<line x1="275.0" y1="718.125" x2="275.0" y2="615.0" stroke="#e97824" stroke-width="2"/>
+<line x1="271.0" y1="718.125" x2="279.0" y2="718.125" stroke="#e97824" stroke-width="1.5"/>
+<line x1="271.0" y1="615.0" x2="279.0" y2="615.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="275.0" cy="671.25" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="275.0" y="813" class="small" text-anchor="middle">256</text>
+<line x1="365.0" y1="699.375" x2="365.0" y2="605.625" stroke="#e97824" stroke-width="2"/>
+<line x1="361.0" y1="699.375" x2="369.0" y2="699.375" stroke="#e97824" stroke-width="1.5"/>
+<line x1="361.0" y1="605.625" x2="369.0" y2="605.625" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="365.0" cy="652.5" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="365.0" y="813" class="small" text-anchor="middle">512</text>
+<line x1="455.0" y1="690.0" x2="455.0" y2="596.25" stroke="#e97824" stroke-width="2"/>
+<line x1="451.0" y1="690.0" x2="459.0" y2="690.0" stroke="#e97824" stroke-width="1.5"/>
+<line x1="451.0" y1="596.25" x2="459.0" y2="596.25" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="455.0" cy="643.125" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="455.0" y="813" class="small" text-anchor="middle">1024</text>
+<polyline points="95.00,633.75 185.00,690.00 275.00,671.25 365.00,652.50 455.00,643.12" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
+<text x="275.0" y="833" class="small" text-anchor="middle" fill="#5f6b7a">Pass 1 scratchpad (tokens)</text>
+<text x="500" y="505" class="label" text-anchor="start" fill="#172033" font-weight="700">Gemma 4 E2B</text>
+<text x="860" y="505" class="small" text-anchor="end" fill="#5f6b7a">Active (53% acc)</text>
+<line x1="500" y1="795.0" x2="860" y2="795.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="750.0" x2="860" y2="750.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="705.0" x2="860" y2="705.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="660.0" x2="860" y2="660.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="615.0" x2="860" y2="615.0" stroke="#172033" stroke-width="1.8"/>
+<line x1="500" y1="570.0" x2="860" y2="570.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500" y1="525.0" x2="860" y2="525.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="500.0" y1="708.75" x2="500.0" y2="633.75" stroke="#e97824" stroke-width="2"/>
+<line x1="496.0" y1="708.75" x2="504.0" y2="708.75" stroke="#e97824" stroke-width="1.5"/>
+<line x1="496.0" y1="633.75" x2="504.0" y2="633.75" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="500.0" cy="671.25" r="4.5" fill="#e97824" stroke="#e97824" stroke-width="1.75"/>
+<text x="500.0" y="813" class="small" text-anchor="middle">64</text>
+<line x1="590.0" y1="708.75" x2="590.0" y2="577.5" stroke="#e97824" stroke-width="2"/>
+<line x1="586.0" y1="708.75" x2="594.0" y2="708.75" stroke="#e97824" stroke-width="1.5"/>
+<line x1="586.0" y1="577.5" x2="594.0" y2="577.5" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="590.0" cy="643.125" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="590.0" y="813" class="small" text-anchor="middle">128</text>
+<line x1="680.0" y1="633.75" x2="680.0" y2="540.0" stroke="#e97824" stroke-width="2"/>
+<line x1="676.0" y1="633.75" x2="684.0" y2="633.75" stroke="#e97824" stroke-width="1.5"/>
+<line x1="676.0" y1="540.0" x2="684.0" y2="540.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="680.0" cy="586.875" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="680.0" y="813" class="small" text-anchor="middle">256</text>
+<line x1="770.0" y1="699.375" x2="770.0" y2="605.625" stroke="#e97824" stroke-width="2"/>
+<line x1="766.0" y1="699.375" x2="774.0" y2="699.375" stroke="#e97824" stroke-width="1.5"/>
+<line x1="766.0" y1="605.625" x2="774.0" y2="605.625" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="770.0" cy="652.5" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="770.0" y="813" class="small" text-anchor="middle">512</text>
+<line x1="860.0" y1="652.5" x2="860.0" y2="596.25" stroke="#e97824" stroke-width="2"/>
+<line x1="856.0" y1="652.5" x2="864.0" y2="652.5" stroke="#e97824" stroke-width="1.5"/>
+<line x1="856.0" y1="596.25" x2="864.0" y2="596.25" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="860.0" cy="624.375" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="860.0" y="813" class="small" text-anchor="middle">1024</text>
+<polyline points="500.00,671.25 590.00,643.12 680.00,586.88 770.00,652.50 860.00,624.38" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
+<text x="680.0" y="833" class="small" text-anchor="middle" fill="#5f6b7a">Pass 1 scratchpad (tokens)</text>
+<text x="905" y="505" class="label" text-anchor="start" fill="#172033" font-weight="700">Gemma 4 E4B</text>
+<text x="1265" y="505" class="small" text-anchor="end" fill="#5f6b7a">Active (65% acc)</text>
+<line x1="905" y1="795.0" x2="1265" y2="795.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="750.0" x2="1265" y2="750.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="705.0" x2="1265" y2="705.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="660.0" x2="1265" y2="660.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="615.0" x2="1265" y2="615.0" stroke="#172033" stroke-width="1.8"/>
+<line x1="905" y1="570.0" x2="1265" y2="570.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="905" y1="525.0" x2="1265" y2="525.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="1265" y="541" class="small" text-anchor="end" fill="#5f6b7a">UUID better (&gt; 0)</text>
+<text x="1265" y="787" class="small" text-anchor="end" fill="#5f6b7a">Numeric better (&lt; 0)</text>
+<line x1="905.0" y1="783.75" x2="905.0" y2="690.0" stroke="#e97824" stroke-width="2"/>
+<line x1="901.0" y1="783.75" x2="909.0" y2="783.75" stroke="#e97824" stroke-width="1.5"/>
+<line x1="901.0" y1="690.0" x2="909.0" y2="690.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="905.0" cy="736.875" r="4.5" fill="#e97824" stroke="#e97824" stroke-width="1.75"/>
+<text x="905.0" y="813" class="small" text-anchor="middle">64</text>
+<line x1="995.0" y1="746.25" x2="995.0" y2="661.875" stroke="#e97824" stroke-width="2"/>
+<line x1="991.0" y1="746.25" x2="999.0" y2="746.25" stroke="#e97824" stroke-width="1.5"/>
+<line x1="991.0" y1="661.875" x2="999.0" y2="661.875" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="995.0" cy="699.375" r="4.5" fill="#e97824" stroke="#e97824" stroke-width="1.75"/>
+<text x="995.0" y="813" class="small" text-anchor="middle">128</text>
+<line x1="1085.0" y1="661.875" x2="1085.0" y2="615.0" stroke="#e97824" stroke-width="2"/>
+<line x1="1081.0" y1="661.875" x2="1089.0" y2="661.875" stroke="#e97824" stroke-width="1.5"/>
+<line x1="1081.0" y1="615.0" x2="1089.0" y2="615.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="1085.0" cy="633.75" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="1085.0" y="813" class="small" text-anchor="middle">256</text>
+<line x1="1175.0" y1="615.0" x2="1175.0" y2="615.0" stroke="#e97824" stroke-width="2"/>
+<line x1="1171.0" y1="615.0" x2="1179.0" y2="615.0" stroke="#e97824" stroke-width="1.5"/>
+<line x1="1171.0" y1="615.0" x2="1179.0" y2="615.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="1175.0" cy="615.0" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="1175.0" y="813" class="small" text-anchor="middle">512</text>
+<line x1="1265.0" y1="615.0" x2="1265.0" y2="615.0" stroke="#e97824" stroke-width="2"/>
+<line x1="1261.0" y1="615.0" x2="1269.0" y2="615.0" stroke="#e97824" stroke-width="1.5"/>
+<line x1="1261.0" y1="615.0" x2="1269.0" y2="615.0" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="1265.0" cy="615.0" r="4.5" fill="#fbfcfe" stroke="#172033" stroke-width="1.75"/>
+<text x="1265.0" y="813" class="small" text-anchor="middle">1024</text>
+<polyline points="905.00,736.88 995.00,699.38 1085.00,633.75 1175.00,615.00 1265.00,615.00" fill="none" stroke="#e97824" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"/>
+<text x="1085.0" y="833" class="small" text-anchor="middle" fill="#5f6b7a">Pass 1 scratchpad (tokens)</text>
+<text x="32" y="440" class="label" text-anchor="middle" transform="rotate(-90 32 440)">UUID − numeric final-answer accuracy delta (percentage points)</text>
+<rect x="95" y="855" width="1205" height="65" rx="10" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<text x="115" y="882" class="small" text-anchor="start" font-weight="600">Key finding: Across 6 architectures, increasing scratchpad capacity fails to erase UUID deficits; large penalties persist.</text>
+<text x="115" y="905" class="small" text-anchor="start" fill="#5f6b7a">Includes both regimes: active scaling (Qwen 1.5B, Qwen 3.5 2B, Tiny Aya, Gemma E2B) and ceiling saturation (Gemma E4B, Qwen 3.5 4B).</text>
 </svg>

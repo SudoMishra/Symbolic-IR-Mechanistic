@@ -45,4 +45,5 @@ def evaluate_output(rendered: RenderedExample, output: str) -> dict[str, Any]:
         "malformed_id_rate": float(bool(parsed.malformed_ids)),
         "failure_category": taxonomy,
         "raw_pii_leakage_rate": leakage_rate(output, rendered.protected_values),
+        "strict_format": parsed.strict_format,
     }

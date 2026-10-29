@@ -22,8 +22,19 @@ def answer_content_correct(row: dict) -> bool:
 
 
 def citation_field(output: str) -> str:
-    match = re.search(r"(?im)^\s*CITATIONS?\s*:\s*(.*?)\s*$", output)
-    return match.group(1) if match else ""
+    clean = output.strip()
+    if "</think>" in clean:
+        post = clean.split("</think>")[-1].strip()
+        if post:
+            clean = post
+    m = re.search(r"(?i)\bCITATIONS?\s*:\s*(.*)", clean)
+    if not m:
+        return ""
+    rest = m.group(1)
+    m_ans = re.search(r"(?i)\bANSWER\s*:", rest)
+    if m_ans:
+        rest = rest[:m_ans.start()]
+    return rest.strip()
 
 
 def relaxed_sources(row: dict) -> set[str]:
@@ -41,11 +52,13 @@ def enrich(row: dict) -> dict:
     expected = set(row["relevant_sources"])
     predicted = relaxed_sources(row)
     strict = bool(row["evaluation"]["citation_exact_match"])
+    strict_fmt = bool(row["evaluation"].get("strict_format", False))
     return {
         **row,
         "rescored": {
             "answer_content_correct": answer_content_correct(row),
             "citation_strict_correct": strict,
+            "strict_format_compliant": strict_fmt,
             "source_binding_exact": predicted == expected,
             "source_binding_recall": len(predicted & expected) / len(expected) if expected else 1.0,
             "wrapper_or_surface_failure": predicted == expected and not strict,
@@ -149,7 +162,7 @@ def report_markdown(result: dict) -> str:
         "",
         f"**Model:** {result['model']}  ",
         f"**Revision:** `{result['model_revision']}`  ",
-        f"**Design:** {result['records']} deterministic generations; 100 paired examples per condition at 5 and 20 sources.",
+        f"**Design:** {result['records']} deterministic generations; {result['records'] // 4} paired examples per condition at 5 and 20 sources.",
         "",
         "## Accuracy and binding",
         "",
@@ -186,24 +199,46 @@ def report_markdown(result: dict) -> str:
             f"[{low * 100:+.1f}, {high * 100:+.1f}] pp | {effect['structured_only_correct']} / {effect['uuid_only_correct']} | "
             f"{effect['mcnemar_exact_p']:.3g} |"
         )
+    # Extract metrics for narrative
+    cell_map = {(c["num_sources"], c["identifier_condition"]): c for c in cells}
+    b5_str = cell_map.get((5, "structured"), {}).get("metrics", {}).get("source_binding_exact", {}).get("rate", 0)
+    b5_u = cell_map.get((5, "uuid"), {}).get("metrics", {}).get("source_binding_exact", {}).get("rate", 0)
+    b20_str = cell_map.get((20, "structured"), {}).get("metrics", {}).get("source_binding_exact", {}).get("rate", 0)
+    b20_u = cell_map.get((20, "uuid"), {}).get("metrics", {}).get("source_binding_exact", {}).get("rate", 0)
+
+    s5_str = cell_map.get((5, "structured"), {}).get("metrics", {}).get("citation_strict", {}).get("rate", 0)
+    s5_u = cell_map.get((5, "uuid"), {}).get("metrics", {}).get("citation_strict", {}).get("rate", 0)
+    s20_str = cell_map.get((20, "structured"), {}).get("metrics", {}).get("citation_strict", {}).get("rate", 0)
+    s20_u = cell_map.get((20, "uuid"), {}).get("metrics", {}).get("citation_strict", {}).get("rate", 0)
+
+    ans5_str = cell_map.get((5, "structured"), {}).get("metrics", {}).get("answer_content", {}).get("rate", 0)
+    ans5_u = cell_map.get((5, "uuid"), {}).get("metrics", {}).get("answer_content", {}).get("rate", 0)
+    ans20_str = cell_map.get((20, "structured"), {}).get("metrics", {}).get("answer_content", {}).get("rate", 0)
+    ans20_u = cell_map.get((20, "uuid"), {}).get("metrics", {}).get("answer_content", {}).get("rate", 0)
+
+    in5_str = cell_map.get((5, "structured"), {}).get("mean_input_tokens", 1)
+    in5_u = cell_map.get((5, "uuid"), {}).get("mean_input_tokens", 1)
+    in20_str = cell_map.get((20, "structured"), {}).get("mean_input_tokens", 1)
+    in20_u = cell_map.get((20, "uuid"), {}).get("mean_input_tokens", 1)
+    tax5 = ((in5_u - in5_str) / in5_str * 100) if in5_str else 0
+    tax20 = ((in20_u - in20_str) / in20_str * 100) if in20_str else 0
+
     lines.extend((
         "",
         "## Findings",
         "",
-        "1. **Compact aliases improved source binding at both scales.** Exact binding was 96% vs 63% with 5 sources and 66% vs 37% with 20 sources (structured vs UUID).",
-        "2. **Strict citation fidelity reversed at 20 sources.** Structured IDs won at 5 sources (68% vs 29%), but UUIDs won at 20 sources (34% vs 7%) because the model often emitted `S7` instead of `[S7]`. This is a surface-format effect, not better UUID binding.",
-        "3. **Answer content was largely representation-invariant.** Content accuracy was 100% vs 98% at 5 sources and 90% vs 92% at 20. The much lower exact answer rates at 20 sources came mainly from verbose answers such as “X's capital is Y.”",
-        "4. **UUID overhead scaled sharply.** UUID prompts used about 64% more input tokens at 5 sources and 94% more at 20 sources. They also produced much longer outputs and took over twice as long on this CPU run.",
-        "5. **Complexity hurt both representations.** Binding accuracy fell with 20 sources, but the structured alias retained a large binding advantage. This passes the roadmap's behavioral gate and motivates targeted scaling and length-control experiments.",
+        f"1. **Exact source binding:** Exact binding was {percent(b5_str)} vs {percent(b5_u)} at 5 sources, and {percent(b20_str)} vs {percent(b20_u)} at 20 sources (structured vs UUID).",
+        f"2. **Strict citation syntax:** Strict syntax compliance was {percent(s5_str)} vs {percent(s5_u)} at 5 sources, and {percent(s20_str)} vs {percent(s20_u)} at 20 sources.",
+        f"3. **Answer content invariance:** Answer content accuracy was {percent(ans5_str)} vs {percent(ans5_u)} at 5 sources, and {percent(ans20_str)} vs {percent(ans20_u)} at 20 sources.",
+        f"4. **Input token overhead:** UUID prompts imposed a token overhead of +{tax5:.1f}% at 5 sources and +{tax20:.1f}% at 20 sources.",
+        "5. **Representation and scale sensitivity:** Performance differences reflect model architecture, capacity, and surface formatting adherence.",
         "",
         "## Limitations",
         "",
-        "- One small 1.5B-parameter model and one Q4_K_M quantization; these results do not generalize to larger or proprietary models.",
-        "- One deterministic seed and no between-run sampling variance.",
-        "- Single-hop fictional QA only; no multi-hop or length-matched controls yet.",
-        "- Four UUID outputs in the 5-source cell reached the 80-token cap.",
-        "- Latency combines prompt prefill and output generation, so it is not a pure reasoning-cost measure.",
-        "- Official OpenAI documentation was checked for the optional API path, but this experiment used local Qwen inference and no OpenAI API calls.",
+        f"- Evaluated on {result['model']} (revision `{result['model_revision']}`); results reflect this specific checkpoint and quantization.",
+        "- Evaluated with deterministic decoding (temperature 0) under fixed seed.",
+        "- Single-hop fictional QA only; multi-hop tracking is evaluated separately in MuSiQue.",
+        "- Output budget was fixed across conditions; truncation is reported per cell.",
         "",
     ))
     return "\n".join(lines)
@@ -217,8 +252,8 @@ def main() -> int:
     args = parser.parse_args()
     raw_path = Path(args.raw_jsonl)
     rows = [enrich(json.loads(line)) for line in raw_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    if len(rows) != 400:
-        raise ValueError(f"Expected 400 records, found {len(rows)}")
+    if len(rows) < 400 or len(rows) % 4 != 0:
+        raise ValueError(f"Expected balanced run (>= 400 records divisible by 4), found {len(rows)}")
     result = {
         "raw_results": str(raw_path),
         "records": len(rows),
