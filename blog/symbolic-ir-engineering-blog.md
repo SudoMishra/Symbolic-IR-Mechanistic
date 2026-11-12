@@ -427,18 +427,18 @@ Does canonicalization help outside citation formatting? In Stage 8, we evaluated
 
 | Model Family | Raw Accuracy | Random Masked | Untyped Canonical | Typed Canonical | Typed − Untyped (95% CI) | Exact p | Classification |
 |---|---:|---:|---:|---:|---:|---:|---|
-| **Tiny Aya Global** | 77.2% | 76.4% | 88.4% | 96.0% | **+6.4 pp** [+4.0, +9.0] | $4.43 \times 10^{-7}$ | Supported |
-| **Qwen 2.5 1.5B** | 94.0% | 74.0% | 78.8% | 91.6% | **+11.4 pp** [+8.0, +14.6] | $7.66 \times 10^{-12}$ | Supported |
-| **Gemma 4 E2B** | 100.0% | 100.0% | 88.0% | 98.8% | **+13.0 pp** [+10.0, +16.2] | $8.19 \times 10^{-18}$ | Supported |
-| **Gemma 4 E4B** | 100.0% | 99.6% | 87.2% | 100.0% | **+13.4 pp** [+10.4, +16.4] | $1.36 \times 10^{-20}$ | Supported |
-| **Qwen 3.5 2B** | 48.4% | 64.0% | 95.2% | 98.0% | **+2.0 pp** [+0.6, +3.4] | 0.0129 | Ceiling-limited |
-| **Qwen 3.5 4B** | 100.0% | 99.6% | 99.6% | 100.0% | +0.4 pp [+0.0, +1.0] | 0.5000 | Ceiling-limited |
+| **Tiny Aya Global** | 82.4% | 77.8% | 91.2% | 97.6% | **+6.4 pp** [+4.0, +9.0] | $4.43 \times 10^{-7}$ | Supported |
+| **Qwen 2.5 1.5B** | 94.8% | 82.0% | 81.0% | 92.4% | **+11.4 pp** [+8.0, +14.6] | $7.66 \times 10^{-12}$ | Supported |
+| **Gemma 4 E2B** | 100.0% | 100.0% | 85.8% | 98.8% | **+13.0 pp** [+10.0, +16.2] | $8.19 \times 10^{-18}$ | Supported |
+| **Gemma 4 E4B** | 100.0% | 99.6% | 86.4% | 99.8% | **+13.4 pp** [+10.4, +16.4] | $1.36 \times 10^{-20}$ | Supported |
+| **Qwen 3.5 2B** | 48.6% | 61.0% | 96.6% | 98.6% | **+2.0 pp** [+0.6, +3.4] | 0.0129 | Ceiling-limited |
+| **Qwen 3.5 4B** | 100.0% | 99.8% | 99.6% | 100.0% | +0.4 pp [+0.0, +1.0] | 0.5000 | Ceiling-limited |
 
 **Findings from Scaled Entity Resolution ($N=500$):**
 1. **Statistically Supported Gains in Four Models, Two Ceiling-Limited:** In the primary local fleet, typed handles yielded statistically supported accuracy gains over untyped handles in four models (Tiny Aya Global, Qwen 2.5 1.5B, Gemma 4 E2B, and Gemma 4 E4B). Qwen 3.5 2B and Qwen 3.5 4B were classified as ceiling-limited because their untyped and typed accuracies were already at or above 95%.
 2. **Strict Token-Matched Advantage:** In the strict token-matched subset—Qwen 1.5B, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, and Gemma E4B (2,500 paired comparisons where input token lengths are exactly identical across untyped and typed conditions)—typed handles show an **+8.0 percentage-point gain over untyped handles** (13 discordant losses vs. 214 discordant wins; exact McNemar $p = 4.74 \times 10^{-48}$).
 3. **Primary Fleet Win Rates:** In the primary six-model fleet, typed canonical handles won **251 paired comparisons against only 18 paired losses (+7.8 pp)** over 3,000 paired comparisons ($p = 4.74 \times 10^{-48}$ in strict token-matched subset).
-4. **Massive Untyped Breakdown Recovery:** Models sensitive to arbitrary placeholders collapse under untyped masks but recover under typed semantic hints: Gemma 4 E4B jumps by **+13.4 pp** (87.2% $\to$ 100.0%, $p = 1.36 \times 10^{-20}$), and Gemma 4 E2B jumps by **+13.0 pp** (88.0% $\to$ 98.8%, $p = 8.19 \times 10^{-18}$).
+4. **Massive Untyped Breakdown Recovery:** Models sensitive to arbitrary placeholders collapse under untyped masks but recover under typed semantic hints: Gemma 4 E4B jumps by **+13.4 pp** (86.4% $\to$ 99.8%, $p = 1.36 \times 10^{-20}$), and Gemma 4 E2B jumps by **+13.0 pp** (85.8% $\to$ 98.8%, $p = 8.19 \times 10^{-18}$).
 5. **Direct Output PII Exposure Elimination:** In the raw PII condition, models exposed raw personal names, phone numbers, emails, or account numbers in **98.4% to 100.0% of generations**. Across the three masked conditions, **0.0% of 9,000 local generations and 0.0% of the frontier masked generations contained any direct raw PII values**, demonstrating that request-scoped symbolic boundaries prevent direct prompt-value leakage in output text on this synthetic evaluation.
 
 **Frontier Stage 8 extension.** Both Claude Sonnet 5.5 and GPT-6.1 Sol were evaluated on the 500-case account-resolution protocol (4,000 generations total). Sonnet scored 100.0% in raw, random-masked, and untyped conditions, and 99.8% in typed handles. Sol scored similarly at ceiling. In all masked conditions across both frontier models, direct raw-value output exposure was strictly 0.0%, confirming direct prompt-value exposure control, while both frontier models operated near ceiling on task accuracy.

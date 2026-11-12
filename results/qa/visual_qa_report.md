@@ -1,6 +1,6 @@
 # Visual QA Audit Report
 
-**Audit Execution Time:** `2026-11-12 06:27:38` (`2026-11-12T00:57:38.256607+00:00`)
+**Audit Execution Time:** `2026-11-12 06:51:25` (`2026-11-12T01:21:25.477154+00:00`)
 **Target Site:** `blog/site/index.html`
 **Browser Engine:** Google Chrome Headless (Chrome DevTools Protocol)
 
@@ -10,7 +10,7 @@ All three standardized screen widths were measured for layout geometry and horiz
 
 | Viewport | Screen Width | Viewport Height | Total Page Height | Horizontal Overflow Diff | Viewport Shot | Full Page Shot | Status |
 |---|---:|---:|---:|---:|---|---|:---:|
-| Mobile | 390 px | 844 px | 47,471 px | `0 px` | [`site_mobile_390px_viewport.png`](site_mobile_390px_viewport.png) | [`site_mobile_390px_full.png`](site_mobile_390px_full.png) | **PASS (0px overflow)** |
+| Mobile | 390 px | 844 px | 47,477 px | `0 px` | [`site_mobile_390px_viewport.png`](site_mobile_390px_viewport.png) | [`site_mobile_390px_full.png`](site_mobile_390px_full.png) | **PASS (0px overflow)** |
 | Tablet | 768 px | 1024 px | 36,933 px | `0 px` | [`site_tablet_768px_viewport.png`](site_tablet_768px_viewport.png) | [`site_tablet_768px_full.png`](site_tablet_768px_full.png) | **PASS (0px overflow)** |
 | Desktop | 1440 px | 900 px | 41,787 px | `0 px` | [`site_desktop_1440px_viewport.png`](site_desktop_1440px_viewport.png) | [`site_desktop_1440px_full.png`](site_desktop_1440px_full.png) | **PASS (0px overflow)** |
 

@@ -14,6 +14,13 @@ results/raw/*
 results/batches/prepared/
 results/processed/*
 !results/processed/frontier_anthropic_summary.json
+!results/processed/stage8_pii_500_cross_model.json
+!results/processed/stage8_pii_500_tiny_aya.json
+!results/processed/stage8_pii_500_qwen15b.json
+!results/processed/stage8_pii_500_gemma4_e2b.json
+!results/processed/stage8_pii_500_gemma4_e4b.json
+!results/processed/stage8_pii_500_qwen35_2b.json
+!results/processed/stage8_pii_500_qwen35_4b.json
 results/figures/*
 results/activations/*
 results/offload/*

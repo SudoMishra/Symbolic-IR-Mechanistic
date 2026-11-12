@@ -9,12 +9,12 @@
 
 | Model | Raw | Random Masked | Untyped | Typed | Typed − Untyped (95% CI) | Significance Classification |
 |---|---:|---:|---:|---:|---:|---|
-| CohereLabs/tiny-aya-global-GGUF:q4_k_m | 77.2% | 76.4% | 88.4% | 96.0% | +6.4 pp [+4.0, +9.0] | `supported` |
-| Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m | 94.0% | 74.0% | 78.8% | 91.6% | +11.4 pp [+8.0, +14.6] | `supported` |
-| google/gemma-4-E2B-it-qat-q4_0-gguf | 100.0% | 100.0% | 88.0% | 98.8% | +13.0 pp [+10.0, +16.2] | `supported` |
-| google/gemma-4-E4B-it-qat-q4_0-gguf | 100.0% | 99.6% | 87.2% | 100.0% | +13.4 pp [+10.4, +16.4] | `supported` |
-| unsloth/Qwen3.5-2B-GGUF:q4_k_m | 48.4% | 64.0% | 95.2% | 98.0% | +2.0 pp [+0.6, +3.4] | `ceiling_limited` |
-| unsloth/Qwen3.5-4B-GGUF:q4_k_m | 100.0% | 99.6% | 99.6% | 100.0% | +0.4 pp [+0.0, +1.0] | `ceiling_limited` |
+| CohereLabs/tiny-aya-global-GGUF:q4_k_m | 82.4% | 77.8% | 91.2% | 97.6% | +6.4 pp [+4.0, +9.0] | `supported` |
+| Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m | 94.8% | 82.0% | 81.0% | 92.4% | +11.4 pp [+8.0, +14.6] | `supported` |
+| google/gemma-4-E2B-it-qat-q4_0-gguf | 100.0% | 100.0% | 85.8% | 98.8% | +13.0 pp [+10.0, +16.2] | `supported` |
+| google/gemma-4-E4B-it-qat-q4_0-gguf | 100.0% | 99.6% | 86.4% | 99.8% | +13.4 pp [+10.4, +16.4] | `supported` |
+| unsloth/Qwen3.5-2B-GGUF:q4_k_m | 48.6% | 61.0% | 96.6% | 98.6% | +2.0 pp [+0.6, +3.4] | `ceiling_limited` |
+| unsloth/Qwen3.5-4B-GGUF:q4_k_m | 100.0% | 99.8% | 99.6% | 100.0% | +0.4 pp [+0.0, +1.0] | `ceiling_limited` |
 
 ## Privacy Leakage
 - **Raw condition leakage:** 98.4% - 100.0% of outputs exposed raw PII entities.

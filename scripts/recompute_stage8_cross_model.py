@@ -17,6 +17,22 @@ LOCAL_FILES = [
     REPO_ROOT / "results/processed/stage8_pii_500_qwen35_4b.json",
 ]
 
+
+def aggregate_condition(cells: list[dict], condition: str) -> dict:
+    """Aggregate the 15- and 20-source cells for a representation condition."""
+    matching = [cell for cell in cells if cell["condition"] == condition]
+    if not matching:
+        raise ValueError(f"Missing Stage 8 condition: {condition}")
+
+    total_n = sum(cell["n"] for cell in matching)
+    return {
+        "task_accuracy": sum(cell["task_accuracy"] * cell["n"] for cell in matching) / total_n,
+        "any_raw_pii_leakage_rate": sum(
+            cell["any_raw_pii_leakage_rate"] * cell["n"] for cell in matching
+        ) / total_n,
+        "n": total_n,
+    }
+
 def classify_effect(effect: dict, untyped_acc: float, typed_acc: float) -> str:
     ci = effect["bootstrap_95_ci"]
     mean_val = effect["mean"]
@@ -48,7 +64,12 @@ def main():
     for r in results:
         m_name = r["model"]
         effect = r["paired_effects"]["typed_vs_untyped_accuracy"]
-        cells = {c["condition"]: c for c in r["cells"]}
+        # Each processed model artifact has separate 15- and 20-source cells.
+        # Aggregate both strata instead of silently retaining only the latter.
+        cells = {
+            condition: aggregate_condition(r["cells"], condition)
+            for condition in ("raw", "random_masked", "untyped", "typed")
+        }
         raw_acc = cells["raw"]["task_accuracy"]
         rnd_acc = cells["random_masked"]["task_accuracy"]
         untyped_acc = cells["untyped"]["task_accuracy"]

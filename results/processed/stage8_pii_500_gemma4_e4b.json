@@ -1,0 +1,223 @@
+{
+  "cells": [
+    {
+      "answer_f1": 0.996,
+      "any_raw_pii_leakage_rate": 0.0,
+      "condition": "random_masked",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.0,
+      "literal_surface_exact_rate": 0.008,
+      "mean_input_tokens": 2432.628,
+      "mean_latency_seconds": 1.2499242668961232,
+      "mean_output_tokens": 8.028,
+      "n": 250,
+      "num_sources": 15,
+      "task_accuracy": 0.996,
+      "wrong_existing_entity_rate": 0.004
+    },
+    {
+      "answer_f1": 1.0,
+      "any_raw_pii_leakage_rate": 1.0,
+      "condition": "raw",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.0,
+      "literal_surface_exact_rate": 1.0,
+      "mean_input_tokens": 2599.832,
+      "mean_latency_seconds": 1.4933163022081426,
+      "mean_output_tokens": 16.0,
+      "n": 250,
+      "num_sources": 15,
+      "task_accuracy": 1.0,
+      "wrong_existing_entity_rate": 0.0
+    },
+    {
+      "answer_f1": 0.996,
+      "any_raw_pii_leakage_rate": 0.0,
+      "condition": "typed",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.0,
+      "literal_surface_exact_rate": 0.0,
+      "mean_input_tokens": 2358.144,
+      "mean_latency_seconds": 1.175418699815782,
+      "mean_output_tokens": 5.82,
+      "n": 250,
+      "num_sources": 15,
+      "task_accuracy": 0.996,
+      "wrong_existing_entity_rate": 0.004
+    },
+    {
+      "answer_f1": 0.928,
+      "any_raw_pii_leakage_rate": 0.0,
+      "condition": "untyped",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.024,
+      "literal_surface_exact_rate": 0.856,
+      "mean_input_tokens": 2358.144,
+      "mean_latency_seconds": 1.211881255051965,
+      "mean_output_tokens": 7.876,
+      "n": 250,
+      "num_sources": 15,
+      "task_accuracy": 0.856,
+      "wrong_existing_entity_rate": 0.12
+    },
+    {
+      "answer_f1": 0.996,
+      "any_raw_pii_leakage_rate": 0.0,
+      "condition": "random_masked",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.0,
+      "literal_surface_exact_rate": 0.032,
+      "mean_input_tokens": 3222.66,
+      "mean_latency_seconds": 1.6900319070160912,
+      "mean_output_tokens": 8.092,
+      "n": 250,
+      "num_sources": 20,
+      "task_accuracy": 0.996,
+      "wrong_existing_entity_rate": 0.004
+    },
+    {
+      "answer_f1": 1.0,
+      "any_raw_pii_leakage_rate": 1.0,
+      "condition": "raw",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.0,
+      "literal_surface_exact_rate": 1.0,
+      "mean_input_tokens": 3444.268,
+      "mean_latency_seconds": 1.9684285654197446,
+      "mean_output_tokens": 16.0,
+      "n": 250,
+      "num_sources": 20,
+      "task_accuracy": 1.0,
+      "wrong_existing_entity_rate": 0.0
+    },
+    {
+      "answer_f1": 1.0,
+      "any_raw_pii_leakage_rate": 0.0,
+      "condition": "typed",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.0,
+      "literal_surface_exact_rate": 0.0,
+      "mean_input_tokens": 3127.076,
+      "mean_latency_seconds": 1.5969299440761098,
+      "mean_output_tokens": 5.86,
+      "n": 250,
+      "num_sources": 20,
+      "task_accuracy": 1.0,
+      "wrong_existing_entity_rate": 0.0
+    },
+    {
+      "answer_f1": 0.904,
+      "any_raw_pii_leakage_rate": 0.0,
+      "condition": "untyped",
+      "hallucinated_entity_rate": 0.0,
+      "invalid_entity_output_rate": 0.072,
+      "literal_surface_exact_rate": 0.872,
+      "mean_input_tokens": 3127.076,
+      "mean_latency_seconds": 1.63339793586405,
+      "mean_output_tokens": 7.764,
+      "n": 250,
+      "num_sources": 20,
+      "task_accuracy": 0.872,
+      "wrong_existing_entity_rate": 0.056
+    }
+  ],
+  "model": "google/gemma-4-E4B-it-qat-q4_0-gguf",
+  "model_revision": "c074be2035ce675c963fb1f71df05a0d31ff6be4",
+  "paired_effects": {
+    "typed_vs_random_masked_accuracy": {
+      "bootstrap_95_ci": [
+        -0.004,
+        0.01
+      ],
+      "bootstrap_replicates": 5000,
+      "condition_a": "random_masked",
+      "condition_b": "typed",
+      "delta_definition": "typed_minus_random_masked",
+      "left_only_better": 1,
+      "mcnemar_exact_p": 1.0,
+      "mean": 0.002,
+      "n": 500,
+      "right_only_better": 2
+    },
+    "typed_vs_random_masked_input_tokens": {
+      "bootstrap_95_ci": [
+        -86.07005,
+        -84.01995
+      ],
+      "bootstrap_replicates": 5000,
+      "condition_a": "random_masked",
+      "condition_b": "typed",
+      "delta_definition": "typed_minus_random_masked",
+      "left_only_better": 500,
+      "mcnemar_exact_p": 6.10987272699921e-151,
+      "mean": -85.034,
+      "n": 500,
+      "right_only_better": 0
+    },
+    "typed_vs_raw_accuracy": {
+      "bootstrap_95_ci": [
+        -0.006,
+        0.0
+      ],
+      "bootstrap_replicates": 5000,
+      "condition_a": "raw",
+      "condition_b": "typed",
+      "delta_definition": "typed_minus_raw",
+      "left_only_better": 1,
+      "mcnemar_exact_p": 1.0,
+      "mean": -0.002,
+      "n": 500,
+      "right_only_better": 0
+    },
+    "typed_vs_raw_input_tokens": {
+      "bootstrap_95_ci": [
+        -282.7344,
+        -276.17785
+      ],
+      "bootstrap_replicates": 5000,
+      "condition_a": "raw",
+      "condition_b": "typed",
+      "delta_definition": "typed_minus_raw",
+      "left_only_better": 500,
+      "mcnemar_exact_p": 6.10987272699921e-151,
+      "mean": -279.44,
+      "n": 500,
+      "right_only_better": 0
+    },
+    "typed_vs_untyped_accuracy": {
+      "bootstrap_95_ci": [
+        0.104,
+        0.164
+      ],
+      "bootstrap_replicates": 5000,
+      "condition_a": "untyped",
+      "condition_b": "typed",
+      "delta_definition": "typed_minus_untyped",
+      "left_only_better": 0,
+      "mcnemar_exact_p": 1.3552527156068805e-20,
+      "mean": 0.134,
+      "n": 500,
+      "right_only_better": 67
+    },
+    "typed_vs_untyped_input_tokens": {
+      "bootstrap_95_ci": [
+        0.0,
+        0.0
+      ],
+      "bootstrap_replicates": 5000,
+      "condition_a": "untyped",
+      "condition_b": "typed",
+      "delta_definition": "typed_minus_untyped",
+      "left_only_better": 0,
+      "mcnemar_exact_p": 1.0,
+      "mean": 0.0,
+      "n": 500,
+      "right_only_better": 0
+    }
+  },
+  "path": "results/raw/stage8_pii_500_gemma4_e4b/2cb44c4bdc98.jsonl",
+  "records": 2000,
+  "semantic_examples": 500,
+  "source_identifiers_fixed": "structured",
+  "synthetic_only": true
+}

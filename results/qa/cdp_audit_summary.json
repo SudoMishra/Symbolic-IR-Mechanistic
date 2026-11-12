@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-12T00:57:39.314Z",
+  "timestamp": "2026-11-12T01:21:26.534Z",
   "viewports": [
     {
       "name": "mobile",
@@ -9,7 +9,7 @@
       "fullFile": "site_mobile_390px_full.png",
       "metrics": {
         "scrollWidth": 390,
-        "scrollHeight": 47471,
+        "scrollHeight": 47477,
         "clientWidth": 390,
         "hasHorizontalOverflow": false,
         "overflowDiff": 0
@@ -128,7 +128,7 @@
     {
       "name": "08_stage8_entities",
       "src": "assets/08_stage8_entities.svg",
-      "captionSnippet": "Figure 8 — Typed entity canonicalization across 7 models. The scaled N=500 comparison includes Claud",
+      "captionSnippet": "Figure 8 — Typed entity canonicalization across 8 models. The scaled N=500 comparison includes the s",
       "file": "figure_context_08_stage8_entities.png",
       "width": 1361,
       "height": 1032

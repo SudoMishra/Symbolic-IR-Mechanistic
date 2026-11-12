@@ -255,6 +255,12 @@ def test_p8_11_stage8_denominators():
     assert denoms.get("three_masked_conditions") == 9_000
     assert denoms.get("typed_and_untyped") == 6_000
 
+    # The displayed cross-model accuracies must aggregate both the 15- and
+    # 20-source strata and agree arithmetically with the paired effect.
+    for model in s8["models"]:
+        observed_delta = model["typed_accuracy"] - model["untyped_accuracy"]
+        assert observed_delta == pytest.approx(model["typed_minus_untyped_mean"], abs=1e-12)
+
     # Frontier Stage 8 (2 models x 2000 items = 4000)
     frontier_stage8_dir = ROOT / "results/raw/stage8"
     if frontier_stage8_dir.exists():

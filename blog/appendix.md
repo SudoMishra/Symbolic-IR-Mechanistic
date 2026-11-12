@@ -235,14 +235,14 @@ Effects are total citation log-probability changes across 114 prompt-level swaps
 
 | Model Family | Raw | Random masked | Untyped | Typed | Typed − untyped (95% CI) | Exact p | Classification |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Tiny Aya Global | 77.2% | 76.4% | 88.4% | 96.0% | **+6.4 pp** [+4.0, +9.0] | 4.43e-07 | Supported |
-| Qwen 2.5 1.5B | 94.0% | 74.0% | 78.8% | 91.6% | **+11.4 pp** [+8.0, +14.6] | 7.66e-12 | Supported |
-| Gemma 4 E2B | 100.0% | 100.0% | 88.0% | 98.8% | **+13.0 pp** [+10.0, +16.2] | 8.19e-18 | Supported |
-| Gemma 4 E4B | 100.0% | 99.6% | 87.2% | 100.0% | **+13.4 pp** [+10.4, +16.4] | 1.36e-20 | Supported |
-| Qwen 3.5 2B | 48.4% | 64.0% | 95.2% | 98.0% | **+2.0 pp** [+0.6, +3.4] | 0.0129 | Ceiling-limited |
-| Qwen 3.5 4B | 100.0% | 99.6% | 99.6% | 100.0% | +0.4 pp [+0.0, +1.0] | 0.5000 | Ceiling-limited |
+| Tiny Aya Global | 82.4% | 77.8% | 91.2% | 97.6% | **+6.4 pp** [+4.0, +9.0] | 4.43e-07 | Supported |
+| Qwen 2.5 1.5B | 94.8% | 82.0% | 81.0% | 92.4% | **+11.4 pp** [+8.0, +14.6] | 7.66e-12 | Supported |
+| Gemma 4 E2B | 100.0% | 100.0% | 85.8% | 98.8% | **+13.0 pp** [+10.0, +16.2] | 8.19e-18 | Supported |
+| Gemma 4 E4B | 100.0% | 99.6% | 86.4% | 99.8% | **+13.4 pp** [+10.4, +16.4] | 1.36e-20 | Supported |
+| Qwen 3.5 2B | 48.6% | 61.0% | 96.6% | 98.6% | **+2.0 pp** [+0.6, +3.4] | 0.0129 | Ceiling-limited |
+| Qwen 3.5 4B | 100.0% | 99.8% | 99.6% | 100.0% | +0.4 pp [+0.0, +1.0] | 0.5000 | Ceiling-limited |
 
-Across the 6 primary local models, 4 models demonstrate statistically supported accuracy improvements from typed handles under matched conditions, while 2 models exhibit ceiling-limited performance ($>97.5\%$ untyped baseline). Evaluated across 12,000 local generations (9,000 under masked conditions, 6,000 under typed/untyped), typed representations showed 251 pairwise improvements against 18 losses. Output PII exposure was 92%–100% under raw prompts and **0.0% across all 12,000 local generations and 4,000 frontier generations under masked/typed representations**.
+Across the 6 primary local models, 4 models demonstrate statistically supported accuracy improvements from typed handles under matched conditions, while 2 models exhibit ceiling-limited performance (at least 95% untyped and typed accuracy). Evaluated across 12,000 local generations (9,000 under masked conditions, 6,000 under typed/untyped), typed representations showed 251 pairwise improvements against 18 losses. Output PII exposure was 98.4%–100% under raw prompts and **0.0% across all 9,000 local masked generations and 3,000 frontier masked generations**.
 
 ## Figure-to-evidence index
 
