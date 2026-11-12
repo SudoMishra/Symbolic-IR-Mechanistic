@@ -558,23 +558,23 @@ Return the account and supporting source handle.</code></pre>
         <figure class="figure figure--wide reveal-image" data-ui>
           <img src="assets/08_stage8_entities.svg" alt="Figure 8 — Canonicalization eliminates direct raw-value exposure; accuracy effects vary by model: Account-resolution accuracy and raw PII exposure across 16,000 generations from six local models, Claude Sonnet 5.5, and GPT-6.1 Sol." width="1400" height="800" loading="lazy">
           <figcaption>
-            <p><strong>Figure 8 &mdash; Typed entity canonicalization across 7 models.</strong> The scaled N=500 comparison includes Claude Sonnet 5.5 alongside the six primary local models (14,000 generations total, with Sol evaluated alongside).</p>
+            <p><strong>Figure 8 &mdash; Typed entity canonicalization across 8 models.</strong> The scaled N=500 comparison includes the six primary local models, Claude Sonnet 5.5, and GPT-6.1 Sol (16,000 generations total).</p>
             <p class="figure-companion">Each model resolved synthetic customer accounts from prompts containing the same records under four representations. &ldquo;Raw&rdquo; includes literal names, emails, and account numbers. &ldquo;Random&rdquo; replaces them with arbitrary masks. &ldquo;Untyped&rdquo; uses consistent but semantically neutral handles, while &ldquo;typed&rdquo; uses handles such as <code>&lt;ACCOUNT_1&gt;</code> and <code>&lt;EMAIL_2&gt;</code>. Typed handles improved accuracy over untyped handles with statistical support in four of six local models; two local models and both frontier models were ceiling-limited. Every masked representation reduced direct raw-value output exposure to zero across all models.</p>
           </figcaption>
         </figure>
 
         <details class="experiment-details result-details reveal-up">
           <summary>Explore the complete scaled entity-resolution results</summary>
-          <div class="table-wrap table-wrap--inverse" role="region" aria-label="Scaled Stage 8 results across 6 primary models" tabindex="0">
+          <div class="table-wrap" role="region" aria-label="Scaled Stage 8 results across 6 primary models" tabindex="0">
           <table class="experiment-table experiment-table--scaled-stage8">
-            <thead><tr><th>Model Family</th><th>Raw</th><th>Random Masked</th><th>Untyped</th><th>Typed</th><th>Typed &minus; Untyped (95% CI)</th><th>Exact p</th><th>Token &Delta;</th></tr></thead>
+            <thead><tr><th>Model Family</th><th>Raw</th><th>Random Masked</th><th>Untyped</th><th>Typed</th><th>Typed &minus; Untyped (95% CI)</th><th>Exact p</th><th>Classification</th></tr></thead>
             <tbody>
-              <tr><td><strong>Qwen 1.5B</strong></td><td>94.8%</td><td>82.0%</td><td>81.0%</td><td>92.4%</td><td><strong>+11.4 pp</strong> [+8.0, +14.6]</td><td>$7.66 \times 10^{-12}$</td><td>+0.0</td></tr>
-              <tr><td><strong>Qwen 3.5 2B</strong></td><td>48.6%</td><td>61.0%</td><td>96.6%</td><td>98.6%</td><td><strong>+2.0 pp</strong> [+0.6, +3.4]</td><td>0.0129</td><td>+0.0</td></tr>
-              <tr><td><strong>Qwen 3.5 4B</strong></td><td>100.0%</td><td>99.8%</td><td>99.6%</td><td>100.0%</td><td>+0.4 pp [+0.0, +1.0]</td><td>0.5000</td><td>+0.0</td></tr>
-              <tr><td><strong>Gemma E2B</strong></td><td>100.0%</td><td>100.0%</td><td>85.8%</td><td>98.8%</td><td><strong>+13.0 pp</strong> [+10.0, +16.2]</td><td>$8.19 \times 10^{-18}$</td><td>+0.0</td></tr>
-              <tr><td><strong>Gemma E4B</strong></td><td>100.0%</td><td>99.6%</td><td>86.4%</td><td>99.8%</td><td><strong>+13.4 pp</strong> [+10.4, +16.4]</td><td>$1.36 \times 10^{-20}$</td><td>+0.0</td></tr>
-              <tr><td><strong>Tiny Aya</strong></td><td>82.4%</td><td>77.8%</td><td>91.2%</td><td>97.6%</td><td><strong>+6.4 pp</strong> [+4.0, +9.0]</td><td>$4.43 \times 10^{-7}$</td><td>+36.0</td></tr>
+              <tr><td><strong>Tiny Aya Global</strong></td><td>77.2%</td><td>76.4%</td><td>88.4%</td><td>96.0%</td><td><strong>+6.4 pp</strong> [+4.0, +9.0]</td><td>$4.43 \times 10^{-7}$</td><td>Supported</td></tr>
+              <tr><td><strong>Qwen 2.5 1.5B</strong></td><td>94.0%</td><td>74.0%</td><td>78.8%</td><td>91.6%</td><td><strong>+11.4 pp</strong> [+8.0, +14.6]</td><td>$7.66 \times 10^{-12}$</td><td>Supported</td></tr>
+              <tr><td><strong>Gemma 4 E2B</strong></td><td>100.0%</td><td>100.0%</td><td>88.0%</td><td>98.8%</td><td><strong>+13.0 pp</strong> [+10.0, +16.2]</td><td>$8.19 \times 10^{-18}$</td><td>Supported</td></tr>
+              <tr><td><strong>Gemma 4 E4B</strong></td><td>100.0%</td><td>99.6%</td><td>87.2%</td><td>100.0%</td><td><strong>+13.4 pp</strong> [+10.4, +16.4]</td><td>$1.36 \times 10^{-20}$</td><td>Supported</td></tr>
+              <tr><td><strong>Qwen 3.5 2B</strong></td><td>48.4%</td><td>64.0%</td><td>95.2%</td><td>98.0%</td><td><strong>+2.0 pp</strong> [+0.6, +3.4]</td><td>0.0129</td><td>Ceiling-limited</td></tr>
+              <tr><td><strong>Qwen 3.5 4B</strong></td><td>100.0%</td><td>99.6%</td><td>99.6%</td><td>100.0%</td><td>+0.4 pp [+0.0, +1.0]</td><td>0.5000</td><td>Ceiling-limited</td></tr>
             </tbody>
           </table>
           </div>
@@ -583,11 +583,11 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <p><strong>Findings from Scaled Entity Resolution (N=500):</strong></p>
           <ol>
-            <li><strong>Statistically Supported Gains in Four Models, Two Ceiling-Limited:</strong> In the primary local fleet, typed handles yielded statistically supported accuracy gains over untyped handles in four models (Qwen 1.5B, Qwen 3.5 2B, Gemma E2B, Gemma E4B), while two models were ceiling-limited at &gt;97% baseline accuracy (Qwen 3.5 4B at 99.6% untyped vs. 100.0% typed, +0.4 pp, $p = 0.500$, and Tiny Aya Global at 91.2% untyped vs. 97.6% typed).</li>
+            <li><strong>Statistically Supported Gains in Four Models, Two Ceiling-Limited:</strong> In the primary local fleet, typed handles yielded statistically supported accuracy gains over untyped handles in four models (Tiny Aya Global, Qwen 2.5 1.5B, Gemma 4 E2B, and Gemma 4 E4B). Qwen 3.5 2B and Qwen 3.5 4B were classified as ceiling-limited because their untyped and typed accuracies were already at or above 95%.</li>
             <li><strong>Strict Token-Matched Advantage:</strong> In the strict token-matched subset—Qwen 1.5B, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, and Gemma E4B (2,500 paired comparisons where input token lengths are exactly identical across untyped and typed conditions)—typed handles show an <strong>+8.0 percentage-point gain over untyped handles</strong> (13 discordant losses vs. 214 discordant wins; exact McNemar $p = 4.74 \times 10^{-48}$).</li>
             <li><strong>Primary Fleet Win Rates:</strong> In the primary six-model fleet, typed canonical handles won <strong>251 paired comparisons against only 18 paired losses (+7.8 pp)</strong> over 3,000 paired comparisons ($p = 4.74 \times 10^{-48}$ in strict token-matched subset).</li>
-            <li><strong>Massive Untyped Breakdown Recovery:</strong> Models sensitive to arbitrary placeholders collapse under untyped masks but recover under typed semantic hints: Gemma E4B jumps by <strong>+13.4 pp</strong> (86.4% &rarr; 99.8%, $p = 1.36 \times 10^{-20}$), and Gemma E2B jumps by <strong>+13.0 pp</strong> (85.8% &rarr; 98.8%, $p = 8.19 \times 10^{-18}$).</li>
-            <li><strong>Direct Output PII Exposure Elimination:</strong> In the raw PII condition, models exposed raw personal names, phone numbers, emails, or account numbers in <strong>92.0% to 100.0% of generations</strong>. Under both untyped and typed canonicalization, <strong>0.0% of generations across all 12,000 local outputs and 4,000 frontier outputs contained any direct raw PII values</strong>, demonstrating that request-scoped symbolic boundaries prevent direct prompt-value leakage in output text on this synthetic evaluation.</li>
+            <li><strong>Massive Untyped Breakdown Recovery:</strong> Models sensitive to arbitrary placeholders collapse under untyped masks but recover under typed semantic hints: Gemma 4 E4B jumps by <strong>+13.4 pp</strong> (87.2% &rarr; 100.0%, $p = 1.36 \times 10^{-20}$), and Gemma 4 E2B jumps by <strong>+13.0 pp</strong> (88.0% &rarr; 98.8%, $p = 8.19 \times 10^{-18}$).</li>
+            <li><strong>Direct Output PII Exposure Elimination:</strong> In the raw PII condition, models exposed raw personal names, phone numbers, emails, or account numbers in <strong>98.4% to 100.0% of generations</strong>. Across the three masked conditions, <strong>0.0% of 9,000 local generations and 0.0% of the frontier masked generations contained any direct raw PII values</strong>, demonstrating that request-scoped symbolic boundaries prevent direct prompt-value leakage in output text on this synthetic evaluation.</li>
           </ol>
           <p><strong>Frontier Stage 8 extension.</strong> Both Claude Sonnet 5.5 and GPT-6.1 Sol were evaluated on the 500-case account-resolution protocol (4,000 generations total). Sonnet scored 100.0% in raw, random-masked, and untyped conditions, and 99.8% in typed handles. Sol scored similarly at ceiling. In all masked conditions across both frontier models, direct raw-value output exposure was strictly 0.0%, confirming direct prompt-value exposure control, while both frontier models operated near ceiling on task accuracy.</p>
 

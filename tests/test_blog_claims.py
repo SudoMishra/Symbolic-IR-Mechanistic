@@ -88,6 +88,24 @@ def test_scaled_evidence_claims_are_consistent():
         assert "83,555" not in article
 
 
+def test_stage8_disclosure_is_visible_and_matches_reconciled_results():
+    result = json.loads((ROOT / "results/processed/stage8_pii_500_cross_model.json").read_text())
+    disclosure = HTML.split("Explore the complete scaled entity-resolution results", 1)[1].split("</details>", 1)[0]
+
+    # This disclosure is on the light boundary section. The inverse text class
+    # renders cream text on the cream background and makes the table appear empty.
+    assert 'class="table-wrap"' in disclosure
+    assert "table-wrap--inverse" not in disclosure
+    assert disclosure.count("<tr>") == 7  # one header plus six model rows
+
+    for model in result["models"]:
+        for key in ("raw_accuracy", "random_masked_accuracy", "untyped_accuracy", "typed_accuracy"):
+            expected = f'{model[key] * 100:.1f}%'
+            assert expected in disclosure
+        classification = model["classification"].replace("_", "-").capitalize()
+        assert classification in disclosure
+
+
 def test_anthropic_frontier_claims_match_compiled_results():
     result = json.loads((ROOT / "results/processed/frontier_anthropic_summary.json").read_text())
     for model in ("anthropic_haiku", "anthropic_sonnet"):
