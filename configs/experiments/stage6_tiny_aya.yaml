@@ -15,7 +15,7 @@ backend:
   model_path: models/tiny-aya-global-hf
   model: CohereLabs/tiny-aya-global
   revision: af89d219b53ed9b13b8a4645f9c8028973510324
-  weights_sha256: pending-gated-download
+  weights_sha256: 5e87be717ff88ed7fd1e03aa1de1399daef2f2d2e3ee539c3ad1b0ed9d1ae74e
   device: cuda:0
   dtype: bfloat16
   device_map: auto

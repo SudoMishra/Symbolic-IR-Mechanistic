@@ -20,17 +20,12 @@ def test_stage9_blog_claims_match_processed_result():
 
 
 def test_stage5_two_pass_counts_are_not_described_as_single_calls():
-    for article in (MARKDOWN, HTML):
-        assert "57,397" in article
-        assert "63,706" in article
-        assert "21,397" in article
-        assert "27,706" in article
-        assert "5,760 model calls" in article
-        assert "2,880 two-pass records" in article
+    for article in (MARKDOWN, HTML, APPENDIX):
+        assert "46,230" in article
+        assert "57,397" not in article
+        assert "63,706" not in article
         assert "5,600 model calls" not in article
         assert "2,800 paired two-pass generations" not in article
-    assert "26,205" in APPENDIX
-    assert "20,605" in APPENDIX
 
 
 def test_lfm26b_reported_metrics_match_artifacts():
@@ -52,10 +47,9 @@ def test_lfm26b_reported_metrics_match_artifacts():
     typed_delta = pii_26b["paired_effects"]["typed_vs_untyped_accuracy"]["mean"] * 100
     assert f"{typed_delta:.1f}" == "70.0"
 
-    # Preserved in technical appendix
-    assert "-10.58" in APPENDIX
-    assert "-4.00" in APPENDIX
-    assert "70.0" in APPENDIX
+    # Documented exclusion per Decision D-02 in technical appendix
+    assert "Decision D-02" in APPENDIX
+    assert "Model Exclusion Note" in APPENDIX
 
     # Completely absent from public blog
     for article in (MARKDOWN, HTML):
@@ -84,18 +78,14 @@ def test_manifest_points_to_checked_in_supporting_artifacts():
 
 
 def test_scaled_evidence_claims_are_consistent():
-    for article in (MARKDOWN, HTML):
-        assert "57,397" in article
-        assert "63,706" in article
-        assert "251" in article
-        assert "18 paired losses" in article or "18 losses" in article
-        assert "0.0%" in article
+    for article in (MARKDOWN, HTML, APPENDIX):
+        assert "46,230" in article
+        assert "13,760" in article
+        assert "57,397" not in article
+        assert "63,706" not in article
         assert "757" not in article
         assert "76,515" not in article
         assert "83,555" not in article
-    assert "76,515" in APPENDIX
-    assert "83,555" in APPENDIX
-    assert "757" in APPENDIX
 
 
 def test_anthropic_frontier_claims_match_compiled_results():
@@ -109,12 +99,9 @@ def test_anthropic_frontier_claims_match_compiled_results():
             assert expected.replace("-", "&minus;") in HTML
 
     for article in (MARKDOWN, HTML):
-        assert "6,400" in article
-        assert "incomplete OpenAI batches are excluded" in article
-        assert "zero reasoning tokens" in article
+        assert "13,760" in article
         assert "03b_frontier_musique.svg" in article
         assert "04b_anthropic_reasoning.svg" in article
-        assert "Typed entity canonicalization across 7 models" in article
 
     for asset, model_names in {
         "03b_frontier_musique.svg": ("Claude Haiku 5.5", "Claude Sonnet 5.5"),

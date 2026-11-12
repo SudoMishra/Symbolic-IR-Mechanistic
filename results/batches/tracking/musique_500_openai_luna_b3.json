@@ -19,7 +19,7 @@
     "completed_requests": 500,
     "failed_requests": 0
   },
-  "retrieved_at": "2026-10-29T17:49:03.647117+00:00",
-  "actual_cost": 0.07167035000000005,
-  "parsed_success_rate": 100.0
+  "retrieved_at": "2026-10-29T20:58:05.989164+00:00",
+  "actual_cost": 0.0,
+  "parsed_success_rate": 0.0
 }

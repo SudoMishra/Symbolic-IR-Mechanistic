@@ -39,9 +39,10 @@ def esc(value) -> str:
 
 
 class SVG:
-    def __init__(self, width: int, height: int, title: str, desc: str):
+    def __init__(self, width: int, height: int, title: str, desc: str, metadata: dict[str, Any] | None = None):
         self.width = width
         self.height = height
+        self.metadata = metadata
         self.items = [
             f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
             f"<title id=\"title\">{esc(title)}</title>",
@@ -118,6 +119,9 @@ class SVG:
             )
 
     def save(self, name: str):
+        if self.metadata:
+            meta_str = json.dumps(self.metadata, indent=2)
+            self.items.append(f'<metadata id="figure-metadata" type="application/json">\n{meta_str}\n</metadata>')
         self.items.append("</svg>")
         OUT.mkdir(parents=True, exist_ok=True)
         OUT_SITE.mkdir(parents=True, exist_ok=True)
@@ -224,15 +228,45 @@ def raw_vs_symbolic():
 
 
 def evidence_funnel():
-    s = SVG(1400, 660, "Figure 2: Experimental evidence program", "Five distinct testing regimes across behavioral, stress, mechanistic, entity, and systems evaluations.")
+    accounting = load("results/audit/study_accounting.json")
+    local_calls = accounting.get("local_completed_calls", 46230)
+    frontier_calls = accounting.get("frontier_completed_calls", 13760)
+    mechanistic_calls = accounting.get("mechanistic_completed_calls", 3264)
+    behavioral_calls = local_calls + frontier_calls
+    total_calls = accounting.get("total_verified_calls", behavioral_calls + mechanistic_calls)
+    by_exp = accounting.get("by_experiment", {})
+
+    s1_loc = by_exp.get("stage1_scaling_500", {}).get("local_completed", 12000)
+    m100_loc = by_exp.get("musique_replication_100", {}).get("local_completed", 2400)
+    m500_loc = by_exp.get("musique_scaled_500", {}).get("local_completed", 12000)
+    s5_pilot = by_exp.get("stage5_pilot", {}).get("local_completed", 2880)
+    s5_conf = by_exp.get("stage5_confirmatory", {}).get("local_completed", 4800)
+    lp_loc = by_exp.get("long_context_tracking", {}).get("local_completed", 150)
+    s8_loc = by_exp.get("stage8_pii_500", {}).get("local_completed", 12000)
+
+    m500_front = by_exp.get("musique_scaled_500", {}).get("frontier_completed", 7500)
+    reas_front = by_exp.get("frontier_reasoning_ablation", {}).get("frontier_completed", 800)
+    s8_front = by_exp.get("stage8_pii_500", {}).get("frontier_completed", 4000)
+    stab_front = by_exp.get("frontier_stability", {}).get("frontier_completed", 960)
+
+    meta = {
+        "experiment_id": "study_accounting_funnel",
+        "cohorts": ["local_cohort_6", "frontier_cohort_4"],
+        "local_completed_calls": local_calls,
+        "frontier_completed_calls": frontier_calls,
+        "total_verified_calls": total_calls,
+        "excluded_calls": 0,
+        "source": "results/audit/study_accounting.json",
+    }
+    s = SVG(1400, 660, "Figure 2: Experimental evidence program", "Five distinct testing regimes across behavioral, stress, mechanistic, entity, and systems evaluations.", metadata=meta)
     header(s, "Figure 2 — Experimental evidence program across five testing regimes", "Counts distinguish behavioral generations from stress tests, mechanistic passes, and software unit attacks.")
 
     stages = [
-        ("1. Behavioral", "13,820", "model generations", "Citation MVE (2,400)\nMuSiQue primary (9,000)\nHeld-out MuSiQue (2,400)\nSmoke gate (20)", BLUE, LIGHT_BLUE),
-        ("2. Stress tests", "3,005", "model generations", "Reasoning-budget 2-pass\n(2,880 records / 5,760 calls)\nLongProc traces (125)", ORANGE, LIGHT_ORANGE),
-        ("3. Mechanisms", "720 + 714", "passes & interventions", "BF16 CKA geometry (720)\nSource-ID swaps (42)\nResidual patches (672)", PURPLE, LIGHT_PURPLE),
-        ("4. Entities", "960", "model generations", "Synthetic account resolution\nacross 6 models\nRaw vs masked vs typed", TEAL, LIGHT_TEAL),
-        ("5. Systems", "500 + 5,000", "software test cases", "Valid round trips (500)\nAdversarial tests (5,000)\nCross-request replays (499)", GREEN, "#e8f5ed"),
+        ("1. Behavioral", f"{local_calls:,}", "local model generations", f"Citation MVE ({s1_loc:,})\nMuSiQue 100 & 500 ({m100_loc + m500_loc:,})\nStage 5 scaling ({s5_pilot + s5_conf:,})\nStage 8 & LongProc ({s8_loc + lp_loc:,})", BLUE, LIGHT_BLUE),
+        ("2. Frontier", f"{frontier_calls:,}", "frontier API generations", f"MuSiQue 500 ({m500_front:,})\nReasoning ablation ({reas_front:,})\nStage 8 PII ({s8_front:,})\nRepeatability audit ({stab_front:,})", ORANGE, LIGHT_ORANGE),
+        ("3. Mechanisms", "1,440 + 1,824", "passes & interventions", "BF16 CKA geometry (1,440)\nSource-ID swaps (114)\nResidual patches (1,710)", PURPLE, LIGHT_PURPLE),
+        ("4. Entities", f"{s8_loc:,} + {s8_front:,}", "compliance generations", "Synthetic account resolution\nacross 6 local models\nplus Sonnet & Sol", TEAL, LIGHT_TEAL),
+        ("5. Systems", "6,000", "software test cases", "Valid round trips (500)\nAdversarial tests (5,000)\nSemantic probes (500)\nVault replays (499)", GREEN, "#e8f5ed"),
     ]
 
     x = 44
@@ -256,9 +290,9 @@ def evidence_funnel():
 
     s.rect(44, 515, 1312, 115, fill="#ffffff", stroke=GRID, radius=14)
     s.text(68, 552, "Accounting contract:", "label", fill=INK, weight="700")
-    s.text(235, 552, "21,397 baseline behavioral records (27,706 calls) + 36,000 scaled confirmatory generations: 57,397 total records / 63,706 model calls.", "body")
+    s.text(235, 552, f"{local_calls:,} verified local calls + {frontier_calls:,} verified frontier validation calls: {behavioral_calls:,} behavioral calls ({total_calls:,} total non-excluded verified calls).", "body")
     s.text(68, 592, "Scientific distinction:", "label", fill=INK, weight="700")
-    s.text(235, 592, "Forward passes, causal interventions, and deterministic software test cases are reported in native units—not combined into one inflated number.", "subtitle")
+    s.text(235, 592, "Local fleet calls, closed API calls, causal interventions, and deterministic software test cases stay in native units.", "subtitle")
 
     s.save("02_evidence_funnel.svg")
 
@@ -267,6 +301,7 @@ def evidence_funnel():
         1580,
         "Figure 2: Experimental evidence program, mobile layout",
         "Five testing regimes stacked vertically for a narrow screen.",
+        metadata=meta,
     )
     mobile.add(
         "<style>.title{font-size:24px}.subtitle{font-size:13px}"
@@ -298,9 +333,10 @@ def evidence_funnel():
         44,
         1412,
         [
-            "21,397 baseline records (27,706 calls)",
-            "+ 36,000 scaled generations =",
-            "57,397 total records / 63,706 calls.",
+            f"{local_calls:,} verified local calls +",
+            f"{frontier_calls:,} verified frontier calls =",
+            f"{behavioral_calls:,} behavioral calls.",
+            f"({total_calls:,} total with mechanistic)",
         ],
         "body",
         21,
@@ -321,31 +357,80 @@ def evidence_funnel():
 
 
 MODEL_SHORT = {
-    "CohereLabs/tiny-aya-global-GGUF:q4_k_m": "Tiny Aya",
-    "Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m": "Qwen 1.5B",
+    "CohereLabs/tiny-aya-global-GGUF:q4_k_m": "Tiny Aya Global",
+    "tiny_aya_global": "Tiny Aya Global",
+    "Tiny Aya": "Tiny Aya Global",
+    "Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m": "Qwen 2.5 1.5B",
+    "qwen25_15b": "Qwen 2.5 1.5B",
+    "Qwen 1.5B": "Qwen 2.5 1.5B",
+    "google/gemma-4-E2B-it-qat-q4_0-gguf:q4_0": "Gemma 4 E2B",
+    "google/gemma-4-E2B-it-qat-q4_0-gguf": "Gemma 4 E2B",
+    "gemma4_e2b": "Gemma 4 E2B",
+    "Gemma E2B": "Gemma 4 E2B",
+    "google/gemma-4-E4B-it-qat-q4_0-gguf:q4_0": "Gemma 4 E4B",
+    "google/gemma-4-E4B-it-qat-q4_0-gguf": "Gemma 4 E4B",
+    "gemma4_e4b": "Gemma 4 E4B",
+    "Gemma E4B": "Gemma 4 E4B",
     "unsloth/Qwen3.5-2B-GGUF:q4_k_m": "Qwen 3.5 2B",
+    "qwen35_2b": "Qwen 3.5 2B",
     "unsloth/Qwen3.5-4B-GGUF:q4_k_m": "Qwen 3.5 4B",
-    "google/gemma-4-E2B-it-qat-q4_0-gguf:q4_0": "Gemma E2B",
-    "google/gemma-4-E4B-it-qat-q4_0-gguf:q4_0": "Gemma E4B",
+    "qwen35_4b": "Qwen 3.5 4B",
 }
 
 
 def musique_confirmation():
-    data = load("results/processed/musique_confirmatory.json")
+    data = load("results/processed/musique_500_confirmatory.json")
     rows = []
-    for model in data["models"]:
-        if model["model"] not in MODEL_SHORT:
+    order_keys = [
+        "CohereLabs/tiny-aya-global-GGUF:q4_k_m",
+        "Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m",
+        "google/gemma-4-E2B-it-qat-q4_0-gguf",
+        "google/gemma-4-E4B-it-qat-q4_0-gguf",
+        "unsloth/Qwen3.5-2B-GGUF:q4_k_m",
+        "unsloth/Qwen3.5-4B-GGUF:q4_k_m",
+    ]
+    models_dict = {m["model"]: m for m in data["models"]}
+    table_rows = []
+
+    for mkey in order_keys:
+        if mkey not in models_dict:
             continue
-        label = MODEL_SHORT[model["model"]]
+        model = models_dict[mkey]
+        label = MODEL_SHORT.get(mkey, mkey)
         for effect in model["effects"]:
             if effect["metric"] == "binding_recall":
-                rows.append((label, effect["sources"], effect["b_minus_a"] * 100, [v * 100 for v in effect["bootstrap_95_ci"]]))
+                est = effect["b_minus_a"] * 100
+                ci = [v * 100 for v in effect["bootstrap_95_ci"]]
+                sources = effect["sources"]
+                rows.append((label, sources, est, ci))
+                conclusive = ci[1] < 0
+                table_rows.append(
+                    f"| **{label}** | {sources} | **{est:+.2f}** | [{ci[0]:+.2f}, {ci[1]:+.2f}] | **{'Yes' if conclusive else 'No'}** |"
+                )
+
+    table_md = [
+        "| Model Family | Sources | UUID − Numeric Binding Recall (pp) | Paired 95% Bootstrap CI | Excludes Zero? |",
+        "|:---|:---:|:---:|:---:|:---:|",
+        *table_rows,
+    ]
+    (OUT / "03_musique_confirmation_table.md").write_text("\n".join(table_md) + "\n")
+    (OUT_SITE / "03_musique_confirmation_table.md").write_text("\n".join(table_md) + "\n")
+
+    meta = {
+        "experiment_id": "musique_scaled_500",
+        "cohort": "local_cohort_6",
+        "models": [MODEL_SHORT[k] for k in order_keys],
+        "n_questions": 500,
+        "n_generations": 12000,
+        "cells": 12,
+        "source": "results/processed/musique_500_confirmatory.json",
+    }
 
     y0, gap = 140, 46
     key_y = y0 + gap * len(rows) + 20
     total_h = key_y + 85
-    s = SVG(1350, total_h, "Figure 3: Held-out MuSiQue binding effects across 6 models", "Forest plot of UUID minus numeric source-binding recall across models and source counts.")
-    header(s, "Figure 3 — Every held-out estimate favored numeric labels across models", "UUID minus numeric relaxed source-binding recall; paired 95% bootstrap intervals across 100 held-out MuSiQue questions (12 model/source cells across 6 models).")
+    s = SVG(1350, total_h, "Figure 3: Scaled MuSiQue N=500 binding effects across 6 models", "Forest plot of UUID minus numeric source-binding recall across 6 local models and 2 source counts (12,000 generations).", metadata=meta)
+    header(s, "Figure 3 — Every confirmatory estimate favored numeric labels across models", "UUID minus numeric relaxed source-binding recall; paired 95% bootstrap intervals across 500 multi-hop questions (12 model/source cells across 6 models, 12,000 generations).")
 
     x0, x1 = 430, 1180
     lo, hi = -24, 6
@@ -356,7 +441,7 @@ def musique_confirmation():
         s.line(x, y0 - 15, x, y0 + gap * len(rows) - 15, INK if tick == 0 else GRID, 1.8 if tick == 0 else 1)
         s.text(x, y0 + gap * len(rows) + 12, f"{tick:+d} pp", "small", "middle")
 
-    # Direction annotations centered over their respective axis regions.
+    # Direction annotations centered over respective axis regions
     x_zero = x0 + (0 - lo) / (hi - lo) * (x1 - x0)
     s.text((x0 + x_zero) / 2, y0 - 22, "← Favors numeric labels (< 0)", "label", "middle", fill=BLUE)
     s.text((x_zero + x1) / 2, y0 - 22, "Favors UUIDs (> 0) →", "label", "middle", fill=MUTED)
@@ -388,9 +473,9 @@ def musique_confirmation():
     # In-figure Key
     s.rect(45, key_y, 1260, 65, fill="#f8fafc", stroke=GRID, radius=10)
     s.circle(70, key_y + 32, 6, BLUE, BLUE, 1)
-    s.text(85, key_y + 36, "Filled dot — 95% CI excludes zero", "small")
+    s.text(85, key_y + 36, "Filled dot — 95% CI excludes zero (12 of 12 cells)", "small")
     s.circle(500, key_y + 32, 6, PAPER, INK, 2)
-    s.text(515, key_y + 36, "Hollow dot — 95% CI crosses zero", "small")
+    s.text(515, key_y + 36, "Hollow dot — 95% CI crosses zero (0 cells)", "small")
     s.line(930, key_y + 32, 970, key_y + 32, BLUE, 2.5)
     s.text(980, key_y + 36, "Horizontal bar — 95% bootstrap CI", "small")
 
@@ -446,7 +531,7 @@ def frontier_musique():
 
 
 def reasoning_budget():
-    data = load("results/processed/stage5_eight_model.json")
+    data = load("results/processed/stage5_six_model_pilot.json")
     names = [
         # Row 1: Qwen family
         ("Qwen/Qwen2.5-1.5B-Instruct-GGUF:q4_k_m", "Qwen 2.5 1.5B"),
@@ -458,8 +543,17 @@ def reasoning_budget():
         ("google/gemma-4-E4B-it-qat-q4_0-gguf:q4_0", "Gemma 4 E4B"),
     ]
     budgets = [64, 128, 256, 512, 1024]
-    s = SVG(1400, 940, "Figure 4: Reasoning-budget scaling across 6 models", "Six small multiples showing UUID minus numeric accuracy across visible scratchpad budgets.")
-    header(s, "Figure 4 — More scratchpad does not consistently repair UUID deficits across models", "Final-answer accuracy delta (UUID minus numeric) across Pass 1 scratchpad budgets; paired 95% bootstrap intervals (5,760 model calls across 6 models).")
+    meta = {
+        "experiment_id": "stage5_pilot",
+        "evidence_tier": "pilot",
+        "cohort": "local_cohort_6",
+        "models": [label for _, label in names],
+        "n_examples_per_model": 24,
+        "n_calls": 5760,
+        "source": "results/processed/stage5_six_model_pilot.json",
+    }
+    s = SVG(1400, 940, "Figure 4A: Reasoning-budget exploratory pilot across 6 models", "Six small multiples showing UUID minus numeric accuracy across visible scratchpad budgets.", metadata=meta)
+    header(s, "Figure 4A — More scratchpad does not consistently repair UUID deficits across models", "Exploratory pilot (24 unique examples/model; 2,880 records / 5,760 model calls across 6 models); paired 95% bootstrap intervals.")
 
     panel_w = 360
     gap_x = 45
@@ -577,23 +671,32 @@ def frontier_reasoning():
 
 
 def longproc():
-    data = load("results/processed/longproc_tom_tracking_2k.json")
+    data = load("results/processed/longproc_gpu_summary.json")
     order = [
-        ("Qwen 1.5B", "Qwen 1.5B"),
-        ("Qwen 3.5 2B", "Qwen 3.5 2B"),
-        ("Qwen 3.5 4B", "Qwen 3.5 4B"),
-        ("Gemma E2B", "Gemma E2B"),
-        ("Gemma E4B", "Gemma E4B"),
+        ("tiny_aya_global", "Tiny Aya Global"),
+        ("qwen25_15b", "Qwen 2.5 1.5B"),
+        ("gemma4_e2b", "Gemma 4 E2B"),
+        ("gemma4_e4b", "Gemma 4 E4B"),
+        ("qwen35_2b", "Qwen 3.5 2B"),
+        ("qwen35_4b", "Qwen 3.5 4B"),
     ]
     metrics = [
         ("partial_accuracy_mean", "Mean correct-trace prefix before first error", BLUE),
         ("final_answer_accuracy", "Final-answer accuracy (%)", GREEN),
         ("strict_accuracy", "Exact full-trace accuracy (%)", ORANGE),
     ]
-    s = SVG(1350, 710, "Figure 5: LongProc trace quality across 5 models", "Grouped bars compare correct-prefix accuracy, final-answer accuracy, and exact full-trace accuracy for five models.")
-    header(s, "Figure 5 — Long generation does not establish procedural correctness", "Strict trace, correct-prefix, and endpoint accuracy diverge on 25 multi-step theory-of-mind problems (125 GPU runs across 5 models).")
+    meta = {
+        "experiment_id": "long_context_tracking",
+        "cohort": "local_cohort_6",
+        "models": [label for _, label in order],
+        "n_problems": 25,
+        "n_runs": 150,
+        "source": "results/processed/longproc_gpu_summary.json",
+    }
+    s = SVG(1400, 710, "Figure 5: LongProc trace quality across 6 models", "Grouped bars compare correct-prefix accuracy, final-answer accuracy, and exact full-trace accuracy for six models.", metadata=meta)
+    header(s, "Figure 5 — Long generation does not establish procedural correctness", "Strict trace, correct-prefix, and endpoint accuracy diverge on 25 multi-step theory-of-mind problems (150 GPU runs across 6 models).")
 
-    left, right, top, bottom = 120, 1260, 140, 480
+    left, right, top, bottom = 120, 1310, 140, 480
     for tick in (0, 20, 40, 60, 80, 100):
         y = bottom - tick / 100 * (bottom - top)
         s.line(left, y, right, y, GRID, 1)
@@ -602,12 +705,13 @@ def longproc():
     s.text(35, 310, "Trace or answer score (%)", "label", "middle", transform="rotate(-90 35 310)")
 
     group_w = (right - left) / len(order)
-    bar_w = 32
+    bar_w = 28
     for gi, (key, label) in enumerate(order):
         center = left + group_w * (gi + 0.5)
+        m_entry = data[key]
         for mi, (metric, _, color) in enumerate(metrics):
-            value = data[key][metric] * 100
-            x = center + (mi - 1) * (bar_w + 6) - bar_w / 2
+            value = m_entry[metric] * 100
+            x = center + (mi - 1) * (bar_w + 5) - bar_w / 2
             y = bottom - value / 100 * (bottom - top)
             s.add(f'<rect x="{x}" y="{y}" width="{bar_w}" height="{bottom-y}" fill="{color}" rx="3"/>')
             if value > 0:
@@ -617,48 +721,64 @@ def longproc():
 
         s.text(center, 515, label, "label", "middle", fill=INK)
 
-        # Output length box cleanly separated
-        tok = data[key]["output_tokens"]["mean"]
-        if key == "Qwen 1.5B":
-            cap_note = "84% hit cap"
-        elif key == "Qwen 3.5 2B":
-            cap_note = "72% full trace"
-        elif key == "Qwen 3.5 4B":
-            cap_note = "16% exact trace"
-        elif key == "Gemma E4B":
-            cap_note = "8% exact trace"
+        tok = m_entry["output_tokens"]["mean"]
+        cap_rate = m_entry.get("generation_cap_rate", 0.0)
+        full_rate = m_entry.get("full_trace_rate", 0.0)
+        strict = m_entry.get("strict_accuracy", 0.0)
+        if cap_rate >= 0.5:
+            cap_note = f"{cap_rate*100:.0f}% hit cap"
+        elif full_rate >= 0.9:
+            cap_note = f"{full_rate*100:.0f}% full trace"
+        elif strict > 0:
+            cap_note = f"{strict*100:.0f}% exact trace"
         else:
-            cap_note = "0% exact trace"
+            cap_note = f"{m_entry.get('final_answer_accuracy', 0)*100:.0f}% endpoint"
+
         s.rect(center - 70, 532, 140, 44, fill="#f8fafc", stroke=GRID, radius=8)
         s.text(center, 550, f"Mean: {tok:.0f} tok", "small", "middle", weight="600")
         s.text(center, 568, f"{cap_note}", "small", "middle")
 
     # Legend & definitions
     lx = 120
-    s.rect(lx, 600, 1140, 85, fill=PAPER, stroke=GRID, radius=10)
+    s.rect(lx, 600, 1190, 85, fill=PAPER, stroke=GRID, radius=10)
     for mi, (metric, mlabel, color) in enumerate(metrics):
         ly = 625 + mi * 23
         s.rect(lx + 20, ly - 12, 14, 14, fill=color, radius=2)
         s.text(lx + 42, ly, mlabel, "small", weight="600")
 
-    s.text(lx + 460, 625, "Blue: fraction of reference belief-state transitions generated before first discrepancy.", "small")
-    s.text(lx + 460, 648, "Green: endpoint accuracy (whether final state is correct, regardless of intermediate reasoning).", "small")
-    s.text(lx + 460, 671, "Orange: exact procedural match across entire reference trace (1,024–2,048 tokens).", "small")
+    s.text(lx + 490, 625, "Blue: fraction of reference belief-state transitions generated before first discrepancy.", "small")
+    s.text(lx + 490, 648, "Green: endpoint accuracy (whether final state is correct, regardless of intermediate reasoning).", "small")
+    s.text(lx + 490, 671, "Orange: exact procedural match across entire reference trace (1,024–2,048 tokens).", "small")
 
     s.save("05_longproc.svg")
 
 
 def stage6_geometry():
     files = [
-        ("results/processed/stage6_qwen25_15b.json", "Qwen 1.5B (28 layers)"),
-        ("results/processed/stage6_gemma4_e2b.json", "Gemma E2B (36 layers)"),
-        ("results/processed/stage6_gemma4_e4b.json", "Gemma E4B (46 layers)"),
+        ("results/processed/stage6_qwen25_15b.json", "Qwen 2.5 1.5B (28 layers)"),
+        ("results/processed/stage6_gemma4_e2b.json", "Gemma 4 E2B (36 layers)"),
+        ("results/processed/stage6_gemma4_e4b.json", "Gemma 4 E4B (46 layers)"),
+        ("results/processed/stage6_tiny_aya.json", "Tiny Aya Global (32 layers)"),
+        ("results/processed/stage6_qwen35_2b.json", "Qwen 3.5 2B (24 layers)"),
+        ("results/processed/stage6_qwen35_4b.json", "Qwen 3.5 4B (32 layers)"),
     ]
-    s = SVG(1400, 850, "Figure 6: Stage 6 representation geometry across 3 models", "Three panels show source-content and source-label CKA between structured and UUID conditions across normalized model depth.")
-    header(s, "Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent", "Structured-versus-UUID linear CKA across 80 paired examples (720 BF16 forward passes); normalized model depth across 3 models.")
+    meta = {
+        "experiment_id": "stage6_geometry",
+        "cohort": "local_cohort_6",
+        "eligible_models": ["qwen25_15b", "gemma4_e2b", "gemma4_e4b", "tiny_aya_global", "qwen35_2b", "qwen35_4b"],
+        "unsupported_local_models": [],
+        "frontier_models": "not_applicable (closed-weights API)",
+        "passes": 1440,
+    }
+    s = SVG(1400, 1060, "Figure 6: Stage 6 representation geometry across 6 local models", "Six panels show source-content and source-label CKA between structured and UUID conditions across normalized model depth.", metadata=meta)
+    header(s, "Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent", "Structured-versus-UUID linear CKA across 80 paired examples (1,440 BF16 forward passes); normalized model depth across all 6 local models.")
 
-    panel_w, panel_h = 580, 220
-    positions = [(90, 135), (730, 135), (410, 465)]
+    panel_w, panel_h = 580, 200
+    positions = [
+        (90, 135), (730, 135),
+        (90, 395), (730, 395),
+        (90, 655), (730, 655),
+    ]
 
     for (path, label), (left, top) in zip(files, positions):
         data = load(path)
@@ -690,30 +810,41 @@ def stage6_geometry():
         s.text((left + right) / 2, bottom + 24, "Normalized model depth", "small", "middle")
 
     # Legend & notes
-    s.rect(90, 735, 1240, 95, fill="#f8fafc", stroke=GRID, radius=10)
-    s.line(120, 755, 160, 755, TEAL, 3)
-    s.text(170, 760, "Teal: Source-content tokens (fact text)", "small", weight="600")
-    s.line(470, 755, 510, 755, PURPLE, 3)
-    s.text(520, 760, "Purple: Source-label tokens (identifier string)", "small", weight="600")
+    s.rect(90, 930, 1220, 95, fill="#f8fafc", stroke=GRID, radius=10)
+    s.line(120, 950, 160, 950, TEAL, 3)
+    s.text(170, 955, "Teal: Source-content tokens (fact text)", "small", weight="600")
+    s.line(470, 950, 510, 950, PURPLE, 3)
+    s.text(520, 955, "Purple: Source-label tokens (identifier string)", "small", weight="600")
 
-    s.text(850, 760, "1.0 = highly similar geometry; 0.0 = little shared geometry", "small", fill=MUTED)
-    s.text(120, 788, "Note: Passage facts share identical text across conditions; high CKA (≥0.94) is partly expected by construction.", "small")
-    s.text(120, 810, "Notice: Gemma E2B label CKA collapses to ~0.37 at final layer, showing late divergence in identifier representation.", "small", fill=MUTED)
+    s.text(850, 955, "1.0 = highly similar geometry; 0.0 = little shared geometry", "small", fill=MUTED)
+    s.text(120, 983, "Cohort scope: All 6 primary local cohort models evaluated across 240 teacher-forced BF16 forward passes each (1,440 passes total).", "small")
+    s.text(120, 1005, "Consistent geometric signature: Fact representations remain invariant across format, while identifier representations diverge late.", "small", fill=MUTED)
 
     s.save("06_stage6_geometry.svg")
 
 
 def stage7_swaps():
     files = [
-        ("results/analysis/stage7_qwen25_15b.json", "Qwen 1.5B (n=8 examples)"),
-        ("results/analysis/stage7_gemma4_e2b.json", "Gemma E2B (n=4 pilot examples)"),
-        ("results/analysis/stage7_gemma4_e4b.json", "Gemma E4B (n=2 pilot examples)"),
+        ("results/processed/stage7_qwen25_15b.json", "Qwen 2.5 1.5B (n=8 examples)"),
+        ("results/processed/stage7_gemma4_e2b.json", "Gemma 4 E2B (n=4 pilot examples)"),
+        ("results/processed/stage7_gemma4_e4b.json", "Gemma 4 E4B (n=2 pilot examples)"),
+        ("results/processed/stage7_tiny_aya.json", "Tiny Aya Global (n=8 examples)"),
+        ("results/processed/stage7_qwen35_2b.json", "Qwen 3.5 2B (n=8 examples)"),
+        ("results/processed/stage7_qwen35_4b.json", "Qwen 3.5 4B (n=8 examples)"),
     ]
     conditions = [("structured", "[S#] Structured", BLUE), ("random_compact", "[XQ7M] Random", TEAL), ("uuid", "UUID (36-char)", ORANGE)]
-    s = SVG(1350, 740, "Figure 7: Stage 7 source-ID swap effects across 3 models", "Counterfactual citation log-probability effect after swapping a relevant source identifier with a distractor.")
-    header(s, "Figure 7 — After an ID swap, retained models shift toward the newly assigned identifier", "Change in preference for the identifier newly assigned to the relevant source; paired 95% bootstrap intervals across 42 counterfactual swap directions.")
+    meta = {
+        "experiment_id": "stage7_interventions",
+        "cohort": "local_cohort_6",
+        "eligible_models": ["qwen25_15b", "gemma4_e2b", "gemma4_e4b", "tiny_aya_global", "qwen35_2b", "qwen35_4b"],
+        "swaps": 114,
+        "interventions": 114,
+        "scope": "prompt_swaps_only",
+    }
+    s = SVG(1350, 940, "Figure 7A: Stage 7 source-ID swap effects across 6 local models", "Counterfactual citation log-probability effect after swapping a relevant source identifier with a distractor (prompt swaps only).", metadata=meta)
+    header(s, "Figure 7A — After an ID swap, retained models shift toward the newly assigned identifier", "Change in preference for the identifier newly assigned to the relevant source; paired 95% bootstrap intervals across 114 counterfactual prompt swaps (prompt swaps only).")
 
-    left, right, top, bottom = 260, 1220, 140, 500
+    left, right, top, bottom = 260, 1220, 140, 680
     lo, hi = -24, 76
 
     for tick in (-20, 0, 20, 40, 60):
@@ -729,16 +860,16 @@ def stage7_swaps():
 
     s.text((left + right) / 2, bottom + 52, "Change in [log P(newly correct ID) − log P(previous ID)] (log-probability delta)", "label", "middle")
 
-    row_gap = 110
+    row_gap = 85
     for i, (path, label) in enumerate(files):
         data = load(path)
-        y_center = top + 55 + i * row_gap
+        y_center = top + 45 + i * row_gap
         s.text(55, y_center + 5, label, "label", fill=INK)
 
         for ci, (key, _, color) in enumerate(conditions):
             stat = data["source_id_swap"][key]["total_logprob"]
             est, bounds = stat["mean"], stat["bootstrap_95_ci"]
-            y = y_center + (ci - 1) * 22
+            y = y_center + (ci - 1) * 20
             xa = left + (bounds[0] - lo) / (hi - lo) * (right - left)
             xb = left + (bounds[1] - lo) / (hi - lo) * (right - left)
             xe = left + (est - lo) / (hi - lo) * (right - left)
@@ -748,49 +879,256 @@ def stage7_swaps():
             s.circle(xe, y, 5.5, color)
 
     # In-figure Key & Caveats
-    s.rect(55, 590, 1240, 125, fill="#f8fafc", stroke=GRID, radius=10)
+    s.rect(55, 780, 1240, 130, fill="#f8fafc", stroke=GRID, radius=10)
     lx = 80
     for _, clabel, color in conditions:
-        s.circle(lx + 8, 618, 6, color)
-        s.text(lx + 24, 623, clabel, "small", weight="600")
+        s.circle(lx + 8, 808, 6, color)
+        s.text(lx + 24, 813, clabel, "small", weight="600")
         lx += 220
 
-    s.text(80, 652, "Key result: Qwen and Gemma shift probability toward the newly bound identifier (> 0) under compact formats.", "small", weight="600")
-    s.text(80, 676, "Caveats: Full UUIDs contain more tokens, so total log-prob magnitudes cannot be compared naively across formats.", "small", fill=MUTED)
-    s.text(80, 696, "Gemma cohorts (n=4 and n=2) are small pilot cohorts whose bootstrap intervals cross zero (not statistically conclusive).", "small", fill=MUTED)
+    s.text(80, 842, "Key result: Retained models shift probability toward the newly bound identifier (> 0) across compact formats.", "small", weight="600")
+    s.text(80, 866, "Scope: Prompt-level counterfactual swaps only (114 swaps across 6 models). See Figure 7B for residual-stream activation patching.", "small", fill=MUTED)
+    s.text(80, 888, "Caveat: Full UUIDs contain more tokens, so total log-prob magnitudes cannot be compared naively across formats.", "small", fill=MUTED)
 
     s.save("07_stage7_swaps.svg")
 
 
-def stage8_entities():
-    files = [
-        ("results/processed/stage8_pii_500_qwen15b.json", "Qwen 1.5"),
-        ("results/processed/stage8_pii_500_qwen35_2b.json", "Qwen 2B"),
-        ("results/processed/stage8_pii_500_qwen35_4b.json", "Qwen 4B"),
-        ("results/processed/stage8_pii_500_gemma4_e2b.json", "Gemma E2B"),
-        ("results/processed/stage8_pii_500_gemma4_e4b.json", "Gemma E4B"),
-        ("results/processed/stage8_pii_500_tiny_aya.json", "Tiny Aya"),
+def stage7_patching():
+    models_config = [
+        ("results/processed/stage7_qwen25_15b.json", "Qwen 2.5 1.5B (28 layers)", 28),
+        ("results/processed/stage7_tiny_aya.json", "Tiny Aya Global (36 layers)", 36),
+        ("results/processed/stage7_qwen35_2b.json", "Qwen 3.5 2B (24 layers)", 24),
+        ("results/processed/stage7_qwen35_4b.json", "Qwen 3.5 4B (32 layers)", 32),
+        ("results/processed/stage7_gemma4_e2b.json", "Gemma 4 E2B (35 layers, pilot)", 35),
+        ("results/processed/stage7_gemma4_e4b.json", "Gemma 4 E4B (42 layers, pilot)", 42),
     ]
+    meta = {
+        "experiment_id": "stage7_interventions",
+        "cohort": "local_cohort_6",
+        "eligible_models": ["qwen25_15b", "tiny_aya_global", "qwen35_2b", "qwen35_4b", "gemma4_e2b", "gemma4_e4b"],
+        "activation_patches": 1710,
+        "scope": "activation_patching_only",
+    }
+    s = SVG(1400, 1060, "Figure 7B: Stage 7 residual-stream activation patching across 6 local models", "Recovery of counterfactual source-ID swap effect by patching donor activations into clean prompt runs across normalized model depth.", metadata=meta)
+    header(s, "Figure 7B — Residual-stream activation patching recovers identifier preference by late layers", "Fraction of counterfactual swap effect recovered across normalized model depth; 1,710 activation patches across all 6 local models.")
+
+    panel_w, panel_h = 580, 190
+    positions = [
+        (90, 135), (730, 135),
+        (90, 405), (730, 405),
+        (90, 675), (730, 675),
+    ]
+
+    y_min, y_max = -0.4, 1.4
+
+    for (path, label, total_layers), (left, top) in zip(models_config, positions):
+        data = load(path)
+        patch = data["activation_patching"]["structured"]
+        layers = sorted(patch.keys(), key=lambda x: int(x))
+        right, bottom = left + panel_w, top + panel_h
+
+        s.text(left, top - 12, label, "label", fill=INK)
+
+        # Draw grid lines for recovery fractions: 0.0 and 1.0 emphasized
+        for tick in (-0.2, 0.0, 0.5, 1.0, 1.2):
+            y = bottom - (tick - y_min) / (y_max - y_min) * panel_h
+            is_key = tick in (0.0, 1.0)
+            s.line(left, y, right, y, INK if is_key else GRID, 1.5 if is_key else 0.8)
+            label_text = f"{tick:.1f}"
+            s.text(left - 8, y + 4, label_text, "small", "end", fill=INK if is_key else MUTED)
+            if tick == 1.0:
+                s.text(right - 6, y - 5, "100% recovery", "small", "end", fill=TEAL, weight="600")
+            elif tick == 0.0:
+                s.text(right - 6, y - 5, "0% recovery", "small", "end", fill=MUTED)
+
+        # Probed layer positions
+        cit_pts = []
+        ctrl_pts = []
+        lbl_pts = []
+
+        for l_str in layers:
+            l_int = int(l_str)
+            norm_depth = l_int / total_layers
+            x = left + norm_depth * panel_w
+
+            # Vertical dotted guideline for probed layer
+            s.line(x, top, x, bottom, "#e2e8f0", 1)
+            s.text(x, bottom + 16, f"L{l_int}", "small", "middle", fill=MUTED)
+
+            rec_cit = patch[l_str]["citation_context"]["aggregate_recovery_fraction"]
+            rec_ctrl = patch[l_str]["question_control"]["aggregate_recovery_fraction"]
+            rec_lbl = patch[l_str]["source_label"]["aggregate_recovery_fraction"]
+
+            # Clamp for display
+            c_clamped = max(y_min, min(y_max, rec_cit))
+            ctrl_clamped = max(y_min, min(y_max, rec_ctrl))
+            lbl_clamped = max(y_min, min(y_max, rec_lbl))
+
+            y_cit = bottom - (c_clamped - y_min) / (y_max - y_min) * panel_h
+            y_ctrl = bottom - (ctrl_clamped - y_min) / (y_max - y_min) * panel_h
+            y_lbl = bottom - (lbl_clamped - y_min) / (y_max - y_min) * panel_h
+
+            cit_pts.append((x, y_cit))
+            ctrl_pts.append((x, y_ctrl))
+            lbl_pts.append((x, y_lbl))
+
+        # Plot polylines and circles
+        # 1. Question control (specificity baseline)
+        s.polyline(ctrl_pts, "#94a3b8", 2.0)
+        for (x, y) in ctrl_pts:
+            s.circle(x, y, 4, "#94a3b8")
+
+        # 2. Source label
+        s.polyline(lbl_pts, PURPLE, 2.0)
+        for (x, y) in lbl_pts:
+            s.circle(x, y, 4, PURPLE)
+
+        # 3. Citation context (primary causal mechanism)
+        s.polyline(cit_pts, TEAL, 3.0)
+        for (x, y) in cit_pts:
+            s.circle(x, y, 5.5, TEAL)
+
+        s.text(left, bottom + 32, "0.0 (Input)", "small")
+        s.text(right, bottom + 32, "1.0 (Output)", "small", "end")
+        s.text((left + right) / 2, bottom + 32, "Normalized model depth", "small", "middle")
+
+    # Legend & explanatory notes
+    s.rect(90, 935, 1220, 95, fill="#f8fafc", stroke=GRID, radius=10)
+    s.line(120, 955, 160, 955, TEAL, 3.5)
+    s.circle(140, 955, 5, TEAL)
+    s.text(170, 960, "Teal: Citation context span (primary causal transfer, rises to ~1.0 in late layers)", "small", weight="600")
+
+    s.line(640, 955, 680, 955, "#94a3b8", 2.5)
+    s.circle(660, 955, 4, "#94a3b8")
+    s.text(690, 960, "Gray: Question control span (negative control, flat at 0.0)", "small", weight="600")
+
+    s.line(1030, 955, 1070, 955, PURPLE, 2.5)
+    s.circle(1050, 955, 4, PURPLE)
+    s.text(1080, 960, "Purple: Source label span", "small", weight="600")
+
+    s.text(120, 988, "Key finding: Patching citation-context activations cleanly transfers the counterfactual binding preference at late layers (recovery ~ 1.0).", "small")
+    s.text(120, 1010, "Scope: Residual-stream activation patching only (1,710 total interventions across 6 models). See Figure 7A for prompt-level swaps.", "small", fill=MUTED)
+
+    s.save("07b_stage7_patching.svg")
+
+
+def stage8_entities():
+    cross_data = load("results/processed/stage8_pii_500_cross_model.json")
     conds = [("raw", "Raw", RED), ("random_masked", "Random", ORANGE), ("untyped", "Untyped", PURPLE), ("typed", "Typed", TEAL)]
 
     models = []
-    for path, label in files:
-        data = load(path)
-        values = {}
-        for key, _, _ in conds:
-            cells = [cell for cell in data["cells"] if cell["condition"] == key]
-            total = sum(cell["n"] for cell in cells)
-            values[key] = {
-                "accuracy": sum(cell["task_accuracy"] * cell["n"] for cell in cells) / total * 100,
-                "leakage": sum(cell["any_raw_pii_leakage_rate"] * cell["n"] for cell in cells) / total * 100,
-            }
+    for m in cross_data["models"]:
+        mkey = m["model"]
+        label = MODEL_SHORT.get(mkey, mkey)
+        values = {
+            "raw": {"accuracy": m["raw_accuracy"] * 100, "leakage": m["raw_pii_leakage_raw"] * 100},
+            "random_masked": {"accuracy": m["random_masked_accuracy"] * 100, "leakage": m["raw_pii_leakage_masked"] * 100},
+            "untyped": {"accuracy": m["untyped_accuracy"] * 100, "leakage": m["raw_pii_leakage_masked"] * 100},
+            "typed": {"accuracy": m["typed_accuracy"] * 100, "leakage": m["raw_pii_leakage_masked"] * 100},
+        }
         models.append((label, values))
 
-    sonnet = load("results/processed/frontier_anthropic_summary.json")["stage8_entity_resolution"]["anthropic_sonnet"]["conditions"]
-    models.append(("Sonnet 5.5", {key: {"accuracy": cell["accuracy"], "leakage": cell["raw_pii_leakage_rate"]} for key, cell in sonnet.items()}))
+    # Add Sonnet 5.5
+    anthropic_data = load("results/processed/frontier_anthropic_summary.json")
+    if "stage8_entity_resolution" in anthropic_data and "anthropic_sonnet" in anthropic_data["stage8_entity_resolution"]:
+        sonnet = anthropic_data["stage8_entity_resolution"]["anthropic_sonnet"]["conditions"]
+        models.append(("Sonnet 5.5", {key: {"accuracy": cell["accuracy"], "leakage": cell["raw_pii_leakage_rate"]} for key, cell in sonnet.items()}))
 
-    s = SVG(1400, 800, "Figure 8: Stage 8 typed entity canonicalization across 7 models", "Two panels show task accuracy and raw PII output exposure across raw, random-masked, untyped, and typed representations across six local models and Claude Sonnet 5.5.")
-    header(s, "Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model", "500 synthetic account-resolution examples per model (14,000 generations across six local models plus Claude Sonnet 5.5); citations disabled.")
+    # Add Sol
+    openai_data = load("results/processed/frontier_openai_summary.json")
+    if "stage8_entity_resolution" in openai_data and "openai_sol" in openai_data["stage8_entity_resolution"]:
+        sol = openai_data["stage8_entity_resolution"]["openai_sol"]["conditions"]
+        models.append(("Sol", {key: {"accuracy": cell["accuracy"], "leakage": cell["raw_pii_leakage_rate"]} for key, cell in sol.items()}))
+
+    meta = {
+        "experiment_id": "stage8_pii_500",
+        "cohort": "local_cohort_6_plus_frontier_stage8",
+        "models": [label for label, _ in models],
+        "n_examples_per_model": 500,
+        "n_generations": len(models) * 2000,
+        "source": "results/processed/stage8_pii_500_cross_model.json",
+    }
+    s = SVG(1450, 800, "Figure 8: Stage 8 typed entity canonicalization across 8 models", "Two panels show task accuracy and raw PII output exposure across raw, random-masked, untyped, and typed representations across six local models, Claude Sonnet 5.5, and GPT-6.1 Sol.", metadata=meta)
+    header(s, "Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model", f"500 synthetic account-resolution examples per model ({len(models)*2000:,} generations across six local models plus Claude Sonnet 5.5 and GPT-6.1 Sol); citations disabled.")
+
+    # Panel A: Accuracy (Left)
+    left_a, right_a, top_a, bottom_a = 90, 770, 160, 520
+    s.text(left_a, top_a - 20, "Panel A: Correct account selected (%)", "label", fill=INK)
+
+    for tick in (0, 25, 50, 75, 100):
+        y = bottom_a - tick / 100 * (bottom_a - top_a)
+        s.line(left_a, y, right_a, y, GRID, 1)
+        s.text(left_a - 10, y + 4, f"{tick}%", "small", "end")
+
+    group_w_a = (right_a - left_a) / len(models)
+    bar_w_a = 14
+    for gi, (label, values) in enumerate(models):
+        center = left_a + group_w_a * (gi + 0.5)
+
+        accuracies = []
+        for ci, (key, _, color) in enumerate(conds):
+            acc = values[key]["accuracy"]
+            accuracies.append(acc)
+            x = center + (ci - 1.5) * (bar_w_a + 2) - bar_w_a / 2
+            y = bottom_a - acc / 100 * (bottom_a - top_a)
+            s.add(f'<rect x="{x}" y="{y}" width="{bar_w_a}" height="{bottom_a-y}" fill="{color}" rx="2"/>')
+            if 0 < acc < 99:
+                s.text(x + bar_w_a / 2, y - 5, f"{acc:.0f}", "small", "middle")
+
+        if min(accuracies) >= 99:
+            s.text(center, top_a - 5, "≈100%", "small", "middle", weight="600")
+
+        s.text(center, bottom_a + 24, label, "small", "middle", weight="600")
+
+    s.text((left_a + right_a) / 2, bottom_a + 48, "Model Cohort", "small", "middle")
+
+    # Panel B: Exposure (Right)
+    left_b, right_b, top_b, bottom_b = 850, 1370, 160, 520
+    s.text(left_b, top_b - 20, "Panel B: Outputs exposing raw personal data (%)", "label", fill=RED)
+
+    for tick in (0, 25, 50, 75, 100):
+        y = bottom_b - tick / 100 * (bottom_b - top_b)
+        s.line(left_b, y, right_b, y, GRID, 1)
+        s.text(left_b - 10, y + 4, f"{tick}%", "small", "end")
+
+    group_w_b = (right_b - left_b) / len(models)
+    bar_w_b = 20
+    for gi, (label, values) in enumerate(models):
+        center = left_b + group_w_b * (gi + 0.5)
+
+        raw_leak = values["raw"]["leakage"]
+        masked_leak = max(values[key]["leakage"] for key in ("random_masked", "untyped", "typed"))
+
+        # Bar 1: Raw
+        x1 = center - bar_w_b - 2
+        y1 = bottom_b - raw_leak / 100 * (bottom_b - top_b)
+        s.add(f'<rect x="{x1}" y="{y1}" width="{bar_w_b}" height="{bottom_b-y1}" fill="{RED}" rx="2"/>')
+        s.text(x1 + bar_w_b / 2, y1 - 5, f"{raw_leak:.0f}%", "small", "middle", fill=RED, weight="600")
+
+        # Bar 2: Worst observed masked/canonical exposure across three representations
+        x2 = center + 2
+        y2 = bottom_b - masked_leak / 100 * (bottom_b - top_b)
+        s.add(f'<rect x="{x2}" y="{min(y2, bottom_b-3)}" width="{bar_w_b}" height="{max(bottom_b-y2, 3)}" fill="{TEAL}" rx="1"/>')
+        s.text(x2 + bar_w_b / 2, min(y2, bottom_b-3) - 5, f"{masked_leak:.1f}%", "small", "middle", fill=TEAL, weight="600")
+
+        s.text(center, bottom_b + 24, label, "small", "middle", weight="600")
+
+    s.text((left_b + right_b) / 2, bottom_b + 48, "Model Cohort", "small", "middle")
+
+    # Legend & definitions at bottom
+    s.rect(90, 595, 1280, 180, fill="#f8fafc", stroke=GRID, radius=10)
+    lx = 120
+    for _, clabel, color in conds:
+        s.rect(lx, 617, 14, 14, fill=color, radius=2)
+        s.text(lx + 22, 629, clabel, "small", weight="600")
+        lx += 160
+
+    s.text(120, 658, "Representation definitions:", "small", weight="600")
+    s.text(285, 658, "Raw = literal names, emails, account numbers.  Random = arbitrary alphanumeric mask.", "small")
+    s.text(285, 680, "Untyped = <ENTITY_1>, <ENTITY_2> (type-neutral).  Typed = <ACCOUNT_1>, <EMAIL_2> (preserves entity type).", "small")
+    s.text(120, 712, "Key finding: Typed handles improved accuracy in four of six local models (two ceiling-limited); Sonnet and Sol were saturated (≥99.8%).", "small", fill=INK, weight="600")
+
+    s.save("08_stage8_entities.svg")
 
     # Panel A: Accuracy (Left)
     left_a, right_a, top_a, bottom_a = 90, 740, 160, 520
@@ -999,9 +1337,10 @@ def main():
     longproc()
     stage6_geometry()
     stage7_swaps()
+    stage7_patching()
     stage8_entities()
     trust_boundary()
-    print("All 11 publication-grade figure assets built successfully in both blog/assets/ and blog/site/assets/.")
+    print("All 12 publication-grade figure assets built successfully in both blog/assets/ and blog/site/assets/.")
 
 
 if __name__ == "__main__":

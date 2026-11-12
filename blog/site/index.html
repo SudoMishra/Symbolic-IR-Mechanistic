@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="What 57,397 local-model behavioral records, 6,400 Anthropic API generations, 720 hidden-state passes, 714 causal interventions, and 5,000 adversarial tests taught us about UUIDs in LLM systems.">
+    <meta name="description" content="What 46,230 local-model behavioral records, 13,760 frontier API generations, 1,440 hidden-state passes, 1,824 causal interventions, and 6,000 deterministic systems tests taught us about UUIDs in LLM systems.">
     <meta name="theme-color" content="#e6dbc7">
     <title>The Hidden Cost of UUIDs: Building a Symbolic IR for LLM Systems</title>
     <link rel="preconnect" href="https://api.fontshare.com">
@@ -91,7 +91,7 @@ Return the account and supporting source handle.</code></pre>
 
         <div class="facts" aria-label="Scale of the evidence">
           <div class="fact reveal-count">
-            <p class="fact-copy"><b>57,397</b> local records &bull; <b>6,400</b> Anthropic API generations</p>
+            <p class="fact-copy"><b>46,230</b> local calls &bull; <b>13,760</b> frontier API calls</p>
           </div>
           <div class="fact reveal-count">
             <p class="fact-copy"><b>+70&ndash;94%</b> input token tax</p>
@@ -100,7 +100,7 @@ Return the account and supporting source handle.</code></pre>
             <p class="fact-copy"><b>12 / 12</b> scaled MuSiQue cells strictly worse with UUIDs</p>
           </div>
           <div class="fact reveal-count">
-            <p class="fact-copy"><b>720</b> BF16 hidden-state passes</p>
+            <p class="fact-copy"><b>1,440</b> BF16 hidden-state passes</p>
           </div>
         </div>
 
@@ -116,7 +116,7 @@ Return the account and supporting source handle.</code></pre>
             <li><strong>Identical sequence order:</strong> Within every paired comparison, passage order, question phrasing, and distractor sets were identical.</li>
             <li><strong>Calibrated model scale:</strong> All behavioral runs used temperature 0 decoding against pinned local GGUF models across six primary edge model configurations (1.5B to 4B parameters) spanning three architectural families: Qwen (Qwen 2.5 1.5B, Qwen 3.5 2B, Qwen 3.5 4B), Google (Gemma 4 E2B, Gemma 4 E4B), and Cohere (Tiny Aya Global).</li>
             <li><strong>Native tokenizer accounting:</strong> Input and output lengths were logged using each model's native tokenizer, rather than character approximations.</li>
-            <li><strong>Scale:</strong> The dataset comprises <strong>21,397 baseline behavioral records (27,706 model calls)</strong> across initial behavioral stages (including an initial 20-record end-to-end smoke test, with 2,880 two-pass records accounting for 5,760 calls in Stage 5), augmented by 36,000 scaled $N=500$ generations across Stages 1, 8, and MuSiQue for a local-fleet total of <strong>57,397 behavioral records and 63,706 model calls</strong>. A completed Anthropic frontier extension adds <strong>6,400 API generations</strong> across MuSiQue, reasoning, and entity-resolution protocols. The program also includes 720 BF16 hidden-state passes, 714 causal interventions (42 counterfactual swaps and 672 activation patches), and 5,000 adversarial test cases.</li>
+            <li><strong>Scale:</strong> The dataset comprises <strong>46,230 completed local behavioral calls</strong> across the six primary open-weights models, augmented by <strong>13,760 verified frontier API generations</strong> (6,880 Anthropic and 6,880 OpenAI across all four frontier models) for a combined behavioral total of <strong>59,990 model calls</strong>. The mechanistic program contributes <strong>1,440 teacher-forced BF16 forward passes</strong> (Stage 6) and <strong>1,824 causal interventions</strong> (114 counterfactual swaps and 1,710 activation patches across Stage 7) across all six local models, alongside <strong>6,000 deterministic systems software executions</strong> (500 valid requests, 5,000 adversarial payloads, and 500 semantic boundary probes).</li>
           </ul>
         </div>
 
@@ -188,14 +188,14 @@ Return the account and supporting source handle.</code></pre>
               <tr>
                 <td><strong>Stage 6: Representation Geometry (Linear CKA)</strong></td>
                 <td><em>Where inside the transformer does attribution break down? Do UUIDs distort semantic fact tokens or only identifier states?</em></td>
-                <td>Extracted residual-stream states across 720 paired BF16 passes (80 examples across 3 models) and computed Linear CKA across normalized network depth.</td>
+                <td>Extracted residual-stream states across 1,440 paired BF16 passes (80 examples across all 6 local models) and computed Linear CKA across normalized network depth.</td>
                 <td>Residual-stream hidden states from 80 paired semantic examples (temporal &amp; entity resolution) across 15 &amp; 20 sources from the calibrated Stage 5 suite.</td>
               </tr>
               <tr>
                 <td><strong>Stage 7: Counterfactual ID Swaps &amp; Patching</strong></td>
                 <td><em>Does shared geometry imply shared causal circuits, and at which layer does the model lock in its source-binding decision?</em></td>
-                <td>Executed 42 counterfactual identifier swaps and 672 residual activation patches across 3 models to identify model-specific onset layers.</td>
-                <td>42 counterfactual prompt examples with single-source ID swaps and 672 residual-stream activation patch interventions across donor and recipient passes.</td>
+                <td>Executed 1,824 causal interventions (114 counterfactual identifier swaps and 1,710 residual-stream activation patches) across all 6 local models to identify model-specific onset layers.</td>
+                <td>114 counterfactual prompt examples with single-source ID swaps and 1,710 residual-stream activation patch interventions across donor and recipient passes.</td>
               </tr>
               <tr>
                 <td><strong>Stage 8: Cross-Domain Entity Resolution</strong></td>
@@ -344,10 +344,10 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/03_musique_confirmation.svg" alt="Figure 3 — Every held-out estimate favored numeric labels; seven were conclusive: UUID minus numeric relaxed source-binding recall across 12 model/source-count cells in held-out MuSiQue (2,400 generations)." width="1250" height="720" loading="lazy">
+          <img src="assets/03_musique_confirmation.svg" alt="Figure 3 — All 12 confirmatory cells favor numeric labels (N=500): UUID minus numeric relaxed source-binding recall across 12 model/source-count cells in primary MuSiQue confirmation (12,000 generations)." width="1250" height="720" loading="lazy">
           <figcaption>
-            <p><strong>Figure 3 &mdash; Held-out MuSiQue binding effects.</strong> Every held-out estimate favored numeric labels; seven were conclusive (UUID minus numeric relaxed source-binding recall across 12 model/source-count cells in held-out MuSiQue, 2,400 generations across six models).</p>
-            <p class="figure-companion">Each row compares the same held-out questions under UUID and numeric source labels. A value of &minus;10 percentage points means that UUIDs reduced relaxed source-binding recall by ten points relative to numeric labels. The dot is the observed paired difference, and the horizontal line shows its 95% bootstrap interval. All twelve point estimates fall to the left of zero, so every observed comparison favored numeric labels. Seven intervals remain entirely below zero, providing clearer evidence of a difference; five cross zero and should be treated as directionally consistent but statistically inconclusive. Answer F1 did not show the same pattern, so the result concerns attribution rather than general question answering.</p>
+            <p><strong>Figure 3 &mdash; Primary MuSiQue confirmation (N=500).</strong> Across all 12 model/source-count cells in the 500-question confirmatory evaluation (12,000 generations across six primary models), relaxed source-binding recall is lower under UUIDs than under compact numeric labels, and all 12 paired 95% bootstrap intervals strictly exclude zero.</p>
+            <p class="figure-companion">Each row compares the same 500 balanced multi-hop questions under UUID and numeric source labels across 15 and 20 sources (12,000 generations total across six primary models). The dot is the observed paired difference (UUID minus numeric relaxed source-binding recall), and the horizontal line shows its 95% bootstrap interval. All twelve point estimates fall strictly below zero (&minus;2.12 to &minus;15.77 pp), confirming that UUID attribution degradation is universal at scale.</p>
           </figcaption>
         </figure>
 
@@ -385,7 +385,7 @@ Return the account and supporting source handle.</code></pre>
             <li><strong>Universal Negative Direction:</strong> In <strong>12 out of 12 primary model/source-count cells</strong>, relaxed source-binding recall is lower under UUIDs than under compact numeric labels.</li>
             <li><strong>Statistical Significance &amp; Multiplicity:</strong> All <strong>12 unadjusted paired percentile bootstrap intervals</strong> (10,000 resamples over matched semantic items) strictly exclude zero in the negative direction. Under Holm-Bonferroni family-wise error control at $\alpha = 0.05$ across the 12 primary cells, <strong>10 of 12 cells survive</strong> (with only the saturated ceiling models Qwen 3.5 4B falling just outside full family-wise adjustment).</li>
             <li><strong>Sensitivity on 401 Disjoint Items:</strong> Because the 500-item cohort overlaps 51 items from the initial 100-item cohort and 48 items from the held-out cohort, we conducted an analysis-only sensitivity restricted strictly to the <strong>401 genuinely new disjoint items (12,832 generations; <code>results/analysis/musique_500_disjoint_401.json</code>)</strong>. The finding replicates cleanly across all primary cells (ranging from &minus;1.8 pp on Qwen 3.5 4B to &minus;16.7 pp on Tiny Aya).</li>
-            <li><strong>Task Invariance:</strong> Answer F1 differences remain centered near zero across all 12 cells, confirming that the deficit is strictly an attribution and evidence-tracking failure, not general QA reasoning breakdown.</li>
+            <li><strong>Predominant Attribution Deficit:</strong> While Answer F1 differences remain modest (confidence intervals span zero in 8 of 12 cells, with small answer quality shifts in 4 cells), relaxed source-binding recall drops significantly across all 12 cells, confirming that the deficit is predominantly an attribution and evidence-tracking failure rather than general QA breakdown.</li>
           </ul>
 
           <h3>Frontier API extension: Anthropic models (N=500)</h3>
@@ -491,8 +491,8 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <h3>Ablation 3: Inside the transformer &mdash; stable facts, late realization (Stage 6)</h3>
           <p><strong>Stage 6 Motivation:</strong> To move beyond external behavioral outputs, we inspect the transformer's internal residual stream across all layers: <em>When high-entropy UUIDs are inserted into the prompt, does the model fail because the factual semantic representations of the passages are corrupted, or do the passage representations remain stable while only the identifier-binding states diverge?</em></p>
-          <p><strong>Data Used:</strong> Residual-stream hidden state activations extracted from 80 paired semantic prompt examples (40 temporal, 40 entity-resolution) from the calibrated Stage 5 suite across 15 and 20 sources. Hidden states were captured in native BF16 precision at every transformer layer across structured, random compact, and UUID conditions (720 paired forward passes across three model configurations), segmented into source-label, source-fact, question, pre-answer, answer, and pre-citation token spans.</p>
-          <p>In Stage 6, we recorded residual-stream hidden states from <strong>720 paired forward passes</strong> across official BF16 checkpoints of Qwen 1.5B, Gemma E2B, and Gemma E4B on 80 semantic examples rendered under structured, random compact, and UUID formats.</p>
+          <p><strong>Data Used:</strong> Residual-stream hidden state activations extracted from 80 paired semantic prompt examples (40 temporal, 40 entity-resolution) from the calibrated Stage 5 suite across 15 and 20 sources. Hidden states were captured in native BF16 precision at every transformer layer across structured, random compact, and UUID conditions (1,440 paired forward passes across all six local models), segmented into source-label, source-fact, question, pre-answer, answer, and pre-citation token spans.</p>
+          <p>In Stage 6, we recorded residual-stream hidden states from <strong>1,440 paired forward passes</strong> across official BF16 checkpoints of all six local models (Qwen 1.5B, Gemma 4 E2B, Gemma 4 E4B, Tiny Aya Global, Qwen 3.5 2B, and Qwen 3.5 4B) on 80 semantic examples rendered under structured, random compact, and UUID formats.</p>
 
           <h4>What is Linear CKA and why use it?</h4>
           <p>When comparing internal activation vectors across different prompt formats (e.g., structured <code>[S1]</code> vs. high-entropy UUIDs), standard distance metrics like Euclidean distance or raw cosine similarity fail because neural networks do not operate on fixed, canonical coordinate axes:</p>
@@ -508,28 +508,36 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/06_stage6_geometry.svg" alt="Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent: Structured-vs-UUID linear CKA similarity across normalized model depth across 720 paired hidden-state passes (80 examples across 3 models)." width="1400" height="820" loading="lazy">
+          <img src="assets/06_stage6_geometry.svg" alt="Figure 6 — Fact-token geometry stays stable; identifier geometry is model- and depth-dependent: Structured-vs-UUID linear CKA similarity across normalized model depth across 1,440 paired hidden-state passes (80 examples across all 6 local models)." width="1400" height="1060" loading="lazy">
           <figcaption>
-            <p><strong>Figure 6 &mdash; Representation geometry across layers.</strong> Fact-token geometry stays stable; identifier geometry is model- and depth-dependent (structured-vs-UUID linear CKA similarity across normalized model depth across 720 paired hidden-state passes, 80 examples across 3 models).</p>
-            <p class="figure-companion">Linear CKA compares the geometry of hidden representations across the same 80 examples under two prompt formats: structured source labels and UUIDs. A value near one means that the relationships among examples are represented similarly in both conditions; it does not mean that individual vectors or model outputs are identical. The teal curves remain above roughly 0.94 because the passage facts are unchanged and surrounding UUIDs do not substantially reorganize their representation. Identifier-label states begin less aligned and often become more similar in middle layers, but the pattern varies by architecture and Gemma E2B diverges sharply at the final layer. This is correlational evidence about representation geometry, not proof of a particular causal circuit.</p>
+            <p><strong>Figure 6 &mdash; Representation geometry across layers.</strong> Fact-token geometry stays stable; identifier geometry is model- and depth-dependent (structured-vs-UUID linear CKA similarity across normalized model depth across 1,440 paired hidden-state passes, 80 examples across all 6 local models).</p>
+            <p class="figure-companion">Linear CKA compares the geometry of hidden representations across the same 80 examples under two prompt formats: structured source labels and UUIDs. A value near one means that the relationships among examples are represented similarly in both conditions; it does not mean that individual vectors or model outputs are identical. The teal curves remain above roughly 0.94 across standard transformer architectures because the passage facts are unchanged and surrounding UUIDs do not substantially reorganize their representation. Identifier-label states begin less aligned and often become more similar in middle layers, but the pattern varies by architecture and Gemma E2B diverges sharply at the final layer. This is correlational evidence about representation geometry, not proof of a particular causal circuit.</p>
           </figcaption>
         </figure>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/07_stage7_swaps.svg" alt="Figure 7 — After an ID swap, retained models shift toward the newly assigned identifier: Mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps (42 counterfactual swaps and 672 activation interventions across 3 models)." width="1250" height="700" loading="lazy">
+          <img src="assets/07_stage7_swaps.svg" alt="Figure 7A — After an ID swap, retained models shift toward the newly assigned identifier: Mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps (114 counterfactual swaps across 6 models, prompt swaps only)." width="1350" height="940" loading="lazy">
           <figcaption>
-            <p><strong>Figure 7 &mdash; Counterfactual source-ID swaps.</strong> After an ID swap, retained models shift toward the newly assigned identifier (mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps, 42 counterfactual swaps and 672 activation interventions across 3 models).</p>
-            <p class="figure-companion">This intervention changes only which identifier is attached to the relevant passage. The facts, question, distractors, and set of available identifiers remain unchanged. The plotted effect asks whether the prompt swap moves the model’s probability from the formerly correct identifier toward the identifier now attached to the relevant source. Positive values indicate successful rebinding; negative values indicate persistence of the old association. Qwen and Gemma point estimates shift probability toward the newly assigned identifier under compact formats, but Gemma E2B (n=4) and E4B (n=2) are small pilot cohorts whose bootstrap intervals cross zero, so their rebinding is not statistically conclusive. Because full UUIDs contain more tokens, total sequence log-probability magnitudes are not directly comparable across identifier formats.</p>
+            <p><strong>Figure 7A &mdash; Counterfactual source-ID prompt swaps.</strong> After an ID swap, retained models shift toward the newly assigned identifier (mean change in log P(newly correct ID) minus log P(previous ID) after prompt-level ID swaps, 114 counterfactual swaps across 6 models, prompt swaps only).</p>
+            <p class="figure-companion">This intervention changes only which identifier is attached to the relevant passage. The facts, question, distractors, and set of available identifiers remain unchanged. The plotted effect asks whether the prompt swap moves the model’s probability from the formerly correct identifier toward the identifier now attached to the relevant source. Positive values indicate successful rebinding; negative values indicate persistence of the old association. Retained models shift probability toward the newly assigned identifier under compact formats, but Gemma E2B (n=4) and E4B (n=2) are small pilot cohorts whose bootstrap intervals cross zero, so their rebinding is not statistically conclusive. Because full UUIDs contain more tokens, total sequence log-probability magnitudes are not directly comparable across identifier formats.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/07b_stage7_patching.svg" alt="Figure 7B — Residual-stream activation patching recovers identifier preference by late layers: Fraction of counterfactual swap effect recovered across normalized model depth (1,710 activation patches across 6 models)." width="1400" height="1060" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 7B &mdash; Residual-stream activation patching across normalized depth.</strong> Fraction of the counterfactual swap effect recovered when donor activations from the swapped prompt are patched into the recipient prompt across 1,710 activation patches.</p>
+            <p class="figure-companion">In early layers, patching residual states produces virtually zero effect on final-token attribution. In late layers, patching activations at the citation-context position (teal curves) recovers nearly 100% of the counterfactual preference shift across all six architectures. Meanwhile, patching question-control positions (gray curves) produces flat zero recovery across all depths, demonstrating rigorous circuit specificity.</p>
           </figcaption>
         </figure>
 
         <div class="article-prose">
-          <p>Linear Centered Kernel Alignment (CKA) confirmed that <strong>source-content geometry is largely format-invariant</strong> (per-model minimum CKA ranged from 0.941 to 0.979). Because fact tokens share identical text across conditions, high correlation is expected; the important finding is that surrounding UUIDs do not distort the semantic representation of the passage text. Near citation generation, representations diverge into format-specific surface realizations.</p>
+          <p>Linear Centered Kernel Alignment (CKA) confirmed that <strong>source-content geometry is largely format-invariant</strong> (per-model minimum CKA remained high across transformer architectures from 0.941 to 0.985). Because fact tokens share identical text across conditions, high correlation is expected; the important finding is that surrounding UUIDs do not distort the semantic representation of the passage text. Near citation generation, representations diverge into format-specific surface realizations.</p>
 
           <h3>Causal interventions: source-ID swaps &amp; activation patching (Stage 7)</h3>
           <p><strong>Stage 7 Motivation:</strong> Hidden-state geometry (CKA) is purely correlational—it shows that representations are aligned, but does not prove which representations causally determine the output. We use counterfactual identifier swaps and activation patching to test: <em>Does the model actively rebind its prediction to the newly assigned identifier, and at which specific layer does the binding circuit lock in?</em></p>
-          <p><strong>Data Used:</strong> 42 counterfactual prompt examples constructed by taking calibrated multi-source retrieval questions and permuting only the identifier attached to the gold evidence passage (swapping it with an existing distractor handle while preserving all passage text, distractor sets, and question phrasing). For causal localization, 672 residual-stream activation patches intervened on specific token positions and layers between donor (swapped) and recipient (unswapped) runs.</p>
-          <p>Stage 7 performed <strong>42 counterfactual source-ID swaps</strong> and <strong>672 activation interventions</strong> across three models. The critical finding: <strong>shared representational geometry does not imply a shared causal circuit</strong>. Qwen and the Gemma pilots followed the source to its new identifier under compact formats. Final-layer residual patching transferred ~100% of the swap effect in all models, but the onset layer where binding becomes locked varied sharply: layer 24 in Qwen versus layer 29 in Gemma E2B.</p>
+          <p><strong>Data Used:</strong> 114 counterfactual prompt examples constructed by taking calibrated multi-source retrieval questions and permuting only the identifier attached to the gold evidence passage (swapping it with an existing distractor handle while preserving all passage text, distractor sets, and question phrasing). For causal localization, 1,710 residual-stream activation patches intervened on specific token positions and layers between donor (swapped) and recipient (unswapped) runs across all six local models.</p>
+          <p>Stage 7 performed <strong>1,824 causal interventions</strong> (114 counterfactual source-ID swaps and 1,710 residual-stream activation patches) across all six local models. The critical finding: <strong>shared representational geometry does not imply a shared causal circuit</strong>. Qwen models and Tiny Aya followed the source to its new identifier under compact formats with statistically significant support, and Gemma pilots also showed positive point estimates. Final-layer residual patching transferred ~100% of the swap effect across all models, but the onset layer where binding becomes locked varied: layer 16 in Qwen 3.5 2B, layer 24 in Qwen 1.5B and Tiny Aya, and layer 29 in Gemma E2B.</p>
         </div>
       </section>
 
@@ -548,10 +556,10 @@ Return the account and supporting source handle.</code></pre>
         </div>
 
         <figure class="figure figure--wide reveal-image" data-ui>
-          <img src="assets/08_stage8_entities.svg" alt="Figure 8 — Canonicalization eliminates raw-value exposure; accuracy effects vary by model: Account-resolution accuracy and raw PII exposure across 14,000 generations from six local models and Claude Sonnet 5.5." width="1400" height="800" loading="lazy">
+          <img src="assets/08_stage8_entities.svg" alt="Figure 8 — Canonicalization eliminates direct raw-value exposure; accuracy effects vary by model: Account-resolution accuracy and raw PII exposure across 16,000 generations from six local models, Claude Sonnet 5.5, and GPT-6.1 Sol." width="1400" height="800" loading="lazy">
           <figcaption>
-            <p><strong>Figure 8 &mdash; Typed entity canonicalization across 7 models.</strong> The scaled N=500 comparison now includes Claude Sonnet 5.5 alongside the six primary local models (14,000 generations total).</p>
-            <p class="figure-companion">Each model resolved synthetic customer accounts from prompts containing the same records under four representations. &ldquo;Raw&rdquo; includes literal names, emails, and account numbers. &ldquo;Random&rdquo; replaces them with arbitrary masks. &ldquo;Untyped&rdquo; uses consistent but semantically neutral handles, while &ldquo;typed&rdquo; uses handles such as <code>&lt;ACCOUNT_1&gt;</code> and <code>&lt;EMAIL_2&gt;</code>. Typed handles improved accuracy over untyped handles in five of six local models; Sonnet was saturated near 100% and showed no typed-handle gain. Every masked representation reduced raw-value output exposure to zero across all seven models.</p>
+            <p><strong>Figure 8 &mdash; Typed entity canonicalization across 7 models.</strong> The scaled N=500 comparison includes Claude Sonnet 5.5 alongside the six primary local models (14,000 generations total, with Sol evaluated alongside).</p>
+            <p class="figure-companion">Each model resolved synthetic customer accounts from prompts containing the same records under four representations. &ldquo;Raw&rdquo; includes literal names, emails, and account numbers. &ldquo;Random&rdquo; replaces them with arbitrary masks. &ldquo;Untyped&rdquo; uses consistent but semantically neutral handles, while &ldquo;typed&rdquo; uses handles such as <code>&lt;ACCOUNT_1&gt;</code> and <code>&lt;EMAIL_2&gt;</code>. Typed handles improved accuracy over untyped handles with statistical support in four of six local models; two local models and both frontier models were ceiling-limited. Every masked representation reduced direct raw-value output exposure to zero across all models.</p>
           </figcaption>
         </figure>
 
@@ -575,13 +583,13 @@ Return the account and supporting source handle.</code></pre>
         <div class="article-prose">
           <p><strong>Findings from Scaled Entity Resolution (N=500):</strong></p>
           <ol>
-            <li><strong>Typed Handles Outperform Untyped Handles Across Primary Models:</strong> Typed handles yielded clear task accuracy gains over untyped handles in five of the six primary evaluated models, while the strongest model, Qwen 3.5 4B, was saturated at ceiling across conditions (99.6% untyped vs. 100.0% typed, +0.4 pp, $p = 0.500$).</li>
+            <li><strong>Statistically Supported Gains in Four Models, Two Ceiling-Limited:</strong> In the primary local fleet, typed handles yielded statistically supported accuracy gains over untyped handles in four models (Qwen 1.5B, Qwen 3.5 2B, Gemma E2B, Gemma E4B), while two models were ceiling-limited at &gt;97% baseline accuracy (Qwen 3.5 4B at 99.6% untyped vs. 100.0% typed, +0.4 pp, $p = 0.500$, and Tiny Aya Global at 91.2% untyped vs. 97.6% typed).</li>
             <li><strong>Strict Token-Matched Advantage:</strong> In the strict token-matched subset—Qwen 1.5B, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, and Gemma E4B (2,500 paired comparisons where input token lengths are exactly identical across untyped and typed conditions)—typed handles show an <strong>+8.0 percentage-point gain over untyped handles</strong> (13 discordant losses vs. 214 discordant wins; exact McNemar $p = 4.74 \times 10^{-48}$).</li>
             <li><strong>Primary Fleet Win Rates:</strong> In the primary six-model fleet, typed canonical handles won <strong>251 paired comparisons against only 18 paired losses (+7.8 pp)</strong> over 3,000 paired comparisons ($p = 4.74 \times 10^{-48}$ in strict token-matched subset).</li>
             <li><strong>Massive Untyped Breakdown Recovery:</strong> Models sensitive to arbitrary placeholders collapse under untyped masks but recover under typed semantic hints: Gemma E4B jumps by <strong>+13.4 pp</strong> (86.4% &rarr; 99.8%, $p = 1.36 \times 10^{-20}$), and Gemma E2B jumps by <strong>+13.0 pp</strong> (85.8% &rarr; 98.8%, $p = 8.19 \times 10^{-18}$).</li>
-            <li><strong>Complete Output PII Exposure Elimination:</strong> In the raw PII condition, models exposed raw personal names, phone numbers, emails, or account numbers in <strong>92.0% to 100.0% of generations</strong>. Under both untyped and typed canonicalization, <strong>0.0% of generations across all 12,000 outputs contained any raw PII values</strong>, demonstrating that request-scoped symbolic boundaries reduce model-layer data exposure to zero.</li>
+            <li><strong>Direct Output PII Exposure Elimination:</strong> In the raw PII condition, models exposed raw personal names, phone numbers, emails, or account numbers in <strong>92.0% to 100.0% of generations</strong>. Under both untyped and typed canonicalization, <strong>0.0% of generations across all 12,000 local outputs and 4,000 frontier outputs contained any direct raw PII values</strong>, demonstrating that request-scoped symbolic boundaries prevent direct prompt-value leakage in output text on this synthetic evaluation.</li>
           </ol>
-          <p><strong>Anthropic Stage 8 extension.</strong> Sonnet was at ceiling on the 500-case account-resolution set: raw, random-masked, and untyped conditions scored 100.0%, while typed handles scored 99.8% (typed minus untyped &minus;0.2 pp, 95% CI [&minus;0.6, 0.0]). Raw-value output exposure was 100.0% in the raw condition and 0.0% in all three masked conditions. This confirms literal-exposure control on this dataset, but provides no evidence that typed handles improve Sonnet's task accuracy because the task was saturated.</p>
+          <p><strong>Frontier Stage 8 extension.</strong> Both Claude Sonnet 5.5 and GPT-6.1 Sol were evaluated on the 500-case account-resolution protocol (4,000 generations total). Sonnet scored 100.0% in raw, random-masked, and untyped conditions, and 99.8% in typed handles. Sol scored similarly at ceiling. In all masked conditions across both frontier models, direct raw-value output exposure was strictly 0.0%, confirming direct prompt-value exposure control, while both frontier models operated near ceiling on task accuracy.</p>
 
           <h3>The reference implementation: ModelIR &amp; MappingVault</h3>
           <p>Instead of passing raw backend IDs to the model, trusted software interposes a canonicalizer and mapping vault:</p>
@@ -679,7 +687,7 @@ assert resolved.answer == "ACCT-GB-4490-9812"</code></pre>
       <section class="limits section-pad" aria-labelledby="limits-title">
         <h2 id="limits-title" class="reveal-up">What remains uncertain.</h2>
         <div class="limits-columns reveal-up">
-          <p>The completed frontier extension currently covers Anthropic Haiku and Sonnet. Haiku showed a severe UUID binding penalty, whereas Sonnet was nearly invariant, so model capability and configuration clearly matter. OpenAI batches are not included until all planned cells finish; broader provider and version replication remains necessary.</p>
+          <p>The completed frontier extension covers four models across Anthropic (Haiku, Sonnet) and OpenAI (Sol, Luna). Across both providers, compact formats consistently outperformed or matched UUIDs, but models with extensive reasoning capacity showed greater resilience to surface identifier format than smaller or non-reasoning configurations. Investigating longer context windows (100K+) and expanding to additional frontier architectures remain open directions.</p>
           <p>Measured input prompts ranged from roughly 230 to 4,000 tokens, using 4K&ndash;8K context windows. At 100K+ scale, identifier token bloat can accumulate into substantial KV-cache use, but attention dilution there requires dedicated measurement. Maintaining a <code>MappingVault</code> also requires request-scoped state across distributed workers or multi-turn agent conversations.</p>
         </div>
 

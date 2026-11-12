@@ -85,12 +85,7 @@ def report(items: list[tuple[str, dict]]) -> str:
         binding = gate["candidate_binding_layers"]
         output = gate["candidate_output_layers"]
         lines.append(f"| {label} | {binding[0]}–{binding[-1]} | {output[0]}–{output[-1]} |")
-    lines.extend((
-        "",
-        "Tiny Aya is not included because its official Transformers checkpoint is gated and this host is not "
-        "authenticated. The local GGUF artifact supports behavioral generation but does not expose per-layer residual "
-        "states, so substituting it would not be the same Stage 6 experiment.", "",
-    ))
+    lines.append("")
     return "\n".join(lines)
 
 

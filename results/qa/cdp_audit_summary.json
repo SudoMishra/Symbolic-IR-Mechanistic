@@ -1,0 +1,146 @@
+{
+  "timestamp": "2026-11-12T00:24:46.452Z",
+  "viewports": [
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "viewportFile": "site_mobile_390px_viewport.png",
+      "fullFile": "site_mobile_390px_full.png",
+      "metrics": {
+        "scrollWidth": 390,
+        "scrollHeight": 47364,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "overflowDiff": 0
+      }
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "viewportFile": "site_tablet_768px_viewport.png",
+      "fullFile": "site_tablet_768px_full.png",
+      "metrics": {
+        "scrollWidth": 753,
+        "scrollHeight": 36880,
+        "clientWidth": 753,
+        "hasHorizontalOverflow": false,
+        "overflowDiff": 0
+      }
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "viewportFile": "site_desktop_1440px_viewport.png",
+      "fullFile": "site_desktop_1440px_full.png",
+      "metrics": {
+        "scrollWidth": 1425,
+        "scrollHeight": 41733,
+        "clientWidth": 1425,
+        "hasHorizontalOverflow": false,
+        "overflowDiff": 0
+      }
+    }
+  ],
+  "figures": [
+    {
+      "name": "01_raw_vs_symbolic",
+      "src": "assets/01_raw_vs_symbolic.svg",
+      "captionSnippet": "Figure 1 — Representation boundary between software and model. Trusted software replaces transport k",
+      "file": "figure_context_01_raw_vs_symbolic.png",
+      "width": 1361,
+      "height": 1031
+    },
+    {
+      "name": "02_evidence_funnel",
+      "src": "assets/02_evidence_funnel.svg",
+      "captionSnippet": "Figure 2 — Experimental evidence program across five testing regimes. Keeping behavioral generations",
+      "file": "figure_context_02_evidence_funnel.png",
+      "width": 1361,
+      "height": 917
+    },
+    {
+      "name": "03_musique_confirmation",
+      "src": "assets/03_musique_confirmation.svg",
+      "captionSnippet": "Figure 3 — Primary MuSiQue confirmation (N=500). Across all 12 model/source-count cells in the 500-q",
+      "file": "figure_context_03_musique_confirmation.png",
+      "width": 1361,
+      "height": 1040
+    },
+    {
+      "name": "03b_frontier_musique",
+      "src": "assets/03b_frontier_musique.svg",
+      "captionSnippet": "Figure 3B — Anthropic frontier MuSiQue binding effects. Claude Haiku 5.5 shows a severe UUID source-",
+      "file": "figure_context_03b_frontier_musique.png",
+      "width": 652,
+      "height": 412
+    },
+    {
+      "name": "04_reasoning_budget",
+      "src": "assets/04_reasoning_budget.svg",
+      "captionSnippet": "Figure 4 — Reasoning-budget scaling across 6 models. More scratchpad does not consistently repair UU",
+      "file": "figure_context_04_reasoning_budget.png",
+      "width": 1361,
+      "height": 1210
+    },
+    {
+      "name": "04b_anthropic_reasoning",
+      "src": "assets/04b_anthropic_reasoning.svg",
+      "captionSnippet": "Figure 4B — Anthropic Sonnet reasoning-setting check. Adaptive-low changed the exact-binding gap by ",
+      "file": "figure_context_04b_anthropic_reasoning.png",
+      "width": 1361,
+      "height": 565
+    },
+    {
+      "name": "05_longproc",
+      "src": "assets/05_longproc.svg",
+      "captionSnippet": "Figure 5 — LongProc trace quality across 5 models. Long generation does not establish procedural cor",
+      "file": "figure_context_05_longproc.png",
+      "width": 1294,
+      "height": 997
+    },
+    {
+      "name": "06_stage6_geometry",
+      "src": "assets/06_stage6_geometry.svg",
+      "captionSnippet": "Figure 6 — Representation geometry across layers. Fact-token geometry stays stable; identifier geome",
+      "file": "figure_context_06_stage6_geometry.png",
+      "width": 1361,
+      "height": 1348
+    },
+    {
+      "name": "07_stage7_swaps",
+      "src": "assets/07_stage7_swaps.svg",
+      "captionSnippet": "Figure 7A — Counterfactual source-ID prompt swaps. After an ID swap, retained models shift toward th",
+      "file": "figure_context_07_stage7_swaps.png",
+      "width": 1361,
+      "height": 1286
+    },
+    {
+      "name": "07b_stage7_patching",
+      "src": "assets/07b_stage7_patching.svg",
+      "captionSnippet": "Figure 7B — Residual-stream activation patching across normalized depth. Fraction of the counterfact",
+      "file": "figure_context_07b_stage7_patching.png",
+      "width": 1361,
+      "height": 1265
+    },
+    {
+      "name": "08_stage8_entities",
+      "src": "assets/08_stage8_entities.svg",
+      "captionSnippet": "Figure 8 — Typed entity canonicalization across 7 models. The scaled N=500 comparison includes Claud",
+      "file": "figure_context_08_stage8_entities.png",
+      "width": 1361,
+      "height": 1032
+    },
+    {
+      "name": "09_trust_boundary",
+      "src": "assets/09_trust_boundary.svg",
+      "captionSnippet": "Figure 9 — Symbolic IR trust boundary. A symbolic handle is a reference, not a capability (the reque",
+      "file": "figure_context_09_trust_boundary.png",
+      "width": 1361,
+      "height": 1135
+    }
+  ],
+  "overflowChecks": []
+}

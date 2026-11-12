@@ -28,6 +28,18 @@ PILOT_SELECTIONS = {
         Path("results/raw/stage5_pilot_tiny_aya_global/32fa0c3c696f.jsonl"),
         {"reasoning_entity_resolution"},
     ),
+    "google/gemma-4-E4B-it-qat-q4_0-gguf:q4_0": (
+        Path("results/raw/stage5_pilot_gemma4_e4b/c4931b820baf.jsonl"),
+        {"reasoning_entity_resolution"},
+    ),
+    "unsloth/Qwen3.5-2B-GGUF:q4_k_m": (
+        Path("results/raw/stage5_pilot_qwen35_2b/b3b211daeedf.jsonl"),
+        {"reasoning_entity_resolution"},
+    ),
+    "unsloth/Qwen3.5-4B-GGUF:q4_k_m": (
+        Path("results/raw/stage5_pilot_qwen35_4b/9f3862caafba.jsonl"),
+        {"reasoning_entity_resolution"},
+    ),
 }
 
 

@@ -1,0 +1,34 @@
+name: stage7_qwen35_4b
+seed: 202607
+dataset:
+  family: reasoning
+  count: 2
+  long_context: true
+  filler_words: 114
+  prompt_tokens: {min: 2000, max: 4000}
+  grid:
+    task_type: [temporal, entity_resolution]
+    num_sources: [15, 20]
+identifiers: [structured, random_compact, uuid]
+backend:
+  type: huggingface
+  model_path: models/qwen3.5-4b-hf
+  model: Qwen/Qwen3.5-4B
+  revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+  weights_sha256: cf3f798ee02ba45f9622aa8892a47369ab667d0afbf154ee7c2212de42e6302d
+  device: cuda:0
+  dtype: bfloat16
+  device_map: auto
+  max_memory: {"0": 5.5GiB, cpu: 24GiB}
+  offload_folder: results/offload/qwen35-4b-stage7
+generation:
+  tokenizer: {type: huggingface, model: models/qwen3.5-4b-hf}
+  teacher_forced: true
+  max_sequence_tokens: 8192
+  intervention_layers: [1, 11, 22, 32]
+output_dir: results/interventions
+metadata:
+  stage: 7
+  execution: CUDA-with-CPU-offload
+  intervention: paired-source-ID-swap
+  protocol_revision: 3

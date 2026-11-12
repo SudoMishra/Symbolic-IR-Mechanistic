@@ -1,0 +1,168 @@
+{
+  "local_completed_calls": 46230,
+  "frontier_completed_calls": 13760,
+  "mechanistic_completed_calls": 3264,
+  "excluded_completed_calls": 0,
+  "systems_completed_executions": 6000,
+  "by_experiment": {
+    "stage1_scaling_500": {
+      "title": "Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations)",
+      "evidence_tier": "confirmatory",
+      "local_completed": 12000,
+      "frontier_completed": 0,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "musique_replication_100": {
+      "title": "MuSiQue Multi-Hop Citation Replication (N=100 Held-Out)",
+      "evidence_tier": "replication",
+      "local_completed": 2400,
+      "frontier_completed": 0,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "musique_scaled_500": {
+      "title": "MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation)",
+      "evidence_tier": "confirmatory",
+      "local_completed": 12000,
+      "frontier_completed": 8000,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "stage5_pilot": {
+      "title": "Stage 5: Reasoning Budget Exploratory Pilot",
+      "evidence_tier": "pilot",
+      "local_completed": 2880,
+      "frontier_completed": 0,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "stage5_confirmatory": {
+      "title": "Stage 5: Confirmatory Reasoning Budget Scaling",
+      "evidence_tier": "confirmatory",
+      "local_completed": 4800,
+      "frontier_completed": 0,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "frontier_reasoning_ablation": {
+      "title": "Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode)",
+      "evidence_tier": "exploratory",
+      "local_completed": 0,
+      "frontier_completed": 800,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "long_context_tracking": {
+      "title": "Long-Context Theory-of-Mind Entity Tracking",
+      "evidence_tier": "confirmatory",
+      "local_completed": 150,
+      "frontier_completed": 0,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "stage6_geometry": {
+      "title": "Stage 6: Representation Geometry and Residual Projections",
+      "evidence_tier": "mechanistic",
+      "local_completed": 0,
+      "frontier_completed": 0,
+      "mechanistic_completed": 1440,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "stage7_interventions": {
+      "title": "Stage 7: Prompt Swaps and Activation Patching Interventions",
+      "evidence_tier": "mechanistic",
+      "local_completed": 0,
+      "frontier_completed": 0,
+      "mechanistic_completed": 1824,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "stage8_pii_500": {
+      "title": "Stage 8: PII Sanitization via Canonical Identifiers (N=500)",
+      "evidence_tier": "confirmatory",
+      "local_completed": 12000,
+      "frontier_completed": 4000,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "frontier_stability": {
+      "title": "Frontier Phase 1 Repeatability & Stability Verification",
+      "evidence_tier": "exploratory",
+      "local_completed": 0,
+      "frontier_completed": 960,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 0
+    },
+    "stage9_systems_boundary": {
+      "title": "Stage 9: Systems Boundary & Deterministic Software Stress Testing",
+      "evidence_tier": "systems",
+      "local_completed": 0,
+      "frontier_completed": 0,
+      "mechanistic_completed": 0,
+      "excluded_completed": 0,
+      "systems_completed": 6000
+    }
+  },
+  "by_model": {
+    "tiny_aya_global": {
+      "type": "local",
+      "completed_calls": 8329
+    },
+    "qwen25_15b": {
+      "type": "local",
+      "completed_calls": 8329
+    },
+    "gemma4_e2b": {
+      "type": "local",
+      "completed_calls": 8137
+    },
+    "gemma4_e4b": {
+      "type": "local",
+      "completed_calls": 8041
+    },
+    "qwen35_2b": {
+      "type": "local",
+      "completed_calls": 8329
+    },
+    "qwen35_4b": {
+      "type": "local",
+      "completed_calls": 8329
+    },
+    "claude-haiku-5-5": {
+      "type": "frontier",
+      "completed_calls": 2240
+    },
+    "claude-sonnet-5-5": {
+      "type": "frontier",
+      "completed_calls": 4640
+    },
+    "gpt-6-1-sol": {
+      "type": "frontier",
+      "completed_calls": 4240
+    },
+    "gpt-6-luna": {
+      "type": "frontier",
+      "completed_calls": 2640
+    },
+    "lfm25_12b": {
+      "type": "excluded",
+      "completed_calls": 0
+    },
+    "lfm25_26b": {
+      "type": "excluded",
+      "completed_calls": 0
+    }
+  },
+  "total_verified_calls": 63254
+}

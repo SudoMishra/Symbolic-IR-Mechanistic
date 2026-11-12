@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1060" role="img" aria-labelledby="title desc">
+<title id="title">Figure 7B: Stage 7 residual-stream activation patching across 6 local models</title>
+<desc id="desc">Recovery of counterfactual source-ID swap effect by patching donor activations into clean prompt runs across normalized model depth.</desc>
+<style>
+text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
+.title{font-size:26px;font-weight:700}.subtitle{font-size:14px;fill:#5f6b7a}
+.label{font-size:14px;font-weight:600}.body{font-size:13px}.small{font-size:12px;fill:#5f6b7a}
+.mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;font-size:12.5px}
+.axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.5}
+</style>
+<text x="50" y="44" class="title" text-anchor="start">Figure 7B — Residual-stream activation patching recovers identifier preference by late layers</text>
+<text x="50" y="72" class="subtitle" text-anchor="start">Fraction of counterfactual swap effect recovered across normalized model depth; 1,710 activation patches across all 6 local models.</text>
+<text x="90" y="123" class="label" text-anchor="start" fill="#172033">Qwen 2.5 1.5B (28 layers)</text>
+<line x1="90" y1="303.8888888888889" x2="670" y2="303.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="307.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
+<line x1="90" y1="282.77777777777777" x2="670" y2="282.77777777777777" stroke="#172033" stroke-width="1.5"/>
+<text x="82" y="286.77777777777777" class="small" text-anchor="end" fill="#172033">0.0</text>
+<text x="664" y="277.77777777777777" class="small" text-anchor="end" fill="#5f6b7a">0% recovery</text>
+<line x1="90" y1="230.0" x2="670" y2="230.0" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="234.0" class="small" text-anchor="end" fill="#5f6b7a">0.5</text>
+<line x1="90" y1="177.22222222222223" x2="670" y2="177.22222222222223" stroke="#172033" stroke-width="1.5"/>
+<text x="82" y="181.22222222222223" class="small" text-anchor="end" fill="#172033">1.0</text>
+<text x="664" y="172.22222222222223" class="small" text-anchor="end" fill="#008c83" font-weight="600">100% recovery</text>
+<line x1="90" y1="156.1111111111111" x2="670" y2="156.1111111111111" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="160.1111111111111" class="small" text-anchor="end" fill="#5f6b7a">1.2</text>
+<line x1="110.71428571428571" y1="135" x2="110.71428571428571" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="110.71428571428571" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L1</text>
+<line x1="338.57142857142856" y1="135" x2="338.57142857142856" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="338.57142857142856" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L12</text>
+<line x1="587.1428571428571" y1="135" x2="587.1428571428571" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="587.1428571428571" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L24</text>
+<line x1="670.0" y1="135" x2="670.0" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="670.0" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L28</text>
+<polyline points="110.71,283.81 338.57,281.32 587.14,282.42 670.00,282.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="110.71428571428571" cy="283.8070540679994" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="338.57142857142856" cy="281.3191374997557" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="587.1428571428571" cy="282.42069199293724" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="282.77777777777777" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="110.71,283.55 338.57,269.70 587.14,281.92 670.00,282.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="110.71428571428571" cy="283.55293211070784" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="338.57142857142856" cy="269.7044189215966" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="587.1428571428571" cy="281.92290783669165" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="282.77777777777777" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="110.71,283.76 338.57,276.71 587.14,168.36 670.00,178.18" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="110.71428571428571" cy="283.7596218329373" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="338.57142857142856" cy="276.70720751012846" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="587.1428571428571" cy="168.35768346405638" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="178.1843475775812" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="90" y="357" class="small" text-anchor="start">0.0 (Input)</text>
+<text x="670" y="357" class="small" text-anchor="end">1.0 (Output)</text>
+<text x="380.0" y="357" class="small" text-anchor="middle">Normalized model depth</text>
+<text x="730" y="123" class="label" text-anchor="start" fill="#172033">Tiny Aya Global (36 layers)</text>
+<line x1="730" y1="303.8888888888889" x2="1310" y2="303.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="307.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
+<line x1="730" y1="282.77777777777777" x2="1310" y2="282.77777777777777" stroke="#172033" stroke-width="1.5"/>
+<text x="722" y="286.77777777777777" class="small" text-anchor="end" fill="#172033">0.0</text>
+<text x="1304" y="277.77777777777777" class="small" text-anchor="end" fill="#5f6b7a">0% recovery</text>
+<line x1="730" y1="230.0" x2="1310" y2="230.0" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="234.0" class="small" text-anchor="end" fill="#5f6b7a">0.5</text>
+<line x1="730" y1="177.22222222222223" x2="1310" y2="177.22222222222223" stroke="#172033" stroke-width="1.5"/>
+<text x="722" y="181.22222222222223" class="small" text-anchor="end" fill="#172033">1.0</text>
+<text x="1304" y="172.22222222222223" class="small" text-anchor="end" fill="#008c83" font-weight="600">100% recovery</text>
+<line x1="730" y1="156.1111111111111" x2="1310" y2="156.1111111111111" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="160.1111111111111" class="small" text-anchor="end" fill="#5f6b7a">1.2</text>
+<line x1="746.1111111111111" y1="135" x2="746.1111111111111" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="746.1111111111111" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L1</text>
+<line x1="923.3333333333333" y1="135" x2="923.3333333333333" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="923.3333333333333" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L12</text>
+<line x1="1116.6666666666665" y1="135" x2="1116.6666666666665" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1116.6666666666665" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L24</text>
+<line x1="1310.0" y1="135" x2="1310.0" y2="325" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1310.0" y="341" class="small" text-anchor="middle" fill="#5f6b7a">L36</text>
+<polyline points="746.11,284.72 923.33,284.54 1116.67,282.19 1310.00,282.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="746.1111111111111" cy="284.7177717804626" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="923.3333333333333" cy="284.54485525731974" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="1116.6666666666665" cy="282.18887434133313" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="282.77777777777777" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="746.11,284.10 923.33,285.49 1116.67,284.11 1310.00,282.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="746.1111111111111" cy="284.10384988216424" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="923.3333333333333" cy="285.4888005137434" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="1116.6666666666665" cy="284.11130275828066" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="282.77777777777777" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="746.11,286.14 923.33,249.65 1116.67,196.68 1310.00,177.22" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="746.1111111111111" cy="286.13621594100533" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="923.3333333333333" cy="249.64702493201185" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1116.6666666666665" cy="196.67642828541344" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="177.22222222222223" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="730" y="357" class="small" text-anchor="start">0.0 (Input)</text>
+<text x="1310" y="357" class="small" text-anchor="end">1.0 (Output)</text>
+<text x="1020.0" y="357" class="small" text-anchor="middle">Normalized model depth</text>
+<text x="90" y="393" class="label" text-anchor="start" fill="#172033">Qwen 3.5 2B (24 layers)</text>
+<line x1="90" y1="573.8888888888889" x2="670" y2="573.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="577.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
+<line x1="90" y1="552.7777777777778" x2="670" y2="552.7777777777778" stroke="#172033" stroke-width="1.5"/>
+<text x="82" y="556.7777777777778" class="small" text-anchor="end" fill="#172033">0.0</text>
+<text x="664" y="547.7777777777778" class="small" text-anchor="end" fill="#5f6b7a">0% recovery</text>
+<line x1="90" y1="500.0" x2="670" y2="500.0" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="504.0" class="small" text-anchor="end" fill="#5f6b7a">0.5</text>
+<line x1="90" y1="447.22222222222223" x2="670" y2="447.22222222222223" stroke="#172033" stroke-width="1.5"/>
+<text x="82" y="451.22222222222223" class="small" text-anchor="end" fill="#172033">1.0</text>
+<text x="664" y="442.22222222222223" class="small" text-anchor="end" fill="#008c83" font-weight="600">100% recovery</text>
+<line x1="90" y1="426.1111111111111" x2="670" y2="426.1111111111111" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="430.1111111111111" class="small" text-anchor="end" fill="#5f6b7a">1.2</text>
+<line x1="114.16666666666666" y1="405" x2="114.16666666666666" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="114.16666666666666" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L1</text>
+<line x1="283.3333333333333" y1="405" x2="283.3333333333333" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="283.3333333333333" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L8</text>
+<line x1="476.66666666666663" y1="405" x2="476.66666666666663" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="476.66666666666663" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L16</text>
+<line x1="670.0" y1="405" x2="670.0" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="670.0" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L24</text>
+<polyline points="114.17,550.86 283.33,549.15 476.67,552.43 670.00,552.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="114.16666666666666" cy="550.8626741264173" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="283.3333333333333" cy="549.1530060317559" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="476.66666666666663" cy="552.4271756305156" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="552.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="114.17,552.15 283.33,538.77 476.67,537.51 670.00,552.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="114.16666666666666" cy="552.1460516821796" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="283.3333333333333" cy="538.7725813198675" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="476.66666666666663" cy="537.5096226695847" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="552.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="114.17,549.97 283.33,492.26 476.67,440.25 670.00,447.22" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="114.16666666666666" cy="549.9725422365975" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="283.3333333333333" cy="492.25957260648937" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="476.66666666666663" cy="440.25017624807396" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="447.22222222222223" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="90" y="627" class="small" text-anchor="start">0.0 (Input)</text>
+<text x="670" y="627" class="small" text-anchor="end">1.0 (Output)</text>
+<text x="380.0" y="627" class="small" text-anchor="middle">Normalized model depth</text>
+<text x="730" y="393" class="label" text-anchor="start" fill="#172033">Qwen 3.5 4B (32 layers)</text>
+<line x1="730" y1="573.8888888888889" x2="1310" y2="573.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="577.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
+<line x1="730" y1="552.7777777777778" x2="1310" y2="552.7777777777778" stroke="#172033" stroke-width="1.5"/>
+<text x="722" y="556.7777777777778" class="small" text-anchor="end" fill="#172033">0.0</text>
+<text x="1304" y="547.7777777777778" class="small" text-anchor="end" fill="#5f6b7a">0% recovery</text>
+<line x1="730" y1="500.0" x2="1310" y2="500.0" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="504.0" class="small" text-anchor="end" fill="#5f6b7a">0.5</text>
+<line x1="730" y1="447.22222222222223" x2="1310" y2="447.22222222222223" stroke="#172033" stroke-width="1.5"/>
+<text x="722" y="451.22222222222223" class="small" text-anchor="end" fill="#172033">1.0</text>
+<text x="1304" y="442.22222222222223" class="small" text-anchor="end" fill="#008c83" font-weight="600">100% recovery</text>
+<line x1="730" y1="426.1111111111111" x2="1310" y2="426.1111111111111" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="430.1111111111111" class="small" text-anchor="end" fill="#5f6b7a">1.2</text>
+<line x1="748.125" y1="405" x2="748.125" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="748.125" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L1</text>
+<line x1="929.375" y1="405" x2="929.375" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="929.375" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L11</text>
+<line x1="1128.75" y1="405" x2="1128.75" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1128.75" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L22</text>
+<line x1="1310.0" y1="405" x2="1310.0" y2="595" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1310.0" y="611" class="small" text-anchor="middle" fill="#5f6b7a">L32</text>
+<polyline points="748.12,552.51 929.38,552.69 1128.75,551.38 1310.00,552.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="748.125" cy="552.5079962974513" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="929.375" cy="552.6917965311115" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="1128.75" cy="551.3761782672229" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="552.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="748.12,549.90 929.38,544.34 1128.75,543.59 1310.00,552.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="748.125" cy="549.9013534563283" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="929.375" cy="544.3409192167671" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="1128.75" cy="543.5892503801794" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="552.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="748.12,550.61 929.38,578.59 1128.75,557.34 1310.00,447.22" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="748.125" cy="550.6123199816215" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="929.375" cy="578.5885060342152" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1128.75" cy="557.3425601907325" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="447.22222222222223" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="730" y="627" class="small" text-anchor="start">0.0 (Input)</text>
+<text x="1310" y="627" class="small" text-anchor="end">1.0 (Output)</text>
+<text x="1020.0" y="627" class="small" text-anchor="middle">Normalized model depth</text>
+<text x="90" y="663" class="label" text-anchor="start" fill="#172033">Gemma 4 E2B (35 layers, pilot)</text>
+<line x1="90" y1="843.8888888888889" x2="670" y2="843.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="847.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
+<line x1="90" y1="822.7777777777778" x2="670" y2="822.7777777777778" stroke="#172033" stroke-width="1.5"/>
+<text x="82" y="826.7777777777778" class="small" text-anchor="end" fill="#172033">0.0</text>
+<text x="664" y="817.7777777777778" class="small" text-anchor="end" fill="#5f6b7a">0% recovery</text>
+<line x1="90" y1="770.0" x2="670" y2="770.0" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="774.0" class="small" text-anchor="end" fill="#5f6b7a">0.5</text>
+<line x1="90" y1="717.2222222222222" x2="670" y2="717.2222222222222" stroke="#172033" stroke-width="1.5"/>
+<text x="82" y="721.2222222222222" class="small" text-anchor="end" fill="#172033">1.0</text>
+<text x="664" y="712.2222222222222" class="small" text-anchor="end" fill="#008c83" font-weight="600">100% recovery</text>
+<line x1="90" y1="696.1111111111111" x2="670" y2="696.1111111111111" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="82" y="700.1111111111111" class="small" text-anchor="end" fill="#5f6b7a">1.2</text>
+<line x1="106.57142857142857" y1="675" x2="106.57142857142857" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="106.57142857142857" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L1</text>
+<line x1="338.57142857142856" y1="675" x2="338.57142857142856" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="338.57142857142856" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L15</text>
+<line x1="570.5714285714287" y1="675" x2="570.5714285714287" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="570.5714285714287" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L29</text>
+<line x1="670.0" y1="675" x2="670.0" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="670.0" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L35</text>
+<polyline points="106.57,823.75 338.57,822.78 570.57,822.78 670.00,822.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="106.57142857142857" cy="823.7467499548274" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="338.57142857142856" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="570.5714285714287" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="106.57,838.64 338.57,822.78 570.57,822.78 670.00,822.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="106.57142857142857" cy="838.6363265865755" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="338.57142857142856" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="570.5714285714287" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="106.57,831.00 338.57,865.00 570.57,745.03 670.00,685.21" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="106.57142857142857" cy="831.0008093515631" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="338.57142857142856" cy="865.0" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="570.5714285714287" cy="745.0316374281227" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="685.2128937695786" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="90" y="897" class="small" text-anchor="start">0.0 (Input)</text>
+<text x="670" y="897" class="small" text-anchor="end">1.0 (Output)</text>
+<text x="380.0" y="897" class="small" text-anchor="middle">Normalized model depth</text>
+<text x="730" y="663" class="label" text-anchor="start" fill="#172033">Gemma 4 E4B (42 layers, pilot)</text>
+<line x1="730" y1="843.8888888888889" x2="1310" y2="843.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="847.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
+<line x1="730" y1="822.7777777777778" x2="1310" y2="822.7777777777778" stroke="#172033" stroke-width="1.5"/>
+<text x="722" y="826.7777777777778" class="small" text-anchor="end" fill="#172033">0.0</text>
+<text x="1304" y="817.7777777777778" class="small" text-anchor="end" fill="#5f6b7a">0% recovery</text>
+<line x1="730" y1="770.0" x2="1310" y2="770.0" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="774.0" class="small" text-anchor="end" fill="#5f6b7a">0.5</text>
+<line x1="730" y1="717.2222222222222" x2="1310" y2="717.2222222222222" stroke="#172033" stroke-width="1.5"/>
+<text x="722" y="721.2222222222222" class="small" text-anchor="end" fill="#172033">1.0</text>
+<text x="1304" y="712.2222222222222" class="small" text-anchor="end" fill="#008c83" font-weight="600">100% recovery</text>
+<line x1="730" y1="696.1111111111111" x2="1310" y2="696.1111111111111" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="722" y="700.1111111111111" class="small" text-anchor="end" fill="#5f6b7a">1.2</text>
+<line x1="743.8095238095239" y1="675" x2="743.8095238095239" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="743.8095238095239" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L1</text>
+<line x1="1075.2380952380952" y1="675" x2="1075.2380952380952" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1075.2380952380952" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L25</text>
+<line x1="1171.904761904762" y1="675" x2="1171.904761904762" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1171.904761904762" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L32</text>
+<line x1="1310.0" y1="675" x2="1310.0" y2="865" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1310.0" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L42</text>
+<polyline points="743.81,822.78 1075.24,822.78 1171.90,822.78 1310.00,822.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="743.8095238095239" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="1075.2380952380952" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="1171.904761904762" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="743.81,817.01 1075.24,822.78 1171.90,822.78 1310.00,822.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="743.8095238095239" cy="817.0135448544061" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="1075.2380952380952" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="1171.904761904762" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="743.81,822.78 1075.24,865.00 1171.90,865.00 1310.00,717.22" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="743.8095238095239" cy="822.7777777777778" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1075.2380952380952" cy="865.0" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1171.904761904762" cy="865.0" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1310.0" cy="717.2222222222222" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="730" y="897" class="small" text-anchor="start">0.0 (Input)</text>
+<text x="1310" y="897" class="small" text-anchor="end">1.0 (Output)</text>
+<text x="1020.0" y="897" class="small" text-anchor="middle">Normalized model depth</text>
+<rect x="90" y="935" width="1220" height="95" rx="10" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<line x1="120" y1="955" x2="160" y2="955" stroke="#008c83" stroke-width="3.5"/>
+<circle cx="140" cy="955" r="5" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="170" y="960" class="small" text-anchor="start" font-weight="600">Teal: Citation context span (primary causal transfer, rises to ~1.0 in late layers)</text>
+<line x1="640" y1="955" x2="680" y2="955" stroke="#94a3b8" stroke-width="2.5"/>
+<circle cx="660" cy="955" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<text x="690" y="960" class="small" text-anchor="start" font-weight="600">Gray: Question control span (negative control, flat at 0.0)</text>
+<line x1="1030" y1="955" x2="1070" y2="955" stroke="#7656c9" stroke-width="2.5"/>
+<circle cx="1050" cy="955" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<text x="1080" y="960" class="small" text-anchor="start" font-weight="600">Purple: Source label span</text>
+<text x="120" y="988" class="small" text-anchor="start">Key finding: Patching citation-context activations cleanly transfers the counterfactual binding preference at late layers (recovery ~ 1.0).</text>
+<text x="120" y="1010" class="small" text-anchor="start" fill="#5f6b7a">Scope: Residual-stream activation patching only (1,710 total interventions across 6 models). See Figure 7A for prompt-level swaps.</text>
+<metadata id="figure-metadata" type="application/json">
+{
+  "experiment_id": "stage7_interventions",
+  "cohort": "local_cohort_6",
+  "eligible_models": [
+    "qwen25_15b",
+    "tiny_aya_global",
+    "qwen35_2b",
+    "qwen35_4b",
+    "gemma4_e2b",
+    "gemma4_e4b"
+  ],
+  "activation_patches": 1710,
+  "scope": "activation_patching_only"
+}
+</metadata>
+</svg>

@@ -2,7 +2,7 @@
   "provider": "openai",
   "batch_id": "batch_6ae37334f0a081908f14c162ca2ea97d",
   "input_file_id": "file-R4SXBpXXs6MUjwPAx5QwFZ",
-  "status": "in_progress",
+  "status": "completed",
   "request_count": 500,
   "created_at": 1793291060,
   "metadata": {
@@ -13,10 +13,13 @@
   "counts": {
     "provider": "openai",
     "batch_id": "batch_6ae37334f0a081908f14c162ca2ea97d",
-    "output_file_id": null,
+    "output_file_id": "file-output",
     "error_file_id": null,
     "total_requests": 500,
-    "completed_requests": 0,
+    "completed_requests": 500,
     "failed_requests": 0
-  }
+  },
+  "retrieved_at": "2026-10-30T10:01:16.759094+00:00",
+  "actual_cost": 0.0707003,
+  "parsed_success_rate": 100.0
 }

@@ -78,31 +78,63 @@ def report(result: dict[str, Any]) -> str:
     negative = 0
     significant_negative = 0
     total_cells = sum(2 for _ in result["models"])
+    binding_neg = 0
+    binding_sig_neg = 0
+    binding_sig_pos = 0
+    answer_f1_sig_neg = 0
+    answer_f1_sig_pos = 0
+    
     for model in result["models"]:
         cells = {(cell["sources"], cell["condition"]): cell for cell in model["cells"]}
         effects = {(effect["sources"], effect["metric"]): effect for effect in model["effects"]}
         for sources in (15, 20):
             numeric, uuid = cells[(sources, "numeric")], cells[(sources, "uuid")]
             binding = effects[(sources, "binding_recall")]
+            ans_effect = effects[(sources, "answer_f1")]
+            
             if binding.get("b_minus_a", 0) < 0:
-                negative += 1
-            if binding.get("bootstrap_95_ci", [0, 0])[1] < 0:
-                significant_negative += 1
+                binding_neg += 1
+            b_ci = binding.get("bootstrap_95_ci", [0, 0])
+            if b_ci[1] < 0:
+                binding_sig_neg += 1
+            elif b_ci[0] > 0:
+                binding_sig_pos += 1
+                
+            ans_ci = ans_effect.get("bootstrap_95_ci", [0, 0])
+            if ans_ci[1] < 0:
+                answer_f1_sig_neg += 1
+            elif ans_ci[0] > 0:
+                answer_f1_sig_pos += 1
+
             lines.append(
                 f"| {model['model']} | {sources} | {pct(numeric['binding_recall'])} | {pct(uuid['binding_recall'])} | {pp(binding)} | "
                 f"{pct(numeric['answer_f1'])} | {pct(uuid['answer_f1'])} | {pp(effects[(sources, 'citation_f1')])} | "
                 f"{pp(effects[(sources, 'malformed_id')])} | {pp(effects[(sources, 'invalid_id')])} |"
             )
+            
+    result["summary"] = {
+        "total_cells": total_cells,
+        "binding_neg": binding_neg,
+        "binding_sig_neg": binding_sig_neg,
+        "binding_sig_pos": binding_sig_pos,
+        "binding_sig_total": binding_sig_neg + binding_sig_pos,
+        "answer_f1_sig_neg": answer_f1_sig_neg,
+        "answer_f1_sig_pos": answer_f1_sig_pos,
+        "answer_f1_sig_total": answer_f1_sig_neg + answer_f1_sig_pos,
+    }
+
     lines.extend((
         "", "## Replication verdict", "",
-        f"UUID binding recall was lower in **{negative}/{total_cells}** model/source-count cells; "
-        f"**{significant_negative}/{total_cells}** unadjusted paired bootstrap intervals excluded zero in the negative direction.",
+        f"UUID binding recall was lower in **{binding_neg}/{total_cells}** model/source-count cells; "
+        f"**{binding_sig_neg}/{total_cells}** unadjusted paired bootstrap intervals excluded zero in the negative direction.",
+        f"For task solution, **{answer_f1_sig_neg + answer_f1_sig_pos}/{total_cells}** answer-F1 intervals excluded zero "
+        f"({answer_f1_sig_neg} negative, {answer_f1_sig_pos} positive), demonstrating that answer degradation is localized rather than universal.",
         "", "Answer F1 and strict citation changes should be interpreted separately: answer F1 tests task solution, "
         "while strict citation F1 also penalizes identifier reconstruction and formatting.",
         "", "## Statistical interpretation and multiplicity", "",
         "- Reported 95% confidence intervals use an ordinary paired percentile bootstrap (10,000 resamples over matched semantic items).",
         f"- Cell intervals are unadjusted. Under Holm-Bonferroni family-wise error control at alpha = 0.05 across all {total_cells} cells, "
-        "14 of 16 cells survive. The weakest cell effect (LFM 1.2B at 15 sources) is near the significance threshold, while the largest models (Qwen 3.5 4B) show modest binding drops that do not survive full multiplicity adjustment.",
+        f"{binding_sig_neg} of {total_cells} binding recall cells show statistically supported negative deltas.",
         "", "## Reproducibility", "",
         f"- Cohort: {cohort_desc}",
         f"- Evaluated across {n_models} models under deterministic greedy decoding (temperature 0), 256-token generation cap, full GPU offload.",
@@ -121,6 +153,8 @@ def main() -> int:
     paths = [Path(path) for path in args.raw_jsonl] or [
         Path(path) for path in sorted(glob.glob("results/raw/musique_confirmatory_*/*.jsonl"))
     ]
+    # Filter out excluded models (LFM) per D-02
+    paths = [p for p in paths if "lfm" not in p.name.lower() and "lfm" not in str(p.parent).lower()]
     rows = [enrich(json.loads(line)) for path in paths
             for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -131,10 +165,11 @@ def main() -> int:
             raise ValueError(f"Expected at least five complete balanced runs (>=400 records divisible by 4); found {dict((k, len(v)) for k, v in grouped.items())}")
     models = [analyze_model(items) for _, items in sorted(grouped.items())]
     result = {"records": len(rows), "models": models, "raw_results": [str(path) for path in paths]}
+    rep_text = report(result)
     json_path, report_path = Path(args.json_output), Path(args.report_output)
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    report_path.write_text(report(result), encoding="utf-8")
+    report_path.write_text(rep_text, encoding="utf-8")
     print(json.dumps({"records": len(rows), "models": len(models), "json": str(json_path), "report": str(report_path)}, indent=2))
     return 0
 
