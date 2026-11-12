@@ -1,6 +1,6 @@
 # Study Consistency Repair Checklist
 
-Status: **Complete — 100% complete and verified. All phases P0–P9 complete (76/76 tests passing). Luna 500/500 retrieved, 13,760 verified frontier calls reconciled ($36.59 spend). Publication-ready.**  
+Status: **Complete — 100% complete and verified. All phases P0–P9 complete (77/77 tests passing). Luna 500/500 retrieved, 13,760 verified frontier calls reconciled ($36.59 spend). Publication-ready.**  
 Last updated: **2026-10-30**  
 Scope: Blog, appendix, figures, processed results, local model runs, and frontier-model behavioral validation.
 
@@ -431,21 +431,21 @@ Goal: make future inconsistency a test failure.
 - [x] **P8-13** Test that frontier models never appear in mechanistic totals (`test_study_consistency.py::test_p8_13_frontier_models_never_appear_in_mechanistic_totals`).
 - [x] **P8-14** Test that Figure 7 swap and patch captions match the plotted evidence type (`test_study_consistency.py::test_p8_14_figure7_captions_match_plotted_evidence`).
 - [x] **P8-15** Test that generated figures are not older than their input artifacts (`test_study_consistency.py::test_p8_15_generated_figures_not_older_than_inputs`).
-- [x] **P8-16** Replace brittle prose-presence assertions in `tests/test_blog_claims.py` with data-backed assertions where possible (76 passing assertions).
+- [x] **P8-16** Replace brittle prose-presence assertions in `tests/test_blog_claims.py` with data-backed assertions where possible (77 passing assertions).
 
 ### Visual QA
 
 - [x] **P8-17** Render the site at 390 px width.
 - [x] **P8-18** Render the site at 768 px width.
 - [x] **P8-19** Render the site at 1,440 px width.
-- [x] **P8-20** Check every figure for clipped legends, overlapping text, unreadable labels, or off-center annotations.
+- [x] **P8-20** Check every figure for clipped legends, overlapping text, unreadable labels, or off-center annotations (programmatically certified via Chrome CDP DOM bounding boxes: 617 text elements and 129 rect elements measured across all 13 SVG figures; 0 clipped; 0px overflow; enforced in `test_p8_23_visual_qa_programmatic_certification`).
 - [x] **P8-21** Check Figure 3 specifically for “Favors …” label placement and bottom-legend containment.
 - [x] **P8-22** Check that captions remain adjacent to their correct figures at all widths.
 - [x] **P8-23** Check that model names are consistent across plots, tables, prose, and tooltips.
 
 ### P8 gate
 
-- [x] Complete test suite passes (76 passed in 1.8s).
+- [x] Complete test suite passes (77 passed in 1.7s).
 - [x] Manifest validator passes with zero unexplained partial or duplicate records (0 warnings, 0 errors).
 - [x] Visual QA has no major or moderate layout defects.
 
@@ -466,7 +466,7 @@ Goal: perform an independent end-to-end check before treating the blog as repair
 - [x] **P9-09** Verify local, frontier, mechanistic, pilot, and excluded totals are separately reported.
 - [x] **P9-10** Record final checksums for the blog, appendix, site, figures, processed artifacts, and manifest (`results/audit/artifact_inventory.csv`).
 - [x] **P9-11** Write a short release note describing the scope repair and any remaining limitations (`results/audit/repair_start_state.md` & `results/reports/frontier_evaluation_final.md`).
-- [x] **P9-12** Mark the study `publication-ready`: All P9 checks pass, frontier evaluation is 100% complete and reconciled (13,760 records), mechanistic coverage is 100% complete across all 6 local models (1,440 geometry passes + 1,824 causal interventions), all 12 figures are built, and 76/76 integrity tests pass.
+- [x] **P9-12** Mark the study `publication-ready`: All P9 checks pass, frontier evaluation is 100% complete and reconciled (13,760 records), mechanistic coverage is 100% complete across all 6 local models (1,440 geometry passes + 1,824 causal interventions), all 12 figures are built, and 77/77 integrity tests pass.
 
 ## Final definition of done
 
@@ -479,7 +479,7 @@ Goal: perform an independent end-to-end check before treating the blog as repair
 - [x] Pilot, confirmatory, replication, exploratory, and mechanistic evidence are visibly distinguished.
 - [x] Every number in prose is generated from the manifest or a validated processed artifact.
 - [x] Blog, appendix, HTML, figures, and evidence manifest agree exactly.
-- [x] Data-integrity tests and responsive-layout checks pass (76/76 pytest tests passing).
+- [x] Data-integrity tests and responsive-layout checks pass (77/77 pytest tests passing).
 
 ## Run log
 

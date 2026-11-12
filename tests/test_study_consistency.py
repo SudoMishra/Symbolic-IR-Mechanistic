@@ -434,3 +434,37 @@ def test_p8_22_stage9_systems_boundary_integrity(manifest, accounting):
     assert data["adversarial"]["overall_rejection_rate"] == 1.0
     assert data["semantic_boundary"]["wrong_existing_handle_cases"] == 500
     assert data["isolation"]["cross_request_rehydration_blocked"] == 499
+
+
+def test_p8_23_visual_qa_programmatic_certification():
+    """P8-23: Test that visual QA programmatically measures 0 horizontal overflow and 0 clipped labels/legends."""
+    cdp_path = ROOT / "results/qa/cdp_audit_summary.json"
+    assert cdp_path.is_file(), "CDP audit summary must exist"
+    cdp_data = json.loads(cdp_path.read_text(encoding="utf-8"))
+
+    # Responsive viewports: 0px overflow
+    assert len(cdp_data.get("viewports", [])) == 3
+    for vp in cdp_data["viewports"]:
+        assert vp["metrics"]["overflowDiff"] == 0, f"Viewport {vp['name']} has horizontal overflow!"
+
+    # Programmatic SVG bounding box measurements
+    svg_audits = cdp_data.get("svgAudits", {})
+    assert len(svg_audits) == 13, f"Expected 13 audited SVGs, got {len(svg_audits)}"
+
+    total_texts = 0
+    total_rects = 0
+    for fig_name, audit in svg_audits.items():
+        assert audit["clippedTexts"] == 0, f"Figure {fig_name} has {audit['clippedTexts']} clipped text elements!"
+        assert audit["clippedRects"] == 0, f"Figure {fig_name} has {audit['clippedRects']} clipped rect elements!"
+        total_texts += audit["totalTexts"]
+        total_rects += audit["totalRects"]
+
+    assert total_texts >= 500, f"Expected at least 500 text elements measured, got {total_texts}"
+    assert total_rects >= 100, f"Expected at least 100 rect elements measured, got {total_rects}"
+
+    # Visual QA report certification
+    report_path = ROOT / "results/qa/visual_qa_report.md"
+    assert report_path.is_file()
+    report_text = report_path.read_text(encoding="utf-8")
+    assert "Current visual QA audit PASSED with 100% compliance" in report_text
+    assert "0 clipped" in report_text

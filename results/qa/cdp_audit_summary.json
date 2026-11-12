@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-12T00:24:46.452Z",
+  "timestamp": "2026-11-12T00:57:39.314Z",
   "viewports": [
     {
       "name": "mobile",
@@ -9,7 +9,7 @@
       "fullFile": "site_mobile_390px_full.png",
       "metrics": {
         "scrollWidth": 390,
-        "scrollHeight": 47364,
+        "scrollHeight": 47471,
         "clientWidth": 390,
         "hasHorizontalOverflow": false,
         "overflowDiff": 0
@@ -23,7 +23,7 @@
       "fullFile": "site_tablet_768px_full.png",
       "metrics": {
         "scrollWidth": 753,
-        "scrollHeight": 36880,
+        "scrollHeight": 36933,
         "clientWidth": 753,
         "hasHorizontalOverflow": false,
         "overflowDiff": 0
@@ -37,7 +37,7 @@
       "fullFile": "site_desktop_1440px_full.png",
       "metrics": {
         "scrollWidth": 1425,
-        "scrollHeight": 41733,
+        "scrollHeight": 41787,
         "clientWidth": 1425,
         "hasHorizontalOverflow": false,
         "overflowDiff": 0
@@ -142,5 +142,254 @@
       "height": 1135
     }
   ],
-  "overflowChecks": []
+  "overflowChecks": [],
+  "svgAudits": {
+    "01_raw_vs_symbolic.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1350,
+        "height": 750
+      },
+      "totalTexts": 42,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 6,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 0,
+        "right": 147.4000000000001,
+        "top": 0,
+        "bottom": 41
+      }
+    },
+    "02_evidence_funnel.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1400,
+        "height": 660
+      },
+      "totalTexts": 31,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 6,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 111.09999999999991,
+        "top": 16,
+        "bottom": 64
+      }
+    },
+    "02_evidence_funnel_mobile.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 440,
+        "height": 1580
+      },
+      "totalTexts": 33,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 6,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 24,
+        "right": 74.39999999999998,
+        "top": 20,
+        "bottom": 18
+      }
+    },
+    "03_musique_confirmation.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1350,
+        "height": 797
+      },
+      "totalTexts": 49,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 7,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 93.70000000000005,
+        "top": 16,
+        "bottom": 45
+      }
+    },
+    "03b_frontier_musique.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1350,
+        "height": 455
+      },
+      "totalTexts": 26,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 2,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 106.5,
+        "top": 16,
+        "bottom": 67
+      }
+    },
+    "04_reasoning_budget.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1400,
+        "height": 940
+      },
+      "totalTexts": 73,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 1,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 17,
+        "right": 121.09999999999991,
+        "top": 16,
+        "bottom": 31
+      }
+    },
+    "04b_anthropic_reasoning.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1350,
+        "height": 390
+      },
+      "totalTexts": 16,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 3,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 80.79999999999995,
+        "top": 16,
+        "bottom": 44
+      }
+    },
+    "05_longproc.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1400,
+        "height": 710
+      },
+      "totalTexts": 51,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 28,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 20,
+        "right": 138.5999999999999,
+        "top": 16,
+        "bottom": 35
+      }
+    },
+    "06_stage6_geometry.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1400,
+        "height": 1060
+      },
+      "totalTexts": 67,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 1,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 89.59999999999991,
+        "top": 16,
+        "bottom": 51
+      }
+    },
+    "07_stage7_swaps.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1350,
+        "height": 940
+      },
+      "totalTexts": 23,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 1,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 145,
+        "top": 16,
+        "bottom": 48
+      }
+    },
+    "07b_stage7_patching.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1400,
+        "height": 1060
+      },
+      "totalTexts": 97,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 1,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 79.90000000000009,
+        "top": 16,
+        "bottom": 46
+      }
+    },
+    "08_stage8_entities.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1450,
+        "height": 800
+      },
+      "totalTexts": 76,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 53,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 49.4,
+        "right": 86.29999999999995,
+        "top": 16,
+        "bottom": 40
+      }
+    },
+    "09_trust_boundary.svg": {
+      "viewBox": {
+        "x": 0,
+        "y": 0,
+        "width": 1400,
+        "height": 840
+      },
+      "totalTexts": 33,
+      "clippedTexts": 0,
+      "clippedTextSamples": [],
+      "totalRects": 14,
+      "clippedRects": 0,
+      "minMargin": {
+        "left": 50,
+        "right": 183.5,
+        "top": 16,
+        "bottom": 67
+      }
+    }
+  }
 }

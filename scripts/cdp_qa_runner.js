@@ -206,6 +206,129 @@ async function run() {
       });
     }
 
+    // Programmatic bounding-box and clipping audit for all SVG figures
+    console.log("Measuring programmatic label & legend clipping across all SVG figures...");
+    const FIGURES_TO_AUDIT = [
+      "01_raw_vs_symbolic.svg",
+      "02_evidence_funnel.svg",
+      "02_evidence_funnel_mobile.svg",
+      "03_musique_confirmation.svg",
+      "03b_frontier_musique.svg",
+      "04_reasoning_budget.svg",
+      "04b_anthropic_reasoning.svg",
+      "05_longproc.svg",
+      "06_stage6_geometry.svg",
+      "07_stage7_swaps.svg",
+      "07b_stage7_patching.svg",
+      "08_stage8_entities.svg",
+      "09_trust_boundary.svg",
+    ];
+
+    auditResults.svgAudits = {};
+
+    for (const fig of FIGURES_TO_AUDIT) {
+      const p = path.join(ROOT, "blog/site/assets", fig);
+      if (!fs.existsSync(p)) {
+        console.warn(`Warning: SVG file not found: ${p}`);
+        continue;
+      }
+      const content = fs.readFileSync(p, "utf8");
+
+      // Navigate to blank page to ensure clean DOM slate
+      await client.send("Page.navigate", { url: "about:blank" });
+      await wait(100);
+      const treeRes = await client.send("Page.getFrameTree");
+      const frameId = treeRes.frameTree.frame.id;
+
+      await client.send("Page.setDocumentContent", {
+        frameId,
+        html: `<!doctype html><html><head><style>body{margin:0;padding:0;background:#faf9f6} svg{display:block}</style></head><body>${content}</body></html>`,
+      });
+      await wait(200);
+
+      const res = await client.send("Runtime.evaluate", {
+        expression: `(() => {
+          const svg = document.querySelector('svg');
+          if (!svg) return { error: 'No svg element found' };
+          const vb = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width > 0
+            ? svg.viewBox.baseVal
+            : { x: 0, y: 0, width: svg.width.baseVal ? svg.width.baseVal.value : 1400, height: svg.height.baseVal ? svg.height.baseVal.value : 900 };
+          svg.setAttribute('width', vb.width);
+          svg.setAttribute('height', vb.height);
+          const sRect = svg.getBoundingClientRect();
+
+          const texts = Array.from(document.querySelectorAll('text'));
+          const textAudits = texts.map((t, idx) => {
+            const r = t.getBoundingClientRect();
+            const left = r.left - sRect.left;
+            const right = r.right - sRect.left;
+            const top = r.top - sRect.top;
+            const bottom = r.bottom - sRect.top;
+            return {
+              idx,
+              text: t.textContent.trim().slice(0, 45),
+              left: Math.round(left * 10) / 10,
+              right: Math.round(right * 10) / 10,
+              top: Math.round(top * 10) / 10,
+              bottom: Math.round(bottom * 10) / 10,
+              clippedLeft: left < -1.0,
+              clippedRight: right > sRect.width + 1.0,
+              clippedTop: top < -1.0,
+              clippedBottom: bottom > sRect.height + 1.0
+            };
+          });
+
+          const clippedTexts = textAudits.filter(t => t.clippedLeft || t.clippedRight || t.clippedTop || t.clippedBottom);
+
+          const rects = Array.from(document.querySelectorAll('rect'));
+          const rectAudits = rects.map((rc, idx) => {
+            const r = rc.getBoundingClientRect();
+            const left = r.left - sRect.left;
+            const right = r.right - sRect.left;
+            const top = r.top - sRect.top;
+            const bottom = r.bottom - sRect.top;
+            return {
+              idx,
+              left: Math.round(left * 10) / 10,
+              right: Math.round(right * 10) / 10,
+              top: Math.round(top * 10) / 10,
+              bottom: Math.round(bottom * 10) / 10,
+              clippedLeft: left < -1.0,
+              clippedRight: right > sRect.width + 1.0,
+              clippedTop: top < -1.0,
+              clippedBottom: bottom > sRect.height + 1.0
+            };
+          });
+          const clippedRects = rectAudits.filter(r => r.clippedLeft || r.clippedRight || r.clippedTop || r.clippedBottom);
+
+          const lefts = textAudits.map(t => t.left);
+          const rights = textAudits.map(t => sRect.width - t.right);
+          const tops = textAudits.map(t => t.top);
+          const bottoms = textAudits.map(t => sRect.height - t.bottom);
+
+          return {
+            viewBox: { x: vb.x, y: vb.y, width: Math.round(sRect.width), height: Math.round(sRect.height) },
+            totalTexts: texts.length,
+            clippedTexts: clippedTexts.length,
+            clippedTextSamples: clippedTexts.slice(0, 5),
+            totalRects: rects.length,
+            clippedRects: clippedRects.length,
+            minMargin: {
+              left: lefts.length ? Math.min(...lefts) : 0,
+              right: rights.length ? Math.min(...rights) : 0,
+              top: tops.length ? Math.min(...tops) : 0,
+              bottom: bottoms.length ? Math.min(...bottoms) : 0
+            }
+          };
+        })()`,
+        returnByValue: true,
+      });
+
+      const auditVal = res.result.value;
+      auditResults.svgAudits[fig] = auditVal;
+      console.log(`  ${fig}: ${auditVal.totalTexts} texts (${auditVal.clippedTexts} clipped), ${auditVal.totalRects} rects (${auditVal.clippedRects} clipped)`);
+    }
+
     client.close();
 
     fs.writeFileSync(

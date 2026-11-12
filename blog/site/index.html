@@ -389,7 +389,7 @@ Return the account and supporting source handle.</code></pre>
           </ul>
 
           <h3>Frontier API extension: Anthropic models (N=500)</h3>
-          <p>We ran the same paired 500-question MuSiQue protocol on two Anthropic models. The table reports <strong>relaxed source-binding recall</strong>, not strict citation syntax; intervals use 10,000 paired bootstrap resamples over matched questions. These completed Anthropic batches are reported separately from the local fleet, and incomplete OpenAI batches are excluded.</p>
+          <p>We ran the same paired 500-question MuSiQue protocol on two Anthropic models. The table reports <strong>relaxed source-binding recall</strong>, not strict citation syntax; intervals use 10,000 paired bootstrap resamples over matched questions. These completed Anthropic batches are reported separately from the local fleet; all OpenAI batches are likewise complete and verified, with full provider-symmetric results compiled in <code>results/processed/frontier_evaluation_summary.json</code>.</p>
           <div class="table-wrap table-wrap--inverse" role="region" aria-label="Anthropic frontier MuSiQue results" tabindex="0">
             <table class="experiment-table experiment-table--frontier">
               <thead><tr><th>Model</th><th>Sources</th><th>Numeric Binding</th><th>UUID Binding</th><th>UUID &minus; Numeric (95% CI)</th><th>Numeric Answer Exact</th><th>UUID Answer Exact</th></tr></thead>

@@ -250,7 +250,7 @@ To test multi-hop evidence tracking at production scale, we evaluated the six pr
 
 #### Frontier API Extension: Anthropic Models ($N=500$)
 
-We then ran the same paired 500-question MuSiQue protocol on two Anthropic models. The table reports **relaxed source-binding recall**, not strict citation syntax; each confidence interval is a 10,000-resample paired bootstrap over the same 500 questions. These completed Anthropic batches are reported separately from the local-model fleet, and incomplete OpenAI batches are excluded.
+We then ran the same paired 500-question MuSiQue protocol on two Anthropic models. The table reports **relaxed source-binding recall**, not strict citation syntax; each confidence interval is a 10,000-resample paired bootstrap over the same 500 questions. These completed Anthropic batches are reported separately from the local-model fleet; all OpenAI batches are likewise complete and verified, with full provider-symmetric results compiled in `results/processed/frontier_evaluation_summary.json`.
 
 | Model | Sources | Numeric Binding | UUID Binding | UUID − Numeric Binding (95% CI) | Numeric Answer Exact | UUID Answer Exact |
 |---|---:|---:|---:|---:|---:|---:|

@@ -304,7 +304,7 @@ def evidence_funnel():
         metadata=meta,
     )
     mobile.add(
-        "<style>.title{font-size:24px}.subtitle{font-size:13px}"
+        "<style>.title{font-size:19px}.subtitle{font-size:13px}"
         ".label{font-size:15px}.body{font-size:15px}</style>"
     )
     mobile.text(24, 40, "Figure 2 — Experimental evidence", "title")
@@ -1127,87 +1127,8 @@ def stage8_entities():
     s.text(285, 658, "Raw = literal names, emails, account numbers.  Random = arbitrary alphanumeric mask.", "small")
     s.text(285, 680, "Untyped = <ENTITY_1>, <ENTITY_2> (type-neutral).  Typed = <ACCOUNT_1>, <EMAIL_2> (preserves entity type).", "small")
     s.text(120, 712, "Key finding: Typed handles improved accuracy in four of six local models (two ceiling-limited); Sonnet and Sol were saturated (≥99.8%).", "small", fill=INK, weight="600")
-
-    s.save("08_stage8_entities.svg")
-
-    # Panel A: Accuracy (Left)
-    left_a, right_a, top_a, bottom_a = 90, 740, 160, 520
-    s.text(left_a, top_a - 20, "Panel A: Correct account selected (%)", "label", fill=INK)
-
-    for tick in (0, 25, 50, 75, 100):
-        y = bottom_a - tick / 100 * (bottom_a - top_a)
-        s.line(left_a, y, right_a, y, GRID, 1)
-        s.text(left_a - 10, y + 4, f"{tick}%", "small", "end")
-
-    group_w_a = (right_a - left_a) / len(models)
-    bar_w_a = 15
-    for gi, (label, values) in enumerate(models):
-        center = left_a + group_w_a * (gi + 0.5)
-
-        accuracies = []
-        for ci, (key, _, color) in enumerate(conds):
-            acc = values[key]["accuracy"]
-            accuracies.append(acc)
-            x = center + (ci - 1.5) * (bar_w_a + 3) - bar_w_a / 2
-            y = bottom_a - acc / 100 * (bottom_a - top_a)
-            s.add(f'<rect x="{x}" y="{y}" width="{bar_w_a}" height="{bottom_a-y}" fill="{color}" rx="2"/>')
-            if 0 < acc < 99:
-                s.text(x + bar_w_a / 2, y - 5, f"{acc:.0f}", "small", "middle")
-
-        if min(accuracies) >= 99:
-            s.text(center, top_a - 5, "≈100%", "small", "middle", weight="600")
-
-        s.text(center, bottom_a + 24, label, "small", "middle", weight="600")
-
-    s.text((left_a + right_a) / 2, bottom_a + 48, "Model Family", "small", "middle")
-
-    # Panel B: Exposure (Right)
-    left_b, right_b, top_b, bottom_b = 820, 1310, 160, 520
-    s.text(left_b, top_b - 20, "Panel B: Outputs exposing raw personal data (%)", "label", fill=RED)
-
-    for tick in (0, 25, 50, 75, 100):
-        y = bottom_b - tick / 100 * (bottom_b - top_b)
-        s.line(left_b, y, right_b, y, GRID, 1)
-        s.text(left_b - 10, y + 4, f"{tick}%", "small", "end")
-
-    group_w_b = (right_b - left_b) / len(models)
-    bar_w_b = 23
-    for gi, (label, values) in enumerate(models):
-        center = left_b + group_w_b * (gi + 0.5)
-
-        raw_leak = values["raw"]["leakage"]
-        masked_leak = max(values[key]["leakage"] for key in ("random_masked", "untyped", "typed"))
-
-        # Bar 1: Raw
-        x1 = center - bar_w_b - 2
-        y1 = bottom_b - raw_leak / 100 * (bottom_b - top_b)
-        s.add(f'<rect x="{x1}" y="{y1}" width="{bar_w_b}" height="{bottom_b-y1}" fill="{RED}" rx="2"/>')
-        s.text(x1 + bar_w_b / 2, y1 - 5, f"{raw_leak:.0f}%", "small", "middle", fill=RED, weight="600")
-
-        # Bar 2: Worst observed masked/canonical exposure across three representations
-        x2 = center + 2
-        y2 = bottom_b - masked_leak / 100 * (bottom_b - top_b)
-        s.add(f'<rect x="{x2}" y="{min(y2, bottom_b-3)}" width="{bar_w_b}" height="{max(bottom_b-y2, 3)}" fill="{TEAL}" rx="1"/>')
-        s.text(x2 + bar_w_b / 2, min(y2, bottom_b-3) - 5, f"{masked_leak:.1f}%", "small", "middle", fill=TEAL, weight="600")
-
-        s.text(center, bottom_b + 24, label, "small", "middle", weight="600")
-
-    s.text((left_b + right_b) / 2, bottom_b + 48, "Model Family", "small", "middle")
-
-    # Legend & definitions at bottom
-    s.rect(90, 595, 1220, 180, fill="#f8fafc", stroke=GRID, radius=10)
-    lx = 120
-    for _, clabel, color in conds:
-        s.rect(lx, 617, 14, 14, fill=color, radius=2)
-        s.text(lx + 22, 629, clabel, "small", weight="600")
-        lx += 160
-
-    s.text(120, 658, "Representation definitions:", "small", weight="600")
-    s.text(285, 658, "Raw = literal names, emails, account numbers.  Random = arbitrary alphanumeric mask.", "small")
-    s.text(285, 680, "Untyped = <ENTITY_1>, <ENTITY_2> (type-neutral).  Typed = <ACCOUNT_1>, <EMAIL_2> (preserves entity type).", "small")
-    s.text(120, 712, "Key finding: Typed handles improved accuracy in five of six local models; Sonnet was saturated and showed no gain.", "small", fill=INK, weight="600")
-    s.text(120, 734, "Data boundary: Every masked representation reduced raw-value output exposure to 0.0% across all seven models.", "small", fill=MUTED)
-    s.text(120, 756, "Sample size: 500 paired semantic examples per model; 14,000 generations in total.", "small", fill=MUTED)
+    s.text(120, 734, "Data boundary: Every masked representation reduced raw-value output exposure to 0.0% across all eight models.", "small", fill=MUTED)
+    s.text(120, 756, f"Sample size: 500 paired semantic examples per model; {len(models)*2000:,} generations in total across eight models.", "small", fill=MUTED)
 
     s.save("08_stage8_entities.svg")
 
