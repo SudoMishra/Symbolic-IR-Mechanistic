@@ -3,6 +3,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
 
+import yaml
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "blog/site"
@@ -73,15 +75,15 @@ def test_study_accounting_and_frozen_cohort_are_public():
     accounting = json.loads((ROOT / "results/audit/study_accounting.json").read_text())
     assert accounting["local_completed_calls"] == 46_230
     assert accounting["frontier_completed_calls"] == 13_760
-    assert accounting["mechanistic_completed_calls"] == 3_264
+    assert accounting["mechanistic_completed_calls"] == 3_744
     assert accounting["systems_completed_executions"] == 6_000
-    assert accounting["total_verified_calls"] == 63_254
+    assert accounting["total_verified_calls"] == 63_734
     assert {m for m, v in accounting["by_model"].items() if v["type"] == "local"} == {
         "tiny_aya_global", "qwen25_15b", "gemma4_e2b", "gemma4_e4b",
         "qwen35_2b", "qwen35_4b",
     }
     landing = (SITE / "index.html").read_text()
-    for value in ("63,254", "46,230", "13,760", "3,264", "6,000"):
+    for value in ("63,734", "46,230", "13,760", "3,744", "6,000"):
         assert value in landing
     assert "Both LFM checkpoints are excluded" in landing
 
@@ -131,15 +133,20 @@ def test_longproc_stage6_and_stage7_counts_match_artifacts():
     eligibility = json.loads((ROOT / "results/audit/mechanistic_eligibility_report.json").read_text())
     assert len(eligibility["eligible_cohort"]) == 6
     assert not eligibility["unsupported_cohort"]
-    for model in ("tiny_aya", "qwen35_2b", "qwen35_4b"):
-        result = json.loads((ROOT / f"results/processed/stage7_{model}.json").read_text())
-        assert result["interventions"] == 384
+    manifest = yaml.safe_load((ROOT / "study_manifest.yaml").read_text())
+    stage7 = manifest["experiments"]["stage7_interventions"]
+    assert set(stage7["expected_calls_by_model"].values()) == {384}
+    assert stage7["expected_total_calls"] == 2_304
+    for model, rel_path in stage7["raw_paths"].items():
+        records = [line for line in (ROOT / rel_path).read_text().splitlines() if line.strip()]
+        assert len(records) == 384, model
     geometry = (SITE / "experiments/06-representation-geometry/index.html").read_text()
     causal = (SITE / "experiments/07-causal-interventions/index.html").read_text()
     assert "1,440 BF16 passes" in geometry
     assert "5 / 6" in geometry
-    assert "1,824 interventions" in causal
-    assert "114" in causal and "1,710" in causal
+    assert "2,304 interventions" in causal
+    assert "144" in causal and "2,160" in causal
+    assert "6 × 384" in causal
     assert "07b_stage7_patching.svg" in causal
 
 
