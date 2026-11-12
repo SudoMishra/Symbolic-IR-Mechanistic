@@ -1,0 +1,108 @@
+{
+  "timestamp": "2026-10-30",
+  "local_models": {
+    "tiny_aya_global": {
+      "name": "Tiny Aya Global",
+      "status": "eligible",
+      "eligible": true,
+      "failure_reason": null,
+      "hook_framework_compatible": true,
+      "residual_capture_verified": true,
+      "noop_intervention_verified": true,
+      "layer_positions_documented": true,
+      "activation_directory": "results/activations/stage6_tiny_aya_global",
+      "intervention_directory": "results/interventions/stage7_tiny_aya_global"
+    },
+    "qwen25_15b": {
+      "name": "Qwen 2.5 1.5B Instruct",
+      "status": "eligible",
+      "eligible": true,
+      "failure_reason": null,
+      "hook_framework_compatible": true,
+      "residual_capture_verified": true,
+      "noop_intervention_verified": true,
+      "layer_positions_documented": true,
+      "activation_directory": "results/activations/stage6_qwen25_15b",
+      "intervention_directory": "results/interventions/stage7_qwen25_15b"
+    },
+    "gemma4_e2b": {
+      "name": "Gemma 4 E2B IT",
+      "status": "eligible",
+      "eligible": true,
+      "failure_reason": null,
+      "hook_framework_compatible": true,
+      "residual_capture_verified": true,
+      "noop_intervention_verified": true,
+      "layer_positions_documented": true,
+      "activation_directory": "results/activations/stage6_gemma4_e2b",
+      "intervention_directory": "results/interventions/stage7_gemma4_e2b"
+    },
+    "gemma4_e4b": {
+      "name": "Gemma 4 E4B IT",
+      "status": "eligible",
+      "eligible": true,
+      "failure_reason": null,
+      "hook_framework_compatible": true,
+      "residual_capture_verified": true,
+      "noop_intervention_verified": true,
+      "layer_positions_documented": true,
+      "activation_directory": "results/activations/stage6_gemma4_e4b",
+      "intervention_directory": "results/interventions/stage7_gemma4_e4b"
+    },
+    "qwen35_2b": {
+      "name": "Qwen 3.5 2B",
+      "status": "eligible",
+      "eligible": true,
+      "failure_reason": null,
+      "hook_framework_compatible": true,
+      "residual_capture_verified": true,
+      "noop_intervention_verified": true,
+      "layer_positions_documented": true,
+      "activation_directory": "results/activations/stage6_qwen35_2b",
+      "intervention_directory": "results/interventions/stage7_qwen35_2b"
+    },
+    "qwen35_4b": {
+      "name": "Qwen 3.5 4B",
+      "status": "eligible",
+      "eligible": true,
+      "failure_reason": null,
+      "hook_framework_compatible": true,
+      "residual_capture_verified": true,
+      "noop_intervention_verified": true,
+      "layer_positions_documented": true,
+      "activation_directory": "results/activations/stage6_qwen35_4b",
+      "intervention_directory": "results/interventions/stage7_qwen35_4b"
+    }
+  },
+  "frontier_models": {
+    "claude-haiku-5-5": {
+      "status": "not_applicable",
+      "eligible": false,
+      "reason": "Closed-weights commercial API (Anthropic / OpenAI). Internal weights, hidden layers, and attention matrices are not exposed (locked decision D-05)."
+    },
+    "claude-sonnet-5-5": {
+      "status": "not_applicable",
+      "eligible": false,
+      "reason": "Closed-weights commercial API (Anthropic / OpenAI). Internal weights, hidden layers, and attention matrices are not exposed (locked decision D-05)."
+    },
+    "gpt-6-1-sol": {
+      "status": "not_applicable",
+      "eligible": false,
+      "reason": "Closed-weights commercial API (Anthropic / OpenAI). Internal weights, hidden layers, and attention matrices are not exposed (locked decision D-05)."
+    },
+    "gpt-6-luna": {
+      "status": "not_applicable",
+      "eligible": false,
+      "reason": "Closed-weights commercial API (Anthropic / OpenAI). Internal weights, hidden layers, and attention matrices are not exposed (locked decision D-05)."
+    }
+  },
+  "eligible_cohort": [
+    "tiny_aya_global",
+    "qwen25_15b",
+    "gemma4_e2b",
+    "gemma4_e4b",
+    "qwen35_2b",
+    "qwen35_4b"
+  ],
+  "unsupported_cohort": []
+}

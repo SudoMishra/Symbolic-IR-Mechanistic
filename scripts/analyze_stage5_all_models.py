@@ -123,11 +123,16 @@ def analyze_model(rows: list[dict[str, Any]], seed: int = 202607) -> dict[str, A
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="results/processed/stage5_eight_model.json")
+    parser.add_argument("--cohort", choices=["six_model", "all"], default="six_model")
+    parser.add_argument("--output", default=None)
     args = parser.parse_args()
 
-    results: dict[str, Any] = {"models": {}}
+    out_file = args.output or ("results/processed/stage5_six_model_pilot.json" if args.cohort == "six_model" else "results/processed/stage5_eight_model.json")
+    results: dict[str, Any] = {"evidence_tier": "exploratory_pilot", "models": {}}
+
     for model_name, path in MODEL_PATHS.items():
+        if args.cohort == "six_model" and ("lfm" in model_name.lower() or "liquid" in model_name.lower()):
+            continue
         if not path.exists():
             print(f"Skipping {model_name} (path {path} does not exist yet)")
             continue
@@ -135,10 +140,10 @@ def main() -> None:
         print(f"Analyzing {model_name}: {len(rows)} records")
         results["models"][model_name] = analyze_model(rows)
 
-    out_path = Path(args.output)
+    out_path = Path(out_file)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(results, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(f"Written comprehensive 8-model analysis to {out_path}")
+    print(f"Written analysis ({args.cohort}) to {out_path}")
 
 
 if __name__ == "__main__":

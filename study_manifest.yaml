@@ -1,0 +1,717 @@
+# Authoritative Study Manifest for Symbolic IR Mechanistic Investigation
+# Governed by locked decisions D-01 through D-07 in blog/STUDY_CONSISTENCY_REPAIR_CHECKLIST.md
+
+version: "1.0.0"
+last_updated: "2026-10-30"
+
+cohorts:
+  local_cohort_6:
+    id: "local_cohort_6"
+    description: "Primary six-model local behavioral cohort"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+
+  frontier_cohort_4:
+    id: "frontier_cohort_4"
+    description: "Frontier behavioral validation pool"
+    models:
+      - claude-haiku-5-5
+      - claude-sonnet-5-5
+      - gpt-6-1-sol
+      - gpt-6-luna
+
+  deterministic_software:
+    id: "deterministic_software"
+    description: "Deterministic Python systems software pipeline (ModelIR & MappingVault)"
+    models: []
+
+models:
+  tiny_aya_global:
+    name: "Tiny Aya Global"
+    family: "cohere"
+    parameters: "3.35B"
+    quantization: "Q4_K_M"
+    model_path: "models/tiny-aya-global-q4_k_m.gguf"
+    hf_path: "models/tiny-aya-global-hf"
+    mechanistic_eligibility: "eligible"
+    status: "active"
+
+  qwen25_15b:
+    name: "Qwen 2.5 1.5B Instruct"
+    family: "qwen"
+    parameters: "1.5B"
+    quantization: "Q4_K_M"
+    model_path: "models/qwen2.5-1.5b-instruct-q4_k_m.gguf"
+    hf_path: "models/qwen2.5-1.5b-instruct-hf"
+    mechanistic_eligibility: "eligible"
+    status: "active"
+
+  gemma4_e2b:
+    name: "Gemma 4 E2B IT"
+    family: "gemma"
+    parameters: "2B"
+    quantization: "Q4_0"
+    model_path: "models/gemma-4-e2b-it-q4_0.gguf"
+    hf_path: "models/gemma-4-e2b-it-hf"
+    mechanistic_eligibility: "eligible"
+    status: "active"
+
+  gemma4_e4b:
+    name: "Gemma 4 E4B IT"
+    family: "gemma"
+    parameters: "4B"
+    quantization: "Q4_0"
+    model_path: "models/gemma-4-e4b-it-q4_0.gguf"
+    hf_path: "models/gemma-4-e4b-it-hf"
+    mechanistic_eligibility: "eligible"
+    status: "active"
+
+  qwen35_2b:
+    name: "Qwen 3.5 2B"
+    family: "qwen"
+    parameters: "2B"
+    quantization: "Q4_K_M"
+    model_path: "models/Qwen3.5-2B-Q4_K_M.gguf"
+    hf_path: "models/qwen3.5-2b-hf"
+    mechanistic_eligibility: "eligible"
+    status: "active"
+
+  qwen35_4b:
+    name: "Qwen 3.5 4B"
+    family: "qwen"
+    parameters: "4B"
+    quantization: "Q4_K_M"
+    model_path: "models/Qwen3.5-4B-Q4_K_M.gguf"
+    hf_path: "models/qwen3.5-4b-hf"
+    mechanistic_eligibility: "eligible"
+    status: "active"
+
+  claude-haiku-5-5:
+    name: "Claude Haiku 5.5"
+    provider: "anthropic"
+    api_model: "claude-haiku-5-5"
+    mechanistic_eligibility: "not_applicable"
+    status: "active"
+
+  claude-sonnet-5-5:
+    name: "Claude Sonnet 5.5"
+    provider: "anthropic"
+    api_model: "claude-sonnet-5-5"
+    mechanistic_eligibility: "not_applicable"
+    status: "active"
+
+  gpt-6-1-sol:
+    name: "GPT-6.1 Sol"
+    provider: "openai"
+    api_model: "gpt-6-1-sol"
+    mechanistic_eligibility: "not_applicable"
+    status: "active"
+
+  gpt-6-luna:
+    name: "GPT-6 Luna"
+    provider: "openai"
+    api_model: "gpt-6-luna"
+    mechanistic_eligibility: "not_applicable"
+    status: "active"
+
+excluded_models:
+  lfm25_12b:
+    name: "LFM 2.5 1.2B Instruct"
+    reason: "Inference behavior could not be validated; non-standard tokenization and unverified EOS/prompt sensitivities in community implementations (D-02, D-03)."
+    model_path: "models/lfm2.5-1.2b-instruct-q4_k_m.gguf"
+    mechanistic_eligibility: "unsupported"
+    status: "excluded"
+
+  lfm25_26b:
+    name: "LFM 2.5 2.6B Instruct"
+    reason: "Inference behavior could not be validated; non-standard tokenization and unverified EOS/prompt sensitivities in community implementations (D-02, D-03)."
+    model_path: "models/LFM2.5-2.6B-Q4_K_M.gguf"
+    mechanistic_eligibility: "unsupported"
+    status: "excluded"
+
+experiments:
+  stage1_scaling_500:
+    id: "stage1_scaling_500"
+    title: "Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations)"
+    evidence_tier: "confirmatory"
+    dataset: "data/synthetic_citation_500.json"
+    split: "eval_500"
+    seed: 202610
+    cohort: "local_cohort_6"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: lfm25_26b
+        reason: "Excluded per D-02"
+    conditions:
+      - name: "structured_5"
+        identifier: "structured"
+        num_sources: 5
+      - name: "structured_20"
+        identifier: "structured"
+        num_sources: 20
+      - name: "uuid_5"
+        identifier: "uuid"
+        num_sources: 5
+      - name: "uuid_20"
+        identifier: "uuid"
+        num_sources: 20
+    expected_examples_per_cell: 500
+    expected_calls_per_model: 2000
+    expected_total_calls: 12000
+    pairing_key: "example_id"
+    raw_paths:
+      tiny_aya_global: "results/raw/01_citation_mve_500_tiny_aya/c65866463dd4.jsonl"
+      qwen25_15b: "results/raw/01_citation_mve_500_qwen15b/08ab17574b9c.jsonl"
+      gemma4_e2b: "results/raw/01_citation_mve_500_gemma4_e2b/2a92d0924993.jsonl"
+      gemma4_e4b: "results/raw/01_citation_mve_500_gemma4_e4b/8830c593df18.jsonl"
+      qwen35_2b: "results/raw/01_citation_mve_500_qwen35_2b/0a5b4f74628e.jsonl"
+      qwen35_4b: "results/raw/01_citation_mve_500_qwen35_4b/e4e1a062d896.jsonl"
+    processed_paths:
+      tiny_aya_global: "results/processed/stage1_500_tiny_aya.json"
+      qwen25_15b: "results/processed/stage1_500_qwen15b.json"
+      gemma4_e2b: "results/processed/stage1_500_gemma4_e2b.json"
+      gemma4_e4b: "results/processed/stage1_500_gemma4_e4b.json"
+      qwen35_2b: "results/processed/stage1_500_qwen35_2b.json"
+      qwen35_4b: "results/processed/stage1_500_qwen35_4b.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 80
+      prompt_version: "citation-prompt-v1"
+    publication_status: "complete"
+    consumers:
+      - "Figure 2"
+      - "Figure 4 (reference)"
+      - "Blog Section 1"
+
+  musique_replication_100:
+    id: "musique_replication_100"
+    title: "MuSiQue Multi-Hop Citation Replication (N=100 Held-Out)"
+    evidence_tier: "replication"
+    dataset: "configs/musique/calibration_20.json"
+    split: "replication_100"
+    seed: 202603
+    cohort: "local_cohort_6"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: lfm25_26b
+        reason: "Excluded per D-02"
+    conditions:
+      - name: "structured_15"
+        identifier: "structured"
+        num_sources: 15
+      - name: "structured_20"
+        identifier: "structured"
+        num_sources: 20
+      - name: "uuid_15"
+        identifier: "uuid"
+        num_sources: 15
+      - name: "uuid_20"
+        identifier: "uuid"
+        num_sources: 20
+    expected_examples_per_cell: 100
+    expected_calls_per_model: 400
+    expected_total_calls: 2400
+    pairing_key: "example_id"
+    raw_paths:
+      tiny_aya_global: "results/raw/musique_confirmatory_tiny_aya_global/912e4c61cc1e.jsonl"
+      qwen25_15b: "results/raw/musique_confirmatory_qwen25_15b/6d614719b472.jsonl"
+      gemma4_e2b: "results/raw/musique_confirmatory_gemma4_e2b/343894376e4e.jsonl"
+      gemma4_e4b: "results/raw/musique_confirmatory_gemma4_e4b/c1106d1393cf.jsonl"
+      qwen35_2b: "results/raw/musique_confirmatory_qwen35_2b/0a6f7c4c67d5.jsonl"
+      qwen35_4b: "results/raw/musique_confirmatory_qwen35_4b/d55c825c05d1.jsonl"
+    processed_paths:
+      aggregate: "results/processed/musique_confirmatory.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 128
+      prompt_version: "citation-prompt-v1"
+    publication_status: "complete"
+    consumers:
+      - "Appendix Section C"
+      - "Blog Section 2 (replication context)"
+
+  musique_scaled_500:
+    id: "musique_scaled_500"
+    title: "MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation)"
+    evidence_tier: "confirmatory"
+    dataset: "configs/musique/musique_balanced_500.json"
+    split: "eval_500"
+    seed: 202620
+    cohort: "local_cohort_6_plus_frontier"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+      - claude-haiku-5-5
+      - claude-sonnet-5-5
+      - gpt-6-1-sol
+      - gpt-6-luna
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: lfm25_26b
+        reason: "Excluded per D-02"
+    conditions:
+      - name: "numeric_15"
+        identifier: "numeric"
+        num_sources: 15
+      - name: "numeric_20"
+        identifier: "numeric"
+        num_sources: 20
+      - name: "uuid_15"
+        identifier: "uuid"
+        num_sources: 15
+      - name: "uuid_20"
+        identifier: "uuid"
+        num_sources: 20
+    expected_examples_per_cell: 500
+    expected_calls_per_model: 2000
+    expected_total_calls: 20000 # 12,000 local + 8,000 frontier (when Luna completed)
+    pairing_key: "example_id"
+    raw_paths:
+      tiny_aya_global: "results/raw/musique_500_tiny_aya/34c2b77aedd4.jsonl"
+      qwen25_15b: "results/raw/musique_500_qwen15b/a486e13fa598.jsonl"
+      gemma4_e2b: "results/raw/musique_500_gemma4_e2b/c9d18209bc0f.jsonl"
+      gemma4_e4b: "results/raw/musique_500_gemma4_e4b/7104ce4ce430.jsonl"
+      qwen35_2b: "results/raw/musique_500_qwen35_2b/2d097c4797ca.jsonl"
+      qwen35_4b: "results/raw/musique_500_qwen35_4b/a5de1b7bbd5e.jsonl"
+      claude-haiku-5-5: "results/raw/musique_500/anthropic_haiku.jsonl"
+      claude-sonnet-5-5: "results/raw/musique_500/anthropic_sonnet.jsonl"
+      gpt-6-1-sol: "results/raw/musique_500/openai_sol.jsonl"
+      gpt-6-luna: "results/raw/musique_500/openai_luna.jsonl"
+    processed_paths:
+      local_aggregate: "results/processed/musique_500_confirmatory.json"
+      frontier_aggregate: "results/processed/frontier_musique_summary.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 128
+      prompt_version: "citation-prompt-v1"
+    publication_status: "publishable"
+    consumers:
+      - "Figure 3 (Local)"
+      - "Figure 3B (Frontier)"
+      - "Blog Section 2"
+
+  stage5_pilot:
+    id: "stage5_pilot"
+    title: "Stage 5: Reasoning Budget Exploratory Pilot"
+    evidence_tier: "pilot"
+    dataset: "data/countdown_pilot.json"
+    split: "pilot_24"
+    seed: 202605
+    cohort: "local_cohort_6"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: lfm25_26b
+        reason: "Excluded per D-02"
+    conditions:
+      - name: "budget_0"
+      - name: "budget_64"
+      - name: "budget_128"
+      - name: "budget_256"
+      - name: "budget_512"
+    expected_examples_per_cell: 24
+    expected_calls_per_model: 480
+    expected_total_calls: 2880
+    pairing_key: "example_id"
+    raw_paths:
+      tiny_aya_global: "results/raw/stage5_pilot_tiny_aya_global/32fa0c3c696f.jsonl"
+      qwen25_15b: "results/raw/stage5_pilot_qwen25_15b/61443c6b5233.jsonl"
+      gemma4_e2b: "results/raw/stage5_pilot_gemma4_e2b/400c508d5acb.jsonl"
+      gemma4_e4b: "results/raw/stage5_pilot_gemma4_e4b/c4931b820baf.jsonl"
+      qwen35_2b: "results/raw/stage5_pilot_qwen35_2b/b3b211daeedf.jsonl"
+      qwen35_4b: "results/raw/stage5_pilot_qwen35_4b/9f3862caafba.jsonl"
+    processed_paths:
+      aggregate: "results/processed/stage5_pilot_qwen.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 512
+    publication_status: "complete"
+    consumers:
+      - "Figure 4A"
+      - "Blog Section 3 (Pilot)"
+
+  stage5_confirmatory:
+    id: "stage5_confirmatory"
+    title: "Stage 5: Confirmatory Reasoning Budget Scaling"
+    evidence_tier: "confirmatory"
+    dataset: "data/countdown_confirm_40.json"
+    split: "confirm_40"
+    seed: 202606
+    cohort: "local_cohort_6"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: lfm25_26b
+        reason: "Excluded per D-02"
+    conditions:
+      - name: "budget_0"
+      - name: "budget_64"
+      - name: "budget_128"
+      - name: "budget_256"
+      - name: "budget_512"
+    expected_examples_per_cell: 40
+    expected_calls_per_model: 800
+    expected_total_calls: 4800
+    pairing_key: "example_id"
+    raw_paths:
+      tiny_aya_global: "results/raw/stage5_confirm_tiny_aya_global/65b32828d219.jsonl"
+      qwen25_15b: "results/raw/stage5_confirm_qwen25_15b/stage5_confirm_qwen25_15b_800.jsonl"
+      gemma4_e2b: "results/raw/stage5_confirm_gemma4_e2b/f1a625ecf2b7.jsonl"
+      gemma4_e4b: "results/raw/stage5_confirm_gemma4_e4b/d847bc5babb8.jsonl"
+      qwen35_2b: "results/raw/stage5_confirm_qwen35_2b/a628304b35ba.jsonl"
+      qwen35_4b: "results/raw/stage5_confirm_qwen35_4b/c14310d67caa.jsonl"
+    processed_paths:
+      aggregate: "results/processed/stage5_confirmatory.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 512
+    publication_status: "publishable"
+    consumers:
+      - "Figure 4B"
+      - "Blog Section 3 (Confirmation)"
+
+  frontier_reasoning_ablation:
+    id: "frontier_reasoning_ablation"
+    title: "Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode)"
+    evidence_tier: "exploratory"
+    dataset: "configs/musique/calibration_20.json"
+    split: "frontier_reasoning_100"
+    seed: 202620
+    models:
+      - claude-sonnet-5-5
+      - gpt-6-luna
+    exclusions:
+      - model: claude-haiku-5-5
+        reason: "Not part of frozen reasoning ablation subset"
+      - model: gpt-6-1-sol
+        reason: "Not part of frozen reasoning ablation subset"
+    conditions:
+      - name: "numeric_15"
+      - name: "numeric_20"
+      - name: "uuid_15"
+      - name: "uuid_20"
+    expected_examples_per_cell: 100
+    expected_calls_per_model: 400
+    expected_total_calls: 800
+    pairing_key: "example_id"
+    raw_paths:
+      claude-sonnet-5-5: "results/raw/reasoning/anthropic_sonnet.jsonl"
+      gpt-6-luna: "results/raw/reasoning/openai_luna.jsonl"
+    processed_paths:
+      aggregate: "results/processed/frontier_reasoning_summary.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 512
+      reasoning: "adaptive / enabled"
+    publication_status: "publishable"
+    consumers:
+      - "Figure 4B (Frontier reasoning inset)"
+
+  long_context_tracking:
+    id: "long_context_tracking"
+    title: "Long-Context Theory-of-Mind Entity Tracking"
+    evidence_tier: "confirmatory"
+    dataset: "configs/longproc/longproc_500.json"
+    split: "tom_tracking_25"
+    seed: 202601
+    cohort: "local_cohort_6"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: lfm25_26b
+        reason: "Excluded per D-02"
+    conditions:
+      - name: "tom_tracking_2k"
+    expected_examples_per_cell: 25
+    expected_calls_per_model: 25
+    expected_total_calls: 150
+    pairing_key: "example_id"
+    raw_paths:
+      tiny_aya_global: "results/raw/longproc_tom_tracking_2k_tiny_aya/d18f7ad7265d.jsonl"
+      qwen25_15b: "results/raw/longproc_tom_tracking_2k_qwen25_15b/d9aa86a5f1bb.jsonl"
+      gemma4_e2b: "results/raw/longproc_tom_tracking_2k_gemma4_e2b/8f3ca43ed227.jsonl"
+      gemma4_e4b: "results/raw/longproc_tom_tracking_2k_gemma4_e4b/0c1e6973c57c.jsonl"
+      qwen35_2b: "results/raw/longproc_tom_tracking_2k_qwen35_2b/4e4bf007926c.jsonl"
+      qwen35_4b: "results/raw/longproc_tom_tracking_2k_qwen35_4b/39edfecc6fed.jsonl"
+    processed_paths:
+      aggregate: "results/processed/longproc_gpu_summary.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 64
+    publication_status: "publishable"
+    consumers:
+      - "Figure 5"
+      - "Blog Section 4"
+
+  stage6_geometry:
+    id: "stage6_geometry"
+    title: "Stage 6: Representation Geometry and Residual Projections"
+    evidence_tier: "mechanistic"
+    dataset: "configs/experiments/stage6_qwen25_15b.yaml"
+    split: "geometry_100"
+    seed: 202601
+    cohort: "local_cohort_6"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    eligible_models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    untested_models: []
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: claude-haiku-5-5
+        reason: "Closed weights API not eligible per D-05"
+      - model: claude-sonnet-5-5
+        reason: "Closed weights API not eligible per D-05"
+      - model: gpt-6-1-sol
+        reason: "Closed weights API not eligible per D-05"
+      - model: gpt-6-luna
+        reason: "Closed weights API not eligible per D-05"
+    expected_calls_per_model: 240
+    expected_total_calls: 1440
+    raw_paths:
+      tiny_aya_global: "results/activations/stage6_tiny_aya_global/220ada012d1f/manifest.jsonl"
+      qwen25_15b: "results/activations/stage6_qwen25_15b/e631b6fa4a16/manifest.jsonl"
+      gemma4_e2b: "results/activations/stage6_gemma4_e2b/ea2905fcb779/manifest.jsonl"
+      gemma4_e4b: "results/activations/stage6_gemma4_e4b/8973f6266084/manifest.jsonl"
+      qwen35_2b: "results/activations/stage6_qwen35_2b/5b06ef910b2e/manifest.jsonl"
+      qwen35_4b: "results/activations/stage6_qwen35_4b/5c0d40884dd8/manifest.jsonl"
+    processed_paths:
+      tiny_aya_global: "results/processed/stage6_tiny_aya.json"
+      qwen25_15b: "results/processed/stage6_qwen25_15b.json"
+      gemma4_e2b: "results/processed/stage6_gemma4_e2b.json"
+      gemma4_e4b: "results/processed/stage6_gemma4_e4b.json"
+      qwen35_2b: "results/processed/stage6_qwen35_2b.json"
+      qwen35_4b: "results/processed/stage6_qwen35_4b.json"
+    publication_status: "publishable"
+    consumers:
+      - "Figure 6"
+      - "Blog Section 5"
+
+  stage7_interventions:
+    id: "stage7_interventions"
+    title: "Stage 7: Prompt Swaps and Activation Patching Interventions"
+    evidence_tier: "mechanistic"
+    dataset: "configs/experiments/stage7_qwen25_15b.yaml"
+    split: "intervention_100"
+    seed: 202601
+    cohort: "local_cohort_6"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    eligible_models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+    untested_models: []
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: claude-haiku-5-5
+        reason: "Closed weights API not eligible per D-05"
+      - model: claude-sonnet-5-5
+        reason: "Closed weights API not eligible per D-05"
+      - model: gpt-6-1-sol
+        reason: "Closed weights API not eligible per D-05"
+      - model: gpt-6-luna
+        reason: "Closed weights API not eligible per D-05"
+    expected_calls_by_model:
+      tiny_aya_global: 384
+      qwen25_15b: 384
+      gemma4_e2b: 192
+      gemma4_e4b: 96
+      qwen35_2b: 384
+      qwen35_4b: 384
+    expected_total_calls: 1824
+    raw_paths:
+      tiny_aya_global: "results/interventions/stage7_tiny_aya_global/385e95d192ba/manifest.jsonl"
+      qwen25_15b: "results/interventions/stage7_qwen25_15b/ed4f8ec474bc/manifest.jsonl"
+      gemma4_e2b: "results/interventions/stage7_gemma4_e2b/b0e9e07604a2/manifest.jsonl"
+      gemma4_e4b: "results/interventions/stage7_gemma4_e4b/2af614377c25/manifest.jsonl"
+      qwen35_2b: "results/interventions/stage7_qwen35_2b/5c61804e47bd/manifest.jsonl"
+      qwen35_4b: "results/interventions/stage7_qwen35_4b/3833727751d3/manifest.jsonl"
+    processed_paths:
+      tiny_aya_global: "results/processed/stage7_tiny_aya.json"
+      qwen25_15b: "results/processed/stage7_qwen25_15b.json"
+      gemma4_e2b: "results/processed/stage7_gemma4_e2b.json"
+      gemma4_e4b: "results/processed/stage7_gemma4_e4b.json"
+      qwen35_2b: "results/processed/stage7_qwen35_2b.json"
+      qwen35_4b: "results/processed/stage7_qwen35_4b.json"
+    publication_status: "publishable"
+    consumers:
+      - "Figure 7A (Prompt Swaps)"
+      - "Figure 7B (Activation Patches)"
+      - "Blog Section 6"
+
+  stage8_pii_500:
+    id: "stage8_pii_500"
+    title: "Stage 8: PII Sanitization via Canonical Identifiers (N=500)"
+    evidence_tier: "confirmatory"
+    dataset: "data/pii_synthetic_500.json"
+    split: "eval_500"
+    seed: 202618
+    cohort: "local_cohort_6_plus_frontier_stage8"
+    models:
+      - tiny_aya_global
+      - qwen25_15b
+      - gemma4_e2b
+      - gemma4_e4b
+      - qwen35_2b
+      - qwen35_4b
+      - claude-sonnet-5-5
+      - gpt-6-1-sol
+    exclusions:
+      - model: lfm25_12b
+        reason: "Excluded per D-02"
+      - model: lfm25_26b
+        reason: "Excluded per D-02"
+      - model: claude-haiku-5-5
+        reason: "Not part of frozen Stage 8 frontier subset"
+      - model: gpt-6-luna
+        reason: "Not part of frozen Stage 8 frontier subset"
+    conditions:
+      - name: "raw"
+      - name: "random_masked"
+      - name: "untyped"
+      - name: "typed"
+    expected_examples_per_cell: 500
+    expected_calls_per_model: 2000
+    expected_total_calls: 16000 # 12,000 local + 4,000 frontier
+    pairing_key: "example_id"
+    raw_paths:
+      tiny_aya_global: "results/raw/stage8_pii_500_tiny_aya/2cb6372cf76d.jsonl"
+      qwen25_15b: "results/raw/stage8_pii_500_qwen15b/6cf0154fea62.jsonl"
+      gemma4_e2b: "results/raw/stage8_pii_500_gemma4_e2b/d1536ef827a4.jsonl"
+      gemma4_e4b: "results/raw/stage8_pii_500_gemma4_e4b/2cb44c4bdc98.jsonl"
+      qwen35_2b: "results/raw/stage8_pii_500_qwen35_2b/fc7d7fb839bc.jsonl"
+      qwen35_4b: "results/raw/stage8_pii_500_qwen35_4b/34239222229e.jsonl"
+      claude-sonnet-5-5: "results/raw/stage8/anthropic_sonnet.jsonl"
+      gpt-6-1-sol: "results/raw/stage8/openai_sol.jsonl"
+    processed_paths:
+      local_aggregate: "results/processed/stage8_pii_500_cross_model.json"
+      frontier_aggregate: "results/processed/frontier_stage8_summary.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 64
+      prompt_version: "citation-prompt-v1"
+    publication_status: "complete"
+    consumers:
+      - "Figure 8A (Local)"
+      - "Figure 8B (Frontier)"
+      - "Blog Section 7"
+
+  frontier_stability:
+    id: "frontier_stability"
+    title: "Frontier Phase 1 Repeatability & Stability Verification"
+    evidence_tier: "exploratory"
+    dataset: "data/synthetic_citation_20.json"
+    split: "stability_20"
+    seed: 202610
+    cohort: "frontier_cohort_4"
+    models:
+      - claude-haiku-5-5
+      - claude-sonnet-5-5
+      - gpt-6-1-sol
+      - gpt-6-luna
+    expected_examples_per_cell: 20
+    expected_calls_per_model: 240
+    expected_total_calls: 960
+    pairing_key: "example_id"
+    raw_paths:
+      claude-haiku-5-5: "results/raw/frontier_stability/anthropic_claude-haiku-5-5.jsonl"
+      claude-sonnet-5-5: "results/raw/frontier_stability/anthropic_claude-sonnet-5-5.jsonl"
+      gpt-6-1-sol: "results/raw/frontier_stability/openai_gpt-6-1-sol.jsonl"
+      gpt-6-luna: "results/raw/frontier_stability/openai_gpt-6-luna.jsonl"
+    processed_paths:
+      aggregate: "results/processed/frontier_phase1_stability.json"
+    generation:
+      temperature: 0.0
+      max_output_tokens: 128
+    publication_status: "complete"
+    consumers:
+      - "Frontier Methods & Validation Gate"
+
+  stage9_systems_boundary:
+    id: "stage9_systems_boundary"
+    title: "Stage 9: Systems Boundary & Deterministic Software Stress Testing"
+    evidence_tier: "systems"
+    dataset: "scripts/evaluate_stage9_system.py"
+    split: "systems_eval"
+    seed: 202625
+    cohort: "deterministic_software"
+    models: []
+    expected_calls_per_model: 0
+    expected_total_calls: 0
+    deterministic_software_executions: 6000 # 500 valid requests + 5,000 adversarial payloads + 500 semantic bypass probes
+    cross_request_isolation_checks: 499
+    processed_paths:
+      aggregate: "results/processed/stage9_system_eval.json"
+    publication_status: "complete"
+    consumers:
+      - "Figure 9 (Trust Boundary)"
+      - "Blog Section 8"
+      - "Appendix Section 9"

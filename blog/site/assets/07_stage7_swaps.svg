@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 740" role="img" aria-labelledby="title desc">
-<title id="title">Figure 7: Stage 7 source-ID swap effects across 3 models</title>
-<desc id="desc">Counterfactual citation log-probability effect after swapping a relevant source identifier with a distractor.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 940" role="img" aria-labelledby="title desc">
+<title id="title">Figure 7A: Stage 7 source-ID swap effects across 6 local models</title>
+<desc id="desc">Counterfactual citation log-probability effect after swapping a relevant source identifier with a distractor (prompt swaps only).</desc>
 <style>
 text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
 .title{font-size:26px;font-weight:700}.subtitle{font-size:14px;fill:#5f6b7a}
@@ -8,69 +8,125 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 .mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;font-size:12.5px}
 .axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.5}
 </style>
-<text x="50" y="44" class="title" text-anchor="start">Figure 7 — After an ID swap, retained models shift toward the newly assigned identifier</text>
-<text x="50" y="72" class="subtitle" text-anchor="start">Change in preference for the identifier newly assigned to the relevant source; paired 95% bootstrap intervals across 42 counterfactual swap directions.</text>
-<line x1="298.4" y1="140" x2="298.4" y2="500" stroke="#d8dee8" stroke-width="1"/>
-<text x="298.4" y="525" class="small" text-anchor="middle">-20</text>
-<line x1="490.4" y1="140" x2="490.4" y2="500" stroke="#172033" stroke-width="1.8"/>
-<text x="490.4" y="525" class="small" text-anchor="middle">+0</text>
-<line x1="682.4" y1="140" x2="682.4" y2="500" stroke="#d8dee8" stroke-width="1"/>
-<text x="682.4" y="525" class="small" text-anchor="middle">+20</text>
-<line x1="874.4" y1="140" x2="874.4" y2="500" stroke="#d8dee8" stroke-width="1"/>
-<text x="874.4" y="525" class="small" text-anchor="middle">+40</text>
-<line x1="1066.4" y1="140" x2="1066.4" y2="500" stroke="#d8dee8" stroke-width="1"/>
-<text x="1066.4" y="525" class="small" text-anchor="middle">+60</text>
+<text x="50" y="44" class="title" text-anchor="start">Figure 7A — After an ID swap, retained models shift toward the newly assigned identifier</text>
+<text x="50" y="72" class="subtitle" text-anchor="start">Change in preference for the identifier newly assigned to the relevant source; paired 95% bootstrap intervals across 114 counterfactual prompt swaps (prompt swaps only).</text>
+<line x1="298.4" y1="140" x2="298.4" y2="680" stroke="#d8dee8" stroke-width="1"/>
+<text x="298.4" y="705" class="small" text-anchor="middle">-20</text>
+<line x1="490.4" y1="140" x2="490.4" y2="680" stroke="#172033" stroke-width="1.8"/>
+<text x="490.4" y="705" class="small" text-anchor="middle">+0</text>
+<line x1="682.4" y1="140" x2="682.4" y2="680" stroke="#d8dee8" stroke-width="1"/>
+<text x="682.4" y="705" class="small" text-anchor="middle">+20</text>
+<line x1="874.4" y1="140" x2="874.4" y2="680" stroke="#d8dee8" stroke-width="1"/>
+<text x="874.4" y="705" class="small" text-anchor="middle">+40</text>
+<line x1="1066.4" y1="140" x2="1066.4" y2="680" stroke="#d8dee8" stroke-width="1"/>
+<text x="1066.4" y="705" class="small" text-anchor="middle">+60</text>
 <text x="490.4" y="116" class="small" text-anchor="middle" font-weight="600">0.0 (No change in preference)</text>
 <text x="275" y="132" class="small" text-anchor="start" fill="#5f6b7a">← Retained old association (&lt; 0)</text>
 <text x="1205" y="132" class="small" text-anchor="end" fill="#315efb">Shifted to new ID (&gt; 0) →</text>
-<text x="740.0" y="552" class="label" text-anchor="middle">Change in [log P(newly correct ID) − log P(previous ID)] (log-probability delta)</text>
-<text x="55" y="200" class="label" text-anchor="start" fill="#172033">Qwen 1.5B (n=8 examples)</text>
-<line x1="497.89495865878183" y1="173" x2="532.1696708553517" y2="173" stroke="#315efb" stroke-width="3"/>
-<line x1="497.89495865878183" y1="168" x2="497.89495865878183" y2="178" stroke="#315efb" stroke-width="2"/>
-<line x1="532.1696708553517" y1="168" x2="532.1696708553517" y2="178" stroke="#315efb" stroke-width="2"/>
-<circle cx="515.6956133132801" cy="173" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
-<line x1="513.9207781959062" y1="195" x2="561.8042781639135" y2="195" stroke="#008c83" stroke-width="3"/>
-<line x1="513.9207781959062" y1="190" x2="513.9207781959062" y2="200" stroke="#008c83" stroke-width="2"/>
-<line x1="561.8042781639135" y1="190" x2="561.8042781639135" y2="200" stroke="#008c83" stroke-width="2"/>
-<circle cx="538.1861371914431" cy="195" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<line x1="477.7413057609873" y1="217" x2="537.7087348116943" y2="217" stroke="#e97824" stroke-width="3"/>
-<line x1="477.7413057609873" y1="212" x2="477.7413057609873" y2="222" stroke="#e97824" stroke-width="2"/>
-<line x1="537.7087348116943" y1="212" x2="537.7087348116943" y2="222" stroke="#e97824" stroke-width="2"/>
-<circle cx="508.6845969005942" cy="217" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
-<text x="55" y="310" class="label" text-anchor="start" fill="#172033">Gemma E2B (n=4 pilot examples)</text>
-<line x1="334.40455160140993" y1="283" x2="737.8432510375976" y2="283" stroke="#315efb" stroke-width="3"/>
-<line x1="334.40455160140993" y1="278" x2="334.40455160140993" y2="288" stroke="#315efb" stroke-width="2"/>
-<line x1="737.8432510375976" y1="278" x2="737.8432510375976" y2="288" stroke="#315efb" stroke-width="2"/>
-<circle cx="511.1441339790821" cy="283" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
-<line x1="503.13810615539546" y1="305" x2="638.4173574455883" y2="305" stroke="#008c83" stroke-width="3"/>
-<line x1="503.13810615539546" y1="300" x2="503.13810615539546" y2="310" stroke="#008c83" stroke-width="2"/>
-<line x1="638.4173574455883" y1="300" x2="638.4173574455883" y2="310" stroke="#008c83" stroke-width="2"/>
-<circle cx="562.3776205065617" cy="305" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<line x1="562.5917463301395" y1="327" x2="775.6514583844076" y2="327" stroke="#e97824" stroke-width="3"/>
-<line x1="562.5917463301395" y1="322" x2="562.5917463301395" y2="332" stroke="#e97824" stroke-width="2"/>
-<line x1="775.6514583844076" y1="322" x2="775.6514583844076" y2="332" stroke="#e97824" stroke-width="2"/>
-<circle cx="669.1216023572736" cy="327" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
-<text x="55" y="420" class="label" text-anchor="start" fill="#172033">Gemma E4B (n=2 pilot examples)</text>
-<line x1="355.772937810421" y1="393" x2="846.919416809082" y2="393" stroke="#315efb" stroke-width="3"/>
-<line x1="355.772937810421" y1="388" x2="355.772937810421" y2="398" stroke="#315efb" stroke-width="2"/>
-<line x1="846.919416809082" y1="388" x2="846.919416809082" y2="398" stroke="#315efb" stroke-width="2"/>
-<circle cx="601.3461773097515" cy="393" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
-<line x1="577.6934299468994" y1="415" x2="694.4004760742187" y2="415" stroke="#008c83" stroke-width="3"/>
-<line x1="577.6934299468994" y1="410" x2="577.6934299468994" y2="420" stroke="#008c83" stroke-width="2"/>
-<line x1="694.4004760742187" y1="410" x2="694.4004760742187" y2="420" stroke="#008c83" stroke-width="2"/>
-<circle cx="636.046953010559" cy="415" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<line x1="746.7600816726689" y1="437" x2="1169.612736129759" y2="437" stroke="#e97824" stroke-width="3"/>
-<line x1="746.7600816726689" y1="432" x2="746.7600816726689" y2="442" stroke="#e97824" stroke-width="2"/>
-<line x1="1169.612736129759" y1="432" x2="1169.612736129759" y2="442" stroke="#e97824" stroke-width="2"/>
-<circle cx="958.1864089012141" cy="437" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
-<rect x="55" y="590" width="1240" height="125" rx="10" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<circle cx="88" cy="618" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
-<text x="104" y="623" class="small" text-anchor="start" font-weight="600">[S#] Structured</text>
-<circle cx="308" cy="618" r="6" fill="#008c83" stroke="none" stroke-width="1"/>
-<text x="324" y="623" class="small" text-anchor="start" font-weight="600">[XQ7M] Random</text>
-<circle cx="528" cy="618" r="6" fill="#e97824" stroke="none" stroke-width="1"/>
-<text x="544" y="623" class="small" text-anchor="start" font-weight="600">UUID (36-char)</text>
-<text x="80" y="652" class="small" text-anchor="start" font-weight="600">Key result: Qwen and Gemma shift probability toward the newly bound identifier (&gt; 0) under compact formats.</text>
-<text x="80" y="676" class="small" text-anchor="start" fill="#5f6b7a">Caveats: Full UUIDs contain more tokens, so total log-prob magnitudes cannot be compared naively across formats.</text>
-<text x="80" y="696" class="small" text-anchor="start" fill="#5f6b7a">Gemma cohorts (n=4 and n=2) are small pilot cohorts whose bootstrap intervals cross zero (not statistically conclusive).</text>
+<text x="740.0" y="732" class="label" text-anchor="middle">Change in [log P(newly correct ID) − log P(previous ID)] (log-probability delta)</text>
+<text x="55" y="190" class="label" text-anchor="start" fill="#172033">Qwen 2.5 1.5B (n=8 examples)</text>
+<line x1="497.89495865878183" y1="165" x2="532.1696708553517" y2="165" stroke="#315efb" stroke-width="3"/>
+<line x1="497.89495865878183" y1="160" x2="497.89495865878183" y2="170" stroke="#315efb" stroke-width="2"/>
+<line x1="532.1696708553517" y1="160" x2="532.1696708553517" y2="170" stroke="#315efb" stroke-width="2"/>
+<circle cx="515.6956133132801" cy="165" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="513.9207781959062" y1="185" x2="561.8042781639135" y2="185" stroke="#008c83" stroke-width="3"/>
+<line x1="513.9207781959062" y1="180" x2="513.9207781959062" y2="190" stroke="#008c83" stroke-width="2"/>
+<line x1="561.8042781639135" y1="180" x2="561.8042781639135" y2="190" stroke="#008c83" stroke-width="2"/>
+<circle cx="538.1861371914431" cy="185" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<line x1="477.7413057609873" y1="205" x2="537.7087348116943" y2="205" stroke="#e97824" stroke-width="3"/>
+<line x1="477.7413057609873" y1="200" x2="477.7413057609873" y2="210" stroke="#e97824" stroke-width="2"/>
+<line x1="537.7087348116943" y1="200" x2="537.7087348116943" y2="210" stroke="#e97824" stroke-width="2"/>
+<circle cx="508.6845969005942" cy="205" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="55" y="275" class="label" text-anchor="start" fill="#172033">Gemma 4 E2B (n=4 pilot examples)</text>
+<line x1="334.40455160140993" y1="250" x2="737.8432510375976" y2="250" stroke="#315efb" stroke-width="3"/>
+<line x1="334.40455160140993" y1="245" x2="334.40455160140993" y2="255" stroke="#315efb" stroke-width="2"/>
+<line x1="737.8432510375976" y1="245" x2="737.8432510375976" y2="255" stroke="#315efb" stroke-width="2"/>
+<circle cx="511.1441339790821" cy="250" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="503.13810615539546" y1="270" x2="638.4173574455883" y2="270" stroke="#008c83" stroke-width="3"/>
+<line x1="503.13810615539546" y1="265" x2="503.13810615539546" y2="275" stroke="#008c83" stroke-width="2"/>
+<line x1="638.4173574455883" y1="265" x2="638.4173574455883" y2="275" stroke="#008c83" stroke-width="2"/>
+<circle cx="562.3776205065617" cy="270" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<line x1="562.5917463301395" y1="290" x2="775.6514583844076" y2="290" stroke="#e97824" stroke-width="3"/>
+<line x1="562.5917463301395" y1="285" x2="562.5917463301395" y2="295" stroke="#e97824" stroke-width="2"/>
+<line x1="775.6514583844076" y1="285" x2="775.6514583844076" y2="295" stroke="#e97824" stroke-width="2"/>
+<circle cx="669.1216023572736" cy="290" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="55" y="360" class="label" text-anchor="start" fill="#172033">Gemma 4 E4B (n=2 pilot examples)</text>
+<line x1="355.772937810421" y1="335" x2="846.919416809082" y2="335" stroke="#315efb" stroke-width="3"/>
+<line x1="355.772937810421" y1="330" x2="355.772937810421" y2="340" stroke="#315efb" stroke-width="2"/>
+<line x1="846.919416809082" y1="330" x2="846.919416809082" y2="340" stroke="#315efb" stroke-width="2"/>
+<circle cx="601.3461773097515" cy="335" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="577.6934299468994" y1="355" x2="694.4004760742187" y2="355" stroke="#008c83" stroke-width="3"/>
+<line x1="577.6934299468994" y1="350" x2="577.6934299468994" y2="360" stroke="#008c83" stroke-width="2"/>
+<line x1="694.4004760742187" y1="350" x2="694.4004760742187" y2="360" stroke="#008c83" stroke-width="2"/>
+<circle cx="636.046953010559" cy="355" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<line x1="746.7600816726689" y1="375" x2="1169.612736129759" y2="375" stroke="#e97824" stroke-width="3"/>
+<line x1="746.7600816726689" y1="370" x2="746.7600816726689" y2="380" stroke="#e97824" stroke-width="2"/>
+<line x1="1169.612736129759" y1="370" x2="1169.612736129759" y2="380" stroke="#e97824" stroke-width="2"/>
+<circle cx="958.1864089012141" cy="375" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="55" y="445" class="label" text-anchor="start" fill="#172033">Tiny Aya Global (n=8 examples)</text>
+<line x1="495.0169878131151" y1="420" x2="527.2865031465888" y2="420" stroke="#315efb" stroke-width="3"/>
+<line x1="495.0169878131151" y1="415" x2="495.0169878131151" y2="425" stroke="#315efb" stroke-width="2"/>
+<line x1="527.2865031465888" y1="415" x2="527.2865031465888" y2="425" stroke="#315efb" stroke-width="2"/>
+<circle cx="511.2451909422875" cy="420" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="506.3373387477428" y1="440" x2="577.5965823479485" y2="440" stroke="#008c83" stroke-width="3"/>
+<line x1="506.3373387477428" y1="435" x2="506.3373387477428" y2="445" stroke="#008c83" stroke-width="2"/>
+<line x1="577.5965823479485" y1="435" x2="577.5965823479485" y2="445" stroke="#008c83" stroke-width="2"/>
+<circle cx="542.0440538081089" cy="440" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<line x1="498.3290835001737" y1="460" x2="631.799533208849" y2="460" stroke="#e97824" stroke-width="3"/>
+<line x1="498.3290835001737" y1="455" x2="498.3290835001737" y2="465" stroke="#e97824" stroke-width="2"/>
+<line x1="631.799533208849" y1="455" x2="631.799533208849" y2="465" stroke="#e97824" stroke-width="2"/>
+<circle cx="562.9931292454216" cy="460" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="55" y="530" class="label" text-anchor="start" fill="#172033">Qwen 3.5 2B (n=8 examples)</text>
+<line x1="498.9547656736523" y1="505" x2="521.0593311739713" y2="505" stroke="#315efb" stroke-width="3"/>
+<line x1="498.9547656736523" y1="500" x2="498.9547656736523" y2="510" stroke="#315efb" stroke-width="2"/>
+<line x1="521.0593311739713" y1="500" x2="521.0593311739713" y2="510" stroke="#315efb" stroke-width="2"/>
+<circle cx="508.7531259149313" cy="505" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="508.38328520374927" y1="525" x2="595.6243024917809" y2="525" stroke="#008c83" stroke-width="3"/>
+<line x1="508.38328520374927" y1="520" x2="508.38328520374927" y2="530" stroke="#008c83" stroke-width="2"/>
+<line x1="595.6243024917809" y1="520" x2="595.6243024917809" y2="530" stroke="#008c83" stroke-width="2"/>
+<circle cx="549.9507767687041" cy="525" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<line x1="514.6340111229299" y1="545" x2="553.0405941695597" y2="545" stroke="#e97824" stroke-width="3"/>
+<line x1="514.6340111229299" y1="540" x2="514.6340111229299" y2="550" stroke="#e97824" stroke-width="2"/>
+<line x1="553.0405941695597" y1="540" x2="553.0405941695597" y2="550" stroke="#e97824" stroke-width="2"/>
+<circle cx="535.2626421115414" cy="545" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="55" y="615" class="label" text-anchor="start" fill="#172033">Qwen 3.5 4B (n=8 examples)</text>
+<line x1="514.3541462925449" y1="590" x2="547.5439847779273" y2="590" stroke="#315efb" stroke-width="3"/>
+<line x1="514.3541462925449" y1="585" x2="514.3541462925449" y2="595" stroke="#315efb" stroke-width="2"/>
+<line x1="547.5439847779273" y1="585" x2="547.5439847779273" y2="595" stroke="#315efb" stroke-width="2"/>
+<circle cx="531.0493242710829" cy="590" r="5.5" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="506.5943590106501" y1="610" x2="567.2907026193874" y2="610" stroke="#008c83" stroke-width="3"/>
+<line x1="506.5943590106501" y1="605" x2="506.5943590106501" y2="615" stroke="#008c83" stroke-width="2"/>
+<line x1="567.2907026193874" y1="605" x2="567.2907026193874" y2="615" stroke="#008c83" stroke-width="2"/>
+<circle cx="538.806585275111" cy="610" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<line x1="504.7153599394812" y1="630" x2="549.3162088154306" y2="630" stroke="#e97824" stroke-width="3"/>
+<line x1="504.7153599394812" y1="625" x2="504.7153599394812" y2="635" stroke="#e97824" stroke-width="2"/>
+<line x1="549.3162088154306" y1="625" x2="549.3162088154306" y2="635" stroke="#e97824" stroke-width="2"/>
+<circle cx="524.7328498421213" cy="630" r="5.5" fill="#e97824" stroke="none" stroke-width="1"/>
+<rect x="55" y="780" width="1240" height="130" rx="10" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<circle cx="88" cy="808" r="6" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="104" y="813" class="small" text-anchor="start" font-weight="600">[S#] Structured</text>
+<circle cx="308" cy="808" r="6" fill="#008c83" stroke="none" stroke-width="1"/>
+<text x="324" y="813" class="small" text-anchor="start" font-weight="600">[XQ7M] Random</text>
+<circle cx="528" cy="808" r="6" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="544" y="813" class="small" text-anchor="start" font-weight="600">UUID (36-char)</text>
+<text x="80" y="842" class="small" text-anchor="start" font-weight="600">Key result: Retained models shift probability toward the newly bound identifier (&gt; 0) across compact formats.</text>
+<text x="80" y="866" class="small" text-anchor="start" fill="#5f6b7a">Scope: Prompt-level counterfactual swaps only (114 swaps across 6 models). See Figure 7B for residual-stream activation patching.</text>
+<text x="80" y="888" class="small" text-anchor="start" fill="#5f6b7a">Caveat: Full UUIDs contain more tokens, so total log-prob magnitudes cannot be compared naively across formats.</text>
+<metadata id="figure-metadata" type="application/json">
+{
+  "experiment_id": "stage7_interventions",
+  "cohort": "local_cohort_6",
+  "eligible_models": [
+    "qwen25_15b",
+    "gemma4_e2b",
+    "gemma4_e4b",
+    "tiny_aya_global",
+    "qwen35_2b",
+    "qwen35_4b"
+  ],
+  "swaps": 114,
+  "interventions": 114,
+  "scope": "prompt_swaps_only"
+}
+</metadata>
 </svg>

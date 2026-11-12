@@ -1,125 +1,186 @@
-import csv
 import json
+from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MARKDOWN = (ROOT / "blog/symbolic-ir-engineering-blog.md").read_text()
-HTML = (ROOT / "blog/site/index.html").read_text()
-APPENDIX = (ROOT / "blog/appendix.md").read_text()
+SITE = ROOT / "blog/site"
+SITE_PAGES = sorted(SITE.rglob("*.html"))
+SITE_HTML = "\n".join(page.read_text() for page in SITE_PAGES)
 
 
-def test_stage9_blog_claims_match_processed_result():
+EXPECTED_ROUTES = {
+    "00-harness-validation",
+    "01-citation-baseline",
+    "02-multihop-musique",
+    "04-dual-labels",
+    "05-reasoning-budget",
+    "longproc",
+    "06-representation-geometry",
+    "07-causal-interventions",
+    "08-entity-canonicalization",
+    "09-systems-boundary",
+}
+
+
+class LinkCollector(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.refs = []
+
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        if tag == "a" and values.get("href"):
+            self.refs.append(values["href"])
+        if tag in {"img", "script"} and values.get("src"):
+            self.refs.append(values["src"])
+        if tag == "link" and values.get("href"):
+            self.refs.append(values["href"])
+
+
+def test_experimental_log_has_complete_route_set_and_page_contract():
+    routes = {page.parent.name for page in (SITE / "experiments").glob("*/index.html")}
+    assert routes == EXPECTED_ROUTES
+    required_ids = (
+        'id="question"', 'id="design"', 'id="results"',
+        'id="interpretation"', 'id="boundaries"',
+        'id="provenance"', 'id="related"',
+    )
+    for page in (SITE / "experiments").glob("*/index.html"):
+        html = page.read_text()
+        assert 'id="main-content"' in html, page
+        assert 'class="experiment-nav"' in html, page
+        assert 'aria-current="page"' in html, page
+        assert all(section in html for section in required_ids), page
+
+
+def test_all_local_site_links_and_assets_resolve():
+    for page in SITE_PAGES:
+        parser = LinkCollector()
+        parser.feed(page.read_text())
+        for ref in parser.refs:
+            parts = urlsplit(ref)
+            if parts.scheme or parts.netloc or ref.startswith(("#", "mailto:")):
+                continue
+            target = (page.parent / parts.path).resolve()
+            if parts.path.endswith("/"):
+                target = target / "index.html"
+            assert target.exists(), f"{page.relative_to(ROOT)} -> {ref}"
+
+
+def test_study_accounting_and_frozen_cohort_are_public():
+    accounting = json.loads((ROOT / "results/audit/study_accounting.json").read_text())
+    assert accounting["local_completed_calls"] == 46_230
+    assert accounting["frontier_completed_calls"] == 13_760
+    assert accounting["mechanistic_completed_calls"] == 3_264
+    assert accounting["systems_completed_executions"] == 6_000
+    assert accounting["total_verified_calls"] == 63_254
+    assert {m for m, v in accounting["by_model"].items() if v["type"] == "local"} == {
+        "tiny_aya_global", "qwen25_15b", "gemma4_e2b", "gemma4_e4b",
+        "qwen35_2b", "qwen35_4b",
+    }
+    landing = (SITE / "index.html").read_text()
+    for value in ("63,254", "46,230", "13,760", "3,264", "6,000"):
+        assert value in landing
+    assert "Both LFM checkpoints are excluded" in landing
+
+
+def test_musique_pages_match_six_model_processed_outputs():
+    held_out = json.loads((ROOT / "results/processed/musique_confirmatory.json").read_text())
+    scaled = json.loads((ROOT / "results/processed/musique_500_confirmatory.json").read_text())
+    assert held_out["records"] == 2_400
+    assert held_out["summary"] == {
+        "answer_f1_sig_neg": 1, "answer_f1_sig_pos": 2,
+        "answer_f1_sig_total": 3, "binding_neg": 12,
+        "binding_sig_neg": 6, "binding_sig_pos": 0,
+        "binding_sig_total": 6, "total_cells": 12,
+    }
+    assert scaled["records"] == 12_000
+    assert scaled["summary"]["binding_sig_neg"] == 12
+    assert scaled["summary"]["answer_f1_sig_total"] == 4
+    page = (SITE / "experiments/02-multihop-musique/index.html").read_text()
+    for claim in ("2,400 generations", "12,000 generations", "12 / 12", "8,000 generations"):
+        assert claim in page
+    for model in ("Claude Haiku 5.5", "Claude Sonnet 5.5", "GPT-6 Luna", "GPT-6.1 Sol"):
+        assert model in page
+
+
+def test_reasoning_budget_matches_expanded_confirmation():
+    result = json.loads((ROOT / "results/processed/stage5_confirmatory.json").read_text())
+    assert result["records"] == 4_800
+    assert result["complete_paired_examples"] == 240
+    assert len(result["models"]) == 6
+    positive = 0
+    for model in result["models"].values():
+        interval = model["uuid_penalty_low_to_high_budget_interaction"]["bootstrap_95_ci"]
+        positive += interval[0] > 0
+    assert positive == 5
+    page = (SITE / "experiments/05-reasoning-budget/index.html").read_text()
+    assert "4,800 generations" in page
+    assert "5 / 6" in page
+    assert "64 / 128 / 256 / 512 / 1024" in page
+    assert "visible scratchpad" in page
+    assert "not hidden chain-of-thought" in page
+
+
+def test_longproc_stage6_and_stage7_counts_match_artifacts():
+    longproc = json.loads((ROOT / "results/processed/longproc_gpu_summary.json").read_text())
+    assert len(longproc) == 6
+    assert sum(model["n"] for model in longproc.values()) == 150
+    eligibility = json.loads((ROOT / "results/audit/mechanistic_eligibility_report.json").read_text())
+    assert len(eligibility["eligible_cohort"]) == 6
+    assert not eligibility["unsupported_cohort"]
+    for model in ("tiny_aya", "qwen35_2b", "qwen35_4b"):
+        result = json.loads((ROOT / f"results/processed/stage7_{model}.json").read_text())
+        assert result["interventions"] == 384
+    geometry = (SITE / "experiments/06-representation-geometry/index.html").read_text()
+    causal = (SITE / "experiments/07-causal-interventions/index.html").read_text()
+    assert "1,440 BF16 passes" in geometry
+    assert "5 / 6" in geometry
+    assert "1,824 interventions" in causal
+    assert "114" in causal and "1,710" in causal
+    assert "07b_stage7_patching.svg" in causal
+
+
+def test_stage8_classification_and_exposure_denominators_are_visible():
+    result = json.loads((ROOT / "results/processed/stage8_pii_500_cross_model.json").read_text())
+    assert result["n_models"] == 6
+    assert result["denominators"] == {
+        "all_four_conditions": 12_000,
+        "three_masked_conditions": 9_000,
+        "typed_and_untyped": 6_000,
+    }
+    assert result["classification_counts"]["supported"] == 4
+    assert result["classification_counts"]["ceiling_limited"] == 2
+    assert sum(result["classification_counts"].values()) == 6
+    page = (SITE / "experiments/08-entity-canonicalization/index.html").read_text()
+    assert "4 / 6" in page and "2 / 6" in page
+    assert "0 / 9,000" in page
+    assert "LFM 1.2B</td>" not in page
+    assert "LFM 2.6B</td>" not in page
+
+
+def test_frontier_and_stage9_completion_are_reported_separately():
+    frontier = json.loads((ROOT / "results/processed/frontier_evaluation_summary.json").read_text())
+    assert set(frontier["musique_500"]) == {
+        "anthropic_haiku", "anthropic_sonnet", "openai_luna", "openai_sol"
+    }
+    assert sum(model["records"] for model in frontier["musique_500"].values()) == 8_000
+    page = (SITE / "experiments/09-systems-boundary/index.html").read_text()
     result = json.loads((ROOT / "results/processed/stage9_system_eval.json").read_text())
     reduction = 100 * result["representation"]["character_reduction_fraction"]
-    expected = f"{reduction:.2f}%"
-    assert expected in MARKDOWN
-    assert expected in HTML
-    assert "41.8%" not in MARKDOWN
-    assert "41.8%" not in HTML
+    assert f"{reduction:.2f}%" in page
+    assert "5,000" in page
+    assert "wrong-but-registered" in page.lower()
 
 
-def test_stage5_two_pass_counts_are_not_described_as_single_calls():
-    for article in (MARKDOWN, HTML):
-        assert "57,397" in article
-        assert "63,706" in article
-        assert "21,397" in article
-        assert "27,706" in article
-        assert "5,760 model calls" in article
-        assert "2,880 two-pass records" in article
-        assert "5,600 model calls" not in article
-        assert "2,800 paired two-pass generations" not in article
-    assert "26,205" in APPENDIX
-    assert "20,605" in APPENDIX
-
-
-def test_lfm26b_reported_metrics_match_artifacts():
-    factorial = json.loads((ROOT / "results/processed/stage1_lfm25_26b_factorial.json").read_text())
-    assert factorial["total_records"] == 1600
-    for c in factorial["cells"]:
-        if "prefill" in c["arm"]:
-            assert c["truncation_rate"] == 0.0
-        elif c["arm"] == "default_80":
-            assert c["truncation_rate"] == 1.0
-
-    musique_sens = json.loads((ROOT / "results/analysis/musique_lfm26b_budget_sensitivity.json").read_text())
-    delta_15 = f"{musique_sens['run_512']['scenarios']['15_sources']['binding_recall_delta'] * 100:.2f}"
-    delta_20 = f"{musique_sens['run_512']['scenarios']['20_sources']['binding_recall_delta'] * 100:.2f}"
-    assert delta_15 == "-10.58"
-    assert delta_20 == "-4.00"
-
-    pii_26b = json.loads((ROOT / "results/analysis/stage8_pii_lfm25_26b.json").read_text())
-    typed_delta = pii_26b["paired_effects"]["typed_vs_untyped_accuracy"]["mean"] * 100
-    assert f"{typed_delta:.1f}" == "70.0"
-
-    # Preserved in technical appendix
-    assert "-10.58" in APPENDIX
-    assert "-4.00" in APPENDIX
-    assert "70.0" in APPENDIX
-
-    # Completely absent from public blog
-    for article in (MARKDOWN, HTML):
-        assert "LFM" not in article
-        assert "LiquidAI" not in article
-
-
-def test_counter_result_and_scope_caveats_remain_visible():
-    for article in (MARKDOWN, HTML):
-        assert "Gemma E2B" in article
-        assert "37 points" in article
-        assert "25 points" in article
-        assert "does not establish" in article
-
-
-def test_manifest_points_to_checked_in_supporting_artifacts():
-    with (ROOT / "blog/evidence_manifest.csv").open(newline="") as handle:
-        rows = list(csv.DictReader(handle))
-    for row in rows:
-        assert (ROOT / row["primary_artifact"]).is_file()
-        for artifact in row["processed_artifact"].split(";"):
-            path = artifact.strip()
-            if path.startswith("results/raw/"):
-                continue
-            assert (ROOT / path).is_file(), path
-
-
-def test_scaled_evidence_claims_are_consistent():
-    for article in (MARKDOWN, HTML):
-        assert "57,397" in article
-        assert "63,706" in article
-        assert "251" in article
-        assert "18 paired losses" in article or "18 losses" in article
-        assert "0.0%" in article
-        assert "757" not in article
-        assert "76,515" not in article
-        assert "83,555" not in article
-    assert "76,515" in APPENDIX
-    assert "83,555" in APPENDIX
-    assert "757" in APPENDIX
-
-
-def test_anthropic_frontier_claims_match_compiled_results():
-    result = json.loads((ROOT / "results/processed/frontier_anthropic_summary.json").read_text())
-    for model in ("anthropic_haiku", "anthropic_sonnet"):
-        assert result["musique_500"][model]["records"] == 2000
-        for num_sources in (15, 20):
-            delta = result["musique_500"][model]["deltas"][f"{num_sources}_sources"]["citation_recall_delta"]
-            expected = f"{delta['mean_delta_pct']:.2f} pp"
-            assert expected in MARKDOWN
-            assert expected.replace("-", "&minus;") in HTML
-
-    for article in (MARKDOWN, HTML):
-        assert "6,400" in article
-        assert "incomplete OpenAI batches are excluded" in article
-        assert "zero reasoning tokens" in article
-        assert "03b_frontier_musique.svg" in article
-        assert "04b_anthropic_reasoning.svg" in article
-        assert "Typed entity canonicalization across 7 models" in article
-
-    for asset, model_names in {
-        "03b_frontier_musique.svg": ("Claude Haiku 5.5", "Claude Sonnet 5.5"),
-        "04b_anthropic_reasoning.svg": ("Sonnet", "Adaptive-low"),
-        "08_stage8_entities.svg": ("Sonnet 5.5",),
-    }.items():
-        svg = (ROOT / "blog/site/assets" / asset).read_text()
-        assert all(name in svg for name in model_names)
+def test_counter_results_and_scope_caveats_are_visible():
+    baseline = (SITE / "experiments/01-citation-baseline/index.html").read_text()
+    geometry = (SITE / "experiments/06-representation-geometry/index.html").read_text()
+    assert "Gemma E2B" in baseline
+    assert "parser" in baseline.lower()
+    assert "no clear gate" in geometry.lower()
+    assert "does not establish" in geometry.lower()
+    assert "correlational" in geometry.lower()
+    assert "07b_stage7_patching.svg" in SITE_HTML

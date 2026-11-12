@@ -28,6 +28,18 @@ PILOT_SELECTIONS = {
         Path("results/raw/stage5_pilot_tiny_aya_global/32fa0c3c696f.jsonl"),
         {"reasoning_entity_resolution"},
     ),
+    "google/gemma-4-E4B-it-qat-q4_0-gguf:q4_0": (
+        Path("results/raw/stage5_pilot_gemma4_e4b/c4931b820baf.jsonl"),
+        {"reasoning_entity_resolution"},
+    ),
+    "unsloth/Qwen3.5-2B-GGUF:q4_k_m": (
+        Path("results/raw/stage5_pilot_qwen35_2b/b3b211daeedf.jsonl"),
+        {"reasoning_entity_resolution"},
+    ),
+    "unsloth/Qwen3.5-4B-GGUF:q4_k_m": (
+        Path("results/raw/stage5_pilot_qwen35_4b/9f3862caafba.jsonl"),
+        {"reasoning_entity_resolution"},
+    ),
 }
 
 
@@ -280,14 +292,14 @@ def main() -> int:
                             "examples": len({row["example_id"] for row in selected}),
                             "accuracy": mean(accuracy(row) for row in selected)})
     interpretation = (
-        "The broad monotonic identifier-complexity × budget hypothesis is not confirmed: every confirmatory slope and "
-        "low-to-high interval includes zero. Qwen nevertheless has significant UUID deficits at 128 and 1,024 tokens, "
-        "which supports a persistent binding cost but not monotonic recovery with budget. Gemma E2B shows the predicted "
-        "constrained-budget failure at 64 tokens (UUID minus numeric: -35 points), followed by a sharp non-monotonic "
-        "reversal; removing UUID reproduction improves its accuracy by 45 and 50 points at 512 and 1,024 tokens. "
-        "Tiny Aya's significant positive pilot slope does not replicate. No model has a source-count interaction whose "
-        "interval excludes zero. UUIDs do reliably increase total generated output: the UUID-minus-numeric interval is "
-        "strictly positive in 14 of 15 model-budget cells, but scratchpad-token direction is model-dependent."
+        "The expanded six-model confirmation does not support a universal monotonic repair, despite positive "
+        "low-to-high and slope intervals in five of six models. Tiny Aya's significant positive pilot slope does not "
+        "replicate. Qwen 2.5, Gemma E2B, Gemma E4B, Qwen 3.5 2B, and Qwen 3.5 4B recover over the full 64-to-1,024-token "
+        "range, but their budget curves include model-specific reversals and ceiling effects. Gemma E2B shows a "
+        "constrained-budget failure at 64 tokens followed by a sharp reversal; removing UUID reproduction improves its "
+        "accuracy by 45 and 50 points at 512 and 1,024 tokens. Gemma E4B has a clearly positive source-count "
+        "interaction; Qwen 3.5 2B's lower bound rounds to zero. UUIDs increase total generated output in 28 of 30 model-budget cells with strictly "
+        "positive intervals, while scratchpad-token direction remains model-dependent."
     )
     result = {
         "design": {"seed": 202606, "pilot_seed": 202605, "selection_interval": [0.30, 0.70],

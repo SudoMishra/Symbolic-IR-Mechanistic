@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stage 9 experimental log: deterministic validation, rehydration, adversarial testing, and the semantic boundary of a request-scoped symbolic IR.">
+  <title>09 · Systems boundary — Symbolic IR experimental log</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to experiment</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="../../index.html"><span class="brand-mark">SYMBOLIC IR</span><span class="brand-subtitle">experimental log</span></a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Index</button>
+    <nav class="site-nav" id="site-nav" data-site-nav aria-label="Primary navigation"><a href="../../index.html">Program</a><a href="#results" aria-current="page">Results</a><a href="#provenance">Artifacts</a></nav>
+  </div></header>
+  <div class="page-shell">
+    <aside class="experiment-sidebar" aria-label="Experiment index">
+      <div class="sidebar-label">Experiments</div>
+      <ol class="experiment-nav">
+        <li><a href="../00-harness-validation/"><span class="nav-id">00</span><span>Harness validation</span></a></li>
+        <li><a href="../01-citation-baseline/"><span class="nav-id">01</span><span>Citation baseline</span></a></li>
+        <li><a href="../02-multihop-musique/"><span class="nav-id">02</span><span>Multi-hop MuSiQue</span></a></li>
+        <li><a href="../04-dual-labels/"><span class="nav-id">04</span><span>Dual labels</span></a></li>
+        <li><a href="../05-reasoning-budget/"><span class="nav-id">05</span><span>Reasoning budget</span></a></li>
+        <li><a href="../longproc/"><span class="nav-id">LP</span><span>Long-output reality check</span></a></li>
+        <li><a href="../06-representation-geometry/"><span class="nav-id">06</span><span>Representation geometry</span></a></li>
+        <li><a href="../07-causal-interventions/"><span class="nav-id">07</span><span>Causal interventions</span></a></li>
+        <li><a href="../08-entity-canonicalization/"><span class="nav-id">08</span><span>Entity canonicalization</span></a></li>
+        <li><a href="./" aria-current="page"><span class="nav-id">09</span><span>Systems boundary</span></a></li>
+      </ol>
+      <div class="sidebar-label toc-label">On this page</div>
+      <ul class="toc"><li><a href="#question">Question</a></li><li><a href="#design">Design</a></li><li><a href="#results">Results</a></li><li><a href="#interpretation">Interpretation</a></li><li><a href="#boundaries">Boundaries</a></li><li><a href="#provenance">Provenance</a></li><li><a href="#related">Related</a></li></ul>
+    </aside>
+
+    <main class="experiment-main" id="main-content">
+      <header class="hero">
+        <div class="hero-grid"><div>
+          <div class="eyebrow">Stage 09 · systems synthesis</div><h1>A handle is a reference, not a capability</h1>
+          <p class="hero-deck">A request-scoped canonicalizer, protected mapping vault, strict validator, and same-request rehydrator turn the empirical findings into a testable software boundary—then expose the exact semantic error that boundary cannot catch.</p>
+          <div class="tag-row"><span class="tag complete">complete</span><span class="tag system">system</span><span class="tag">deterministic</span><span class="tag">adversarial</span></div>
+        </div><p class="hero-note"><strong>Decision.</strong> The research and reference-implementation gate passes. Structural integrity is enforceable without fine-tuning; factual correctness, ownership, freshness, and authorization remain application responsibilities.</p></div>
+        <div class="meta-grid" aria-label="Experiment metadata">
+          <div class="meta-item"><span class="meta-label">Valid requests</span><span class="meta-value">500 / 500 accepted</span></div>
+          <div class="meta-item"><span class="meta-label">Adversarial outputs</span><span class="meta-value">5,000 / 5,000 rejected</span></div>
+          <div class="meta-item"><span class="meta-label">Semantic bypasses</span><span class="meta-value">500 / 500 passed</span></div>
+          <div class="meta-item"><span class="meta-label">Evaluation type</span><span class="meta-value">software boundary test</span></div>
+        </div>
+      </header>
+
+      <section class="section" id="question">
+        <div class="section-header"><span class="section-kicker">01 · question</span><h2>What can deterministic software guarantee?</h2></div>
+        <p class="lede">Stages 1–8 separate transport cost, source binding, answer quality, internal representation, causal use, and raw-value exposure. Stage 09 asks how much of the interface can be moved out of probabilistic generation and enforced in trusted code.</p>
+        <div class="question-grid">
+          <article class="question-card"><h3>System rule</h3><p>Keep a literal surface value in context only when its exact content is needed. Otherwise expose a compact request-local typed handle, validate the symbolic response, and resolve it only in trusted software.</p></article>
+          <article class="question-card"><h3>Critical falsifier</h3><p>If malformed, unregistered, mistyped, leaked, replayed, or unauthorized values can cross the boundary—or accepted values cannot round-trip exactly—the reference design fails.</p></article>
+        </div>
+        <div class="callout boundary"><span class="callout-label">Not a production certification</span><p>The reference implementation is not integrated with a real identity system, retriever, database, or tool executor. The mapping vault is an interface, not an encryption or access-control implementation.</p></div>
+      </section>
+
+      <section class="section" id="design">
+        <div class="section-header"><span class="section-kicker">02 · design</span><h2>Trusted mapping before the model; strict checks after it</h2></div>
+        <p>The application schema determines which fields are canonicalized. The model receives a typed <code>ModelIR</code>; raw values stay in a separate redacted <code>MappingVault</code>. The response is accepted only after JSON shape, leakage, registry membership, handle type, and action-policy validation.</p>
+        <div class="program-flow" aria-label="Reference architecture flow">
+          <div class="flow-step"><span class="eyebrow">01</span><strong>Normalize</strong><p>Use trusted application schema to detect fields.</p></div>
+          <div class="flow-step"><span class="eyebrow">02</span><strong>Canonicalize</strong><p>Create typed request-scoped handles and retain literals in the vault.</p></div>
+          <div class="flow-step"><span class="eyebrow">03</span><strong>Generate</strong><p>Give the model only the typed view and request strict symbolic JSON.</p></div>
+          <div class="flow-step"><span class="eyebrow">04</span><strong>Validate</strong><p>Check schema, leakage, registry, types, tools, and action counts.</p></div>
+          <div class="flow-step"><span class="eyebrow">05</span><strong>Rehydrate</strong><p>Resolve accepted same-request references, then authorize separately.</p></div>
+        </div>
+        <div class="study-block" id="valid-round-trips"><div class="study-heading"><div><span class="eyebrow">Control</span><h3>Valid round trips</h3></div><p>500 requests · 10,000 records</p></div><p>Each synthetic request contained 20 banking/database records. The test checked deterministic canonicalization, raw-value absence from model and audit payloads, strict acceptance, and exact rehydration.</p></div>
+        <div class="study-block" id="adversarial-suite"><div class="study-heading"><div><span class="eyebrow">Adversarial suite</span><h3>Ten structural failure classes</h3></div><p>5,000 payloads</p></div><p>Unknown and malformed handles, type-confused answers, raw protected answers, schema extensions, unauthorized actions, invalid argument schemas, tool-argument type confusion, action-count violations, and duplicate references were each tested 500 times. Cross-request replays formed a separate 499-attempt check.</p></div>
+        <div class="study-block" id="semantic-bypass"><div class="study-heading"><div><span class="eyebrow">Negative control</span><h3>Wrong but registered account</h3></div><p>500 payloads</p></div><p>Every response used a well-formed handle registered to the current request but pointing to the wrong existing account. This probes the line between representational validity and semantic correctness.</p></div>
+      </section>
+
+      <section class="section" id="results">
+        <div class="section-header"><span class="section-kicker">03 · results</span><h2>Perfect structural enforcement, zero semantic guarantee</h2></div>
+        <div class="data-grid three">
+          <article class="metric"><span class="metric-label">Valid round trips</span><strong class="metric-value">500/500</strong><p class="metric-detail">accepted and exactly rehydrated</p></article>
+          <article class="metric"><span class="metric-label">Attack rejection</span><strong class="metric-value">5,000/5,000</strong><p class="metric-detail">malformed, leaked, mistyped, or unauthorized</p></article>
+          <article class="metric"><span class="metric-label">Serialized characters</span><strong class="metric-value">−52.26%</strong><p class="metric-detail">canonical model view vs raw state + instruction</p></article>
+        </div>
+        <div class="table-wrap"><table>
+          <caption>Operational boundary evaluation. Timings describe this synthetic Python workload, not a service-level objective.</caption>
+          <thead><tr><th scope="col">Check</th><th scope="col">Result</th><th scope="col">What it establishes</th></tr></thead>
+          <tbody>
+            <tr><td>Valid outputs accepted and exactly rehydrated</td><td class="numeric">500 / 500</td><td>Lossless happy-path mapping</td></tr>
+            <tr><td>Model payloads without configured raw values</td><td class="numeric">500 / 500</td><td>Literal separation before generation</td></tr>
+            <tr><td>Audit records without configured raw values</td><td class="numeric">500 / 500</td><td>Redacted reference audit path</td></tr>
+            <tr><td>Deterministic canonicalization replays</td><td class="numeric">500 / 500</td><td>Stable same-request representation</td></tr>
+            <tr><td>Cross-request rehydration blocked</td><td class="numeric">499 / 499</td><td>Registry identity isolation</td></tr>
+            <tr><td>Ten adversarial failure classes rejected</td><td class="numeric">5,000 / 5,000</td><td>Structural and policy enforcement</td></tr>
+            <tr><td>Wrong-but-registered handles rejected</td><td class="numeric">0 / 500</td><td>Structural validation cannot prove factual target choice</td></tr>
+          </tbody>
+        </table></div>
+        <figure class="figure-card"><img src="../../assets/09_trust_boundary.svg" alt="Request-scoped symbolic IR architecture showing trusted canonicalization, an external mapping vault, model generation, deterministic validation, rehydration, and a separate authorization layer."><figcaption>Figure 09. A known handle can pass syntax, registry, and type checks while still naming the wrong object. The application must verify semantics and authorization after resolution.</figcaption></figure>
+        <div class="callout"><span class="callout-label">Measured</span><p>Median canonicalization took 3.51 ms and median validation 0.037 ms on the evaluation host. The canonical model view contained 2,886,213 serialized characters versus 6,045,938 for raw state and instruction. No tokenizer measurement was made, so this is not a token-reduction claim.</p></div>
+      </section>
+
+      <section class="section" id="interpretation">
+        <div class="section-header"><span class="section-kicker">04 · interpretation</span><h2>Representation integrity and semantic truth are separate layers</h2></div>
+        <div class="callout supports"><span class="callout-label">Supported</span><p>A deterministic layer can enforce response shape, prevent configured literal leakage, reject fabricated or cross-request references, check handle types, constrain tool schemas, and perform exact same-request resolution.</p></div>
+        <div class="callout boundary"><span class="callout-label">Semantic boundary</span><p><strong>Unknown or malformed handle:</strong> the validator can reject it. <strong>Known but semantically wrong handle:</strong> task verification, a business rule, user confirmation, an independent model, or human review must catch it.</p></div>
+        <p>Handles are references—not bearer tokens, permissions, ownership proofs, or guarantees that the model chose the correct object. Rehydration therefore precedes, but never replaces, identity, authorization, freshness, range, idempotency, and business-rule checks.</p>
+      </section>
+
+      <section class="section" id="boundaries">
+        <div class="section-header"><span class="section-kicker">05 · boundaries</span><h2>When to alias—and when to preserve literals</h2></div>
+        <div class="question-grid">
+          <article class="panel"><h3>Alias transport identity</h3><p>Use compact handles for database IDs, UUIDs, URLs, tool-call IDs, transactions, emails, or accounts when their spelling is irrelevant and trusted software can retain a reversible request-local map.</p></article>
+          <article class="panel"><h3>Keep semantic surface form</h3><p>Preserve literals when characters carry meaning: comparing URL paths, classifying email domains, validating checksums, editing code, quoting text, or reasoning about spelling and substrings.</p></article>
+          <article class="panel"><h3>Protect the vault</h3><p>The map is sensitive state. Production needs encryption, tenant/request binding, access controls, short retention, redacted traces, lifecycle handling, and ordinary data governance.</p></article>
+          <article class="panel"><h3>Assume hostile content</h3><p>Canonicalization does not neutralize prompt injection, guarantee complete detection, prevent re-identification from surrounding facts, or make retrieved content trustworthy.</p></article>
+        </div>
+        <div class="callout open"><span class="callout-label">Operational work remains</span><p>Real deployments still need integration with identity and authorization systems, concurrency-safe mapping lifecycles, retry/idempotency behavior, observability, retention controls, and risk-tiered semantic verification.</p></div>
+      </section>
+
+      <section class="section" id="provenance">
+        <div class="section-header"><span class="section-kicker">06 · provenance</span><h2>Reference implementation and evaluation artifacts</h2></div>
+        <ul class="artifact-list">
+          <li><span class="artifact-kind">Report</span><code>FINDINGS_STAGE9.md</code></li>
+          <li><span class="artifact-kind">Implementation</span><code>src/symbolic_ir/ir/</code></li>
+          <li><span class="artifact-kind">Experiment</span><code>experiments/09_system_ir.py</code></li>
+          <li><span class="artifact-kind">Evaluator</span><code>scripts/evaluate_stage9_system.py</code></li>
+          <li><span class="artifact-kind">Tests</span><code>tests/test_system_ir.py</code></li>
+          <li><span class="artifact-kind">Processed</span><code>results/processed/stage9_system_eval.json</code></li>
+          <li><span class="artifact-kind">SHA-256</span><code>21ef9484a2dbcadf52c186dbfbdf0d950af93576fec8deaf78a19660a4d3abf4</code></li>
+        </ul>
+        <div class="callout boundary"><span class="callout-label">Reproduce</span><p><code>.venv/bin/python experiments/09_system_ir.py --requests 500 --records-per-request 20</code>, followed by <code>.venv/bin/python scripts/run_tests.py</code>. The findings report records 43 tests for the current reference suite.</p></div>
+      </section>
+
+      <section class="section" id="related"><div class="section-header"><span class="section-kicker">07 · related</span><h2>The empirical input and the program overview</h2></div>
+        <div class="related-grid"><a class="related-card" href="../08-entity-canonicalization/"><span class="eyebrow">Previous · 08</span><h3>Entity canonicalization</h3><p>The non-citation behavioral evidence for typed request-scoped handles and literal-exposure control.</p></a><a class="related-card" href="../../index.html"><span class="eyebrow">Program index</span><h3>All experiments</h3><p>Return to the motivation, evidence map, open questions, and complete experiment directory.</p></a></div>
+      </section>
+    </main>
+  </div>
+  <footer class="site-footer"><div class="footer-inner"><p>Symbolic IR mechanistic study · experimental log</p><p>Stage 09 · deterministic reference boundary</p></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>

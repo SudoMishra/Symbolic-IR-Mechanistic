@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 710" role="img" aria-labelledby="title desc">
-<title id="title">Figure 5: LongProc trace quality across 5 models</title>
-<desc id="desc">Grouped bars compare correct-prefix accuracy, final-answer accuracy, and exact full-trace accuracy for five models.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 710" role="img" aria-labelledby="title desc">
+<title id="title">Figure 5: LongProc trace quality across 6 models</title>
+<desc id="desc">Grouped bars compare correct-prefix accuracy, final-answer accuracy, and exact full-trace accuracy for six models.</desc>
 <style>
 text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#172033}
 .title{font-size:26px;font-weight:700}.subtitle{font-size:14px;fill:#5f6b7a}
@@ -9,78 +9,105 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 .axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.5}
 </style>
 <text x="50" y="44" class="title" text-anchor="start">Figure 5 — Long generation does not establish procedural correctness</text>
-<text x="50" y="72" class="subtitle" text-anchor="start">Strict trace, correct-prefix, and endpoint accuracy diverge on 25 multi-step theory-of-mind problems (125 GPU runs across 5 models).</text>
-<line x1="120" y1="480.0" x2="1260" y2="480.0" stroke="#d8dee8" stroke-width="1"/>
+<text x="50" y="72" class="subtitle" text-anchor="start">Strict trace, correct-prefix, and endpoint accuracy diverge on 25 multi-step theory-of-mind problems (150 GPU runs across 6 models).</text>
+<line x1="120" y1="480.0" x2="1310" y2="480.0" stroke="#d8dee8" stroke-width="1"/>
 <text x="106" y="484.0" class="small" text-anchor="end">0%</text>
-<line x1="120" y1="412.0" x2="1260" y2="412.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="120" y1="412.0" x2="1310" y2="412.0" stroke="#d8dee8" stroke-width="1"/>
 <text x="106" y="416.0" class="small" text-anchor="end">20%</text>
-<line x1="120" y1="344.0" x2="1260" y2="344.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="120" y1="344.0" x2="1310" y2="344.0" stroke="#d8dee8" stroke-width="1"/>
 <text x="106" y="348.0" class="small" text-anchor="end">40%</text>
-<line x1="120" y1="276.0" x2="1260" y2="276.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="120" y1="276.0" x2="1310" y2="276.0" stroke="#d8dee8" stroke-width="1"/>
 <text x="106" y="280.0" class="small" text-anchor="end">60%</text>
-<line x1="120" y1="208.0" x2="1260" y2="208.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="120" y1="208.0" x2="1310" y2="208.0" stroke="#d8dee8" stroke-width="1"/>
 <text x="106" y="212.0" class="small" text-anchor="end">80%</text>
-<line x1="120" y1="140.0" x2="1260" y2="140.0" stroke="#d8dee8" stroke-width="1"/>
+<line x1="120" y1="140.0" x2="1310" y2="140.0" stroke="#d8dee8" stroke-width="1"/>
 <text x="106" y="144.0" class="small" text-anchor="end">100%</text>
 <text x="35" y="310" class="label" text-anchor="middle" transform="rotate(-90 35 310)">Trace or answer score (%)</text>
-<rect x="180.0" y="476.01951219512193" width="32" height="3.9804878048780665" fill="#315efb" rx="3"/>
-<text x="196.0" y="469.01951219512193" class="small" text-anchor="middle" font-weight="600">1.2%</text>
-<rect x="218.0" y="466.4" width="32" height="13.600000000000023" fill="#2d8a57" rx="3"/>
-<text x="234.0" y="459.4" class="small" text-anchor="middle" font-weight="600">4.0%</text>
-<rect x="256.0" y="480.0" width="32" height="0.0" fill="#e97824" rx="3"/>
-<text x="272.0" y="473.0" class="small" text-anchor="middle">0.0%</text>
-<text x="234.0" y="515" class="label" text-anchor="middle" fill="#172033">Qwen 1.5B</text>
-<rect x="164.0" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<text x="234.0" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 2027 tok</text>
-<text x="234.0" y="568" class="small" text-anchor="middle">84% hit cap</text>
-<rect x="408.0" y="476.01951219512193" width="32" height="3.9804878048780665" fill="#315efb" rx="3"/>
-<text x="424.0" y="469.01951219512193" class="small" text-anchor="middle" font-weight="600">1.2%</text>
-<rect x="446.0" y="384.8" width="32" height="95.19999999999999" fill="#2d8a57" rx="3"/>
-<text x="462.0" y="377.8" class="small" text-anchor="middle" font-weight="600">28.0%</text>
-<rect x="484.0" y="480.0" width="32" height="0.0" fill="#e97824" rx="3"/>
-<text x="500.0" y="473.0" class="small" text-anchor="middle">0.0%</text>
-<text x="462.0" y="515" class="label" text-anchor="middle" fill="#172033">Qwen 3.5 2B</text>
-<rect x="392.0" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<text x="462.0" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1921 tok</text>
-<text x="462.0" y="568" class="small" text-anchor="middle">72% full trace</text>
-<rect x="636.0" y="342.00975609756097" width="32" height="137.99024390243903" fill="#315efb" rx="3"/>
-<text x="652.0" y="335.00975609756097" class="small" text-anchor="middle" font-weight="600">40.6%</text>
-<rect x="674.0" y="248.79999999999998" width="32" height="231.20000000000002" fill="#2d8a57" rx="3"/>
-<text x="690.0" y="241.79999999999998" class="small" text-anchor="middle" font-weight="600">68.0%</text>
-<rect x="712.0" y="425.6" width="32" height="54.39999999999998" fill="#e97824" rx="3"/>
-<text x="728.0" y="418.6" class="small" text-anchor="middle" font-weight="600">16.0%</text>
-<text x="690.0" y="515" class="label" text-anchor="middle" fill="#172033">Qwen 3.5 4B</text>
-<rect x="620.0" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<text x="690.0" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1929 tok</text>
-<text x="690.0" y="568" class="small" text-anchor="middle">16% exact trace</text>
-<rect x="864.0" y="448.1560975609756" width="32" height="31.84390243902442" fill="#315efb" rx="3"/>
-<text x="880.0" y="441.1560975609756" class="small" text-anchor="middle" font-weight="600">9.4%</text>
-<rect x="902.0" y="425.6" width="32" height="54.39999999999998" fill="#2d8a57" rx="3"/>
-<text x="918.0" y="418.6" class="small" text-anchor="middle" font-weight="600">16.0%</text>
-<rect x="940.0" y="480.0" width="32" height="0.0" fill="#e97824" rx="3"/>
-<text x="956.0" y="473.0" class="small" text-anchor="middle">0.0%</text>
-<text x="918.0" y="515" class="label" text-anchor="middle" fill="#172033">Gemma E2B</text>
-<rect x="848.0" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<text x="918.0" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1987 tok</text>
-<text x="918.0" y="568" class="small" text-anchor="middle">0% exact trace</text>
-<rect x="1092.0" y="350.6341463414634" width="32" height="129.3658536585366" fill="#315efb" rx="3"/>
-<text x="1108.0" y="343.6341463414634" class="small" text-anchor="middle" font-weight="600">38.0%</text>
-<rect x="1130.0" y="221.60000000000002" width="32" height="258.4" fill="#2d8a57" rx="3"/>
-<text x="1146.0" y="214.60000000000002" class="small" text-anchor="middle" font-weight="600">76.0%</text>
-<rect x="1168.0" y="452.8" width="32" height="27.19999999999999" fill="#e97824" rx="3"/>
-<text x="1184.0" y="445.8" class="small" text-anchor="middle" font-weight="600">8.0%</text>
-<text x="1146.0" y="515" class="label" text-anchor="middle" fill="#172033">Gemma E4B</text>
-<rect x="1076.0" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
-<text x="1146.0" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1996 tok</text>
-<text x="1146.0" y="568" class="small" text-anchor="middle">8% exact trace</text>
-<rect x="120" y="600" width="1140" height="85" rx="10" fill="#fbfcfe" stroke="#d8dee8" stroke-width="1"/>
+<rect x="172.16666666666669" y="476.01951219512193" width="28" height="3.9804878048780665" fill="#315efb" rx="3"/>
+<text x="186.16666666666669" y="469.01951219512193" class="small" text-anchor="middle" font-weight="600">1.2%</text>
+<rect x="205.16666666666669" y="412.0" width="28" height="68.0" fill="#2d8a57" rx="3"/>
+<text x="219.16666666666669" y="405.0" class="small" text-anchor="middle" font-weight="600">20.0%</text>
+<rect x="238.16666666666669" y="480.0" width="28" height="0.0" fill="#e97824" rx="3"/>
+<text x="252.16666666666669" y="473.0" class="small" text-anchor="middle">0.0%</text>
+<text x="219.16666666666669" y="515" class="label" text-anchor="middle" fill="#172033">Tiny Aya Global</text>
+<rect x="149.16666666666669" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<text x="219.16666666666669" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1746 tok</text>
+<text x="219.16666666666669" y="568" class="small" text-anchor="middle">20% endpoint</text>
+<rect x="370.5" y="476.01951219512193" width="28" height="3.9804878048780665" fill="#315efb" rx="3"/>
+<text x="384.5" y="469.01951219512193" class="small" text-anchor="middle" font-weight="600">1.2%</text>
+<rect x="403.5" y="466.4" width="28" height="13.600000000000023" fill="#2d8a57" rx="3"/>
+<text x="417.5" y="459.4" class="small" text-anchor="middle" font-weight="600">4.0%</text>
+<rect x="436.5" y="480.0" width="28" height="0.0" fill="#e97824" rx="3"/>
+<text x="450.5" y="473.0" class="small" text-anchor="middle">0.0%</text>
+<text x="417.5" y="515" class="label" text-anchor="middle" fill="#172033">Qwen 2.5 1.5B</text>
+<rect x="347.5" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<text x="417.5" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 2027 tok</text>
+<text x="417.5" y="568" class="small" text-anchor="middle">84% hit cap</text>
+<rect x="568.8333333333334" y="448.1560975609756" width="28" height="31.84390243902442" fill="#315efb" rx="3"/>
+<text x="582.8333333333334" y="441.1560975609756" class="small" text-anchor="middle" font-weight="600">9.4%</text>
+<rect x="601.8333333333334" y="425.6" width="28" height="54.39999999999998" fill="#2d8a57" rx="3"/>
+<text x="615.8333333333334" y="418.6" class="small" text-anchor="middle" font-weight="600">16.0%</text>
+<rect x="634.8333333333334" y="480.0" width="28" height="0.0" fill="#e97824" rx="3"/>
+<text x="648.8333333333334" y="473.0" class="small" text-anchor="middle">0.0%</text>
+<text x="615.8333333333334" y="515" class="label" text-anchor="middle" fill="#172033">Gemma 4 E2B</text>
+<rect x="545.8333333333334" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<text x="615.8333333333334" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1987 tok</text>
+<text x="615.8333333333334" y="568" class="small" text-anchor="middle">16% endpoint</text>
+<rect x="767.1666666666667" y="350.6341463414634" width="28" height="129.3658536585366" fill="#315efb" rx="3"/>
+<text x="781.1666666666667" y="343.6341463414634" class="small" text-anchor="middle" font-weight="600">38.0%</text>
+<rect x="800.1666666666667" y="221.60000000000002" width="28" height="258.4" fill="#2d8a57" rx="3"/>
+<text x="814.1666666666667" y="214.60000000000002" class="small" text-anchor="middle" font-weight="600">76.0%</text>
+<rect x="833.1666666666667" y="452.8" width="28" height="27.19999999999999" fill="#e97824" rx="3"/>
+<text x="847.1666666666667" y="445.8" class="small" text-anchor="middle" font-weight="600">8.0%</text>
+<text x="814.1666666666667" y="515" class="label" text-anchor="middle" fill="#172033">Gemma 4 E4B</text>
+<rect x="744.1666666666667" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<text x="814.1666666666667" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1996 tok</text>
+<text x="814.1666666666667" y="568" class="small" text-anchor="middle">96% full trace</text>
+<rect x="965.5" y="476.01951219512193" width="28" height="3.9804878048780665" fill="#315efb" rx="3"/>
+<text x="979.5" y="469.01951219512193" class="small" text-anchor="middle" font-weight="600">1.2%</text>
+<rect x="998.5" y="384.8" width="28" height="95.19999999999999" fill="#2d8a57" rx="3"/>
+<text x="1012.5" y="377.8" class="small" text-anchor="middle" font-weight="600">28.0%</text>
+<rect x="1031.5" y="480.0" width="28" height="0.0" fill="#e97824" rx="3"/>
+<text x="1045.5" y="473.0" class="small" text-anchor="middle">0.0%</text>
+<text x="1012.5" y="515" class="label" text-anchor="middle" fill="#172033">Qwen 3.5 2B</text>
+<rect x="942.5" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<text x="1012.5" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1921 tok</text>
+<text x="1012.5" y="568" class="small" text-anchor="middle">28% endpoint</text>
+<rect x="1163.8333333333335" y="342.00975609756097" width="28" height="137.99024390243903" fill="#315efb" rx="3"/>
+<text x="1177.8333333333335" y="335.00975609756097" class="small" text-anchor="middle" font-weight="600">40.6%</text>
+<rect x="1196.8333333333335" y="248.79999999999998" width="28" height="231.20000000000002" fill="#2d8a57" rx="3"/>
+<text x="1210.8333333333335" y="241.79999999999998" class="small" text-anchor="middle" font-weight="600">68.0%</text>
+<rect x="1229.8333333333335" y="425.6" width="28" height="54.39999999999998" fill="#e97824" rx="3"/>
+<text x="1243.8333333333335" y="418.6" class="small" text-anchor="middle" font-weight="600">16.0%</text>
+<text x="1210.8333333333335" y="515" class="label" text-anchor="middle" fill="#172033">Qwen 3.5 4B</text>
+<rect x="1140.8333333333335" y="532" width="140" height="44" rx="8" fill="#f8fafc" stroke="#d8dee8" stroke-width="1"/>
+<text x="1210.8333333333335" y="550" class="small" text-anchor="middle" font-weight="600">Mean: 1929 tok</text>
+<text x="1210.8333333333335" y="568" class="small" text-anchor="middle">100% full trace</text>
+<rect x="120" y="600" width="1190" height="85" rx="10" fill="#fbfcfe" stroke="#d8dee8" stroke-width="1"/>
 <rect x="140" y="613" width="14" height="14" rx="2" fill="#315efb" stroke="#d8dee8" stroke-width="1"/>
 <text x="162" y="625" class="small" text-anchor="start" font-weight="600">Mean correct-trace prefix before first error</text>
 <rect x="140" y="636" width="14" height="14" rx="2" fill="#2d8a57" stroke="#d8dee8" stroke-width="1"/>
 <text x="162" y="648" class="small" text-anchor="start" font-weight="600">Final-answer accuracy (%)</text>
 <rect x="140" y="659" width="14" height="14" rx="2" fill="#e97824" stroke="#d8dee8" stroke-width="1"/>
 <text x="162" y="671" class="small" text-anchor="start" font-weight="600">Exact full-trace accuracy (%)</text>
-<text x="580" y="625" class="small" text-anchor="start">Blue: fraction of reference belief-state transitions generated before first discrepancy.</text>
-<text x="580" y="648" class="small" text-anchor="start">Green: endpoint accuracy (whether final state is correct, regardless of intermediate reasoning).</text>
-<text x="580" y="671" class="small" text-anchor="start">Orange: exact procedural match across entire reference trace (1,024–2,048 tokens).</text>
+<text x="610" y="625" class="small" text-anchor="start">Blue: fraction of reference belief-state transitions generated before first discrepancy.</text>
+<text x="610" y="648" class="small" text-anchor="start">Green: endpoint accuracy (whether final state is correct, regardless of intermediate reasoning).</text>
+<text x="610" y="671" class="small" text-anchor="start">Orange: exact procedural match across entire reference trace (1,024–2,048 tokens).</text>
+<metadata id="figure-metadata" type="application/json">
+{
+  "experiment_id": "long_context_tracking",
+  "cohort": "local_cohort_6",
+  "models": [
+    "Tiny Aya Global",
+    "Qwen 2.5 1.5B",
+    "Gemma 4 E2B",
+    "Gemma 4 E4B",
+    "Qwen 3.5 2B",
+    "Qwen 3.5 4B"
+  ],
+  "n_problems": 25,
+  "n_runs": 150,
+  "source": "results/processed/longproc_gpu_summary.json"
+}
+</metadata>
 </svg>

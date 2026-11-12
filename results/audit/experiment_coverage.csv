@@ -1,0 +1,134 @@
+experiment_id,experiment_title,evidence_tier,model_id,model_type,status,expected_calls,observed_calls,raw_path
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,tiny_aya_global,local,complete,2000,2000,results/raw/01_citation_mve_500_tiny_aya/c65866463dd4.jsonl
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,qwen25_15b,local,complete,2000,2000,results/raw/01_citation_mve_500_qwen15b/08ab17574b9c.jsonl
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,gemma4_e2b,local,complete,2000,2000,results/raw/01_citation_mve_500_gemma4_e2b/2a92d0924993.jsonl
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,gemma4_e4b,local,complete,2000,2000,results/raw/01_citation_mve_500_gemma4_e4b/8830c593df18.jsonl
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,qwen35_2b,local,complete,2000,2000,results/raw/01_citation_mve_500_qwen35_2b/0a5b4f74628e.jsonl
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,qwen35_4b,local,complete,2000,2000,results/raw/01_citation_mve_500_qwen35_4b/e4e1a062d896.jsonl
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,claude-haiku-5-5,frontier,not_applicable,0,0,
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,claude-sonnet-5-5,frontier,not_applicable,0,0,
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,gpt-6-1-sol,frontier,not_applicable,0,0,
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,gpt-6-luna,frontier,not_applicable,0,0,
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,lfm25_12b,excluded,excluded,0,0,
+stage1_scaling_500,Stage 1: Scaling Identifier Impact (N=500 Synthetic Single-Hop Citations),confirmatory,lfm25_26b,excluded,excluded,0,0,
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,tiny_aya_global,local,complete,400,400,results/raw/musique_confirmatory_tiny_aya_global/912e4c61cc1e.jsonl
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,qwen25_15b,local,complete,400,400,results/raw/musique_confirmatory_qwen25_15b/6d614719b472.jsonl
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,gemma4_e2b,local,complete,400,400,results/raw/musique_confirmatory_gemma4_e2b/343894376e4e.jsonl
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,gemma4_e4b,local,complete,400,400,results/raw/musique_confirmatory_gemma4_e4b/c1106d1393cf.jsonl
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,qwen35_2b,local,complete,400,400,results/raw/musique_confirmatory_qwen35_2b/0a6f7c4c67d5.jsonl
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,qwen35_4b,local,complete,400,400,results/raw/musique_confirmatory_qwen35_4b/d55c825c05d1.jsonl
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,claude-haiku-5-5,frontier,not_applicable,0,0,
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,claude-sonnet-5-5,frontier,not_applicable,0,0,
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,gpt-6-1-sol,frontier,not_applicable,0,0,
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,gpt-6-luna,frontier,not_applicable,0,0,
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,lfm25_12b,excluded,excluded,0,0,
+musique_replication_100,MuSiQue Multi-Hop Citation Replication (N=100 Held-Out),replication,lfm25_26b,excluded,excluded,0,0,
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,tiny_aya_global,local,complete,2000,2000,results/raw/musique_500_tiny_aya/34c2b77aedd4.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,qwen25_15b,local,complete,2000,2000,results/raw/musique_500_qwen15b/a486e13fa598.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,gemma4_e2b,local,complete,2000,2000,results/raw/musique_500_gemma4_e2b/c9d18209bc0f.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,gemma4_e4b,local,complete,2000,2000,results/raw/musique_500_gemma4_e4b/7104ce4ce430.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,qwen35_2b,local,complete,2000,2000,results/raw/musique_500_qwen35_2b/2d097c4797ca.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,qwen35_4b,local,complete,2000,2000,results/raw/musique_500_qwen35_4b/a5de1b7bbd5e.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,claude-haiku-5-5,frontier,complete,2000,2000,results/raw/musique_500/anthropic_haiku.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,claude-sonnet-5-5,frontier,complete,2000,2000,results/raw/musique_500/anthropic_sonnet.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,gpt-6-1-sol,frontier,complete,2000,2000,results/raw/musique_500/openai_sol.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,gpt-6-luna,frontier,complete,2000,2000,results/raw/musique_500/openai_luna.jsonl
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,lfm25_12b,excluded,excluded,0,0,
+musique_scaled_500,MuSiQue Scaled 2-Hop Evaluation (N=500 Primary Confirmation),confirmatory,lfm25_26b,excluded,excluded,0,0,
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,tiny_aya_global,local,complete,480,480,results/raw/stage5_pilot_tiny_aya_global/32fa0c3c696f.jsonl
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,qwen25_15b,local,complete,480,480,results/raw/stage5_pilot_qwen25_15b/61443c6b5233.jsonl
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,gemma4_e2b,local,complete,480,480,results/raw/stage5_pilot_gemma4_e2b/400c508d5acb.jsonl
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,gemma4_e4b,local,complete,480,480,results/raw/stage5_pilot_gemma4_e4b/c4931b820baf.jsonl
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,qwen35_2b,local,complete,480,480,results/raw/stage5_pilot_qwen35_2b/b3b211daeedf.jsonl
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,qwen35_4b,local,complete,480,480,results/raw/stage5_pilot_qwen35_4b/9f3862caafba.jsonl
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,claude-haiku-5-5,frontier,not_applicable,0,0,
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,claude-sonnet-5-5,frontier,not_applicable,0,0,
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,gpt-6-1-sol,frontier,not_applicable,0,0,
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,gpt-6-luna,frontier,not_applicable,0,0,
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,lfm25_12b,excluded,excluded,0,0,
+stage5_pilot,Stage 5: Reasoning Budget Exploratory Pilot,pilot,lfm25_26b,excluded,excluded,0,0,
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,tiny_aya_global,local,complete,800,800,results/raw/stage5_confirm_tiny_aya_global/65b32828d219.jsonl
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,qwen25_15b,local,complete,800,800,results/raw/stage5_confirm_qwen25_15b/stage5_confirm_qwen25_15b_800.jsonl
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,gemma4_e2b,local,complete,800,800,results/raw/stage5_confirm_gemma4_e2b/f1a625ecf2b7.jsonl
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,gemma4_e4b,local,complete,800,800,results/raw/stage5_confirm_gemma4_e4b/d847bc5babb8.jsonl
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,qwen35_2b,local,complete,800,800,results/raw/stage5_confirm_qwen35_2b/a628304b35ba.jsonl
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,qwen35_4b,local,complete,800,800,results/raw/stage5_confirm_qwen35_4b/c14310d67caa.jsonl
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,claude-haiku-5-5,frontier,not_applicable,0,0,
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,claude-sonnet-5-5,frontier,not_applicable,0,0,
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,gpt-6-1-sol,frontier,not_applicable,0,0,
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,gpt-6-luna,frontier,not_applicable,0,0,
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,lfm25_12b,excluded,excluded,0,0,
+stage5_confirmatory,Stage 5: Confirmatory Reasoning Budget Scaling,confirmatory,lfm25_26b,excluded,excluded,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,tiny_aya_global,local,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,qwen25_15b,local,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,gemma4_e2b,local,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,gemma4_e4b,local,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,qwen35_2b,local,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,qwen35_4b,local,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,claude-haiku-5-5,frontier,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,claude-sonnet-5-5,frontier,complete,400,400,results/raw/reasoning/anthropic_sonnet.jsonl
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,gpt-6-1-sol,frontier,not_applicable,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,gpt-6-luna,frontier,complete,400,400,results/raw/reasoning/openai_luna.jsonl
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,lfm25_12b,excluded,excluded,0,0,
+frontier_reasoning_ablation,Frontier Reasoning Token Ablation (Adaptive Reasoning vs Standard Generation Mode),exploratory,lfm25_26b,excluded,excluded,0,0,
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,tiny_aya_global,local,complete,25,25,results/raw/longproc_tom_tracking_2k_tiny_aya/d18f7ad7265d.jsonl
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,qwen25_15b,local,complete,25,25,results/raw/longproc_tom_tracking_2k_qwen25_15b/d9aa86a5f1bb.jsonl
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,gemma4_e2b,local,complete,25,25,results/raw/longproc_tom_tracking_2k_gemma4_e2b/8f3ca43ed227.jsonl
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,gemma4_e4b,local,complete,25,25,results/raw/longproc_tom_tracking_2k_gemma4_e4b/0c1e6973c57c.jsonl
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,qwen35_2b,local,complete,25,25,results/raw/longproc_tom_tracking_2k_qwen35_2b/4e4bf007926c.jsonl
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,qwen35_4b,local,complete,25,25,results/raw/longproc_tom_tracking_2k_qwen35_4b/39edfecc6fed.jsonl
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,claude-haiku-5-5,frontier,not_applicable,0,0,
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,claude-sonnet-5-5,frontier,not_applicable,0,0,
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,gpt-6-1-sol,frontier,not_applicable,0,0,
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,gpt-6-luna,frontier,not_applicable,0,0,
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,lfm25_12b,excluded,excluded,0,0,
+long_context_tracking,Long-Context Theory-of-Mind Entity Tracking,confirmatory,lfm25_26b,excluded,excluded,0,0,
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,tiny_aya_global,local,complete,240,240,results/activations/stage6_tiny_aya_global/220ada012d1f/manifest.jsonl
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,qwen25_15b,local,complete,240,240,results/activations/stage6_qwen25_15b/e631b6fa4a16/manifest.jsonl
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,gemma4_e2b,local,complete,240,240,results/activations/stage6_gemma4_e2b/ea2905fcb779/manifest.jsonl
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,gemma4_e4b,local,complete,240,240,results/activations/stage6_gemma4_e4b/8973f6266084/manifest.jsonl
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,qwen35_2b,local,complete,240,240,results/activations/stage6_qwen35_2b/5b06ef910b2e/manifest.jsonl
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,qwen35_4b,local,complete,240,240,results/activations/stage6_qwen35_4b/5c0d40884dd8/manifest.jsonl
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,claude-haiku-5-5,frontier,not_applicable,0,0,
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,claude-sonnet-5-5,frontier,not_applicable,0,0,
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,gpt-6-1-sol,frontier,not_applicable,0,0,
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,gpt-6-luna,frontier,not_applicable,0,0,
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,lfm25_12b,excluded,excluded,0,0,
+stage6_geometry,Stage 6: Representation Geometry and Residual Projections,mechanistic,lfm25_26b,excluded,excluded,0,0,
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,tiny_aya_global,local,complete,384,384,results/interventions/stage7_tiny_aya_global/385e95d192ba/manifest.jsonl
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,qwen25_15b,local,complete,384,384,results/interventions/stage7_qwen25_15b/ed4f8ec474bc/manifest.jsonl
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,gemma4_e2b,local,complete,192,192,results/interventions/stage7_gemma4_e2b/b0e9e07604a2/manifest.jsonl
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,gemma4_e4b,local,complete,96,96,results/interventions/stage7_gemma4_e4b/2af614377c25/manifest.jsonl
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,qwen35_2b,local,complete,384,384,results/interventions/stage7_qwen35_2b/5c61804e47bd/manifest.jsonl
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,qwen35_4b,local,complete,384,384,results/interventions/stage7_qwen35_4b/3833727751d3/manifest.jsonl
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,claude-haiku-5-5,frontier,not_applicable,0,0,
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,claude-sonnet-5-5,frontier,not_applicable,0,0,
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,gpt-6-1-sol,frontier,not_applicable,0,0,
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,gpt-6-luna,frontier,not_applicable,0,0,
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,lfm25_12b,excluded,excluded,0,0,
+stage7_interventions,Stage 7: Prompt Swaps and Activation Patching Interventions,mechanistic,lfm25_26b,excluded,excluded,0,0,
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,tiny_aya_global,local,complete,2000,2000,results/raw/stage8_pii_500_tiny_aya/2cb6372cf76d.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,qwen25_15b,local,complete,2000,2000,results/raw/stage8_pii_500_qwen15b/6cf0154fea62.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,gemma4_e2b,local,complete,2000,2000,results/raw/stage8_pii_500_gemma4_e2b/d1536ef827a4.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,gemma4_e4b,local,complete,2000,2000,results/raw/stage8_pii_500_gemma4_e4b/2cb44c4bdc98.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,qwen35_2b,local,complete,2000,2000,results/raw/stage8_pii_500_qwen35_2b/fc7d7fb839bc.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,qwen35_4b,local,complete,2000,2000,results/raw/stage8_pii_500_qwen35_4b/34239222229e.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,claude-haiku-5-5,frontier,not_applicable,0,0,
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,claude-sonnet-5-5,frontier,complete,2000,2000,results/raw/stage8/anthropic_sonnet.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,gpt-6-1-sol,frontier,complete,2000,2000,results/raw/stage8/openai_sol.jsonl
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,gpt-6-luna,frontier,not_applicable,0,0,
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,lfm25_12b,excluded,excluded,0,0,
+stage8_pii_500,Stage 8: PII Sanitization via Canonical Identifiers (N=500),confirmatory,lfm25_26b,excluded,excluded,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,tiny_aya_global,local,not_applicable,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,qwen25_15b,local,not_applicable,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,gemma4_e2b,local,not_applicable,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,gemma4_e4b,local,not_applicable,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,qwen35_2b,local,not_applicable,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,qwen35_4b,local,not_applicable,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,claude-haiku-5-5,frontier,complete,240,240,results/raw/frontier_stability/anthropic_claude-haiku-5-5.jsonl
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,claude-sonnet-5-5,frontier,complete,240,240,results/raw/frontier_stability/anthropic_claude-sonnet-5-5.jsonl
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,gpt-6-1-sol,frontier,complete,240,240,results/raw/frontier_stability/openai_gpt-6-1-sol.jsonl
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,gpt-6-luna,frontier,complete,240,240,results/raw/frontier_stability/openai_gpt-6-luna.jsonl
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,lfm25_12b,excluded,excluded,0,0,
+frontier_stability,Frontier Phase 1 Repeatability & Stability Verification,exploratory,lfm25_26b,excluded,excluded,0,0,
+stage9_systems_boundary,Stage 9: Systems Boundary & Deterministic Software Stress Testing,systems,deterministic_software,systems,complete,6000,6000,src/symbolic_ir/

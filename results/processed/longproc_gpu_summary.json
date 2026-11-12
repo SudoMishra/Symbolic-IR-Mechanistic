@@ -1,5 +1,5 @@
 {
-  "Gemma-E2B": {
+  "gemma4_e2b": {
     "final_answer_accuracy": 0.16,
     "final_answer_accuracy_wilson_95": [
       0.06403451456676595,
@@ -29,7 +29,7 @@
     ],
     "throughput_tokens_per_second": 63.88925615542616
   },
-  "Gemma-E4B": {
+  "gemma4_e4b": {
     "final_answer_accuracy": 0.76,
     "final_answer_accuracy_wilson_95": [
       0.5657031664457148,
@@ -59,67 +59,7 @@
     ],
     "throughput_tokens_per_second": 48.05063049798462
   },
-  "LFM": {
-    "final_answer_accuracy": 0.28,
-    "final_answer_accuracy_wilson_95": [
-      0.14283853850956832,
-      0.4757660519036103
-    ],
-    "full_trace_rate": 0.0,
-    "generation_cap_rate": 0.0,
-    "latency_seconds_mean": 2.377161397691816,
-    "latency_seconds_total": 59.4290349422954,
-    "n": 25,
-    "output_tokens": {
-      "max": 970,
-      "mean": 433.8,
-      "median": 423,
-      "min": 250
-    },
-    "partial_accuracy_bootstrap_95": [
-      0.003902439024390244,
-      0.014634146341463417
-    ],
-    "partial_accuracy_mean": 0.00878048780487805,
-    "partial_accuracy_median": 0.0,
-    "strict_accuracy": 0.0,
-    "strict_accuracy_wilson_95": [
-      0.0,
-      0.13319225093904213
-    ],
-    "throughput_tokens_per_second": 182.4865574635414
-  },
-  "LFM-2.6B": {
-    "final_answer_accuracy": 0.04,
-    "final_answer_accuracy_wilson_95": [
-      0.007096233501987542,
-      0.19544063736193124
-    ],
-    "full_trace_rate": 0.16,
-    "generation_cap_rate": 0.2,
-    "latency_seconds_mean": 11.645697577837854,
-    "latency_seconds_total": 291.14243944594637,
-    "n": 25,
-    "output_tokens": {
-      "max": 2048,
-      "mean": 1085.52,
-      "median": 617,
-      "min": 578
-    },
-    "partial_accuracy_bootstrap_95": [
-      0.0,
-      0.004878048780487805
-    ],
-    "partial_accuracy_mean": 0.001951219512195122,
-    "partial_accuracy_median": 0.0,
-    "strict_accuracy": 0.0,
-    "strict_accuracy_wilson_95": [
-      0.0,
-      0.13319225093904213
-    ],
-    "throughput_tokens_per_second": 93.21210625164956
-  },
-  "Qwen": {
+  "qwen25_15b": {
     "final_answer_accuracy": 0.04,
     "final_answer_accuracy_wilson_95": [
       0.007096233501987542,
@@ -148,5 +88,95 @@
       0.13319225093904213
     ],
     "throughput_tokens_per_second": 121.2192509664764
+  },
+  "qwen35_2b": {
+    "final_answer_accuracy": 0.28,
+    "final_answer_accuracy_wilson_95": [
+      0.14283853850956832,
+      0.4757660519036103
+    ],
+    "full_trace_rate": 0.72,
+    "generation_cap_rate": 0.28,
+    "latency_seconds_mean": 17.930344109160142,
+    "latency_seconds_total": 448.25860272900354,
+    "n": 25,
+    "output_tokens": {
+      "max": 2048,
+      "mean": 1921.16,
+      "median": 1926,
+      "min": 1762
+    },
+    "partial_accuracy_bootstrap_95": [
+      0.004878048780487805,
+      0.019512195121951223
+    ],
+    "partial_accuracy_mean": 0.011707317073170732,
+    "partial_accuracy_median": 0.0,
+    "strict_accuracy": 0.0,
+    "strict_accuracy_wilson_95": [
+      0.0,
+      0.13319225093904213
+    ],
+    "throughput_tokens_per_second": 107.1457406675497
+  },
+  "qwen35_4b": {
+    "final_answer_accuracy": 0.68,
+    "final_answer_accuracy_wilson_95": [
+      0.48410269273102785,
+      0.8279480969309172
+    ],
+    "full_trace_rate": 1.0,
+    "generation_cap_rate": 0.04,
+    "latency_seconds_mean": 36.45245279020004,
+    "latency_seconds_total": 911.311319755001,
+    "n": 25,
+    "output_tokens": {
+      "max": 2048,
+      "mean": 1928.72,
+      "median": 1927,
+      "min": 1845
+    },
+    "partial_accuracy_bootstrap_95": [
+      0.27317073170731715,
+      0.5463414634146341
+    ],
+    "partial_accuracy_mean": 0.4058536585365854,
+    "partial_accuracy_median": 0.21951219512195122,
+    "strict_accuracy": 0.16,
+    "strict_accuracy_wilson_95": [
+      0.06403451456676595,
+      0.3465362160717827
+    ],
+    "throughput_tokens_per_second": 52.91056849042875
+  },
+  "tiny_aya_global": {
+    "final_answer_accuracy": 0.2,
+    "final_answer_accuracy_wilson_95": [
+      0.0886058468680277,
+      0.39130950369539763
+    ],
+    "full_trace_rate": 0.64,
+    "generation_cap_rate": 0.2,
+    "latency_seconds_mean": 26.275629242517752,
+    "latency_seconds_total": 656.8907310629438,
+    "n": 25,
+    "output_tokens": {
+      "max": 2048,
+      "mean": 1746.28,
+      "median": 1818,
+      "min": 632
+    },
+    "partial_accuracy_bootstrap_95": [
+      0.004878048780487805,
+      0.01951219512195122
+    ],
+    "partial_accuracy_mean": 0.011707317073170732,
+    "partial_accuracy_median": 0.0,
+    "strict_accuracy": 0.0,
+    "strict_accuracy_wilson_95": [
+      0.0,
+      0.13319225093904213
+    ],
+    "throughput_tokens_per_second": 66.46006395821217
   }
 }

@@ -5,9 +5,9 @@ dataset:
   count: 20
   long_context: true
   filler_words: 114
-  prompt_tokens: {min: 2000, max: 4000}
+  prompt_tokens: {min: 2000, max: 4050}
   grid:
-    task_type: [temporal, entity_resolution]
+    task_type: [entity_resolution]
     num_sources: [15, 20]
 identifiers: [numeric, random_compact, uuid]
 backend:

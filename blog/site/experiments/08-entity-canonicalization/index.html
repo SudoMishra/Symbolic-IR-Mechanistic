@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stage 8 experimental log: typed entity canonicalization across synthetic account-resolution tasks, models, and exposure conditions.">
+  <title>08 · Entity canonicalization — Symbolic IR experimental log</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to experiment</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="../../index.html"><span class="brand-mark">SYMBOLIC IR</span><span class="brand-subtitle">experimental log</span></a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Index</button>
+    <nav class="site-nav" id="site-nav" data-site-nav aria-label="Primary navigation"><a href="../../index.html">Program</a><a href="#results" aria-current="page">Results</a><a href="#provenance">Artifacts</a></nav>
+  </div></header>
+  <div class="page-shell">
+    <aside class="experiment-sidebar" aria-label="Experiment index">
+      <div class="sidebar-label">Experiments</div>
+      <ol class="experiment-nav">
+        <li><a href="../00-harness-validation/"><span class="nav-id">00</span><span>Harness validation</span></a></li>
+        <li><a href="../01-citation-baseline/"><span class="nav-id">01</span><span>Citation baseline</span></a></li>
+        <li><a href="../02-multihop-musique/"><span class="nav-id">02</span><span>Multi-hop MuSiQue</span></a></li>
+        <li><a href="../04-dual-labels/"><span class="nav-id">04</span><span>Dual labels</span></a></li>
+        <li><a href="../05-reasoning-budget/"><span class="nav-id">05</span><span>Reasoning budget</span></a></li>
+        <li><a href="../longproc/"><span class="nav-id">LP</span><span>Long-output reality check</span></a></li>
+        <li><a href="../06-representation-geometry/"><span class="nav-id">06</span><span>Representation geometry</span></a></li>
+        <li><a href="../07-causal-interventions/"><span class="nav-id">07</span><span>Causal interventions</span></a></li>
+        <li><a href="./" aria-current="page"><span class="nav-id">08</span><span>Entity canonicalization</span></a></li>
+        <li><a href="../09-systems-boundary/"><span class="nav-id">09</span><span>Systems boundary</span></a></li>
+      </ol>
+      <div class="sidebar-label toc-label">On this page</div>
+      <ul class="toc"><li><a href="#question">Question</a></li><li><a href="#design">Design</a></li><li><a href="#results">Results</a></li><li><a href="#interpretation">Interpretation</a></li><li><a href="#boundaries">Boundaries</a></li><li><a href="#provenance">Provenance</a></li><li><a href="#related">Related</a></li></ul>
+    </aside>
+    <main class="experiment-main" id="main-content">
+      <header class="hero">
+        <div class="hero-grid"><div>
+          <div class="eyebrow">Stage 08 · generalization</div><h1>Typed handles outside citation tasks</h1>
+          <p class="hero-deck">A controlled account-resolution benchmark asks whether request-scoped canonicalization can preserve entity binding while removing literal names, emails, phone numbers, addresses, and account numbers from model context and output.</p>
+          <div class="tag-row"><span class="tag complete">complete</span><span class="tag confirmatory">behavioral</span><span class="tag">privacy exposure</span><span class="tag">cross-domain</span></div>
+        </div><p class="hero-note"><strong>Result in one line.</strong> Typed handles show supported gains in four of six primary local models and ceiling-limited gains in two; all 9,000 local masked-condition outputs produced 0.0% literal raw-value exposure.</p></div>
+        <div class="meta-grid" aria-label="Experiment metadata">
+          <div class="meta-item"><span class="meta-label">Local scale</span><span class="meta-value">12,000 generations</span></div>
+          <div class="meta-item"><span class="meta-label">Models</span><span class="meta-value">6 local + 2 frontier</span></div>
+          <div class="meta-item"><span class="meta-label">Examples</span><span class="meta-value">40 pilot · 500 scaled</span></div>
+          <div class="meta-item"><span class="meta-label">Primary contrast</span><span class="meta-value">typed − untyped</span></div>
+        </div>
+      </header>
+
+      <section class="section" id="question">
+        <div class="section-header"><span class="section-kicker">01 · question</span><h2>Do semantic type cues help models bind masked entities?</h2></div>
+        <p class="lede">Citation labels are only one kind of machine-facing identifier. Production agents also encounter customer IDs, emails, accounts, and transactions whose literal spelling is often irrelevant to the reasoning task.</p>
+        <div class="question-grid">
+          <article class="question-card"><h3>Hypothesis</h3><p>Consistent typed handles such as <code>&lt;ACCOUNT_1&gt;</code> preserve entity relations better than neutral <code>&lt;HANDLE_1&gt;</code> placeholders while both remove literal protected values.</p></article>
+          <article class="question-card"><h3>Falsifier</h3><p>The claim weakens if typed handles fail to outperform untyped handles under exactly matched token lengths, or if raw values reappear in masked outputs.</p></article>
+        </div>
+        <div class="callout boundary"><span class="callout-label">Scope</span><p>All records are synthetic. “Exposure” means exact configured raw values appearing in generated text; it is not anonymity, encryption, unlinkability, or authorization.</p></div>
+      </section>
+
+      <section class="section" id="design">
+        <div class="section-header"><span class="section-kicker">02 · design</span><h2>Same semantic cases, four surface representations</h2></div>
+        <p>Each prompt contained 15 or 20 synthetic customer records. Citations were disabled and source labels stayed fixed as <code>[S1]</code>, isolating entity surface form. Every case was rendered as raw PII, random masks, untyped canonical handles, and typed canonical handles.</p>
+        <div class="data-grid">
+          <article class="panel"><h3>Raw</h3><p>Literal synthetic names, emails, phone numbers, addresses, and accounts.</p></article>
+          <article class="panel"><h3>Random masked</h3><p>Arbitrary replacement strings with no stable type cue.</p></article>
+          <article class="panel"><h3>Untyped canonical</h3><p>Consistent neutral references such as <code>&lt;HANDLE_1&gt;</code>.</p></article>
+          <article class="panel"><h3>Typed canonical</h3><p>Consistent references such as <code>&lt;EMAIL_2&gt;</code> and <code>&lt;ACCOUNT_1&gt;</code>.</p></article>
+        </div>
+        <div class="study-block" id="pilot"><div class="study-heading"><div><span class="eyebrow">Pilot</span><h3>Six models × 40 examples × 4 conditions</h3></div><p>960 generations</p></div><p>Across 240 model/example pairs, typed handles gained 18.3 points over untyped (45 wins, 1 loss). The three-model token-matched subset gained 10.8 points.</p></div>
+        <div class="study-block" id="scaled-replication"><div class="study-heading"><div><span class="eyebrow">Scaled replication</span><h3>Six models × 500 examples × 4 conditions</h3></div><p>12,000 generations</p></div><p>The frozen local cohort excludes both LFM checkpoints. Effects are classified per model as supported, ceiling-limited, nonsignificant, null, or negative rather than pooled into one fleet-wide number.</p></div>
+        <div class="study-block" id="frontier-extension"><div class="study-heading"><div><span class="eyebrow">Frontier extension</span><h3>Claude Sonnet 5.5 + GPT-6.1 Sol</h3></div><p>4,000 generations</p></div><p>Both models operated at ceiling: Sonnet scored 99.8–100.0%, while Sol scored 100.0% in every condition. Every masked frontier condition also had 0.0% literal exposure.</p></div>
+      </section>
+
+      <section class="section" id="results">
+        <div class="section-header"><span class="section-kicker">03 · results</span><h2>Typed handles recover binding failures; masking removes literal exposure</h2></div>
+        <div class="data-grid three">
+          <article class="metric"><span class="metric-label">Supported</span><strong class="metric-value">4 / 6</strong><p class="metric-detail">typed-over-untyped local effects</p></article>
+          <article class="metric"><span class="metric-label">Ceiling-limited</span><strong class="metric-value">2 / 6</strong><p class="metric-detail">Qwen 3.5 checkpoints</p></article>
+          <article class="metric"><span class="metric-label">Masked exposure</span><strong class="metric-value">0 / 9,000</strong><p class="metric-detail">configured raw values in local masked outputs</p></article>
+        </div>
+        <div class="table-wrap"><table>
+          <caption>Scaled account-resolution accuracy, N=500 per local model and condition.</caption>
+          <thead><tr><th scope="col">Model</th><th scope="col">Raw</th><th scope="col">Random</th><th scope="col">Untyped</th><th scope="col">Typed</th><th scope="col">Typed − untyped (95% CI)</th><th scope="col">Token Δ</th></tr></thead>
+          <tbody>
+            <tr><td>Tiny Aya</td><td class="numeric">77.2%</td><td class="numeric">76.4%</td><td class="numeric">88.4%</td><td class="numeric">96.0%</td><td class="numeric">+6.4 pp [4.0, 9.0]</td><td class="numeric">+36.0</td></tr>
+            <tr><td>Qwen 2.5 1.5B</td><td class="numeric">94.0%</td><td class="numeric">74.0%</td><td class="numeric">78.8%</td><td class="numeric">91.6%</td><td class="numeric">+11.4 pp [8.0, 14.6]</td><td class="numeric">+0.0</td></tr>
+            <tr><td>Gemma E2B</td><td class="numeric">100.0%</td><td class="numeric">100.0%</td><td class="numeric">88.0%</td><td class="numeric">98.8%</td><td class="numeric">+13.0 pp [10.0, 16.2]</td><td class="numeric">+0.0</td></tr>
+            <tr><td>Gemma E4B</td><td class="numeric">100.0%</td><td class="numeric">99.6%</td><td class="numeric">87.2%</td><td class="numeric">100.0%</td><td class="numeric">+13.4 pp [10.4, 16.4]</td><td class="numeric">+0.0</td></tr>
+            <tr><td>Qwen 3.5 2B</td><td class="numeric">48.4%</td><td class="numeric">64.0%</td><td class="numeric">95.2%</td><td class="numeric">98.0%</td><td class="numeric">+2.0 pp [0.6, 3.4]</td><td class="numeric">+0.0</td></tr>
+            <tr><td>Qwen 3.5 4B</td><td class="numeric">100.0%</td><td class="numeric">99.8%</td><td class="numeric">99.6%</td><td class="numeric">100.0%</td><td class="numeric">+0.4 pp [0.0, 1.0]</td><td class="numeric">+0.0</td></tr>
+          </tbody>
+        </table></div>
+        <figure class="figure-card"><img src="../../assets/08_stage8_entities.svg" alt="Account-resolution accuracy by representation and raw-value exposure across local and frontier models."><figcaption>Figure 08. Accuracy effects vary by model; literal exposure is uniformly eliminated in the masked conditions on this benchmark.</figcaption></figure>
+        <div class="callout"><span class="callout-label">Measured</span><p>All six local effects are non-negative. Four have intervals excluding zero positively; the two Qwen 3.5 models are classified as ceiling-limited rather than pooled into a larger descriptive fleet effect.</p></div>
+      </section>
+
+      <section class="section" id="interpretation">
+        <div class="section-header"><span class="section-kicker">04 · interpretation</span><h2>Semantic type is useful interface information</h2></div>
+        <p>The identifier problem generalizes beyond citation syntax. For several architectures, neutral placeholders erase distinctions the model needs; lightweight type information restores binding without exposing the literal entity.</p>
+        <div class="callout supports"><span class="callout-label">Supported</span><p>Request-scoped typed handles can preserve or improve non-citation binding, and withholding configured raw values prevents those exact values from being emitted in this controlled benchmark.</p></div>
+        <p>This does not mean typed handles always beat raw values. Several models were already near ceiling, and both frontier models were saturated. The evidence supports exposure control more broadly than it supports an accuracy gain.</p>
+      </section>
+
+      <section class="section" id="boundaries">
+        <div class="section-header"><span class="section-kicker">05 · boundaries</span><h2>Exposure reduction is not privacy certification</h2></div>
+        <div class="question-grid">
+          <article class="panel"><h3>Synthetic domain</h3><p>Real records add ambiguity, co-reference, schema drift, and identifiers whose surface form may matter.</p></article>
+          <article class="panel"><h3>Linkability remains</h3><p>Handles can connect facts within a request. Context may re-identify a person, and the reversible vault remains sensitive.</p></article>
+          <article class="panel"><h3>Model heterogeneity</h3><p>Effect size ranges from +0.4 points at ceiling to +13.4 points. Evaluate each model and task rather than treating the cohort as one pooled effect.</p></article>
+          <article class="panel"><h3>Wrong target risk</h3><p>A model can select the wrong registered handle. Stage 09 tests where structural validation stops.</p></article>
+        </div>
+        <div class="callout open"><span class="callout-label">Open question</span><p>Future work should test ambiguous schemas, multi-turn mapping lifetimes, adversarial re-identification, and tasks where selected literal features must remain visible.</p></div>
+      </section>
+
+      <section class="section" id="provenance">
+        <div class="section-header"><span class="section-kicker">06 · provenance</span><h2>Reports, implementation, and checked-in results</h2></div>
+        <ul class="artifact-list">
+          <li><span class="artifact-kind">Pilot</span><code>FINDINGS_STAGE8_CROSS_MODEL.md</code></li><li><span class="artifact-kind">Scaled</span><code>FINDINGS_STAGE8_500_CROSS_MODEL.md</code></li>
+          <li><span class="artifact-kind">Processed</span><code>results/processed/stage8_pii_500_cross_model.json</code></li><li><span class="artifact-kind">Frontier</span><code>results/processed/frontier_evaluation_summary.json</code></li>
+          <li><span class="artifact-kind">Recompute</span><code>scripts/recompute_stage8_cross_model.py</code></li><li><span class="artifact-kind">Manifest</span><code>study_manifest.yaml · stage8_pii_500</code></li>
+        </ul>
+        <div class="callout boundary"><span class="callout-label">Reproduction note</span><p>Processed results and the figure are checked in. Rerunning inference requires the model artifacts and runtime named by per-model reports and provenance files.</p></div>
+      </section>
+
+      <section class="section" id="related"><div class="section-header"><span class="section-kicker">07 · related</span><h2>From causal binding to a software boundary</h2></div>
+        <div class="related-grid"><a class="related-card" href="../07-causal-interventions/"><span class="eyebrow">Previous · 07</span><h3>Causal source-ID interventions</h3><p>Intervene on identifier states to test whether models use them to bind answers.</p></a><a class="related-card" href="../09-systems-boundary/"><span class="eyebrow">Next · 09</span><h3>Operational symbolic IR boundary</h3><p>Move mappings into trusted software and test validation, replay isolation, and the wrong-handle limit.</p></a></div>
+      </section>
+    </main>
+  </div>
+  <footer class="site-footer"><div class="footer-inner"><p>Symbolic IR mechanistic study · experimental log</p><p>Stage 08 · verified from checked-in artifacts</p></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
