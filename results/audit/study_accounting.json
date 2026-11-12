@@ -1,7 +1,7 @@
 {
   "local_completed_calls": 46230,
   "frontier_completed_calls": 13760,
-  "mechanistic_completed_calls": 3264,
+  "mechanistic_completed_calls": 3744,
   "excluded_completed_calls": 0,
   "systems_completed_executions": 6000,
   "by_experiment": {
@@ -82,7 +82,7 @@
       "evidence_tier": "mechanistic",
       "local_completed": 0,
       "frontier_completed": 0,
-      "mechanistic_completed": 1824,
+      "mechanistic_completed": 2304,
       "excluded_completed": 0,
       "systems_completed": 0
     },
@@ -125,11 +125,11 @@
     },
     "gemma4_e2b": {
       "type": "local",
-      "completed_calls": 8137
+      "completed_calls": 8329
     },
     "gemma4_e4b": {
       "type": "local",
-      "completed_calls": 8041
+      "completed_calls": 8329
     },
     "qwen35_2b": {
       "type": "local",
@@ -164,5 +164,5 @@
       "completed_calls": 0
     }
   },
-  "total_verified_calls": 63254
+  "total_verified_calls": 63734
 }

@@ -9,7 +9,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 .axis{stroke:#aeb8c8;stroke-width:1}.grid{stroke:#e5e9f0;stroke-width:1}.zero{stroke:#172033;stroke-width:1.5}
 </style>
 <text x="50" y="44" class="title" text-anchor="start">Figure 7B — Residual-stream activation patching recovers identifier preference by late layers</text>
-<text x="50" y="72" class="subtitle" text-anchor="start">Fraction of counterfactual swap effect recovered across normalized model depth; 1,710 activation patches across all 6 local models.</text>
+<text x="50" y="72" class="subtitle" text-anchor="start">Fraction of counterfactual swap effect recovered across normalized model depth; 2,160 activation patches across all 6 local models.</text>
 <text x="90" y="123" class="label" text-anchor="start" fill="#172033">Qwen 2.5 1.5B (28 layers)</text>
 <line x1="90" y1="303.8888888888889" x2="670" y2="303.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
 <text x="82" y="307.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
@@ -166,7 +166,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <text x="730" y="627" class="small" text-anchor="start">0.0 (Input)</text>
 <text x="1310" y="627" class="small" text-anchor="end">1.0 (Output)</text>
 <text x="1020.0" y="627" class="small" text-anchor="middle">Normalized model depth</text>
-<text x="90" y="663" class="label" text-anchor="start" fill="#172033">Gemma 4 E2B (35 layers, pilot)</text>
+<text x="90" y="663" class="label" text-anchor="start" fill="#172033">Gemma 4 E2B (35 layers)</text>
 <line x1="90" y1="843.8888888888889" x2="670" y2="843.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
 <text x="82" y="847.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
 <line x1="90" y1="822.7777777777778" x2="670" y2="822.7777777777778" stroke="#172033" stroke-width="1.5"/>
@@ -187,25 +187,25 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <text x="570.5714285714287" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L29</text>
 <line x1="670.0" y1="675" x2="670.0" y2="865" stroke="#e2e8f0" stroke-width="1"/>
 <text x="670.0" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L35</text>
-<polyline points="106.57,823.75 338.57,822.78 570.57,822.78 670.00,822.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="106.57142857142857" cy="823.7467499548274" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="106.57,822.00 338.57,822.78 570.57,822.78 670.00,822.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="106.57142857142857" cy="822.0007684833049" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
 <circle cx="338.57142857142856" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
 <circle cx="570.5714285714287" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
 <circle cx="670.0" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
-<polyline points="106.57,838.64 338.57,822.78 570.57,822.78 670.00,822.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="106.57142857142857" cy="838.6363265865755" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="106.57,825.60 338.57,822.78 570.57,822.78 670.00,822.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="106.57142857142857" cy="825.6033000507044" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
 <circle cx="338.57142857142856" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
 <circle cx="570.5714285714287" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
 <circle cx="670.0" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
-<polyline points="106.57,831.00 338.57,865.00 570.57,745.03 670.00,685.21" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="106.57142857142857" cy="831.0008093515631" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<circle cx="338.57142857142856" cy="865.0" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<circle cx="570.5714285714287" cy="745.0316374281227" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<circle cx="670.0" cy="685.2128937695786" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<polyline points="106.57,823.78 338.57,833.80 570.57,744.68 670.00,713.07" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="106.57142857142857" cy="823.7823761716622" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="338.57142857142856" cy="833.8018066443942" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="570.5714285714287" cy="744.6809949641214" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="670.0" cy="713.0672219224059" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
 <text x="90" y="897" class="small" text-anchor="start">0.0 (Input)</text>
 <text x="670" y="897" class="small" text-anchor="end">1.0 (Output)</text>
 <text x="380.0" y="897" class="small" text-anchor="middle">Normalized model depth</text>
-<text x="730" y="663" class="label" text-anchor="start" fill="#172033">Gemma 4 E4B (42 layers, pilot)</text>
+<text x="730" y="663" class="label" text-anchor="start" fill="#172033">Gemma 4 E4B (42 layers)</text>
 <line x1="730" y1="843.8888888888889" x2="1310" y2="843.8888888888889" stroke="#d8dee8" stroke-width="0.8"/>
 <text x="722" y="847.8888888888889" class="small" text-anchor="end" fill="#5f6b7a">-0.2</text>
 <line x1="730" y1="822.7777777777778" x2="1310" y2="822.7777777777778" stroke="#172033" stroke-width="1.5"/>
@@ -226,20 +226,20 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <text x="1171.904761904762" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L32</text>
 <line x1="1310.0" y1="675" x2="1310.0" y2="865" stroke="#e2e8f0" stroke-width="1"/>
 <text x="1310.0" y="881" class="small" text-anchor="middle" fill="#5f6b7a">L42</text>
-<polyline points="743.81,822.78 1075.24,822.78 1171.90,822.78 1310.00,822.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="743.8095238095239" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
+<polyline points="743.81,823.04 1075.24,822.78 1171.90,822.78 1310.00,822.78" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="743.8095238095239" cy="823.0422775978508" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
 <circle cx="1075.2380952380952" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
 <circle cx="1171.904761904762" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
 <circle cx="1310.0" cy="822.7777777777778" r="4" fill="#94a3b8" stroke="none" stroke-width="1"/>
-<polyline points="743.81,817.01 1075.24,822.78 1171.90,822.78 1310.00,822.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="743.8095238095239" cy="817.0135448544061" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
+<polyline points="743.81,822.80 1075.24,822.78 1171.90,822.78 1310.00,822.78" fill="none" stroke="#7656c9" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="743.8095238095239" cy="822.7955054849646" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
 <circle cx="1075.2380952380952" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
 <circle cx="1171.904761904762" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
 <circle cx="1310.0" cy="822.7777777777778" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
-<polyline points="743.81,822.78 1075.24,865.00 1171.90,865.00 1310.00,717.22" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="743.8095238095239" cy="822.7777777777778" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<circle cx="1075.2380952380952" cy="865.0" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
-<circle cx="1171.904761904762" cy="865.0" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<polyline points="743.81,822.95 1075.24,852.00 1171.90,796.97 1310.00,717.22" fill="none" stroke="#008c83" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="743.8095238095239" cy="822.9541109911598" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1075.2380952380952" cy="852.0044396247962" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
+<circle cx="1171.904761904762" cy="796.9723218055514" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
 <circle cx="1310.0" cy="717.2222222222222" r="5.5" fill="#008c83" stroke="none" stroke-width="1"/>
 <text x="730" y="897" class="small" text-anchor="start">0.0 (Input)</text>
 <text x="1310" y="897" class="small" text-anchor="end">1.0 (Output)</text>
@@ -255,7 +255,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <circle cx="1050" cy="955" r="4" fill="#7656c9" stroke="none" stroke-width="1"/>
 <text x="1080" y="960" class="small" text-anchor="start" font-weight="600">Purple: Source label span</text>
 <text x="120" y="988" class="small" text-anchor="start">Key finding: Patching citation-context activations cleanly transfers the counterfactual binding preference at late layers (recovery ~ 1.0).</text>
-<text x="120" y="1010" class="small" text-anchor="start" fill="#5f6b7a">Scope: Residual-stream activation patching only (1,710 total interventions across 6 models). See Figure 7A for prompt-level swaps.</text>
+<text x="120" y="1010" class="small" text-anchor="start" fill="#5f6b7a">Scope: Residual-stream activation patching only (2,160 total interventions across 6 models). See Figure 7A for prompt-level swaps.</text>
 <metadata id="figure-metadata" type="application/json">
 {
   "experiment_id": "stage7_interventions",
@@ -268,7 +268,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
     "gemma4_e2b",
     "gemma4_e4b"
   ],
-  "activation_patches": 1710,
+  "activation_patches": 2160,
   "scope": "activation_patching_only"
 }
 </metadata>

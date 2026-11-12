@@ -102,8 +102,8 @@ Generated from `study_manifest.yaml`.
 | stage6_geometry | mechanistic | lfm25_26b | excluded | excluded | 0 | 0 | `` |
 | stage7_interventions | mechanistic | tiny_aya_global | local | complete | 384 | 384 | `results/interventions/stage7_tiny_aya_global/385e95d192ba/manifest.jsonl` |
 | stage7_interventions | mechanistic | qwen25_15b | local | complete | 384 | 384 | `results/interventions/stage7_qwen25_15b/ed4f8ec474bc/manifest.jsonl` |
-| stage7_interventions | mechanistic | gemma4_e2b | local | complete | 192 | 192 | `results/interventions/stage7_gemma4_e2b/b0e9e07604a2/manifest.jsonl` |
-| stage7_interventions | mechanistic | gemma4_e4b | local | complete | 96 | 96 | `results/interventions/stage7_gemma4_e4b/2af614377c25/manifest.jsonl` |
+| stage7_interventions | mechanistic | gemma4_e2b | local | complete | 384 | 384 | `results/interventions/stage7_gemma4_e2b/b0e9e07604a2/manifest.jsonl` |
+| stage7_interventions | mechanistic | gemma4_e4b | local | complete | 384 | 384 | `results/interventions/stage7_gemma4_e4b/2af614377c25/manifest.jsonl` |
 | stage7_interventions | mechanistic | qwen35_2b | local | complete | 384 | 384 | `results/interventions/stage7_qwen35_2b/5c61804e47bd/manifest.jsonl` |
 | stage7_interventions | mechanistic | qwen35_4b | local | complete | 384 | 384 | `results/interventions/stage7_qwen35_4b/3833727751d3/manifest.jsonl` |
 | stage7_interventions | mechanistic | claude-haiku-5-5 | frontier | not_applicable | 0 | 0 | `` |
@@ -136,4 +136,4 @@ Generated from `study_manifest.yaml`.
 | frontier_stability | exploratory | gpt-6-luna | frontier | complete | 240 | 240 | `results/raw/frontier_stability/openai_gpt-6-luna.jsonl` |
 | frontier_stability | exploratory | lfm25_12b | excluded | excluded | 0 | 0 | `` |
 | frontier_stability | exploratory | lfm25_26b | excluded | excluded | 0 | 0 | `` |
-| stage9_systems_boundary | systems | deterministic_software | systems | complete | 6000 | 6000 | `src/symbolic_ir/` |
+| stage9_systems_boundary | systems | deterministic_software | systems | complete | 6000 | 6000 | `scripts/evaluate_stage9_system.py` |

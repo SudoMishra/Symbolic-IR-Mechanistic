@@ -1,6 +1,6 @@
 # Stage 7: causal source-to-identifier binding
 
-**Design:** 2 semantic examples × 3 identifier formats = 6 paired source-ID swaps and 96 activation interventions on `google/gemma-4-E4B-it`. Prompts contain 2453–2932 tokens. The relevant source swaps identifiers with a distractor while source text, question, answer, and the identifier set remain fixed.
+**Design:** 8 semantic examples × 3 identifier formats = 24 paired source-ID swaps and 384 activation interventions on `google/gemma-4-E4B-it`. Prompts contain 2453–3887 tokens. The relevant source swaps identifiers with a distractor while source text, question, answer, and the identifier set remain fixed.
 
 The primary direct effect is the change in `log P(swapped ID) - log P(original ID)` after the prompt swap. The patching effect is the same preference change after transplanting a state from the swapped run into the clean run. Intervals are 5,000-replicate paired bootstraps over semantic examples.
 
@@ -8,9 +8,9 @@ The primary direct effect is the change in `log P(swapped ID) - log P(original I
 
 | Identifier | Total log-probability effect | Per-token effect | Positive cases |
 |---|---:|---:|---:|
-| [S1] | 11.557 [-14.024, 37.137] | 2.889 [-3.506, 9.284] | 1/2 |
-| [XQ7M] | 15.172 [9.093, 21.250] | 3.049 [2.273, 3.826] | 2/2 |
-| UUID | 48.728 [26.704, 70.751] | 1.414 [0.806, 2.022] | 2/2 |
+| [S1] | 37.413 [19.380, 54.951] | 8.746 [4.414, 13.128] | 7/8 |
+| [XQ7M] | 50.906 [33.813, 66.984] | 10.964 [7.030, 14.732] | 8/8 |
+| UUID | 48.299 [35.799, 63.535] | 1.408 [1.026, 1.880] | 8/8 |
 
 A positive value means the same semantic source becomes more likely to be cited with its new identifier after the swap. The model shows correct causal rebinding in at least two formats: the same semantic source becomes more likely to be cited with its new identifier, although no fact or answer changed.
 
@@ -20,32 +20,32 @@ The citation-context intervention patches every residual state that predicts a t
 
 | Identifier | Layer | Total patch effect | Per-token patch effect | Aggregate recovery |
 |---|---:|---:|---:|---:|
-| [S1] | 1 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.0% |
-| [S1] | 25 | -27.099 [-28.837, -25.360] | -6.775 [-7.209, -6.340] | -234.5% |
-| [S1] | 32 | -17.363 [-33.363, -1.363] | -4.341 [-8.341, -0.341] | -150.2% |
-| [S1] | 42 | 11.557 [-14.024, 37.137] | 2.889 [-3.506, 9.284] | 100.0% |
-| [XQ7M] | 1 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.0% |
-| [XQ7M] | 25 | -15.905 [-19.186, -12.625] | -3.551 [-4.796, -2.305] | -104.8% |
-| [XQ7M] | 32 | -14.694 [-15.500, -13.888] | -3.234 [-3.472, -2.995] | -96.9% |
-| [XQ7M] | 42 | 15.172 [9.093, 21.250] | 3.049 [2.273, 3.826] | 100.0% |
-| UUID | 1 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.0% |
-| UUID | 25 | -12.147 [-18.170, -6.124] | -0.352 [-0.531, -0.172] | -24.9% |
-| UUID | 32 | 1.156 [-1.749, 4.061] | 0.044 [-0.046, 0.135] | 2.4% |
-| UUID | 42 | 48.728 [26.704, 70.751] | 1.414 [0.806, 2.022] | 100.0% |
+| [S1] | 1 | -0.062 [-0.188, 0.000] | -0.012 [-0.035, 0.000] | -0.2% |
+| [S1] | 25 | -10.359 [-18.048, -2.857] | -2.458 [-4.480, -0.530] | -27.7% |
+| [S1] | 32 | 9.147 [-7.609, 26.224] | 2.094 [-1.758, 6.265] | 24.4% |
+| [S1] | 42 | 37.413 [19.963, 54.728] | 8.746 [4.258, 13.203] | 100.0% |
+| [XQ7M] | 1 | 0.012 [0.000, 0.037] | 0.006 [0.000, 0.019] | 0.0% |
+| [XQ7M] | 25 | -9.000 [-13.932, -4.112] | -1.865 [-2.981, -0.759] | -17.7% |
+| [XQ7M] | 32 | 7.354 [-3.984, 18.912] | 1.754 [-0.925, 4.409] | 14.4% |
+| [XQ7M] | 42 | 50.906 [33.682, 66.779] | 10.964 [7.000, 14.833] | 100.0% |
+| UUID | 1 | -0.023 [-0.070, 0.000] | -0.001 [-0.003, 0.000] | -0.0% |
+| UUID | 25 | -11.610 [-15.418, -8.026] | -0.328 [-0.445, -0.221] | -24.0% |
+| UUID | 32 | 0.773 [-7.902, 11.911] | 0.042 [-0.209, 0.387] | 1.6% |
+| UUID | 42 | 48.299 [35.561, 63.674] | 1.408 [1.026, 1.861] | 100.0% |
 
 ## Localization controls
 
 | Identifier | Layer | Source-label endpoint | Relevant source content | Question endpoint control |
 |---|---:|---:|---:|---:|
-| [S1] | 1 | 0.631 [0.258, 1.004] | 0.948 [0.520, 1.377] | 0.000 [0.000, 0.000] |
+| [S1] | 1 | -0.006 [-0.499, 0.520] | 0.339 [-0.078, 0.790] | -0.094 [-0.281, 0.000] |
 | [S1] | 25 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
 | [S1] | 32 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
 | [S1] | 42 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
-| [XQ7M] | 1 | -0.219 [-2.000, 1.561] | 0.117 [-1.875, 2.109] | 0.000 [0.000, 0.000] |
+| [XQ7M] | 1 | 0.141 [-0.634, 0.846] | -0.324 [-1.079, 0.535] | 0.045 [0.000, 0.134] |
 | [XQ7M] | 25 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
 | [XQ7M] | 32 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
 | [XQ7M] | 42 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
-| UUID | 1 | -0.438 [-1.000, 0.124] | -1.187 [-1.625, -0.749] | 0.000 [0.000, 0.000] |
+| UUID | 1 | -0.125 [-0.485, 0.250] | -0.515 [-1.015, -0.015] | -0.047 [-0.140, 0.000] |
 | UUID | 25 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
 | UUID | 32 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |
 | UUID | 42 | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] |

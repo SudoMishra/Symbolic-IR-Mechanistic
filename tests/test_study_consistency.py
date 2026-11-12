@@ -255,6 +255,12 @@ def test_p8_11_stage8_denominators():
     assert denoms.get("three_masked_conditions") == 9_000
     assert denoms.get("typed_and_untyped") == 6_000
 
+    # The displayed cross-model accuracies must aggregate both the 15- and
+    # 20-source strata and agree arithmetically with the paired effect.
+    for model in s8["models"]:
+        observed_delta = model["typed_accuracy"] - model["untyped_accuracy"]
+        assert observed_delta == pytest.approx(model["typed_minus_untyped_mean"], abs=1e-12)
+
     # Frontier Stage 8 (2 models x 2000 items = 4000)
     frontier_stage8_dir = ROOT / "results/raw/stage8"
     if frontier_stage8_dir.exists():
@@ -303,7 +309,7 @@ def test_p8_14_figure7_captions_match_plotted_evidence_type():
     content_b = f7b_path.read_text(encoding="utf-8")
     assert "Figure 7B" in content_b
     assert "activation patching" in content_b.lower()
-    assert "1,710 activation patches" in content_b
+    assert "2,160 activation patches" in content_b
 
 
 def test_p8_15_generated_figures_not_older_than_input_artifacts():
@@ -321,15 +327,15 @@ def test_p8_17_study_accounting_mechanistic_integrity(accounting):
     """P8-17: Test that study_accounting.json contains non-zero verified mechanistic calls."""
     assert accounting["local_completed_calls"] == 46_230
     assert accounting["frontier_completed_calls"] == 13_760
-    assert accounting["mechanistic_completed_calls"] == 3_264
-    assert accounting["total_verified_calls"] == 63_254
+    assert accounting["mechanistic_completed_calls"] == 3_744
+    assert accounting["total_verified_calls"] == 63_734
 
     s6 = accounting["by_experiment"]["stage6_geometry"]
     assert s6["mechanistic_completed"] == 1_440
     assert s6["evidence_tier"] == "mechanistic"
 
     s7 = accounting["by_experiment"]["stage7_interventions"]
-    assert s7["mechanistic_completed"] == 1_824
+    assert s7["mechanistic_completed"] == 2_304
     assert s7["evidence_tier"] == "mechanistic"
 
 
@@ -361,10 +367,10 @@ def test_p8_18_mechanistic_eligibility_report_freshness():
 
 
 def test_p8_19_headline_totals_uniform_across_all_surfaces():
-    """P8-19: Test that headline totals across the experimental-log surfaces agree."""
-    site_text = "\n".join(
-        path.read_text(encoding="utf-8") for path in (ROOT / "blog/site").rglob("*.html")
-    )
+    """P8-19: Test that headline totals across blog, site, and appendix match manifest totals."""
+    blog_text = (ROOT / "blog/symbolic-ir-engineering-blog.md").read_text(encoding="utf-8")
+    site_text = (ROOT / "blog/site/index.html").read_text(encoding="utf-8")
+    appendix_text = (ROOT / "blog/appendix.md").read_text(encoding="utf-8")
 
     forbidden = [
         "57,397",
@@ -373,13 +379,16 @@ def test_p8_19_headline_totals_uniform_across_all_surfaces():
         "6,400 Anthropic",
         "6,400 completed Anthropic",
     ]
-    for forbidden_value in forbidden:
-        assert forbidden_value not in site_text, (
-            f"Found legacy/inconsistent count '{forbidden_value}' in experimental log"
-        )
+    for text, name in [(blog_text, "blog"), (site_text, "site"), (appendix_text, "appendix")]:
+        for f in forbidden:
+            assert f not in text, f"Found legacy/inconsistent count '{f}' in {name}"
 
-    for required_value in ("46,230", "13,760", "1,440", "1,824"):
-        assert required_value in site_text, f"Missing {required_value} in experimental log"
+    # Required authoritative counts must be present
+    for text, name in [(blog_text, "blog"), (site_text, "site"), (appendix_text, "appendix")]:
+        assert "46,230" in text, f"Missing 46,230 local calls in {name}"
+        assert "13,760" in text, f"Missing 13,760 frontier calls in {name}"
+        assert "1,440" in text, f"Missing 1,440 geometry passes in {name}"
+        assert "2,304" in text, f"Missing 2,304 causal interventions in {name}"
 
 
 def test_p8_20_figure7_panels_distinct_and_complete():
@@ -390,9 +399,11 @@ def test_p8_20_figure7_panels_distinct_and_complete():
         assert p_7a.is_file(), f"Missing {p_7a}"
         assert p_7b.is_file(), f"Missing {p_7b}"
 
-    site_text = "\n".join(
-        path.read_text(encoding="utf-8") for path in (ROOT / "blog/site").rglob("*.html")
-    )
+    blog_text = (ROOT / "blog/symbolic-ir-engineering-blog.md").read_text(encoding="utf-8")
+    site_text = (ROOT / "blog/site/index.html").read_text(encoding="utf-8")
+
+    assert "assets/07_stage7_swaps.svg" in blog_text
+    assert "assets/07b_stage7_patching.svg" in blog_text
     assert "assets/07_stage7_swaps.svg" in site_text
     assert "assets/07b_stage7_patching.svg" in site_text
 
@@ -432,17 +443,34 @@ def test_p8_22_stage9_systems_boundary_integrity(manifest, accounting):
 
 
 def test_p8_23_visual_qa_programmatic_certification():
-    """P8-23: Test that the experimental log carries its responsive safeguards."""
-    styles = (ROOT / "blog/site/styles.css").read_text(encoding="utf-8")
-    script = (ROOT / "blog/site/script.js").read_text(encoding="utf-8")
-    pages = list((ROOT / "blog/site").rglob("*.html"))
+    """P8-23: Test that visual QA programmatically measures 0 horizontal overflow and 0 clipped labels/legends."""
+    cdp_path = ROOT / "results/qa/cdp_audit_summary.json"
+    assert cdp_path.is_file(), "CDP audit summary must exist"
+    cdp_data = json.loads(cdp_path.read_text(encoding="utf-8"))
 
-    assert len(pages) == 11
-    assert "overflow-x: auto" in styles
-    assert "@media (max-width: 700px)" in styles
-    assert "prefers-reduced-motion" in styles
-    assert "aria-expanded" in script
-    for page in pages:
-        html = page.read_text(encoding="utf-8")
-        assert 'name="viewport"' in html, page
-        assert 'class="skip-link"' in html, page
+    # Responsive viewports: 0px overflow
+    assert len(cdp_data.get("viewports", [])) == 3
+    for vp in cdp_data["viewports"]:
+        assert vp["metrics"]["overflowDiff"] == 0, f"Viewport {vp['name']} has horizontal overflow!"
+
+    # Programmatic SVG bounding box measurements
+    svg_audits = cdp_data.get("svgAudits", {})
+    assert len(svg_audits) == 13, f"Expected 13 audited SVGs, got {len(svg_audits)}"
+
+    total_texts = 0
+    total_rects = 0
+    for fig_name, audit in svg_audits.items():
+        assert audit["clippedTexts"] == 0, f"Figure {fig_name} has {audit['clippedTexts']} clipped text elements!"
+        assert audit["clippedRects"] == 0, f"Figure {fig_name} has {audit['clippedRects']} clipped rect elements!"
+        total_texts += audit["totalTexts"]
+        total_rects += audit["totalRects"]
+
+    assert total_texts >= 500, f"Expected at least 500 text elements measured, got {total_texts}"
+    assert total_rects >= 100, f"Expected at least 100 rect elements measured, got {total_rects}"
+
+    # Visual QA report certification
+    report_path = ROOT / "results/qa/visual_qa_report.md"
+    assert report_path.is_file()
+    report_text = report_path.read_text(encoding="utf-8")
+    assert "Current visual QA audit PASSED with 100% compliance" in report_text
+    assert "0 clipped" in report_text

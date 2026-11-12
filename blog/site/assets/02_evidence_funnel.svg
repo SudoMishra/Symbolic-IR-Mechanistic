@@ -87,7 +87,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 </text>
 <rect x="44" y="515" width="1312" height="115" rx="14" fill="#ffffff" stroke="#d8dee8" stroke-width="1"/>
 <text x="68" y="552" class="label" text-anchor="start" fill="#172033" font-weight="700">Accounting contract:</text>
-<text x="235" y="552" class="body" text-anchor="start">46,230 verified local calls + 13,760 verified frontier validation calls: 59,990 behavioral calls (63,254 total non-excluded verified calls).</text>
+<text x="235" y="552" class="body" text-anchor="start">46,230 verified local calls + 13,760 verified frontier validation calls: 59,990 behavioral calls (63,734 total non-excluded verified calls).</text>
 <text x="68" y="592" class="label" text-anchor="start" fill="#172033" font-weight="700">Scientific distinction:</text>
 <text x="235" y="592" class="subtitle" text-anchor="start">Local fleet calls, closed API calls, causal interventions, and deterministic software test cases stay in native units.</text>
 <metadata id="figure-metadata" type="application/json">
@@ -99,7 +99,7 @@ text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
   ],
   "local_completed_calls": 46230,
   "frontier_completed_calls": 13760,
-  "total_verified_calls": 63254,
+  "total_verified_calls": 63734,
   "excluded_calls": 0,
   "source": "results/audit/study_accounting.json"
 }
