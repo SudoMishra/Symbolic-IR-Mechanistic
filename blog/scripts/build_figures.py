@@ -826,8 +826,8 @@ def stage6_geometry():
 def stage7_swaps():
     files = [
         ("results/processed/stage7_qwen25_15b.json", "Qwen 2.5 1.5B (n=8 examples)"),
-        ("results/processed/stage7_gemma4_e2b.json", "Gemma 4 E2B (n=4 pilot examples)"),
-        ("results/processed/stage7_gemma4_e4b.json", "Gemma 4 E4B (n=2 pilot examples)"),
+        ("results/processed/stage7_gemma4_e2b.json", "Gemma 4 E2B (n=8 examples)"),
+        ("results/processed/stage7_gemma4_e4b.json", "Gemma 4 E4B (n=8 examples)"),
         ("results/processed/stage7_tiny_aya.json", "Tiny Aya Global (n=8 examples)"),
         ("results/processed/stage7_qwen35_2b.json", "Qwen 3.5 2B (n=8 examples)"),
         ("results/processed/stage7_qwen35_4b.json", "Qwen 3.5 4B (n=8 examples)"),
@@ -837,12 +837,12 @@ def stage7_swaps():
         "experiment_id": "stage7_interventions",
         "cohort": "local_cohort_6",
         "eligible_models": ["qwen25_15b", "gemma4_e2b", "gemma4_e4b", "tiny_aya_global", "qwen35_2b", "qwen35_4b"],
-        "swaps": 114,
-        "interventions": 114,
+        "swaps": 144,
+        "interventions": 144,
         "scope": "prompt_swaps_only",
     }
     s = SVG(1350, 940, "Figure 7A: Stage 7 source-ID swap effects across 6 local models", "Counterfactual citation log-probability effect after swapping a relevant source identifier with a distractor (prompt swaps only).", metadata=meta)
-    header(s, "Figure 7A — After an ID swap, retained models shift toward the newly assigned identifier", "Change in preference for the identifier newly assigned to the relevant source; paired 95% bootstrap intervals across 114 counterfactual prompt swaps (prompt swaps only).")
+    header(s, "Figure 7A — After an ID swap, retained models shift toward the newly assigned identifier", "Change in preference for the identifier newly assigned to the relevant source; paired 95% bootstrap intervals across 144 counterfactual prompt swaps (prompt swaps only).")
 
     left, right, top, bottom = 260, 1220, 140, 680
     lo, hi = -24, 76
@@ -887,7 +887,7 @@ def stage7_swaps():
         lx += 220
 
     s.text(80, 842, "Key result: Retained models shift probability toward the newly bound identifier (> 0) across compact formats.", "small", weight="600")
-    s.text(80, 866, "Scope: Prompt-level counterfactual swaps only (114 swaps across 6 models). See Figure 7B for residual-stream activation patching.", "small", fill=MUTED)
+    s.text(80, 866, "Scope: Prompt-level counterfactual swaps only (144 swaps across 6 models). See Figure 7B for residual-stream activation patching.", "small", fill=MUTED)
     s.text(80, 888, "Caveat: Full UUIDs contain more tokens, so total log-prob magnitudes cannot be compared naively across formats.", "small", fill=MUTED)
 
     s.save("07_stage7_swaps.svg")
@@ -899,18 +899,18 @@ def stage7_patching():
         ("results/processed/stage7_tiny_aya.json", "Tiny Aya Global (36 layers)", 36),
         ("results/processed/stage7_qwen35_2b.json", "Qwen 3.5 2B (24 layers)", 24),
         ("results/processed/stage7_qwen35_4b.json", "Qwen 3.5 4B (32 layers)", 32),
-        ("results/processed/stage7_gemma4_e2b.json", "Gemma 4 E2B (35 layers, pilot)", 35),
-        ("results/processed/stage7_gemma4_e4b.json", "Gemma 4 E4B (42 layers, pilot)", 42),
+        ("results/processed/stage7_gemma4_e2b.json", "Gemma 4 E2B (35 layers)", 35),
+        ("results/processed/stage7_gemma4_e4b.json", "Gemma 4 E4B (42 layers)", 42),
     ]
     meta = {
         "experiment_id": "stage7_interventions",
         "cohort": "local_cohort_6",
         "eligible_models": ["qwen25_15b", "tiny_aya_global", "qwen35_2b", "qwen35_4b", "gemma4_e2b", "gemma4_e4b"],
-        "activation_patches": 1710,
+        "activation_patches": 2160,
         "scope": "activation_patching_only",
     }
     s = SVG(1400, 1060, "Figure 7B: Stage 7 residual-stream activation patching across 6 local models", "Recovery of counterfactual source-ID swap effect by patching donor activations into clean prompt runs across normalized model depth.", metadata=meta)
-    header(s, "Figure 7B — Residual-stream activation patching recovers identifier preference by late layers", "Fraction of counterfactual swap effect recovered across normalized model depth; 1,710 activation patches across all 6 local models.")
+    header(s, "Figure 7B — Residual-stream activation patching recovers identifier preference by late layers", "Fraction of counterfactual swap effect recovered across normalized model depth; 2,160 activation patches across all 6 local models.")
 
     panel_w, panel_h = 580, 190
     positions = [
@@ -1007,7 +1007,7 @@ def stage7_patching():
     s.text(1080, 960, "Purple: Source label span", "small", weight="600")
 
     s.text(120, 988, "Key finding: Patching citation-context activations cleanly transfers the counterfactual binding preference at late layers (recovery ~ 1.0).", "small")
-    s.text(120, 1010, "Scope: Residual-stream activation patching only (1,710 total interventions across 6 models). See Figure 7A for prompt-level swaps.", "small", fill=MUTED)
+    s.text(120, 1010, "Scope: Residual-stream activation patching only (2,160 total interventions across 6 models). See Figure 7A for prompt-level swaps.", "small", fill=MUTED)
 
     s.save("07b_stage7_patching.svg")
 

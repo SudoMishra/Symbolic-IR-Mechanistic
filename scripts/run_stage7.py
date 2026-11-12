@@ -428,6 +428,15 @@ def run(config: ExperimentConfig, validate_only=False, limit_examples: int | Non
                         "max_cuda_mb": round(torch.cuda.max_memory_allocated() / 2**20, 1),
                     }), flush=True)
         del donor_recorders
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    if metadata_path.exists():
+        try:
+            meta = json.loads(metadata_path.read_text(encoding="utf-8"))
+            meta.update(summary)
+            metadata_path.write_text(json.dumps(meta, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        except Exception:
+            pass
     return {**summary, "output_dir": str(output_dir), "planned_interventions": total,
             "completed_interventions": len(completed)}
 

@@ -35,8 +35,8 @@ def build(results):
         "The intervention swaps the identifiers assigned to one relevant source and one distractor while "
         "holding source text, identifier set, question, and answer fixed. Positive direct effects mean the "
         "model follows the relevant source to its newly assigned identifier.", "",
-        "Cohort sizes: Qwen 1.5B, Tiny Aya, Qwen 3.5 2B, and Qwen 3.5 4B use 8 semantic examples (384 interventions each). "
-        "Due to GPU memory and context length constraints on 8 GiB VRAM, Gemma E2B uses 4 examples and Gemma E4B is a 2-example diagnostic.", "",
+        "Cohort sizes: All six local models (Qwen 1.5B, Tiny Aya, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, Gemma E4B) "
+        "use 8 semantic examples (384 interventions each, totaling 2,304 interventions across the cohort).", "",
         "## Direct counterfactual rebinding", "",
         "| Model | n | [S1] swap effect | [XQ7M] swap effect | UUID swap effect | Decision |",
         "|---|---:|---:|---:|---:|---|",
@@ -73,9 +73,9 @@ def build(results):
         )
     lines.extend((
         "", "## Findings", "",
-        "1. **Causal rebinding is supported across transformer architectures.** Qwen 1.5B, Tiny Aya, Qwen 3.5 2B, "
-        "and Qwen 3.5 4B consistently follow the semantic source to its newly assigned identifier under counterfactual "
-        "prompt swaps, confirming causal binding evidence across distinct model families.",
+        "1. **Causal rebinding is supported across transformer architectures.** All evaluated local models "
+        "(Qwen 1.5B, Tiny Aya, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, Gemma E4B) consistently follow the semantic source "
+        "to its newly assigned identifier under counterfactual prompt swaps, confirming causal binding evidence across distinct model families.",
         "2. **Exact identifier reconstruction is late across models.** Final-layer citation-state patches transfer "
         "approximately the full prompt-swap effect, while early controls are near zero.",
         "3. **Onset depth varies across models.** Qwen models and Tiny Aya exhibit significant recovery in late "

@@ -1,5 +1,5 @@
 {
-  "cases": 12,
+  "cases": 24,
   "conditions": [
     "structured",
     "random_compact",
@@ -100,11 +100,11 @@
   "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
   "prompt_tokens": {
     "max": 3887,
-    "mean": 3035.6666666666665,
+    "mean": 3043.7083333333335,
     "min": 2453
   },
   "python": "3.11.14 (main, Nov 19 2025, 22:47:14) [Clang 21.1.4 ]",
-  "semantic_examples": 4,
+  "semantic_examples": 8,
   "span_types": [
     "source_label",
     "source_content",

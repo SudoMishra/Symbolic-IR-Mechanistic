@@ -1,6 +1,6 @@
 # Visual QA Audit Report
 
-**Audit Execution Time:** `2026-11-12 06:51:25` (`2026-11-12T01:21:25.477154+00:00`)
+**Audit Execution Time:** `2026-11-12 14:27:49` (`2026-11-12T08:57:49.322485+00:00`)
 **Target Site:** `blog/site/index.html`
 **Browser Engine:** Google Chrome Headless (Chrome DevTools Protocol)
 
@@ -10,9 +10,9 @@ All three standardized screen widths were measured for layout geometry and horiz
 
 | Viewport | Screen Width | Viewport Height | Total Page Height | Horizontal Overflow Diff | Viewport Shot | Full Page Shot | Status |
 |---|---:|---:|---:|---:|---|---|:---:|
-| Mobile | 390 px | 844 px | 47,477 px | `0 px` | [`site_mobile_390px_viewport.png`](site_mobile_390px_viewport.png) | [`site_mobile_390px_full.png`](site_mobile_390px_full.png) | **PASS (0px overflow)** |
-| Tablet | 768 px | 1024 px | 36,933 px | `0 px` | [`site_tablet_768px_viewport.png`](site_tablet_768px_viewport.png) | [`site_tablet_768px_full.png`](site_tablet_768px_full.png) | **PASS (0px overflow)** |
-| Desktop | 1440 px | 900 px | 41,787 px | `0 px` | [`site_desktop_1440px_viewport.png`](site_desktop_1440px_viewport.png) | [`site_desktop_1440px_full.png`](site_desktop_1440px_full.png) | **PASS (0px overflow)** |
+| Mobile | 390 px | 844 px | 47,489 px | `0 px` | [`site_mobile_390px_viewport.png`](site_mobile_390px_viewport.png) | [`site_mobile_390px_full.png`](site_mobile_390px_full.png) | **PASS (0px overflow)** |
+| Tablet | 768 px | 1024 px | 36,940 px | `0 px` | [`site_tablet_768px_viewport.png`](site_tablet_768px_viewport.png) | [`site_tablet_768px_full.png`](site_tablet_768px_full.png) | **PASS (0px overflow)** |
+| Desktop | 1440 px | 900 px | 41,794 px | `0 px` | [`site_desktop_1440px_viewport.png`](site_desktop_1440px_viewport.png) | [`site_desktop_1440px_full.png`](site_desktop_1440px_full.png) | **PASS (0px overflow)** |
 
 ## 2. In-Context Figure & Caption Adjacency Verification
 
@@ -28,7 +28,7 @@ Every figure in the publication was evaluated in its actual DOM context inside `
 | `04b_anthropic_reasoning.svg` | `assets/04b_anthropic_reasoning.svg` | 1361 x 565 px | Verified (`<figcaption>` adjacent) | [`figure_context_04b_anthropic_reasoning.png`](figure_context_04b_anthropic_reasoning.png) | **PASS** |
 | `05_longproc.svg` | `assets/05_longproc.svg` | 1294 x 997 px | Verified (`<figcaption>` adjacent) | [`figure_context_05_longproc.png`](figure_context_05_longproc.png) | **PASS** |
 | `06_stage6_geometry.svg` | `assets/06_stage6_geometry.svg` | 1361 x 1348 px | Verified (`<figcaption>` adjacent) | [`figure_context_06_stage6_geometry.png`](figure_context_06_stage6_geometry.png) | **PASS** |
-| `07_stage7_swaps.svg` | `assets/07_stage7_swaps.svg` | 1361 x 1286 px | Verified (`<figcaption>` adjacent) | [`figure_context_07_stage7_swaps.png`](figure_context_07_stage7_swaps.png) | **PASS** |
+| `07_stage7_swaps.svg` | `assets/07_stage7_swaps.svg` | 1361 x 1265 px | Verified (`<figcaption>` adjacent) | [`figure_context_07_stage7_swaps.png`](figure_context_07_stage7_swaps.png) | **PASS** |
 | `07b_stage7_patching.svg` | `assets/07b_stage7_patching.svg` | 1361 x 1265 px | Verified (`<figcaption>` adjacent) | [`figure_context_07b_stage7_patching.png`](figure_context_07b_stage7_patching.png) | **PASS** |
 | `08_stage8_entities.svg` | `assets/08_stage8_entities.svg` | 1361 x 1032 px | Verified (`<figcaption>` adjacent) | [`figure_context_08_stage8_entities.png`](figure_context_08_stage8_entities.png) | **PASS** |
 | `09_trust_boundary.svg` | `assets/09_trust_boundary.svg` | 1361 x 1135 px | Verified (`<figcaption>` adjacent) | [`figure_context_09_trust_boundary.png`](figure_context_09_trust_boundary.png) | **PASS** |

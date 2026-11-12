@@ -466,7 +466,7 @@ Goal: perform an independent end-to-end check before treating the blog as repair
 - [x] **P9-09** Verify local, frontier, mechanistic, pilot, and excluded totals are separately reported.
 - [x] **P9-10** Record final checksums for the blog, appendix, site, figures, processed artifacts, and manifest (`results/audit/artifact_inventory.csv`).
 - [x] **P9-11** Write a short release note describing the scope repair and any remaining limitations (`results/audit/repair_start_state.md` & `results/reports/frontier_evaluation_final.md`).
-- [x] **P9-12** Mark the study `publication-ready`: All P9 checks pass, frontier evaluation is 100% complete and reconciled (13,760 records), mechanistic coverage is 100% complete across all 6 local models (1,440 geometry passes + 1,824 causal interventions), all 12 figures are built, and 77/77 integrity tests pass.
+- [x] **P9-12** Mark the study `publication-ready`: All P9 checks pass, frontier evaluation is 100% complete and reconciled (13,760 records), mechanistic coverage is 100% complete across all 6 local models (1,440 geometry passes + 2,304 causal interventions), all 13 figures are built, and 77/77 integrity tests pass.
 
 ## Final definition of done
 

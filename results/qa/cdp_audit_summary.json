@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-12T01:21:26.534Z",
+  "timestamp": "2026-11-12T08:57:50.568Z",
   "viewports": [
     {
       "name": "mobile",
@@ -9,7 +9,7 @@
       "fullFile": "site_mobile_390px_full.png",
       "metrics": {
         "scrollWidth": 390,
-        "scrollHeight": 47477,
+        "scrollHeight": 47489,
         "clientWidth": 390,
         "hasHorizontalOverflow": false,
         "overflowDiff": 0
@@ -23,7 +23,7 @@
       "fullFile": "site_tablet_768px_full.png",
       "metrics": {
         "scrollWidth": 753,
-        "scrollHeight": 36933,
+        "scrollHeight": 36940,
         "clientWidth": 753,
         "hasHorizontalOverflow": false,
         "overflowDiff": 0
@@ -37,7 +37,7 @@
       "fullFile": "site_desktop_1440px_full.png",
       "metrics": {
         "scrollWidth": 1425,
-        "scrollHeight": 41787,
+        "scrollHeight": 41794,
         "clientWidth": 1425,
         "hasHorizontalOverflow": false,
         "overflowDiff": 0
@@ -115,7 +115,7 @@
       "captionSnippet": "Figure 7A — Counterfactual source-ID prompt swaps. After an ID swap, retained models shift toward th",
       "file": "figure_context_07_stage7_swaps.png",
       "width": 1361,
-      "height": 1286
+      "height": 1265
     },
     {
       "name": "07b_stage7_patching",

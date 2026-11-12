@@ -309,7 +309,7 @@ def test_p8_14_figure7_captions_match_plotted_evidence_type():
     content_b = f7b_path.read_text(encoding="utf-8")
     assert "Figure 7B" in content_b
     assert "activation patching" in content_b.lower()
-    assert "1,710 activation patches" in content_b
+    assert "2,160 activation patches" in content_b
 
 
 def test_p8_15_generated_figures_not_older_than_input_artifacts():
@@ -327,15 +327,15 @@ def test_p8_17_study_accounting_mechanistic_integrity(accounting):
     """P8-17: Test that study_accounting.json contains non-zero verified mechanistic calls."""
     assert accounting["local_completed_calls"] == 46_230
     assert accounting["frontier_completed_calls"] == 13_760
-    assert accounting["mechanistic_completed_calls"] == 3_264
-    assert accounting["total_verified_calls"] == 63_254
+    assert accounting["mechanistic_completed_calls"] == 3_744
+    assert accounting["total_verified_calls"] == 63_734
 
     s6 = accounting["by_experiment"]["stage6_geometry"]
     assert s6["mechanistic_completed"] == 1_440
     assert s6["evidence_tier"] == "mechanistic"
 
     s7 = accounting["by_experiment"]["stage7_interventions"]
-    assert s7["mechanistic_completed"] == 1_824
+    assert s7["mechanistic_completed"] == 2_304
     assert s7["evidence_tier"] == "mechanistic"
 
 
@@ -388,7 +388,7 @@ def test_p8_19_headline_totals_uniform_across_all_surfaces():
         assert "46,230" in text, f"Missing 46,230 local calls in {name}"
         assert "13,760" in text, f"Missing 13,760 frontier calls in {name}"
         assert "1,440" in text, f"Missing 1,440 geometry passes in {name}"
-        assert "1,824" in text, f"Missing 1,824 causal interventions in {name}"
+        assert "2,304" in text, f"Missing 2,304 causal interventions in {name}"
 
 
 def test_p8_20_figure7_panels_distinct_and_complete():

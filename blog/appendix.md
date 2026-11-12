@@ -17,12 +17,12 @@ guidance.
 | Stage 5 Pilot | 2,880 model calls | Six primary local models | Does identifier cost interact monotonically with scratchpad budget? | Pilot effects were heterogeneous across architectures. |
 | Stage 5 Confirmation | 4,800 model calls | Six primary local models | Does the interaction replicate under balanced design? | No monotonic recovery; reasoning expansion does not erase identifier penalty. |
 | Stage 6 Geometry | 1,440 forward passes | Six primary local models | Do different surfaces converge internally? | Fact geometry is stable; labels converge; citation states specialize late. |
-| Stage 7 Interventions | 114 swaps, 1,710 patches | Six primary local models | Is the source-to-ID relationship causal and transferable? | Yes; causal rebinding confirmed across all 6 models with architecture-dependent onset. |
+| Stage 7 Interventions | 144 swaps, 2,160 patches | Six primary local models | Is the source-to-ID relationship causal and transferable? | Yes; causal rebinding confirmed across all 6 models with architecture-dependent onset. |
 | Stage 8 Entity Resolution ($N=500$) | 12,000 local + 4,000 frontier | Six local + 2 frontier models | Do typed handles prevent PII exposure and aid resolution? | Significant gains in 4 models (2 ceiling-limited); 0.0% PII leakage under IR. |
 | Stage 9 Systems Boundary | 500 valid + 5,000 attacks + 500 probes | Deterministic reference system | Can a typed IR enforce representation integrity? | Yes for structural classes; not for a wrong but registered handle. |
 | Frontier Behavioral Validation | 13,760 completed calls | Four frontier API models | Do closed-weights commercial APIs replicate behavioral patterns? | Replicates attribution deficits; adaptive reasoning reduces surface sensitivity. |
 
-The primary local behavioral program comprises **46,230 completed model calls** across Stages 1, 5, 8, MuSiQue, and LongProc. The commercial frontier API extension adds **13,760 completed model calls** (6,880 Anthropic and 6,880 OpenAI across all four frontier models). Mechanistic investigations comprise **1,440 paired BF16 forward passes** (Stage 6) and **1,824 causal interventions** (114 counterfactual prompt swaps and 1,710 activation patches across Stage 7) across all six primary open-weights models. Software evaluations include **6,000 deterministic systems executions** (500 valid requests, 5,000 adversarial payloads, and 500 semantic boundary probes, plus 499 cross-request isolation checks). Forward passes, causal interventions, and deterministic software tests are reported separately.
+The primary local behavioral program comprises **46,230 completed model calls** across Stages 1, 5, 8, MuSiQue, and LongProc. The commercial frontier API extension adds **13,760 completed model calls** (6,880 Anthropic and 6,880 OpenAI across all four frontier models). Mechanistic investigations comprise **1,440 paired BF16 forward passes** (Stage 6) and **2,304 causal interventions** (144 counterfactual prompt swaps and 2,160 activation patches across Stage 7) across all six primary open-weights models. Software evaluations include **6,000 deterministic systems executions** (500 valid requests, 5,000 adversarial payloads, and 500 semantic boundary probes, plus 499 cross-request isolation checks). Forward passes, causal interventions, and deterministic software tests are reported separately.
 
 ## Metric definitions
 
@@ -220,13 +220,13 @@ Effects are UUID minus numeric binding recall across 500 balanced MuSiQue questi
 
 ### Stage 7 Direct Source-ID Swaps (All Six Local Models)
 
-Effects are total citation log-probability changes across 114 prompt-level swaps. Positive values follow the relevant source to the new identifier.
+Effects are total citation log-probability changes across 144 prompt-level swaps. Positive values follow the relevant source to the new identifier.
 
 | Model | n swaps | Structured | Random compact | UUID |
 |---|---:|---:|---:|---:|
 | Qwen 2.5 1.5B | 8 | +2.63 [0.78, 4.35] | +4.98 [2.45, 7.44] | +1.90 [-1.32, 4.93] |
-| Gemma 4 E2B | 4 | +2.16 [-16.25, 25.78] | +7.50 [1.33, 15.42] | +18.62 [7.52, 29.71] |
-| Gemma 4 E4B | 2 | +11.56 [-14.02, 37.14] | +15.17 [9.09, 21.25] | +48.73 [26.70, 70.75] |
+| Gemma 4 E2B | 8 | +8.32 [-4.51, 21.47] | +5.18 [-0.17, 10.47] | +14.63 [7.35, 22.35] |
+| Gemma 4 E4B | 8 | +37.41 [19.38, 54.95] | +50.91 [33.81, 66.98] | +48.30 [35.80, 63.53] |
 | Tiny Aya Global | 8 | +2.17 [0.48, 3.84] | +5.38 [1.66, 9.08] | +7.56 [0.83, 14.73] |
 | Qwen 3.5 2B | 8 | +1.91 [0.89, 3.19] | +6.20 [1.87, 10.96] | +4.67 [2.52, 6.53] |
 | Qwen 3.5 4B | 8 | +4.23 [2.50, 5.95] | +5.04 [1.69, 8.01] | +3.58 [1.49, 6.14] |
