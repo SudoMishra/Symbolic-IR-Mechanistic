@@ -323,6 +323,23 @@ def test_p8_15_generated_figures_not_older_than_input_artifacts():
     assert fig5.stat().st_mtime >= art5.stat().st_mtime - 1.0
 
 
+def test_p8_16_figure2_mechanistic_counts_match_stage7_accounting():
+    """P8-16: Figure 2 must not retain pre-parity Stage 7 intervention totals."""
+    for rel_path in [
+        "blog/assets/02_evidence_funnel.svg",
+        "blog/assets/02_evidence_funnel_mobile.svg",
+        "blog/site/assets/02_evidence_funnel.svg",
+        "blog/site/assets/02_evidence_funnel_mobile.svg",
+    ]:
+        content = (ROOT / rel_path).read_text(encoding="utf-8")
+        assert "1,440 + 2,304" in content
+        assert "Source-ID swaps (144)" in content
+        assert "Residual patches (2,160)" in content
+        assert "1,440 + 1,824" not in content
+        assert "Source-ID swaps (114)" not in content
+        assert "Residual patches (1,710)" not in content
+
+
 def test_p8_17_study_accounting_mechanistic_integrity(accounting):
     """P8-17: Test that study_accounting.json contains non-zero verified mechanistic calls."""
     assert accounting["local_completed_calls"] == 46_230

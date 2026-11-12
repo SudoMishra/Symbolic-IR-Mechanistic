@@ -231,7 +231,7 @@ def evidence_funnel():
     accounting = load("results/audit/study_accounting.json")
     local_calls = accounting.get("local_completed_calls", 46230)
     frontier_calls = accounting.get("frontier_completed_calls", 13760)
-    mechanistic_calls = accounting.get("mechanistic_completed_calls", 3264)
+    mechanistic_calls = accounting.get("mechanistic_completed_calls", 3744)
     behavioral_calls = local_calls + frontier_calls
     total_calls = accounting.get("total_verified_calls", behavioral_calls + mechanistic_calls)
     by_exp = accounting.get("by_experiment", {})
@@ -249,11 +249,32 @@ def evidence_funnel():
     s8_front = by_exp.get("stage8_pii_500", {}).get("frontier_completed", 4000)
     stab_front = by_exp.get("frontier_stability", {}).get("frontier_completed", 960)
 
+    stage6_passes = by_exp.get("stage6_geometry", {}).get("mechanistic_completed", 1440)
+    stage7_interventions = by_exp.get("stage7_interventions", {}).get("mechanistic_completed", 2304)
+    stage7_result_paths = (
+        "results/processed/stage7_tiny_aya.json",
+        "results/processed/stage7_qwen25_15b.json",
+        "results/processed/stage7_gemma4_e2b.json",
+        "results/processed/stage7_gemma4_e4b.json",
+        "results/processed/stage7_qwen35_2b.json",
+        "results/processed/stage7_qwen35_4b.json",
+    )
+    stage7_swaps = sum(load(path).get("cases", 0) for path in stage7_result_paths)
+    stage7_patches = stage7_interventions - stage7_swaps
+    if stage6_passes + stage7_interventions != mechanistic_calls:
+        raise ValueError("Stage 6 and Stage 7 counts do not match mechanistic accounting")
+    if stage7_patches < 0:
+        raise ValueError("Stage 7 prompt swaps exceed total interventions")
+
     meta = {
         "experiment_id": "study_accounting_funnel",
         "cohorts": ["local_cohort_6", "frontier_cohort_4"],
         "local_completed_calls": local_calls,
         "frontier_completed_calls": frontier_calls,
+        "mechanistic_completed_calls": mechanistic_calls,
+        "stage6_geometry_passes": stage6_passes,
+        "stage7_prompt_swaps": stage7_swaps,
+        "stage7_activation_patches": stage7_patches,
         "total_verified_calls": total_calls,
         "excluded_calls": 0,
         "source": "results/audit/study_accounting.json",
@@ -264,7 +285,7 @@ def evidence_funnel():
     stages = [
         ("1. Behavioral", f"{local_calls:,}", "local model generations", f"Citation MVE ({s1_loc:,})\nMuSiQue 100 & 500 ({m100_loc + m500_loc:,})\nStage 5 scaling ({s5_pilot + s5_conf:,})\nStage 8 & LongProc ({s8_loc + lp_loc:,})", BLUE, LIGHT_BLUE),
         ("2. Frontier", f"{frontier_calls:,}", "frontier API generations", f"MuSiQue 500 ({m500_front:,})\nReasoning ablation ({reas_front:,})\nStage 8 PII ({s8_front:,})\nRepeatability audit ({stab_front:,})", ORANGE, LIGHT_ORANGE),
-        ("3. Mechanisms", "1,440 + 1,824", "passes & interventions", "BF16 CKA geometry (1,440)\nSource-ID swaps (114)\nResidual patches (1,710)", PURPLE, LIGHT_PURPLE),
+        ("3. Mechanisms", f"{stage6_passes:,} + {stage7_interventions:,}", "passes & interventions", f"BF16 CKA geometry ({stage6_passes:,})\nSource-ID swaps ({stage7_swaps:,})\nResidual patches ({stage7_patches:,})", PURPLE, LIGHT_PURPLE),
         ("4. Entities", f"{s8_loc:,} + {s8_front:,}", "compliance generations", "Synthetic account resolution\nacross 6 local models\nplus Sonnet & Sol", TEAL, LIGHT_TEAL),
         ("5. Systems", "6,000", "software test cases", "Valid round trips (500)\nAdversarial tests (5,000)\nSemantic probes (500)\nVault replays (499)", GREEN, "#e8f5ed"),
     ]
