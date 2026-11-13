@@ -538,7 +538,54 @@ Return the account and supporting source handle.</code></pre>
           <p><strong>Stage 7 Motivation:</strong> Hidden-state geometry (CKA) is purely correlational—it shows that representations are aligned, but does not prove which representations causally determine the output. We use counterfactual identifier swaps and activation patching to test: <em>Does the model actively rebind its prediction to the newly assigned identifier, and at which specific layer does the binding circuit lock in?</em></p>
           <p><strong>Data Used:</strong> 144 counterfactual prompt examples constructed by taking calibrated multi-source retrieval questions and permuting only the identifier attached to the gold evidence passage (swapping it with an existing distractor handle while preserving all passage text, distractor sets, and question phrasing). For causal localization, 2,160 residual-stream activation patches intervened on specific token positions and layers between donor (swapped) and recipient (unswapped) runs across all six local models.</p>
           <p>Stage 7 performed <strong>2,304 causal interventions</strong> (144 counterfactual source-ID swaps and 2,160 residual-stream activation patches) across all six local models. The critical finding: <strong>shared representational geometry does not imply a shared causal circuit</strong>. All six evaluated models (Qwen 1.5B, Tiny Aya, Qwen 3.5 2B, Qwen 3.5 4B, Gemma E2B, Gemma E4B) followed the source to its new identifier under compact formats with statistically significant support ($N=8$, 24 counterfactual cases per model). Final-layer residual patching transferred ~100% of the swap effect across all models, but the onset layer where binding becomes locked varied: layer 16 in Qwen 3.5 2B, layer 24 in Qwen 1.5B and Tiny Aya, and layer 29 in Gemma E2B.</p>
+
+          <h3>Component-level circuit decomposition: binding vs. continuation dissociation (Stage 7B)</h3>
+          <p><strong>Stage 7B Motivation:</strong> Residual-stream activation patching (Stage 7) confirmed that transferable binding signals lock in at late layers. But whole-residual patching cannot distinguish between sub-layer components: <em>Does the multi-head attention/mixer or the feed-forward network (MLP) drive the binding decision? And does the model decouple selecting the first distinguishing identifier token ($B$) from continuing its multi-token serialization ($F$)?</em></p>
+          <p><strong>Data Used:</strong> A three-split preregistered protocol (<code>results/circuit/circuit_preregistration.json</code>) on counterfactual multi-source retrieval questions across all six primary open-weights models: <strong>Discovery Split</strong> ($N=32$, 96 cases/model, 576 cases total) for candidate hub identification; <strong>Held-Out Validation Split</strong> ($N=32$, 96 cases/model, 576 cases total) for intermediate evaluation (directionally mixed at smaller sample size; 3/6 crossed zero); and a <strong>High-Powered Confirmatory Split</strong> ($N=80$, 240 cases/model, 1,440 cases total) for replication evaluated via paired cluster-robust bootstrap resampling by <code>example_id</code> ($B=1,000$ replicates).</p>
+          <p>To test whether source&ndash;identifier binding is localized to specific component classes, Stage 7B isolated the output projections of attention mixers ($W_O$) and MLPs ($W_{\text{down}}$) across the six model architectures. At each preregistered critical hub, patching the mixer output shifted first-token identifier preference significantly more than patching the matched MLP output. Paired cluster-robust bootstrap differences ($Mixer &minus; MLP$) strictly exclude zero across all six models: Qwen 2.5 1.5B (L24: <strong>+0.621</strong> [+0.436, +0.804]), Qwen 3.5 2B (L20: <strong>+1.031</strong> [+0.682, +1.339]), Tiny Aya Global (L24: <strong>+1.005</strong> [+0.336, +1.597]), Qwen 3.5 4B (L24: <strong>+2.198</strong> [+1.833, +2.556]), Gemma 4 E2B (L35: <strong>+2.851</strong> [+1.404, +4.197]), and Gemma 4 E4B (L36: <strong>+14.460</strong> [+11.914, +16.823]).</p>
+          <p>While late attention mixers universally execute initial binding ($B$), downstream multi-token continuation ($F$) exhibits architectural divergence: Tiny Aya routes continuation via Layer 36 MLP (+0.231 [+0.118, +0.367]), while Qwen 3.5 4B routes continuation via Layer 28 attention mixer (+1.144) and completes it at Layer 32 MLP (+0.118). Interventions preserved syntax and fluency ($D_{\text{KL}} &lt; 1.0$ nats) in 5 of 6 models, but <strong>H4 failed for Gemma 4 E4B</strong> ($D_{\text{KL}} = 3.156$ [2.366, 4.036] nats), reflecting broad vocabulary divergence accompanying its large binding shift. Crucially, evidence selection ($R$) was teacher-forced and remains untested, and whole-mixer attribution does not refute a distributed sub-network representation.</p>
         </div>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/08a_component_dissociation.svg" alt="Figure 8A — Functional dissociation of source binding vs. continuation: Isolated component transplant on high-powered confirmation cohort (N=80 clusters, 240 cases). Attention mediates binding at Layer 24." width="1000" height="540" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 8A &mdash; Functional dissociation of source binding vs. continuation.</strong> In Qwen 2.5 1.5B (confirmation split $N=80$, 240 cases), transplanting the Layer 24 attention mixer shifts first-token identifier preference by +0.701 [+0.472, +0.929], whereas the Layer 24 MLP produces virtually no shift (+0.080).</p>
+            <p class="figure-companion">The paired cluster difference is +0.621 [+0.436, +0.804]. Meanwhile, Layer 20 Mixer acts as a counter-directional stale-association mediator (-0.494 [-0.623, -0.369]). Multi-token continuation ($F$) is preserved independently of the first-token choice.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/08b_circuit_wiring_diagram.svg" alt="Figure 8B — Working causal model: Partial B–F decomposition across network depth. Evidence selection R is teacher-forced and untested." width="1100" height="520" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 8B &mdash; Working causal model: Partial B&ndash;F decomposition.</strong> Causal interventions support a functional dissociation between initial identifier binding ($B$) and multi-token serialization ($F$).</p>
+            <p class="figure-companion">Stage 1 (evidence selection $R$) was teacher-forced in this protocol and remains untested. Late attention mixers universally execute $B$, while continuation $F$ is routed by either downstream MLPs or downstream mixers depending on network architecture.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/08c_cross_model_circuit_comparison.svg" alt="Figure 8C — Cross-model circuit localization across 6 architectures on the 80-example confirmation cohort." width="1200" height="580" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 8C &mdash; Cross-model circuit localization across 6 architectures.</strong> Summary of preregistered critical hubs, paired cluster bootstrap intervals ($Mixer &minus; MLP$), downstream continuation mechanisms, and specificity criteria across all six open-weights models ($N=80$ confirmation cohort, 240 cases/model).</p>
+            <p class="figure-companion">Paired differences strictly exclude zero for all six models, establishing robust confirmatory evidence for H1 and H2. Specificity (H4) passed in 5 of 6 models and failed for Gemma 4 E4B ($D_{\text{KL}} = 3.156$ nats).</p>
+          </figcaption>
+        </figure>
+
+        <details class="experiment-details result-details reveal-up">
+          <summary>Explore the complete Stage 7B confirmatory decomposition results</summary>
+          <div class="table-wrap" role="region" aria-label="Scaled Stage 7B circuit decomposition results across 6 primary models" tabindex="0">
+          <table class="experiment-table experiment-table--scaled-stage7b">
+            <thead><tr><th>Model &amp; Family</th><th>Depth</th><th>Hub Layer</th><th>Paired Mixer &minus; MLP Diff</th><th>95% Bootstrap CI</th><th>Continuation Mechanism ($F$)</th><th>Specificity ($D_{\text{KL}}$)</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Qwen 2.5 1.5B</strong><br/><em>Pure GQA Transformer</em></td><td>28L</td><td>L24</td><td><strong>+0.621</strong></td><td>[+0.436, +0.804]</td><td>Attention Mixer (L24: +0.659)</td><td>0.073 nats</td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>Qwen 3.5 2B</strong><br/><em>Hybrid Gated DeltaNet</em></td><td>24L</td><td>L20</td><td><strong>+1.031</strong></td><td>[+0.682, +1.339]</td><td>Attention Mixer (L20: +1.087)</td><td>0.137 nats</td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>Tiny Aya Global</strong><br/><em>Deep Asymmetric GQA</em></td><td>36L</td><td>L24</td><td><strong>+1.005</strong></td><td>[+0.336, +1.597]</td><td>MLP Component (L36: +0.231)</td><td>0.307 nats</td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>Qwen 3.5 4B</strong><br/><em>Hybrid Gated DeltaNet</em></td><td>32L</td><td>L24</td><td><strong>+2.198</strong></td><td>[+1.833, +2.556]</td><td>Mixer (L28: +1.144) + MLP (L32: +0.118)</td><td>0.303 nats</td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>Gemma 4 E2B</strong><br/><em>Deep Asymmetric GQA</em></td><td>35L</td><td>L35</td><td><strong>+2.851</strong></td><td>[+1.404, +4.197]</td><td>MLP Component (L24: +1.970)</td><td>0.123 nats</td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>Gemma 4 E4B</strong><br/><em>Deep Asymmetric PLE</em></td><td>42L</td><td>L36</td><td><strong>+14.460</strong></td><td>[+11.914, +16.823]</td><td>Attention Mixer (L42: +0.733)</td><td>3.156 nats</td><td><strong>CONFIRMED Binding</strong><br/>(Specificity limit)</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </details>
       </section>
 
       <!-- ACT IV: SYSTEMS PAYOFF & PRODUCTION ARCHITECTURE -->

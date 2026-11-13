@@ -1309,6 +1309,15 @@ pre code {
   .experiment-table--scaled-stage8 td:nth-child(6)::before { content: "Typed minus untyped"; }
   .experiment-table--scaled-stage8 td:nth-child(7)::before { content: "Exact p"; }
   .experiment-table--scaled-stage8 td:nth-child(8)::before { content: "Token delta"; }
+
+  .experiment-table--scaled-stage7b td:nth-child(1)::before { content: "Model"; }
+  .experiment-table--scaled-stage7b td:nth-child(2)::before { content: "Depth"; }
+  .experiment-table--scaled-stage7b td:nth-child(3)::before { content: "Hub layer"; }
+  .experiment-table--scaled-stage7b td:nth-child(4)::before { content: "Mixer minus MLP"; }
+  .experiment-table--scaled-stage7b td:nth-child(5)::before { content: "95% CI"; }
+  .experiment-table--scaled-stage7b td:nth-child(6)::before { content: "Continuation"; }
+  .experiment-table--scaled-stage7b td:nth-child(7)::before { content: "Specificity"; }
+  .experiment-table--scaled-stage7b td:nth-child(8)::before { content: "Status"; }
 }
 
 @media (max-width: 620px) {

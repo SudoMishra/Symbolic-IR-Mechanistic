@@ -504,6 +504,7 @@ Goal: perform an independent end-to-end check before treating the blog as repair
 | 2026-10-30 | P4-12 | RTX 4060 GPU | Qwen 3.5 2B | Stage 7 causal interventions | 384 | 384 | $0.00 | $0.00 | `results/interventions/stage7_qwen35_2b/5c61804e47bd` | Success |
 | 2026-10-30 | P4-11 | RTX 4060 GPU | Qwen 3.5 4B | Stage 6 geometry passes | 240 | 240 | $0.00 | $0.00 | `results/activations/stage6_qwen35_4b/5c0d40884dd8` | Success |
 | 2026-10-30 | P4-12 | RTX 4060 GPU | Qwen 3.5 4B | Stage 7 causal interventions | 384 | 384 | $0.00 | $0.00 | `results/interventions/stage7_qwen35_4b/3833727751d3` | Success |
+| 2026-11-13 | P4-13 | RTX 4060 GPU | All 6 local models | Stage 7B circuit decomposition (N=80 confirmation) | 1,440 | 1,440 | $0.00 | $0.00 | `results/circuit/cross_model_circuit_synthesis.json` | Success |
 
 ## Decision and blocker log
 
@@ -515,6 +516,7 @@ Goal: perform an independent end-to-end check before treating the blog as repair
 | 2026-10-30 | D-05 | Mechanistic eligibility expansion | HuggingFace weights authenticated | Expanded mechanistic coverage from 3 to all 6 primary local models (100% full-cohort parity) | Study Lead |
 | 2026-10-30 | D-07 | No partial publication rule | Registered protocol | Partial batches held in raw queue until 100% complete; not incorporated into published totals | Study Lead |
 | 2026-10-30 | B-01 | OpenAI Luna MuSiQue Block 2 pending | `batch_6ae37334f0a081908f14c162ca2ea97d` | Resolved: batch completed, retrieved (500/500), frontier dataset 100% complete (13,760 total) | Resolved |
+| 2026-11-13 | D-08 | Stage 7B component circuit localization confirmed | `circuit_preregistration.json` | Preregistered mixer vs MLP dissociation confirmed across all 6 models; B/F decoupled; Gemma E4B specificity limit documented | Study Lead |
 
 ## Recommended first implementation slice
 
