@@ -21,6 +21,7 @@ EXPECTED_ROUTES = {
     "longproc",
     "06-representation-geometry",
     "07-causal-interventions",
+    "07b-component-localization",
     "08-entity-canonicalization",
     "09-systems-boundary",
 }
@@ -85,7 +86,25 @@ def test_study_accounting_and_frozen_cohort_are_public():
     landing = (SITE / "index.html").read_text()
     for value in ("63,734", "46,230", "13,760", "3,744", "6,000"):
         assert value in landing
+    assert "2,592" in landing
     assert "Both LFM checkpoints are excluded" in landing
+
+
+def test_stage7b_component_localization_is_public():
+    landing = (SITE / "index.html").read_text()
+    page = (SITE / "experiments/07b-component-localization/index.html").read_text()
+    assert 'href="experiments/07b-component-localization/"' in landing
+    for claim in (
+        "2,592 interventions", "N=80 per model", "+0.621", "+14.460",
+        "Gemma 4 E4B", "teacher-forced", "No universal",
+    ):
+        assert claim in page
+    for figure in (
+        "08a_component_dissociation.svg",
+        "08b_circuit_wiring_diagram.svg",
+        "08c_cross_model_circuit_comparison.svg",
+    ):
+        assert figure in page
 
 
 def test_musique_pages_match_six_model_processed_outputs():

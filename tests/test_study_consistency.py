@@ -454,7 +454,7 @@ def test_p8_23_visual_qa_programmatic_certification():
     script = (ROOT / "blog/site/script.js").read_text(encoding="utf-8")
     pages = list((ROOT / "blog/site").rglob("*.html"))
 
-    assert len(pages) == 11
+    assert len(pages) == 12
     assert "overflow-x: auto" in styles
     assert "@media (max-width: 700px)" in styles
     assert "prefers-reduced-motion" in styles

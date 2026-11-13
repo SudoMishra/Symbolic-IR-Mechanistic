@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stage 7B component-level causal localization of source binding and identifier continuation across six open-weight models.">
+  <title>07B · Component-level localization — Symbolic IR log</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to experiment</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">SIR/LOG</span><span>Symbolic IR</span></a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Index</button>
+      <nav class="site-nav" id="site-nav" data-site-nav aria-label="Page navigation"><a href="../../index.html">Program</a><a href="#results">Results</a><a href="#provenance">Artifacts</a></nav>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <aside class="experiment-sidebar">
+      <div class="sidebar-label">Experiments</div>
+      <ol class="experiment-nav">
+        <li><a href="../00-harness-validation/"><span class="nav-id">00</span><span>Harness validation</span></a></li>
+        <li><a href="../01-citation-baseline/"><span class="nav-id">01</span><span>Citation baseline</span></a></li>
+        <li><a href="../02-multihop-musique/"><span class="nav-id">02</span><span>Multi-hop MuSiQue</span></a></li>
+        <li><a href="../04-dual-labels/"><span class="nav-id">04</span><span>Dual labels</span></a></li>
+        <li><a href="../05-reasoning-budget/"><span class="nav-id">05</span><span>Reasoning budget</span></a></li>
+        <li><a href="../longproc/"><span class="nav-id">LP</span><span>Long-output check</span></a></li>
+        <li><a href="../06-representation-geometry/"><span class="nav-id">06</span><span>Representation geometry</span></a></li>
+        <li><a href="../07-causal-interventions/"><span class="nav-id">07</span><span>Causal interventions</span></a></li>
+        <li><a href="./" aria-current="page"><span class="nav-id">07B</span><span>Component localization</span></a></li>
+        <li><a href="../08-entity-canonicalization/"><span class="nav-id">08</span><span>Entity canonicalization</span></a></li>
+        <li><a href="../09-systems-boundary/"><span class="nav-id">09</span><span>Systems boundary</span></a></li>
+      </ol>
+      <div class="sidebar-label toc-label">On this page</div>
+      <ul class="toc">
+        <li><a href="#question">Question</a></li><li><a href="#design">Design</a></li><li><a href="#results">Results</a></li><li><a href="#interpretation">Interpretation</a></li><li><a href="#boundaries">Boundaries</a></li><li><a href="#provenance">Provenance</a></li>
+      </ul>
+    </aside>
+
+    <main class="experiment-main" id="main-content">
+      <header class="hero">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">Stage 07B · component-level mechanism</p>
+            <h1>Which component binds a source to its identifier?</h1>
+            <p class="hero-deck">A preregistered three-split intervention study separates attention-mixer and MLP contributions at Stage 7’s late transition layers, then asks whether first-token binding and multi-token continuation use the same machinery.</p>
+            <div class="tag-row"><span class="tag complete">complete</span><span class="tag causal">causal</span><span class="tag confirmatory">preregistered confirmation</span></div>
+          </div>
+          <p class="hero-note"><strong>Result in one line.</strong> Attention mixers dominate first-token source binding at every registered hub; the component continuing the identifier varies by architecture.</p>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-item"><span class="meta-label">Models</span><span class="meta-value">6 open-weight architectures</span></div>
+          <div class="meta-item"><span class="meta-label">Splits</span><span class="meta-value">discovery · validation · confirmation</span></div>
+          <div class="meta-item"><span class="meta-label">Confirmation</span><span class="meta-value">N=80 per model</span></div>
+          <div class="meta-item"><span class="meta-label">Total</span><span class="meta-value">2,592 interventions</span></div>
+        </div>
+      </header>
+
+      <section class="section" id="question">
+        <div class="section-header"><span class="section-kicker">01 · question</span><h2>Is late identifier recovery carried by attention, MLPs, or both?</h2></div>
+        <p class="lede">Stage 7 showed where a counterfactual source-to-ID state becomes transferable in the residual stream. Stage 7B intervenes inside those transition layers to distinguish two functions.</p>
+        <div class="question-grid">
+          <article class="question-card"><h3>Binding (B)</h3><p>Which component changes the first distinguishing token toward the identifier currently assigned to the relevant source?</p></article>
+          <article class="question-card"><h3>Continuation (F)</h3><p>Once the first token changes, which downstream component helps continue the remaining identifier sequence?</p></article>
+        </div>
+        <div class="callout"><span class="callout-label">Registered primary hypothesis</span><p>At each preregistered hub, transplanting attention-mixer output produces a larger first-token binding shift than transplanting the matched MLP output.</p></div>
+      </section>
+
+      <section class="section" id="design">
+        <div class="section-header"><span class="section-kicker">02 · design</span><h2>Three splits and paired component transplants</h2></div>
+        <div class="data-grid three">
+          <article class="panel"><h3>Discovery</h3><p><strong>N=32/model</strong><br>576 intervention cases used to locate candidate hubs and continuation effects.</p></article>
+          <article class="panel"><h3>Validation</h3><p><strong>N=32/model</strong><br>576 held-out cases. Three of six mixer-minus-MLP intervals crossed zero.</p></article>
+          <article class="panel"><h3>Confirmation</h3><p><strong>N=80/model</strong><br>1,440 held-out cases. All six paired intervals were strictly positive.</p></article>
+        </div>
+        <p>For the same donor–recipient counterfactual pair, the analysis transplants either the layer’s attention-mixer output or its MLP output. Confirmation uncertainty uses 1,000 paired cluster-bootstrap replicates grouped by <code>example_id</code>, preserving the within-example contrast.</p>
+      </section>
+
+      <section class="section" id="results">
+        <div class="section-header"><span class="section-kicker">03 · results</span><h2>The binding contrast confirms across all six models</h2></div>
+        <div class="table-wrap" role="region" aria-label="Stage 7B confirmatory component decomposition" tabindex="0">
+          <table class="experiment-table--scaled-stage7b">
+            <caption>Paired attention-mixer minus MLP first-token shifts with 95% cluster-bootstrap intervals; specificity summarizes output-distribution KL divergence.</caption>
+            <thead><tr><th>Model</th><th>Depth</th><th>Hub</th><th>Mixer − MLP</th><th>95% CI</th><th>Continuation mechanism</th><th>Specificity</th></tr></thead>
+            <tbody>
+              <tr><td>Qwen 2.5 1.5B</td><td>28L</td><td>L24</td><td><strong>+0.621</strong></td><td>[+0.436, +0.804]</td><td>Mixer at L24</td><td>0.073 nats · pass</td></tr>
+              <tr><td>Qwen 3.5 2B</td><td>24L</td><td>L20</td><td><strong>+1.031</strong></td><td>[+0.682, +1.339]</td><td>Mixer at L20</td><td>0.137 nats · pass</td></tr>
+              <tr><td>Tiny Aya Global</td><td>36L</td><td>L24</td><td><strong>+1.005</strong></td><td>[+0.336, +1.597]</td><td>MLP at L36</td><td>0.307 nats · pass</td></tr>
+              <tr><td>Qwen 3.5 4B</td><td>32L</td><td>L24</td><td><strong>+2.198</strong></td><td>[+1.833, +2.556]</td><td>Mixer L28 + MLP L32</td><td>0.303 nats · pass</td></tr>
+              <tr><td>Gemma 4 E2B</td><td>35L</td><td>L35</td><td><strong>+2.851</strong></td><td>[+1.404, +4.197]</td><td>MLP at L24</td><td>0.123 nats · pass</td></tr>
+              <tr><td>Gemma 4 E4B</td><td>42L</td><td>L36</td><td><strong>+14.460</strong></td><td>[+11.914, +16.823]</td><td>Mixer at L42</td><td>3.156 nats · H4 failed</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="figure-card"><img src="../../assets/08a_component_dissociation.svg" alt="Attention-mixer and MLP component transplantation effects in Qwen 2.5 1.5B."><figcaption>Figure 08A. Qwen 2.5 1.5B illustrates the registered dissociation: the L24 mixer shifts first-token binding by +0.701, compared with +0.080 for the matched MLP.</figcaption></figure>
+        <figure class="figure-card"><img src="../../assets/08b_circuit_wiring_diagram.svg" alt="Working causal model of teacher-forced evidence selection, first-token binding, and identifier continuation."><figcaption>Figure 08B. Working model for a partial B–F decomposition. Evidence selection (R) was teacher-forced and remains outside the causal claim.</figcaption></figure>
+        <figure class="figure-card"><img src="../../assets/08c_cross_model_circuit_comparison.svg" alt="Component-level circuit localization across six model architectures."><figcaption>Figure 08C. The first-token binding contrast is consistent, while the later continuation path differs across architectures.</figcaption></figure>
+      </section>
+
+      <section class="section" id="interpretation">
+        <div class="section-header"><span class="section-kicker">04 · interpretation</span><h2>Binding is shared; continuation is heterogeneous</h2></div>
+        <p>All six confirmation intervals exclude zero in the preregistered direction: the attention mixer at each hub shifts the first distinguishing token more than the matched MLP. Continuation is not a universal “MLP serializer.” Some models continue through a later MLP, others through a mixer, and Qwen 3.5 4B uses both at different depths.</p>
+        <div class="callout supports"><span class="callout-label">Supported</span><p>H1 and the paired H2 component contrast confirm across six models. H3 is supported only for the tested continuation subset. H4 specificity passes in five of six models.</p></div>
+      </section>
+
+      <section class="section" id="boundaries">
+        <div class="section-header"><span class="section-kicker">05 · boundaries</span><h2>This is a component-class localization, not a complete circuit proof</h2></div>
+        <div class="question-grid">
+          <article class="panel"><h3>Selection was fixed</h3><p>Evidence selection (R) was teacher-forced. The study does not establish a full R→B→F causal chain.</p></article>
+          <article class="panel"><h3>No sparse-head claim</h3><p>Whole-mixer interventions do not show that one attention head or a sparse subnetwork is solely responsible.</p></article>
+          <article class="panel"><h3>Specificity exception</h3><p>Gemma 4 E4B failed H4: its large binding effect came with KL divergence of 3.156 [2.366, 4.036] nats.</p></article>
+          <article class="panel"><h3>Format friction</h3><p>UUID confirmation crossed zero for Qwen 2.5 and was negative for Tiny Aya even though structured-handle effects were positive.</p></article>
+        </div>
+        <div class="callout boundary"><span class="callout-label">Not established</span><p>No universal “UUID circuit,” complete R→B→F factorization, head-level sparsity, or cross-task mechanistic generalization is claimed.</p></div>
+      </section>
+
+      <section class="section" id="provenance">
+        <div class="section-header"><span class="section-kicker">06 · provenance</span><h2>Preregistration, data, analysis, and audits</h2></div>
+        <ul class="artifact-list">
+          <li><span class="artifact-kind">Preregistration</span><code>results/circuit/circuit_preregistration.json</code></li>
+          <li><span class="artifact-kind">Confirmation</span><code>data/circuit/confirmation_n80.jsonl</code></li>
+          <li><span class="artifact-kind">Synthesis</span><code>results/circuit/cross_model_circuit_synthesis.json</code></li>
+          <li><span class="artifact-kind">Findings</span><code>results/circuit/FINDINGS_STAGE7B_CROSS_MODEL_CIRCUITS.md</code></li>
+          <li><span class="artifact-kind">Hook audit</span><code>results/audit/component_hook_audit.json</code></li>
+          <li><span class="artifact-kind">Analyzer</span><code>scripts/analyze_cross_model_circuits.py</code></li>
+          <li><span class="artifact-kind">Figures</span><code>scripts/build_circuit_figures.py</code></li>
+        </ul>
+        <div class="related-grid" id="related">
+          <a class="related-card" href="../07-causal-interventions/"><span class="eyebrow">Previous · 07</span><h3>Residual-level causal interventions</h3><p>The swaps and activation patches that identified the transition layers.</p></a>
+          <a class="related-card" href="../08-entity-canonicalization/"><span class="eyebrow">Next · 08</span><h3>Entity canonicalization</h3><p>Generalize the interface pattern beyond citations.</p></a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer"><div class="footer-inner"><p>Symbolic IR experimental log</p><p>Stage 07B · component-level localization</p></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>

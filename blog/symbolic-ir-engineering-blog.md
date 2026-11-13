@@ -409,6 +409,53 @@ The causal interventions produced a critical revelation: **Shared representation
   - In **Gemma E2B**, onset occurs late at **layer 29** (45–74% transfer).
   - In **Gemma E4B**, sampled **layer 32** did not yet transfer compact formats, placing reconstruction very close to the final layer.
 
+### Component-Level Circuit Decomposition: Binding vs. Serialization Dissociation (Stage 7B)
+
+> **Stage 7B Motivation:** Residual-stream activation patching (Stage 7) confirmed that transferable binding signals lock in at late layers. But whole-residual patching cannot distinguish between sub-layer components: *Does the multi-head attention/mixer or the feed-forward network (MLP) drive the binding decision? And does the model decouple selecting the first distinguishing identifier token ($B$) from continuing its multi-token serialization ($F$)?*
+>
+> **Data Used:** A three-split preregistered protocol (`results/circuit/circuit_preregistration.json`) on counterfactual multi-source retrieval questions across all six primary open-weights models:
+> 1. **Discovery Split ($N=32$, 96 cases/model, 576 cases total):** Candidate hub identification across layers.
+> 2. **Held-Out Validation Split ($N=32$, 96 cases/model, 576 cases total):** Intermediate evaluation of candidate layers on unseen semantic examples (directionally mixed at smaller sample size; 3/6 crossed zero).
+> 3. **High-Powered Confirmatory Split ($N=80$, 240 cases/model, 1,440 cases total):** Rigorous replication with paired cluster-robust bootstrap resampling by `example_id` ($B=1,000$ replicates).
+
+To test whether source–identifier binding is localized to specific component classes, Stage 7B isolated the output projections of attention mixers ($W_O$) and MLPs ($W_{\text{down}}$) across the six model architectures.
+
+#### 1. Attention Mixers Causally Mediate First-Token Binding ($B$)
+At each preregistered critical hub, patching the mixer output shifts first-token identifier preference significantly more than patching the matched MLP output. Using a paired cluster-robust bootstrap resampling by `example_id` ($B=1,000$ replicates, 95% CIs) on the 80-cluster confirmation split:
+
+| Model | Architecture | Critical Hub | Paired Mixer − MLP First-Token Shift | 95% Bootstrap CI | Confirmatory Binding Result |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| **Qwen 2.5 1.5B** | Pure GQA Transformer (28L) | L24 | **+0.621** | [+0.436, +0.804] | **CONFIRMED** (Interval strictly > 0) |
+| **Qwen 3.5 2B** | Hybrid Gated DeltaNet + GQA (24L) | L20 | **+1.031** | [+0.682, +1.339] | **CONFIRMED** (Interval strictly > 0) |
+| **Tiny Aya Global** | Deep Asymmetric GQA (36L) | L24 | **+1.005** | [+0.336, +1.597] | **CONFIRMED** (Interval strictly > 0) |
+| **Qwen 3.5 4B** | Hybrid Gated DeltaNet + GQA (32L) | L24 | **+2.198** | [+1.833, +2.556] | **CONFIRMED** (Interval strictly > 0) |
+| **Gemma 4 E2B** | Deep Asymmetric GQA (35L) | L35 | **+2.851** | [+1.404, +4.197] | **CONFIRMED** (Interval strictly > 0) |
+| **Gemma 4 E4B** | Deep Asymmetric GQA + PLE (42L) | L36 | **+14.460** | [+11.914, +16.823] | **CONFIRMED** (Interval strictly > 0) |
+
+Every 95% confidence interval strictly excludes zero, providing robust cross-model support for **H1** (mixer mediation) and **H2** (mixer-versus-MLP dissociation) on the held-out confirmation cohort. (On the smaller $N=32$ validation split, results were directionally mixed—conclusive in 3/6 models while crossing zero in 3/6—before the 80-example confirmation cohort confirmed positive effects across all six).
+
+![Figure 8A — Functional dissociation of source binding vs. continuation: Isolated component transplant on high-powered confirmation cohort (N=80 clusters, 240 cases). Attention mediates binding at Layer 24.](assets/08a_component_dissociation.svg)
+
+> **Figure 8A — Functional dissociation of source binding vs. continuation.** In Qwen 2.5 1.5B (confirmation split $N=80$, 240 cases), transplanting the Layer 24 attention mixer shifts first-token identifier preference by $+0.701$ [$+0.472, +0.929$], whereas the Layer 24 MLP produces virtually no shift ($+0.080$). The paired cluster difference is $+0.621$ [$+0.436, +0.804$]. Meanwhile, Layer 20 Mixer acts as a counter-directional stale-association mediator ($-0.494$ [$-0.623, -0.369$]). Multi-token continuation ($F$) is preserved independently of the first-token choice.
+
+#### 2. Downstream Serialization ($F$) is Architecture-Specific
+While first-token binding ($B$) is universally driven by late attention mixers, downstream multi-token continuation ($F$) exhibits architectural divergence (**H3**):
+- **MLP Serialization:** In **Tiny Aya**, Layer 36 MLP mediates continuation ($+0.231$ [$+0.118, +0.367$]) downstream of the Layer 24 binding mixer. In **Qwen 3.5 4B**, Layer 32 MLP contributes $+0.118$ [$+0.074, +0.170$].
+- **Mixer Serialization:** In **Qwen 3.5 4B**, Layer 28 attention mixer strongly routes continuation ($+1.144$ [$+0.980, +1.332$]). In **Gemma 4 E4B**, Layer 42 mixer handles continuation ($+0.733$ [$+0.405, +1.109$]).
+
+![Figure 8B — Working causal model: Partial B–F decomposition across network depth. Evidence selection R is teacher-forced and untested.](assets/08b_circuit_wiring_diagram.svg)
+
+> **Figure 8B — Working causal model: Partial B–F decomposition.** Causal interventions support a functional dissociation between initial identifier binding ($B$) and multi-token serialization ($F$). Stage 1 (evidence selection $R$) was teacher-forced in this protocol and remains untested. Late attention mixers universally execute $B$, while continuation $F$ is routed by either downstream MLPs or downstream mixers depending on network architecture.
+
+#### 3. Specificity Limits & Format Heterogeneity
+- **Causal Specificity (H4):** Interventions preserved post-citation syntax ($|\Delta_{\text{Syntax}}| < 1.0$) and vocabulary fluency ($D_{\text{KL}} < 1.0$ nats) in five of six models. However, **H4 failed for Gemma 4 E4B**: its massive binding shift at Layer 36 ($+18.073$) was accompanied by vocabulary divergence ($D_{\text{KL}} = 3.156$ [$2.366, 4.036$] nats), indicating that its per-layer embedding (PLE) and terminal layers operate under broad representational reorganization rather than isolated surgical shifts.
+- **Format Heterogeneity:** Aggregate confirmation effects were positive across all models, but condition-level baselines reveal format-specific constraints. Structured handles (`[S1]`) produced positive direct-swap effects across all six models ($+1.259$ to $+40.191$). By contrast, UUIDs (`[3f8a...]`) incurred severe memory friction: Qwen 2.5 1.5B's direct-swap interval crossed zero ($-0.067$ [$-0.969, +0.798$]), and Tiny Aya Global's effect was strictly negative ($-1.721$ [$-3.457, -0.119$]), explaining why high-entropy identifiers degrade attribution recall.
+- **Circuit Sparsity Boundary:** Interventions patched entire layer mixer components ($W_O$). Finding that a whole mixer component carries the effect establishes layer and component-class localization, but does *not* prove a sparse head-level circuit or refute a distributed representation.
+
+![Figure 8C — Cross-model circuit localization across 6 architectures on the 80-example confirmation cohort.](assets/08c_cross_model_circuit_comparison.svg)
+
+> **Figure 8C — Cross-model circuit localization across 6 architectures.** Summary of preregistered critical hubs, paired cluster bootstrap intervals ($Mixer - MLP$), downstream continuation mechanisms, and specificity criteria across all six open-weights models ($N=80$ confirmation cohort, 240 cases/model).
+
 ---
 
 ## PART IV: SYSTEMS PAYOFF & PRODUCTION ARCHITECTURE

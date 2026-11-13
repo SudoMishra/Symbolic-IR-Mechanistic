@@ -93,8 +93,8 @@
         </article>
         <article class="tldr-card">
           <span class="eyebrow">Mechanism</span>
-          <h3>Facts stay stable; identifier states differ.</h3>
-          <p>Linear CKA found high similarity for unchanged fact-token geometry, while identifier representations were more model- and depth-dependent.</p>
+          <h3>Late attention mixers mediate binding.</h3>
+          <p>Stage 7B confirmed a positive mixer-minus-MLP first-token binding effect in all six models; multi-token continuation remained architecture-specific.</p>
         </article>
         <article class="tldr-card">
           <span class="eyebrow">Privacy</span>
@@ -112,9 +112,9 @@
         <p>The program supports an engineering pattern, not a law that every model always performs worse with UUIDs. Each experiment page records counter-results, parser failures, uncertainty, and scope limits beside the headline result.</p>
       </div>
       <div class="data-grid three" aria-label="Verified study accounting">
-        <article class="metric"><span class="metric-label">Verified model executions</span><strong class="metric-value">63,734</strong><p class="metric-detail">excludes Stage 9 software tests</p></article>
+        <article class="metric"><span class="metric-label">Verified model executions</span><strong class="metric-value">63,734</strong><p class="metric-detail">frozen pre-7B accounting; excludes Stage 9</p></article>
         <article class="metric"><span class="metric-label">Behavioral calls</span><strong class="metric-value">59,990</strong><p class="metric-detail">46,230 local + 13,760 frontier</p></article>
-        <article class="metric"><span class="metric-label">Mechanistic executions</span><strong class="metric-value">3,744</strong><p class="metric-detail">1,440 Stage 6 + 2,304 Stage 7</p></article>
+        <article class="metric"><span class="metric-label">Mechanistic executions</span><strong class="metric-value">3,744</strong><p class="metric-detail">frozen accounting: 1,440 Stage 6 + 2,304 Stage 7; Stage 7B reported separately</p></article>
       </div>
       <div class="callout"><span class="callout-label">Cohort policy</span><p>Primary local aggregates use six models: Tiny Aya Global, Qwen 2.5 1.5B, Gemma 4 E2B, Gemma 4 E4B, Qwen 3.5 2B, and Qwen 3.5 4B. Both LFM checkpoints are excluded from published aggregates. Four closed frontier models remain a separate behavioral cohort and are ineligible for Stages 6–7 because activation access and architectural hooks are unavailable.</p></div>
     </section>
@@ -150,6 +150,9 @@
         <a class="experiment-row" href="experiments/07-causal-interventions/">
           <span class="experiment-id">07</span><span class="experiment-title">Causal interventions</span><span class="experiment-outcome">Swap source IDs and patch activations to localize causal binding behavior.</span><span class="experiment-meta">2,304 interventions</span><span class="experiment-arrow" aria-hidden="true">→</span>
         </a>
+        <a class="experiment-row" href="experiments/07b-component-localization/">
+          <span class="experiment-id">07B</span><span class="experiment-title">Component-level localization</span><span class="experiment-outcome">Separate attention-mixer binding from architecture-specific identifier continuation.</span><span class="experiment-meta">2,592 interventions</span><span class="experiment-arrow" aria-hidden="true">→</span>
+        </a>
         <a class="experiment-row" href="experiments/08-entity-canonicalization/">
           <span class="experiment-id">08</span><span class="experiment-title">Entity canonicalization</span><span class="experiment-outcome">Generalize beyond citations to account resolution and literal PII exposure.</span><span class="experiment-meta">12,000 local + 4,000 frontier</span><span class="experiment-arrow" aria-hidden="true">→</span>
         </a>
@@ -181,7 +184,7 @@
       <div class="question-grid">
         <article class="panel"><span class="tag open">open</span><h3>Broader frontier replication</h3><p>Extend the now-complete four-model API cohort to additional providers, model versions, and constrained decoding regimes without pooling away model-specific behavior.</p></article>
         <article class="panel"><span class="tag open">open</span><h3>Long-context interaction</h3><p>Separate identifier entropy from total context length, retrieval order, KV-cache pressure, and realistic production prompt structure.</p></article>
-        <article class="panel"><span class="tag open">open</span><h3>Component-level localization</h3><p>With all six Stage 7 models balanced at eight semantic examples and 384 interventions each, the next step is to separate attention-head and MLP contributions within each model’s transition layers.</p></article>
+        <article class="panel"><span class="tag complete">complete</span><h3>Component-level localization</h3><p>Stage 7B separates attention-mixer and MLP contributions across all six models. Head-level sparsity, causal evidence selection, and an independently replicated task remain open.</p></article>
         <article class="panel"><span class="tag open">open</span><h3>Semantic authorization</h3><p>Compose structural handle validation with ownership, freshness, policy, and domain constraints that can reject a valid-but-wrong registered handle.</p></article>
       </div>
     </section>
