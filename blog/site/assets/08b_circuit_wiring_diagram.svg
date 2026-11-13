@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" role="img" aria-labelledby="title desc">
+<title id="title">Figure 8B: Working Causal Model: Partial B–F Decomposition (Selection R Untested)</title>
+<desc id="desc">Visual model of citation generation: Source-ID Binding (B) and Identifier Continuation (F) are causally tested; Relevant-Source Selection (R) is teacher-forced and untested.</desc>
+<style>
+text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #172033; }
+.axis {{ stroke: #8c9ba5; stroke-width: 1.2; }}
+.grid { stroke: #d8dee8; stroke-width: 0.8; stroke-dasharray: 3 3; }
+.muted { fill: #5f6b7a; font-size: 11px; }
+.title {{ font-size: 14px; font-weight: 700; }}
+.label {{ font-size: 12px; font-weight: 600; }}
+.legend {{ font-size: 11px; font-weight: 500; }}
+</style>
+<rect width="1000" height="500" fill="#fbfcfe" rx="8"/>
+<text x="40.0" y="36.0" class="title">Figure 8B: Working Causal Model: Partial B–F Decomposition</text>
+<text x="40.0" y="56.0" class="muted">Binding (B) and downstream Continuation (F) are dissociated across 6 architectures; Selection (R) is teacher-forced (untested).</text>
+<rect x="60.0" y="110.0" width="250.0" height="320.0" fill="#f8fafc" stroke="#d8dee8" rx="6"/>
+<text x="76.0" y="138.0" class="label">Stage 1: Selection (R) [Untested]</text>
+<text x="76.0" y="156.0" class="muted">Prompt Context Evidence (Teacher-Forced)</text>
+<rect x="76.0" y="180.0" width="218.0" height="60.0" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
+<text x="86.0" y="204.0" class="legend">Context Documents {S₁...Sₖ}</text>
+<text x="86.0" y="222.0" class="muted">Query attends to evidence fact</text>
+<rect x="76.0" y="260.0" width="218.0" height="60.0" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
+<text x="86.0" y="284.0" class="legend">Intermediate Representation</text>
+<text x="86.0" y="302.0" class="muted">Semantic truth state S*</text>
+<text x="76.0" y="355.0" class="muted">Untested in Stage 7B: prompt answer</text>
+<text x="76.0" y="375.0" class="muted">is teacher-forced; R not isolated</text>
+<line x1="310.0" y1="270.0" x2="350.0" y2="270.0" stroke="#315efb" stroke-width="2.5"/>
+<text x="330.0" y="262.0" class="muted" text-anchor="middle">S*</text>
+<rect x="370.0" y="110.0" width="260.0" height="320.0" fill="#f0f7ff" stroke="#bae6fd" rx="6"/>
+<text x="386.0" y="138.0" class="label" fill="#315efb">Stage 2: Binding (B) [Confirmed]</text>
+<text x="386.0" y="156.0" class="muted">Late Attention / Mixer Hubs</text>
+<rect x="386.0" y="180.0" width="228.0" height="60.0" fill="#ffffff" stroke="#315efb" rx="4"/>
+<text x="396.0" y="204.0" class="legend" fill="#315efb">Citation Delimiter &#x27;[&#x27;</text>
+<text x="396.0" y="222.0" class="muted">Attends to source header ID</text>
+<rect x="386.0" y="260.0" width="228.0" height="60.0" fill="#ffffff" stroke="#315efb" rx="4"/>
+<text x="396.0" y="284.0" class="legend" fill="#315efb">Critical Binding Mixers</text>
+<text x="396.0" y="302.0" class="muted">Qwen L20/L24 | Gemma L35/L36</text>
+<text x="386.0" y="355.0" class="label" fill="#315efb">Empirical: ΔFirst = +0.70 to +18.07</text>
+<text x="386.0" y="375.0" class="muted">Mixer − MLP 95% CIs strictly &gt; 0</text>
+<line x1="630.0" y1="270.0" x2="670.0" y2="270.0" stroke="#e97824" stroke-width="2.5"/>
+<text x="650.0" y="262.0" class="muted" text-anchor="middle">ID(S*)</text>
+<rect x="690.0" y="110.0" width="250.0" height="320.0" fill="#fffaf0" stroke="#fed7aa" rx="6"/>
+<text x="706.0" y="138.0" class="label" fill="#e97824">Stage 3: Serialization (F) [Confirmed]</text>
+<text x="706.0" y="156.0" class="muted">Downstream Mixers &amp; MLPs</text>
+<rect x="706.0" y="180.0" width="218.0" height="60.0" fill="#ffffff" stroke="#e97824" rx="4"/>
+<text x="716.0" y="204.0" class="legend" fill="#e97824">Token Continuation [t₂...tₘ]</text>
+<text x="716.0" y="222.0" class="muted">Unpacks multi-token identifiers</text>
+<rect x="706.0" y="260.0" width="218.0" height="60.0" fill="#ffffff" stroke="#e97824" rx="4"/>
+<text x="716.0" y="284.0" class="legend" fill="#e97824">Late Serialization Components</text>
+<text x="716.0" y="302.0" class="muted">Tiny Aya L36 | Qwen4B L28/L32</text>
+<text x="706.0" y="355.0" class="label" fill="#e97824">Empirical: ΔCont = +0.12 to +1.63</text>
+<text x="706.0" y="375.0" class="muted">Specificity: 5/6 models pass KL &lt; 1.0</text>
+</svg>

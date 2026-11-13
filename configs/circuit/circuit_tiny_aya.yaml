@@ -1,0 +1,27 @@
+name: circuit_tiny_aya
+seed: 202671
+identifiers: [structured, random_compact, uuid]
+dataset:
+  path: data/circuit/discovery_n32.jsonl
+backend:
+  type: huggingface
+  model_path: models/tiny-aya-global-hf
+  model: CohereLabs/tiny-aya-global
+  revision: af89d219b53ed9b13b8a4645f9c8028973510324
+  weights_sha256: 5e87be717ff88ed7fd1e03aa1de1399daef2f2d2e3ee539c3ad1b0ed9d1ae74e
+  device: cuda:0
+  dtype: bfloat16
+  device_map: auto
+  max_memory: {"0": 7GiB, cpu: 24GiB}
+  offload_folder: results/offload/tiny-aya-global-circuit
+generation:
+  tokenizer: {type: huggingface, model: models/tiny-aya-global-hf}
+  teacher_forced: true
+  max_sequence_tokens: 8192
+  candidate_layers: [1, 12, 18, 20, 22, 24, 30, 36]
+output_dir: results/circuit
+metadata:
+  stage: 7B
+  tier: 2
+  architecture: pure_gqa_transformer
+  intervention: component_level_decomposition

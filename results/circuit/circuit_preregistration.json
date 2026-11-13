@@ -1,0 +1,89 @@
+{
+  "preregistration_id": "STAGE7B-CIRCUIT-PREREG-20261113",
+  "created_at": "2026-11-13T05:30:00+05:30",
+  "status": "LOCKED",
+  "hypotheses": {
+    "H1_binding_mixer": "Source ↔ Identifier binding (B) is primarily mediated by late attention/mixer layers, evidenced by positive absolute first-token shift under counterfactual donor patch.",
+    "H2_mixer_mlp_dissociation": "Mixer components show significantly greater first-token binding preference than matched MLPs at the critical binding layers: Delta_First(Mixer) > Delta_First(MLP).",
+    "H3_serialization_hub": "Multi-token continuation (F) is routed downstream of the initial binding hub by late mixer and/or MLP components.",
+    "H4_causal_specificity": "Component interventions preserve post-citation syntax (Delta Syntax ~= 0) and preserve vocabulary fluency (D_KL < 1.0 nats), ruling out general behavioral collapse."
+  },
+  "replication_criteria": {
+    "alpha": 0.05,
+    "bootstrap_replicates": 1000,
+    "cluster_level": "example_id",
+    "primary_metrics": [
+      "abs_shift_first",
+      "mixer_minus_mlp_first",
+      "abs_shift_cont",
+      "syntax_shift",
+      "kl_div"
+    ],
+    "success_thresholds": {
+      "abs_shift_first_mixer": "> 0.0 (95% CI lower bound > 0.0)",
+      "mixer_minus_mlp_first": "> 0.0 (statistically significant dissociation)",
+      "syntax_shift": "|Delta Syntax| < 1.0 nats",
+      "kl_div": "D_KL < 1.0 nats"
+    }
+  },
+  "candidate_circuits": {
+    "qwen2.5-1.5b-instruct": {
+      "architecture": "pure_gqa_transformer",
+      "total_layers": 28,
+      "binding_mixer_hub": 24,
+      "stale_binding_mediator": 20,
+      "serialization_hub": 24,
+      "candidate_layers": [20, 24]
+    },
+    "qwen3.5-2b": {
+      "architecture": "hybrid_gated_deltanet",
+      "total_layers": 24,
+      "binding_mixer_hub": 20,
+      "continuation_mixer": 20,
+      "candidate_layers": [16, 20]
+    },
+    "tiny-aya-global": {
+      "architecture": "asymmetric_deep_gqa",
+      "total_layers": 36,
+      "continuation_mixer_hub": 24,
+      "serialization_mlp_hub": 36,
+      "candidate_layers": [24, 36]
+    },
+    "qwen3.5-4b": {
+      "architecture": "hybrid_gated_deltanet",
+      "total_layers": 32,
+      "binding_mixer_hub": 24,
+      "continuation_mixer": 28,
+      "serialization_mlp": 32,
+      "candidate_layers": [24, 28, 32]
+    },
+    "gemma-4-e2b-it": {
+      "architecture": "deep_asymmetric_gemma",
+      "total_layers": 35,
+      "binding_mixer_hub": 24,
+      "terminal_mixer_hub": 35,
+      "candidate_layers": [24, 35]
+    },
+    "gemma-4-e4b-it": {
+      "architecture": "deep_asymmetric_gemma",
+      "total_layers": 42,
+      "dominant_binding_mixer_hub": 36,
+      "terminal_mixer_hub": 42,
+      "candidate_layers": [36, 42]
+    }
+  },
+  "evaluation_plan": {
+    "validation_split": {
+      "dataset": "data/circuit/validation_n32.jsonl",
+      "n_examples": 32,
+      "n_cases_per_model": 96,
+      "focus": "Candidate layer evaluation (Mixer vs MLP) on fresh held-out semantic clusters"
+    },
+    "confirmation_split": {
+      "dataset": "data/circuit/confirmation_n80.jsonl",
+      "n_examples": 80,
+      "n_cases_per_model": 240,
+      "focus": "High-powered confirmatory replication of locked circuits"
+    }
+  }
+}
