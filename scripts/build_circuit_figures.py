@@ -42,12 +42,12 @@ class SVG:
             f'<desc id="desc">{esc(desc)}</desc>',
             '<style>',
             f'text {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: {INK}; }}',
-            '.axis {{ stroke: #8c9ba5; stroke-width: 1.2; }}',
+            '.axis { stroke: #8c9ba5; stroke-width: 1.2; }',
             f'.grid {{ stroke: {GRID}; stroke-width: 0.8; stroke-dasharray: 3 3; }}',
             f'.muted {{ fill: {MUTED}; font-size: 11px; }}',
-            '.title {{ font-size: 14px; font-weight: 700; }}',
-            '.label {{ font-size: 12px; font-weight: 600; }}',
-            '.legend {{ font-size: 11px; font-weight: 500; }}',
+            '.title { font-size: 14px; font-weight: 700; }',
+            '.label { font-size: 12px; font-weight: 600; }',
+            '.legend { font-size: 11px; font-weight: 500; }',
             '</style>',
             f'<rect width="{width}" height="{height}" fill="{PAPER}" rx="8"/>',
         ]
@@ -62,10 +62,32 @@ class SVG:
     def circle(self, cx, cy, r, fill, stroke="none", stroke_width=1):
         self.items.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r:.1f}" fill="{fill}" stroke="{stroke}" stroke-width="{stroke_width}"/>')
 
+    def polygon(self, points, fill, stroke="none", stroke_width=1):
+        encoded = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
+        self.items.append(f'<polygon points="{encoded}" fill="{fill}" stroke="{stroke}" stroke-width="{stroke_width}"/>')
+
+    def arrow(self, x1, y1, x2, y2, stroke, width=2.0, dash=None):
+        self.line(x1, y1, x2, y2, stroke=stroke, width=width, dash=dash)
+        angle = math.atan2(y2 - y1, x2 - x1)
+        size = 8
+        points = [
+            (x2, y2),
+            (x2 - size * math.cos(angle - math.pi / 6), y2 - size * math.sin(angle - math.pi / 6)),
+            (x2 - size * math.cos(angle + math.pi / 6), y2 - size * math.sin(angle + math.pi / 6)),
+        ]
+        self.polygon(points, fill=stroke)
+
     def text(self, x, y, content, cls="", anchor="start", fill=None):
         fill_attr = f' fill="{fill}"' if fill else ""
         anchor_attr = f' text-anchor="{anchor}"' if anchor != "start" else ""
         self.items.append(f'<text x="{x:.1f}" y="{y:.1f}" class="{cls}"{anchor_attr}{fill_attr}>{esc(content)}</text>')
+
+    def rotated_text(self, x, y, content, angle=-90, cls="", anchor="middle", fill=None):
+        fill_attr = f' fill="{fill}"' if fill else ""
+        self.items.append(
+            f'<text x="{x:.1f}" y="{y:.1f}" class="{cls}" text-anchor="{anchor}" '
+            f'transform="rotate({angle} {x:.1f} {y:.1f})"{fill_attr}>{esc(content)}</text>'
+        )
 
     def render(self) -> str:
         return "\n".join(self.items) + "\n</svg>\n"
@@ -76,91 +98,71 @@ def build_fig08a_component_dissociation(qwen25_analysis_path: Path, output_paths
     layers_data = data["layers"]
 
     svg = SVG(
-        width=1000,
-        height=540,
-        title="Figure 8A: Component-Level Dissociation (Attention vs. MLP)",
-        desc="Causal recovery across layer depth for Attention Mixer vs MLP interventions on Qwen 2.5 1.5B (Confirmation Split N=80)"
+        width=1200,
+        height=720,
+        title="Figure 8A: Qwen 2.5 component transplants separate first-token binding from identifier continuation",
+        desc="Two grouped effect plots show attention-mixer, MLP, and joint component transplants at layers 20 and 24. The left panel shows the raw first-token log-preference shift and the right panel shows the remaining identifier-sequence shift. Points and whiskers are cluster-bootstrap means and 95 percent confidence intervals."
     )
 
-    svg.text(40, 36, "Figure 8A: Functional Dissociation of Source Binding vs. Continuation", cls="title")
-    svg.text(40, 56, "Isolated component transplant on high-powered confirmation cohort (N=80 clusters, 240 cases). Attention mediates binding at Layer 24.", cls="muted")
+    svg.text(42, 36, "Figure 8A · What does each transplanted component change?", cls="title")
+    svg.text(42, 58, "Qwen 2.5 1.5B · held-out confirmation cohort (80 semantic examples; 240 format cases)", cls="muted")
 
-    # Legend
-    svg.rect(610, 22, 350, 42, fill="#f0f4f8", rx=6)
-    svg.circle(628, 43, 5, fill=BLUE)
-    svg.text(640, 47, "Attention Mixer (B)", cls="legend")
-    svg.rect(745, 38, 10, 10, fill=ORANGE, rx=2)
-    svg.text(762, 47, "MLP Component (Continuation)", cls="legend")
-    svg.line(915, 43, 933, 43, stroke=TEAL, width=2.5, dash="4 2")
-    svg.text(939, 47, "Both", cls="legend")
+    svg.rect(692, 20, 466, 48, fill="#f0f4f8", rx=6)
+    legend = [(BLUE, "Attention-mixer output"), (ORANGE, "MLP output"), (TEAL, "Mixer + MLP together")]
+    for i, (color, label) in enumerate(legend):
+        lx = 712 + i * 150
+        svg.rect(lx, 36, 12, 12, fill=color, rx=2)
+        svg.text(lx + 18, 47, label, cls="legend")
 
-    x0, y0, pw, ph = 70, 110, 400, 350
-    svg.text(x0, y0 - 18, "A. First-Token Binding Recovery (%) across Depth", cls="label")
-    svg.rect(x0, y0, pw, ph, fill="#ffffff", stroke=GRID)
-
-    y_min, y_max = -20.0, 80.0
-    for y_val in [-20, 0, 20, 40, 60, 80]:
-        y_pos = y0 + ph - ((y_val - y_min) / (y_max - y_min)) * ph
-        svg.line(x0, y_pos, x0 + pw, y_pos, stroke=GRID if y_val != 0 else "#a0aec0", width=1.2 if y_val == 0 else 0.8)
-        svg.text(x0 - 8, y_pos + 4, f"{y_val:+d}%" if y_val != 0 else "0%", cls="muted", anchor="end")
-
+    panels = [
+        ("A", "First-token source binding", "abs_shift_first", -0.8, 1.1, [-0.5, 0.0, 0.5, 1.0]),
+        ("B", "Remaining identifier continuation", "abs_shift_cont", -0.3, 1.6, [0.0, 0.5, 1.0, 1.5]),
+    ]
+    components = [("mixer", BLUE), ("mlp", ORANGE), ("both", TEAL)]
     layer_keys = sorted(layers_data.keys(), key=int)
-    x_coords = {}
-    for i, l_str in enumerate(layer_keys):
-        frac = (int(l_str) - 20) / (24 - 20) if len(layer_keys) > 1 else 0.5
-        x_pos = x0 + 60 + frac * (pw - 120)
-        x_coords[l_str] = x_pos
-        svg.line(x_pos, y0 + ph, x_pos, y0 + ph + 5, stroke="#8c9ba5")
-        svg.text(x_pos, y0 + ph + 18, f"Layer {l_str}", cls="muted", anchor="middle")
 
-    l24_x = x_coords.get("24", x0 + pw * 0.75)
-    svg.rect(l24_x - 35, y0, 70, ph, fill="rgba(49, 94, 251, 0.08)")
-    svg.text(l24_x, y0 + 22, "Binding Hub (L24)", cls="muted", anchor="middle", fill=BLUE)
+    for panel_index, (letter, heading, metric, y_min, y_max, ticks) in enumerate(panels):
+        x0 = 82 + panel_index * 570
+        y0, pw, ph = 128, 500, 390
+        svg.text(x0, 94, f"{letter}. {heading}", cls="label")
+        svg.text(x0, 113, "Y-axis: Δ log preference (natural-log units); positive = counterfactual donor state transferred", cls="muted")
+        svg.rect(x0, y0, pw, ph, fill="#ffffff", stroke=GRID)
 
-    for comp, color, is_dash in [("both", TEAL, "4 2"), ("mixer", BLUE, None), ("mlp", ORANGE, None)]:
-        points = []
-        for l_str in layer_keys:
-            val = layers_data[l_str][comp].get("recov_first_mean", 0.0)
-            val = max(min(val, y_max), y_min)
-            y_pos = y0 + ph - ((val - y_min) / (y_max - y_min)) * ph
-            points.append((x_coords[l_str], y_pos))
-        
-        for p1, p2 in zip(points[:-1], points[1:]):
-            svg.line(p1[0], p1[1], p2[0], p2[1], stroke=color, width=2.2, dash=is_dash)
-        for px, py in points:
-            if comp == "mixer":
-                svg.circle(px, py, 5.0, fill=color, stroke="#ffffff", stroke_width=1.5)
-            elif comp == "mlp":
-                svg.rect(px - 4, py - 4, 8, 8, fill=color, rx=1.5)
+        def y_coord(value: float) -> float:
+            return y0 + ph - ((value - y_min) / (y_max - y_min)) * ph
 
-    x1, y1 = 550, y0
-    svg.text(x1, y1 - 18, "B. Double Dissociation: Binding (ΔFirst) vs. Serialization (ΔCont)", cls="label")
-    svg.rect(x1, y1, pw, ph, fill="#ffffff", stroke=GRID)
+        for tick in ticks:
+            ty = y_coord(tick)
+            svg.line(x0, ty, x0 + pw, ty, stroke="#8996a8" if tick == 0 else GRID, width=1.3 if tick == 0 else 0.8)
+            svg.text(x0 - 10, ty + 4, f"{tick:+.1f}", cls="muted", anchor="end")
+        group_centers = [x0 + 150, x0 + 350]
+        for group_index, layer in enumerate(layer_keys):
+            center = group_centers[group_index]
+            if layer == "24":
+                svg.rect(center - 86, y0 + 1, 172, ph - 2, fill="#f3f6ff")
+                svg.text(center, y0 + 20, "registered binding hub", cls="muted", anchor="middle", fill=BLUE)
+            for comp_index, (component, color) in enumerate(components):
+                stat = layers_data[layer][component][metric]
+                mean = float(stat["mean"])
+                low, high = [float(v) for v in stat["ci_95"]]
+                px = center + (comp_index - 1) * 46
+                base = y_coord(0.0)
+                py = y_coord(mean)
+                bar_top, bar_height = min(base, py), abs(base - py)
+                svg.rect(px - 13, bar_top, 26, max(bar_height, 1.5), fill=color, rx=2)
+                low_y, high_y = y_coord(low), y_coord(high)
+                svg.line(px, high_y, px, low_y, stroke=INK, width=1.3)
+                svg.line(px - 5, high_y, px + 5, high_y, stroke=INK, width=1.3)
+                svg.line(px - 5, low_y, px + 5, low_y, stroke=INK, width=1.3)
+                label_y = high_y - 8 if mean >= 0 else low_y + 16
+                svg.text(px, label_y, f"{mean:+.2f}", cls="muted", anchor="middle", fill=color)
+            svg.text(center, y0 + ph + 24, f"Layer {layer}", cls="label", anchor="middle")
+        svg.text(x0 + pw / 2, y0 + ph + 45, "Component output transplanted", cls="muted", anchor="middle")
 
-    svg.line(x1 + pw / 2, y1, x1 + pw / 2, y1 + ph, stroke="#a0aec0", width=1.0)
-    svg.line(x1, y1 + ph / 2, x1 + pw, y1 + ph / 2, stroke="#a0aec0", width=1.0)
-    svg.text(x1 + pw - 10, y1 + ph / 2 - 8, "+ΔFirst (Binding)", cls="muted", anchor="end")
-    svg.text(x1 + pw / 2 + 8, y1 + 18, "+ΔCont (Serialization)", cls="muted")
-
-    for l_str in layer_keys:
-        for comp, fill, is_circ in [("mixer", BLUE, True), ("mlp", ORANGE, False)]:
-            first_shift = layers_data[l_str][comp].get("abs_shift_first", {}).get("mean", 0.0)
-            cont_shift = layers_data[l_str][comp].get("abs_shift_cont", {}).get("mean", 0.0)
-
-            px = x1 + pw / 2 + (first_shift / 1.5) * (pw / 2.2)
-            py = y1 + ph / 2 - (cont_shift / 1.5) * (ph / 2.2)
-
-            px = max(min(px, x1 + pw - 8), x1 + 8)
-            py = max(min(py, y1 + ph - 8), y1 + 8)
-
-            if is_circ:
-                svg.circle(px, py, 6.0, fill=fill, stroke="#ffffff", stroke_width=1.5)
-                svg.text(px + 8, py + 4, f"L{l_str} Attn ({first_shift:+.2f})", cls="muted", fill=fill)
-            else:
-                svg.rect(px - 5, py - 5, 10, 10, fill=fill, rx=1.5)
-                svg.text(px + 8, py + 4, f"L{l_str} MLP ({first_shift:+.2f})", cls="muted", fill=fill)
-
-    svg.text(x0, y0 + ph + 42, "High-Powered Confirmatory Split: N=80 clusters (240 cases) with cluster-robust 95% CIs. Layer 24 Attention recovers positive binding (+0.701 vs MLP +0.080).", cls="muted")
+    svg.rect(82, 596, 1070, 82, fill=LIGHT_BLUE, stroke="#b9c7ff", rx=7)
+    svg.text(102, 620, "HOW TO READ", cls="label", fill=BLUE)
+    svg.text(102, 642, "Bar = mean causal shift; whisker = paired cluster-bootstrap 95% CI; horizontal zero = no transfer.", cls="legend")
+    svg.text(102, 662, "At Layer 24, the mixer changes first-token binding by +0.701 versus +0.080 for the MLP; paired mixer − MLP = +0.621 [+0.436, +0.804].", cls="legend")
 
     rendered = svg.render()
     for p in output_paths:
@@ -171,64 +173,74 @@ def build_fig08a_component_dissociation(qwen25_analysis_path: Path, output_paths
 
 def build_fig08b_circuit_wiring(output_paths: list[Path]):
     svg = SVG(
-        width=1000,
-        height=500,
-        title="Figure 8B: Working Causal Model: Partial B–F Decomposition (Selection R Untested)",
-        desc="Visual model of citation generation: Source-ID Binding (B) and Identifier Continuation (F) are causally tested; Relevant-Source Selection (R) is teacher-forced and untested."
+        width=1200,
+        height=720,
+        title="Figure 8B: What Stage 7B intervenes on, measures, and supports",
+        desc="An explanatory diagram follows one clean run and one counterfactual donor run into a component-output transplant. It then separates the measured first distinguishing identifier token from the remaining identifier sequence. A lower evidence map marks relevant-source selection as teacher-forced and untested, first-token binding as confirmed at attention-mixer hubs, and continuation as tested but architecture-dependent."
     )
 
-    svg.text(40, 36, "Figure 8B: Working Causal Model: Partial B–F Decomposition", cls="title")
-    svg.text(40, 56, "Binding (B) and downstream Continuation (F) are dissociated across 6 architectures; Selection (R) is teacher-forced (untested).", cls="muted")
+    svg.text(42, 36, "Figure 8B · What was changed, what was measured, and what is supported", cls="title")
+    svg.text(42, 58, "Stage 7B transplants one component state at a time; it does not intervene on evidence selection.", cls="muted")
 
-    # Stage 1: R
-    r_x, r_y, rw, rh = 60, 110, 250, 320
-    svg.rect(r_x, r_y, rw, rh, fill="#f8fafc", stroke=GRID, rx=6)
-    svg.text(r_x + 16, r_y + 28, "Stage 1: Selection (R) [Untested]", cls="label")
-    svg.text(r_x + 16, r_y + 46, "Prompt Context Evidence (Teacher-Forced)", cls="muted")
-    svg.rect(r_x + 16, r_y + 70, rw - 32, 60, fill="#ffffff", stroke="#cbd5e1", rx=4)
-    svg.text(r_x + 26, r_y + 94, "Context Documents {S₁...Sₖ}", cls="legend")
-    svg.text(r_x + 26, r_y + 112, "Query attends to evidence fact", cls="muted")
-    svg.rect(r_x + 16, r_y + 150, rw - 32, 60, fill="#ffffff", stroke="#cbd5e1", rx=4)
-    svg.text(r_x + 26, r_y + 174, "Intermediate Representation", cls="legend")
-    svg.text(r_x + 26, r_y + 192, "Semantic truth state S*", cls="muted")
-    svg.text(r_x + 16, r_y + 245, "Untested in Stage 7B: prompt answer", cls="muted")
-    svg.text(r_x + 16, r_y + 265, "is teacher-forced; R not isolated", cls="muted")
+    # Intervention row.
+    svg.text(50, 96, "1 · COUNTERFACTUAL COMPONENT TRANSPLANT", cls="label")
+    box_y, box_h = 118, 164
+    boxes = [
+        (50, 270, "Clean recipient run", "Relevant passage → [S7]", "Model initially prefers the clean ID", LIGHT_TEAL, TEAL),
+        (350, 270, "Counterfactual donor run", "Same passage → [S1]", "Only the source-ID assignment changes", LIGHT_BLUE, BLUE),
+        (700, 450, "Patched recipient run", "Copy mixer or MLP output", "Measure whether donor preference transfers", LIGHT_ORANGE, ORANGE),
+    ]
+    for x, width, heading, line1, line2, fill, stroke in boxes:
+        svg.rect(x, box_y, width, box_h, fill=fill, stroke=stroke, rx=7)
+        svg.text(x + 18, box_y + 30, heading, cls="label", fill=stroke)
+        svg.text(x + 18, box_y + 64, line1, cls="legend")
+        svg.text(x + 18, box_y + 88, line2, cls="muted")
+        if x == 700:
+            svg.rect(x + 18, box_y + 108, 190, 32, fill="#ffffff", stroke=BLUE, rx=4)
+            svg.text(x + 113, box_y + 129, "ATTENTION MIXER", cls="legend", anchor="middle", fill=BLUE)
+            svg.text(x + 225, box_y + 129, "or", cls="muted", anchor="middle")
+            svg.rect(x + 242, box_y + 108, 168, 32, fill="#ffffff", stroke=ORANGE, rx=4)
+            svg.text(x + 326, box_y + 129, "MLP", cls="legend", anchor="middle", fill=ORANGE)
+    svg.arrow(320, box_y + 82, 342, box_y + 82, stroke=MUTED, width=2.0)
+    svg.text(331, box_y + 68, "paired prompts", cls="muted", anchor="middle")
+    svg.arrow(620, box_y + 82, 690, box_y + 82, stroke=PURPLE, width=2.5)
+    svg.text(655, box_y + 66, "transplant at hub layer", cls="muted", anchor="middle")
 
-    # Arrow R -> B
-    svg.line(r_x + rw, r_y + rh / 2, r_x + rw + 40, r_y + rh / 2, stroke=BLUE, width=2.5)
-    svg.text(r_x + rw + 20, r_y + rh / 2 - 8, "S*", cls="muted", anchor="middle")
+    # Measurement row.
+    svg.text(50, 326, "2 · READ TWO DIFFERENT OUTPUTS", cls="label")
+    svg.rect(50, 348, 1100, 126, fill="#ffffff", stroke=GRID, rx=7)
+    svg.text(78, 380, "Generated identifier", cls="label")
+    svg.rect(78, 396, 390, 50, fill="#f8fafc", stroke="#cbd5e1", rx=4)
+    svg.text(98, 428, "[", cls="label")
+    svg.rect(126, 405, 62, 30, fill=LIGHT_BLUE, stroke=BLUE, rx=3)
+    svg.text(157, 426, "S", cls="label", anchor="middle", fill=BLUE)
+    svg.rect(194, 405, 204, 30, fill=LIGHT_ORANGE, stroke=ORANGE, rx=3)
+    svg.text(296, 426, "1 ]  + remaining tokens", cls="legend", anchor="middle", fill=ORANGE)
+    svg.text(495, 386, "ΔFirst · binding outcome", cls="label", fill=BLUE)
+    svg.text(495, 407, "Change in log preference for the first token that distinguishes [S1] from [S7].", cls="muted")
+    svg.text(495, 432, "ΔCont · continuation outcome", cls="label", fill=ORANGE)
+    svg.text(495, 453, "Change in preference for the remaining identifier-token sequence after that split.", cls="muted")
 
-    # Stage 2: B
-    b_x, b_y, bw, bh = 370, 110, 260, 320
-    svg.rect(b_x, b_y, bw, bh, fill="#f0f7ff", stroke="#bae6fd", rx=6)
-    svg.text(b_x + 16, b_y + 28, "Stage 2: Binding (B) [Confirmed]", cls="label", fill=BLUE)
-    svg.text(b_x + 16, b_y + 46, "Late Attention / Mixer Hubs", cls="muted")
-    svg.rect(b_x + 16, b_y + 70, bw - 32, 60, fill="#ffffff", stroke=BLUE, rx=4)
-    svg.text(b_x + 26, b_y + 94, "Citation Delimiter '['", cls="legend", fill=BLUE)
-    svg.text(b_x + 26, b_y + 112, "Attends to source header ID", cls="muted")
-    svg.rect(b_x + 16, b_y + 150, bw - 32, 60, fill="#ffffff", stroke=BLUE, rx=4)
-    svg.text(b_x + 26, b_y + 174, "Critical Binding Mixers", cls="legend", fill=BLUE)
-    svg.text(b_x + 26, b_y + 192, "Qwen L20/L24 | Gemma L35/L36", cls="muted")
-    svg.text(b_x + 16, b_y + 245, "Empirical: ΔFirst = +0.70 to +18.07", cls="label", fill=BLUE)
-    svg.text(b_x + 16, b_y + 265, "Mixer − MLP 95% CIs strictly > 0", cls="muted")
+    # Evidence map row.
+    svg.text(50, 518, "3 · EVIDENCE MAP", cls="label")
+    evidence_y, evidence_h = 540, 116
+    evidence = [
+        (50, 294, "R · relevant-source selection", "Teacher-forced; not intervened on", "UNTESTED", "#f4f5f7", MUTED, "5 4"),
+        (402, 340, "B · first-token binding", "Late mixer > matched MLP in 5/6 primary hubs (6/6 terminal)", "CONFIRMED", LIGHT_BLUE, BLUE, None),
+        (800, 350, "F · identifier continuation", "Tested subset; component varies by architecture", "HETEROGENEOUS", LIGHT_ORANGE, ORANGE, None),
+    ]
+    for x, width, heading, detail, status, fill, stroke, dash in evidence:
+        svg.rect(x, evidence_y, width, evidence_h, fill=fill, stroke=stroke, rx=7)
+        if dash:
+            svg.items[-1] = svg.items[-1].replace('/>', f' stroke-dasharray="{dash}"/>')
+        svg.text(x + 16, evidence_y + 29, heading, cls="label", fill=stroke)
+        svg.text(x + 16, evidence_y + 53, detail, cls="muted")
+        svg.rect(x + 16, evidence_y + 72, 126, 26, fill="#ffffff", stroke=stroke, rx=13)
+        svg.text(x + 79, evidence_y + 90, status, cls="legend", anchor="middle", fill=stroke)
+    svg.arrow(344, evidence_y + 58, 392, evidence_y + 58, stroke=MUTED, width=2.0, dash="5 4")
+    svg.arrow(742, evidence_y + 58, 790, evidence_y + 58, stroke=ORANGE, width=2.0)
 
-    # Arrow B -> F
-    svg.line(b_x + bw, b_y + bh / 2, b_x + bw + 40, b_y + bh / 2, stroke=ORANGE, width=2.5)
-    svg.text(b_x + bw + 20, b_y + bh / 2 - 8, "ID(S*)", cls="muted", anchor="middle")
-
-    # Stage 3: F
-    f_x, f_y, fw, fh = 690, 110, 250, 320
-    svg.rect(f_x, f_y, fw, fh, fill="#fffaf0", stroke="#fed7aa", rx=6)
-    svg.text(f_x + 16, f_y + 28, "Stage 3: Serialization (F) [Confirmed]", cls="label", fill=ORANGE)
-    svg.text(f_x + 16, f_y + 46, "Downstream Mixers & MLPs", cls="muted")
-    svg.rect(f_x + 16, f_y + 70, fw - 32, 60, fill="#ffffff", stroke=ORANGE, rx=4)
-    svg.text(f_x + 26, f_y + 94, "Token Continuation [t₂...tₘ]", cls="legend", fill=ORANGE)
-    svg.text(f_x + 26, f_y + 112, "Unpacks multi-token identifiers", cls="muted")
-    svg.rect(f_x + 16, f_y + 150, fw - 32, 60, fill="#ffffff", stroke=ORANGE, rx=4)
-    svg.text(f_x + 26, f_y + 174, "Late Serialization Components", cls="legend", fill=ORANGE)
-    svg.text(f_x + 26, f_y + 192, "Tiny Aya L36 | Qwen4B L28/L32", cls="muted")
-    svg.text(f_x + 16, f_y + 245, "Empirical: ΔCont = +0.12 to +1.63", cls="label", fill=ORANGE)
-    svg.text(f_x + 16, f_y + 265, "Specificity: 5/6 models pass KL < 1.0", cls="muted")
+    svg.text(50, 692, "Solid boxes = causally intervened on in Stage 7B · dashed box = held fixed rather than tested.", cls="legend")
 
     rendered = svg.render()
     for p in output_paths:
@@ -242,97 +254,120 @@ def build_fig08c_cross_model_comparison(synthesis_path: Path, output_paths: list
     models_dict = data.get("models", {})
 
     svg = SVG(
-        width=1000,
-        height=560,
-        title="Figure 8C: Cross-Model Circuit Topology Comparison",
-        desc="Comparative breakdown of binding and continuation causal attribution across all 6 models on confirmation split"
+        width=1200,
+        height=920,
+        title="Figure 8C: Mixer-over-MLP binding effect across six architectures",
+        desc="A single-scale horizontal forest plot compares the paired attention-mixer minus MLP first-token binding effect for six models. Every 95 percent paired cluster-bootstrap interval lies to the right of zero. A companion table reports the registered hub, observed continuation component, and specificity result for each model."
     )
 
-    svg.text(40, 36, "Figure 8C: Cross-Model Circuit Localization across 6 Architectures", cls="title")
-    svg.text(40, 56, "Normalized layer depth and component attribution on High-Power Confirmation Split (N=80, 1,440 cases total).", cls="muted")
-
-    # Legend
-    svg.rect(680, 22, 280, 42, fill="#f0f4f8", rx=6)
-    svg.circle(700, 43, 5, fill=BLUE)
-    svg.text(712, 47, "Mixer Binding (ΔFirst)", cls="legend")
-    svg.rect(820, 38, 10, 10, fill=ORANGE, rx=2)
-    svg.text(837, 47, "MLP Binding", cls="legend")
-
-    x0, y0, pw, ph = 80, 110, 840, 370
-    svg.rect(x0, y0, pw, ph, fill="#ffffff", stroke=GRID)
+    svg.text(42, 36, "Figure 8C · Does the mixer-over-MLP binding effect replicate across models?", cls="title")
+    svg.text(42, 58, "Held-out confirmation · 80 semantic examples per model · paired cluster bootstrap (1,000 replicates)", cls="muted")
 
     model_list = [
-        ("qwen2.5-1.5b-instruct", "Qwen 2.5 1.5B\n(Pure GQA, 28L)"),
-        ("qwen3.5-2b", "Qwen 3.5 2B\n(Hybrid Delta, 24L)"),
-        ("tiny-aya-global", "Tiny Aya\n(Asym GQA, 36L)"),
-        ("qwen3.5-4b", "Qwen 3.5 4B\n(Hybrid Delta, 32L)"),
-        ("gemma-4-e2b-it", "Gemma 4 E2B\n(Asym GQA, 35L)"),
-        ("gemma-4-e4b-it", "Gemma 4 E4B\n(Asym PLE, 42L)"),
+        ("qwen2.5-1.5b-instruct", "Qwen 2.5 1.5B", "Pure GQA · 28L"),
+        ("qwen3.5-2b", "Qwen 3.5 2B", "Hybrid Delta · 24L"),
+        ("tiny-aya-global", "Tiny Aya Global", "Asym. GQA · 36L"),
+        ("qwen3.5-4b", "Qwen 3.5 4B", "Hybrid Delta · 32L"),
+        ("gemma-4-e2b-it", "Gemma 4 E2B", "Asym. GQA · 35L"),
+        ("gemma-4-e4b-it", "Gemma 4 E4B", "Asym. PLE · 42L"),
     ]
+    hubs = {
+        "qwen2.5-1.5b-instruct": "24", "qwen3.5-2b": "20", "tiny-aya-global": "24",
+        "qwen3.5-4b": "24", "gemma-4-e2b-it": "35", "gemma-4-e4b-it": "36",
+    }
+    continuation = {
+        "qwen2.5-1.5b-instruct": "Mixer · L24", "qwen3.5-2b": "Mixer · L20",
+        "tiny-aya-global": "MLP · L36", "qwen3.5-4b": "Mixer L28 + MLP L32",
+        "gemma-4-e2b-it": "MLP · L24", "gemma-4-e4b-it": "Mixer · L42",
+    }
 
-    col_w = pw / len(model_list)
-    for idx, (mid, mlabel) in enumerate(model_list):
-        cx = x0 + idx * col_w + col_w / 2
-        svg.line(x0 + idx * col_w, y0, x0 + idx * col_w, y0 + ph, stroke=GRID)
+    # Panel A: one honest scale for all primary and designated terminal contrasts.
+    x0, y0, pw, ph = 245, 138, 890, 408
+    x_min, x_max = -1.0, 18.0
+    svg.text(42, 100, "A. Mixer-minus-MLP binding contrast", cls="label")
+    svg.text(245, 120, "Primary registered hub for each model, plus Gemma E2B's designated terminal hub; whiskers are paired 95% CIs", cls="muted")
+    svg.rect(x0, y0, pw, ph, fill="#ffffff", stroke=GRID)
 
-        lines = mlabel.split("\n")
-        svg.text(cx, y0 + ph + 18, lines[0], cls="label", anchor="middle")
-        svg.text(cx, y0 + ph + 32, lines[1], cls="muted", anchor="middle")
+    def x_coord(value: float) -> float:
+        return x0 + ((value - x_min) / (x_max - x_min)) * pw
 
+    for tick in [-1, 0, 3, 6, 9, 12, 15, 18]:
+        tx = x_coord(tick)
+        svg.line(tx, y0, tx, y0 + ph, stroke="#8794a6" if tick == 0 else GRID, width=1.4 if tick == 0 else 0.8)
+        svg.text(tx, y0 + ph + 20, f"{tick:d}", cls="muted", anchor="middle")
+    svg.text(x0 + pw / 2, y0 + ph + 42, "Mixer minus MLP first-token log-preference shift (natural-log units)", cls="label", anchor="middle")
+    svg.text(x_coord(-0.95), y0 + 18, "← MLP stronger", cls="muted", fill=ORANGE)
+    svg.text(x0 + pw - 14, y0 + 18, "Mixer stronger →", cls="muted", anchor="end", fill=BLUE)
+
+    paired = data.get("paired_confirmation_dissociation", {})
+    plot_rows = [
+        ("qwen2.5-1.5b-instruct", "Qwen 2.5 1.5B", "Primary hub · L24", "primary"),
+        ("qwen3.5-2b", "Qwen 3.5 2B", "Primary hub · L20", "primary"),
+        ("tiny-aya-global", "Tiny Aya Global", "Primary hub · L24", "primary"),
+        ("qwen3.5-4b", "Qwen 3.5 4B", "Primary hub · L24", "primary"),
+        ("gemma-4-e2b-it", "Gemma 4 E2B", "Primary hub · L24", "primary"),
+        ("gemma-4-e2b-it", "Gemma 4 E2B", "Terminal hub · L35", "terminal"),
+        ("gemma-4-e4b-it", "Gemma 4 E4B", "Primary hub · L36", "primary"),
+    ]
+    row_gap = 50
+    for idx, (mid, label, architecture, hub_kind) in enumerate(plot_rows):
+        cy = y0 + 52 + idx * row_gap
+        if idx % 2 == 1:
+            svg.rect(x0 + 1, cy - 22, pw - 2, 44, fill="#f8fafc")
+        svg.text(224, cy - 2, label, cls="label", anchor="end")
+        svg.text(224, cy + 14, architecture, cls="muted", anchor="end")
+        result = paired.get(mid, {})
+        if hub_kind == "terminal":
+            mean = float(result.get("terminal_mean", 0.0))
+            low, high = [float(v) for v in result.get("terminal_ci_95", [0.0, 0.0])]
+        else:
+            mean = float(result.get("mean", 0.0))
+            low, high = [float(v) for v in result.get("ci_95", [0.0, 0.0])]
+        low_x, mean_x, high_x = x_coord(low), x_coord(mean), x_coord(high)
+        effect_color = PURPLE if hub_kind == "terminal" else (BLUE if mean >= 0 else ORANGE)
+        svg.line(low_x, cy, high_x, cy, stroke=effect_color, width=3.0)
+        svg.line(low_x, cy - 7, low_x, cy + 7, stroke=effect_color, width=1.5)
+        svg.line(high_x, cy - 7, high_x, cy + 7, stroke=effect_color, width=1.5)
+        if hub_kind == "terminal":
+            svg.rect(mean_x - 6, cy - 6, 12, 12, fill=PURPLE, stroke="#ffffff", rx=2)
+        else:
+            svg.circle(mean_x, cy, 6.5, fill=effect_color, stroke="#ffffff", stroke_width=1.5)
+        effect_label = f"{mean:+.3f} [{low:+.3f}, {high:+.3f}]"
+        if high > x_max - 1.0:
+            svg.text(mean_x, cy - 14, effect_label, cls="legend", anchor="middle", fill=effect_color)
+        else:
+            svg.text(high_x + 12, cy + 4, effect_label, cls="legend", fill=effect_color)
+
+    # Panel B: companion mechanism table.
+    table_y = 648
+    svg.text(42, 620, "B. What follows binding in each architecture", cls="label")
+    svg.rect(42, table_y, 1116, 214, fill="#ffffff", stroke=GRID, rx=5)
+    svg.text(54, table_y + 24, "MODEL", cls="muted")
+    svg.text(330, table_y + 24, "REGISTERED BINDING RESULT", cls="muted")
+    svg.text(650, table_y + 24, "CONTINUATION EFFECT", cls="muted")
+    svg.text(974, table_y + 24, "SPECIFICITY CHECK", cls="muted")
+    svg.line(42, table_y + 34, 1158, table_y + 34, stroke=GRID)
+
+    for idx, (mid, label, _) in enumerate(model_list):
+        base_y = table_y + 60 + idx * 27
+        primary_l = hubs[mid]
         mdata = models_dict.get(mid, {})
-        conf_layers = mdata.get("splits", {}).get("confirmation", {}).get("layers", {})
-        hub_layers = mdata.get("hub_layers", [])
+        p_info = mdata.get("splits", {}).get("confirmation", {}).get("layers", {}).get(primary_l, {})
+        kl = float(p_info.get("mixer", {}).get("kl_div", 0.0))
+        passes = kl < 1.0
+        primary_result = paired.get(mid, {})
+        primary_mean = float(primary_result.get("mean", 0.0))
+        if mid == "gemma-4-e2b-it":
+            binding_result = "L24 FAIL (MLP > mixer); L35 terminal PASS"
+        else:
+            binding_result = f"L{primary_l} PASS ({primary_mean:+.3f})"
+        svg.text(54, base_y, label, cls="legend")
+        svg.text(330, base_y, binding_result, cls="legend", fill=ORANGE if mid == "gemma-4-e2b-it" else BLUE)
+        svg.text(650, base_y, continuation[mid], cls="legend")
+        svg.text(974, base_y, f"KL {kl:.3f} · {'PASS' if passes else 'FAIL'}", cls="legend", fill=TEAL if passes else RED)
 
-        # Find the primary binding hub
-        primary_l = str(hub_layers[-1]) if hub_layers else ""
-        if mid == "qwen2.5-1.5b-instruct":
-            primary_l = "24"
-        elif mid == "qwen3.5-2b":
-            primary_l = "20"
-        elif mid == "tiny-aya-global":
-            primary_l = "24"
-        elif mid == "qwen3.5-4b":
-            primary_l = "24"
-        elif mid == "gemma-4-e2b-it":
-            primary_l = "35"
-        elif mid == "gemma-4-e4b-it":
-            primary_l = "36"
-
-        p_info = conf_layers.get(primary_l, {})
-        m_first = p_info.get("mixer", {}).get("abs_shift_first", 0)
-        mlp_first = p_info.get("mlp", {}).get("abs_shift_first", 0)
-        m_cont = p_info.get("mixer", {}).get("abs_shift_cont", 0)
-
-        # Draw bars for Mixer vs MLP First Token shift
-        scale = 14.0 if mid == "gemma-4-e4b-it" else 1.2
-        bar_max_h = ph * 0.65
-
-        # Normalize height for visualization
-        # Use log-like or capped scaling for Gemma 4 E4B so it fits nicely
-        h_m = min((m_first / 3.0) * bar_max_h if mid != "gemma-4-e4b-it" else (m_first / 25.0) * bar_max_h, bar_max_h)
-        h_mlp = min((max(mlp_first, 0) / 3.0) * bar_max_h if mid != "gemma-4-e4b-it" else (max(mlp_first, 0) / 25.0) * bar_max_h, bar_max_h)
-
-        base_y = y0 + ph - 40
-        # Mixer bar
-        svg.rect(cx - 28, base_y - h_m, 24, h_m, fill=BLUE, rx=3)
-        svg.text(cx - 16, base_y - h_m - 8, f"{m_first:+.2f}", cls="muted", anchor="middle", fill=BLUE)
-
-        # MLP bar
-        svg.rect(cx + 4, base_y - h_mlp, 24, h_mlp, fill=ORANGE, rx=3)
-        svg.text(cx + 16, base_y - h_mlp - 8, f"{mlp_first:+.2f}", cls="muted", anchor="middle", fill=ORANGE)
-
-        # Layer Label badge
-        svg.rect(cx - 36, y0 + 16, 72, 24, fill="#f1f5f9", stroke="#cbd5e1", rx=4)
-        svg.text(cx, y0 + 32, f"Hub L{primary_l}", cls="legend", anchor="middle")
-
-        # Dissociation metric with paired cluster CI
-        paired_d = data.get("paired_confirmation_dissociation", {}).get(mid, {})
-        diff = paired_d.get("mean", m_first - mlp_first)
-        ci = paired_d.get("ci_95", [0, 0])
-        svg.text(cx, y0 + 58, f"Δ: {diff:+.2f}", cls="label", anchor="middle", fill=BLUE)
-        svg.text(cx, y0 + 72, f"[{ci[0]:+.2f}, {ci[1]:+.2f}]", cls="muted", anchor="middle", fill=BLUE)
-
-    svg.text(x0, y0 + ph + 52, "Paired cluster-bootstrap 95% CIs (N=80 clusters, 240 cases each). Gemma 4 E4B specificity limit: D_KL = 3.16 nats > 1.0 threshold.", cls="muted")
+    svg.rect(42, 878, 1116, 30, fill=LIGHT_BLUE, stroke="#b9c7ff", rx=5)
+    svg.text(58, 898, "HOW TO READ · Right of zero favors the mixer. Result: 5/6 primary hubs pass; Gemma E2B reverses at its L35 terminal hub; Gemma E4B fails the separate KL specificity check.", cls="legend", fill=BLUE)
 
     rendered = svg.render()
     for p in output_paths:

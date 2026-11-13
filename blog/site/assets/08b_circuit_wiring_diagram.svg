@@ -1,53 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" role="img" aria-labelledby="title desc">
-<title id="title">Figure 8B: Working Causal Model: Partial B–F Decomposition (Selection R Untested)</title>
-<desc id="desc">Visual model of citation generation: Source-ID Binding (B) and Identifier Continuation (F) are causally tested; Relevant-Source Selection (R) is teacher-forced and untested.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">Figure 8B: What Stage 7B intervenes on, measures, and supports</title>
+<desc id="desc">An explanatory diagram follows one clean run and one counterfactual donor run into a component-output transplant. It then separates the measured first distinguishing identifier token from the remaining identifier sequence. A lower evidence map marks relevant-source selection as teacher-forced and untested, first-token binding as confirmed at attention-mixer hubs, and continuation as tested but architecture-dependent.</desc>
 <style>
 text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #172033; }
-.axis {{ stroke: #8c9ba5; stroke-width: 1.2; }}
+.axis { stroke: #8c9ba5; stroke-width: 1.2; }
 .grid { stroke: #d8dee8; stroke-width: 0.8; stroke-dasharray: 3 3; }
 .muted { fill: #5f6b7a; font-size: 11px; }
-.title {{ font-size: 14px; font-weight: 700; }}
-.label {{ font-size: 12px; font-weight: 600; }}
-.legend {{ font-size: 11px; font-weight: 500; }}
+.title { font-size: 14px; font-weight: 700; }
+.label { font-size: 12px; font-weight: 600; }
+.legend { font-size: 11px; font-weight: 500; }
 </style>
-<rect width="1000" height="500" fill="#fbfcfe" rx="8"/>
-<text x="40.0" y="36.0" class="title">Figure 8B: Working Causal Model: Partial B–F Decomposition</text>
-<text x="40.0" y="56.0" class="muted">Binding (B) and downstream Continuation (F) are dissociated across 6 architectures; Selection (R) is teacher-forced (untested).</text>
-<rect x="60.0" y="110.0" width="250.0" height="320.0" fill="#f8fafc" stroke="#d8dee8" rx="6"/>
-<text x="76.0" y="138.0" class="label">Stage 1: Selection (R) [Untested]</text>
-<text x="76.0" y="156.0" class="muted">Prompt Context Evidence (Teacher-Forced)</text>
-<rect x="76.0" y="180.0" width="218.0" height="60.0" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
-<text x="86.0" y="204.0" class="legend">Context Documents {S₁...Sₖ}</text>
-<text x="86.0" y="222.0" class="muted">Query attends to evidence fact</text>
-<rect x="76.0" y="260.0" width="218.0" height="60.0" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
-<text x="86.0" y="284.0" class="legend">Intermediate Representation</text>
-<text x="86.0" y="302.0" class="muted">Semantic truth state S*</text>
-<text x="76.0" y="355.0" class="muted">Untested in Stage 7B: prompt answer</text>
-<text x="76.0" y="375.0" class="muted">is teacher-forced; R not isolated</text>
-<line x1="310.0" y1="270.0" x2="350.0" y2="270.0" stroke="#315efb" stroke-width="2.5"/>
-<text x="330.0" y="262.0" class="muted" text-anchor="middle">S*</text>
-<rect x="370.0" y="110.0" width="260.0" height="320.0" fill="#f0f7ff" stroke="#bae6fd" rx="6"/>
-<text x="386.0" y="138.0" class="label" fill="#315efb">Stage 2: Binding (B) [Confirmed]</text>
-<text x="386.0" y="156.0" class="muted">Late Attention / Mixer Hubs</text>
-<rect x="386.0" y="180.0" width="228.0" height="60.0" fill="#ffffff" stroke="#315efb" rx="4"/>
-<text x="396.0" y="204.0" class="legend" fill="#315efb">Citation Delimiter &#x27;[&#x27;</text>
-<text x="396.0" y="222.0" class="muted">Attends to source header ID</text>
-<rect x="386.0" y="260.0" width="228.0" height="60.0" fill="#ffffff" stroke="#315efb" rx="4"/>
-<text x="396.0" y="284.0" class="legend" fill="#315efb">Critical Binding Mixers</text>
-<text x="396.0" y="302.0" class="muted">Qwen L20/L24 | Gemma L35/L36</text>
-<text x="386.0" y="355.0" class="label" fill="#315efb">Empirical: ΔFirst = +0.70 to +18.07</text>
-<text x="386.0" y="375.0" class="muted">Mixer − MLP 95% CIs strictly &gt; 0</text>
-<line x1="630.0" y1="270.0" x2="670.0" y2="270.0" stroke="#e97824" stroke-width="2.5"/>
-<text x="650.0" y="262.0" class="muted" text-anchor="middle">ID(S*)</text>
-<rect x="690.0" y="110.0" width="250.0" height="320.0" fill="#fffaf0" stroke="#fed7aa" rx="6"/>
-<text x="706.0" y="138.0" class="label" fill="#e97824">Stage 3: Serialization (F) [Confirmed]</text>
-<text x="706.0" y="156.0" class="muted">Downstream Mixers &amp; MLPs</text>
-<rect x="706.0" y="180.0" width="218.0" height="60.0" fill="#ffffff" stroke="#e97824" rx="4"/>
-<text x="716.0" y="204.0" class="legend" fill="#e97824">Token Continuation [t₂...tₘ]</text>
-<text x="716.0" y="222.0" class="muted">Unpacks multi-token identifiers</text>
-<rect x="706.0" y="260.0" width="218.0" height="60.0" fill="#ffffff" stroke="#e97824" rx="4"/>
-<text x="716.0" y="284.0" class="legend" fill="#e97824">Late Serialization Components</text>
-<text x="716.0" y="302.0" class="muted">Tiny Aya L36 | Qwen4B L28/L32</text>
-<text x="706.0" y="355.0" class="label" fill="#e97824">Empirical: ΔCont = +0.12 to +1.63</text>
-<text x="706.0" y="375.0" class="muted">Specificity: 5/6 models pass KL &lt; 1.0</text>
+<rect width="1200" height="720" fill="#fbfcfe" rx="8"/>
+<text x="42.0" y="36.0" class="title">Figure 8B · What was changed, what was measured, and what is supported</text>
+<text x="42.0" y="58.0" class="muted">Stage 7B transplants one component state at a time; it does not intervene on evidence selection.</text>
+<text x="50.0" y="96.0" class="label">1 · COUNTERFACTUAL COMPONENT TRANSPLANT</text>
+<rect x="50.0" y="118.0" width="270.0" height="164.0" fill="#e2f5f1" stroke="#008c83" rx="7"/>
+<text x="68.0" y="148.0" class="label" fill="#008c83">Clean recipient run</text>
+<text x="68.0" y="182.0" class="legend">Relevant passage → [S7]</text>
+<text x="68.0" y="206.0" class="muted">Model initially prefers the clean ID</text>
+<rect x="350.0" y="118.0" width="270.0" height="164.0" fill="#e8edff" stroke="#315efb" rx="7"/>
+<text x="368.0" y="148.0" class="label" fill="#315efb">Counterfactual donor run</text>
+<text x="368.0" y="182.0" class="legend">Same passage → [S1]</text>
+<text x="368.0" y="206.0" class="muted">Only the source-ID assignment changes</text>
+<rect x="700.0" y="118.0" width="450.0" height="164.0" fill="#fff0e5" stroke="#e97824" rx="7"/>
+<text x="718.0" y="148.0" class="label" fill="#e97824">Patched recipient run</text>
+<text x="718.0" y="182.0" class="legend">Copy mixer or MLP output</text>
+<text x="718.0" y="206.0" class="muted">Measure whether donor preference transfers</text>
+<rect x="718.0" y="226.0" width="190.0" height="32.0" fill="#ffffff" stroke="#315efb" rx="4"/>
+<text x="813.0" y="247.0" class="legend" text-anchor="middle" fill="#315efb">ATTENTION MIXER</text>
+<text x="925.0" y="247.0" class="muted" text-anchor="middle">or</text>
+<rect x="942.0" y="226.0" width="168.0" height="32.0" fill="#ffffff" stroke="#e97824" rx="4"/>
+<text x="1026.0" y="247.0" class="legend" text-anchor="middle" fill="#e97824">MLP</text>
+<line x1="320.0" y1="200.0" x2="342.0" y2="200.0" stroke="#5f6b7a" stroke-width="2.0"/>
+<polygon points="342.0,200.0 335.1,204.0 335.1,196.0" fill="#5f6b7a" stroke="none" stroke-width="1"/>
+<text x="331.0" y="186.0" class="muted" text-anchor="middle">paired prompts</text>
+<line x1="620.0" y1="200.0" x2="690.0" y2="200.0" stroke="#7656c9" stroke-width="2.5"/>
+<polygon points="690.0,200.0 683.1,204.0 683.1,196.0" fill="#7656c9" stroke="none" stroke-width="1"/>
+<text x="655.0" y="184.0" class="muted" text-anchor="middle">transplant at hub layer</text>
+<text x="50.0" y="326.0" class="label">2 · READ TWO DIFFERENT OUTPUTS</text>
+<rect x="50.0" y="348.0" width="1100.0" height="126.0" fill="#ffffff" stroke="#d8dee8" rx="7"/>
+<text x="78.0" y="380.0" class="label">Generated identifier</text>
+<rect x="78.0" y="396.0" width="390.0" height="50.0" fill="#f8fafc" stroke="#cbd5e1" rx="4"/>
+<text x="98.0" y="428.0" class="label">[</text>
+<rect x="126.0" y="405.0" width="62.0" height="30.0" fill="#e8edff" stroke="#315efb" rx="3"/>
+<text x="157.0" y="426.0" class="label" text-anchor="middle" fill="#315efb">S</text>
+<rect x="194.0" y="405.0" width="204.0" height="30.0" fill="#fff0e5" stroke="#e97824" rx="3"/>
+<text x="296.0" y="426.0" class="legend" text-anchor="middle" fill="#e97824">1 ]  + remaining tokens</text>
+<text x="495.0" y="386.0" class="label" fill="#315efb">ΔFirst · binding outcome</text>
+<text x="495.0" y="407.0" class="muted">Change in log preference for the first token that distinguishes [S1] from [S7].</text>
+<text x="495.0" y="432.0" class="label" fill="#e97824">ΔCont · continuation outcome</text>
+<text x="495.0" y="453.0" class="muted">Change in preference for the remaining identifier-token sequence after that split.</text>
+<text x="50.0" y="518.0" class="label">3 · EVIDENCE MAP</text>
+<rect x="50.0" y="540.0" width="294.0" height="116.0" fill="#f4f5f7" stroke="#5f6b7a" rx="7" stroke-dasharray="5 4"/>
+<text x="66.0" y="569.0" class="label" fill="#5f6b7a">R · relevant-source selection</text>
+<text x="66.0" y="593.0" class="muted">Teacher-forced; not intervened on</text>
+<rect x="66.0" y="612.0" width="126.0" height="26.0" fill="#ffffff" stroke="#5f6b7a" rx="13"/>
+<text x="129.0" y="630.0" class="legend" text-anchor="middle" fill="#5f6b7a">UNTESTED</text>
+<rect x="402.0" y="540.0" width="340.0" height="116.0" fill="#e8edff" stroke="#315efb" rx="7"/>
+<text x="418.0" y="569.0" class="label" fill="#315efb">B · first-token binding</text>
+<text x="418.0" y="593.0" class="muted">Late mixer &gt; matched MLP in 5/6 primary hubs (6/6 terminal)</text>
+<rect x="418.0" y="612.0" width="126.0" height="26.0" fill="#ffffff" stroke="#315efb" rx="13"/>
+<text x="481.0" y="630.0" class="legend" text-anchor="middle" fill="#315efb">CONFIRMED</text>
+<rect x="800.0" y="540.0" width="350.0" height="116.0" fill="#fff0e5" stroke="#e97824" rx="7"/>
+<text x="816.0" y="569.0" class="label" fill="#e97824">F · identifier continuation</text>
+<text x="816.0" y="593.0" class="muted">Tested subset; component varies by architecture</text>
+<rect x="816.0" y="612.0" width="126.0" height="26.0" fill="#ffffff" stroke="#e97824" rx="13"/>
+<text x="879.0" y="630.0" class="legend" text-anchor="middle" fill="#e97824">HETEROGENEOUS</text>
+<line x1="344.0" y1="598.0" x2="392.0" y2="598.0" stroke="#5f6b7a" stroke-width="2.0" stroke-dasharray="5 4"/>
+<polygon points="392.0,598.0 385.1,602.0 385.1,594.0" fill="#5f6b7a" stroke="none" stroke-width="1"/>
+<line x1="742.0" y1="598.0" x2="790.0" y2="598.0" stroke="#e97824" stroke-width="2.0"/>
+<polygon points="790.0,598.0 783.1,602.0 783.1,594.0" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="50.0" y="692.0" class="legend">Solid boxes = causally intervened on in Stage 7B · dashed box = held fixed rather than tested.</text>
 </svg>

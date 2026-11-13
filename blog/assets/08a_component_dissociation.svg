@@ -1,65 +1,119 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 540" role="img" aria-labelledby="title desc">
-<title id="title">Figure 8A: Component-Level Dissociation (Attention vs. MLP)</title>
-<desc id="desc">Causal recovery across layer depth for Attention Mixer vs MLP interventions on Qwen 2.5 1.5B (Confirmation Split N=80)</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">Figure 8A: Qwen 2.5 component transplants separate first-token binding from identifier continuation</title>
+<desc id="desc">Two grouped effect plots show attention-mixer, MLP, and joint component transplants at layers 20 and 24. The left panel shows the raw first-token log-preference shift and the right panel shows the remaining identifier-sequence shift. Points and whiskers are cluster-bootstrap means and 95 percent confidence intervals.</desc>
 <style>
 text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #172033; }
-.axis {{ stroke: #8c9ba5; stroke-width: 1.2; }}
+.axis { stroke: #8c9ba5; stroke-width: 1.2; }
 .grid { stroke: #d8dee8; stroke-width: 0.8; stroke-dasharray: 3 3; }
 .muted { fill: #5f6b7a; font-size: 11px; }
-.title {{ font-size: 14px; font-weight: 700; }}
-.label {{ font-size: 12px; font-weight: 600; }}
-.legend {{ font-size: 11px; font-weight: 500; }}
+.title { font-size: 14px; font-weight: 700; }
+.label { font-size: 12px; font-weight: 600; }
+.legend { font-size: 11px; font-weight: 500; }
 </style>
-<rect width="1000" height="540" fill="#fbfcfe" rx="8"/>
-<text x="40.0" y="36.0" class="title">Figure 8A: Functional Dissociation of Source Binding vs. Continuation</text>
-<text x="40.0" y="56.0" class="muted">Isolated component transplant on high-powered confirmation cohort (N=80 clusters, 240 cases). Attention mediates binding at Layer 24.</text>
-<rect x="610.0" y="22.0" width="350.0" height="42.0" fill="#f0f4f8" stroke="none" rx="6"/>
-<circle cx="628.0" cy="43.0" r="5.0" fill="#315efb" stroke="none" stroke-width="1"/>
-<text x="640.0" y="47.0" class="legend">Attention Mixer (B)</text>
-<rect x="745.0" y="38.0" width="10.0" height="10.0" fill="#e97824" stroke="none" rx="2"/>
-<text x="762.0" y="47.0" class="legend">MLP Component (Continuation)</text>
-<line x1="915.0" y1="43.0" x2="933.0" y2="43.0" stroke="#008c83" stroke-width="2.5" stroke-dasharray="4 2"/>
-<text x="939.0" y="47.0" class="legend">Both</text>
-<text x="70.0" y="92.0" class="label">A. First-Token Binding Recovery (%) across Depth</text>
-<rect x="70.0" y="110.0" width="400.0" height="350.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
-<line x1="70.0" y1="460.0" x2="470.0" y2="460.0" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="464.0" class="muted" text-anchor="end">-20%</text>
-<line x1="70.0" y1="390.0" x2="470.0" y2="390.0" stroke="#a0aec0" stroke-width="1.2"/>
-<text x="62.0" y="394.0" class="muted" text-anchor="end">0%</text>
-<line x1="70.0" y1="320.0" x2="470.0" y2="320.0" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="324.0" class="muted" text-anchor="end">+20%</text>
-<line x1="70.0" y1="250.0" x2="470.0" y2="250.0" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="254.0" class="muted" text-anchor="end">+40%</text>
-<line x1="70.0" y1="180.0" x2="470.0" y2="180.0" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="184.0" class="muted" text-anchor="end">+60%</text>
-<line x1="70.0" y1="110.0" x2="470.0" y2="110.0" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="114.0" class="muted" text-anchor="end">+80%</text>
-<line x1="130.0" y1="460.0" x2="130.0" y2="465.0" stroke="#8c9ba5" stroke-width="1.5"/>
-<text x="130.0" y="478.0" class="muted" text-anchor="middle">Layer 20</text>
-<line x1="410.0" y1="460.0" x2="410.0" y2="465.0" stroke="#8c9ba5" stroke-width="1.5"/>
-<text x="410.0" y="478.0" class="muted" text-anchor="middle">Layer 24</text>
-<rect x="375.0" y="110.0" width="70.0" height="350.0" fill="rgba(49, 94, 251, 0.08)" stroke="none" rx="0"/>
-<text x="410.0" y="132.0" class="muted" text-anchor="middle" fill="#315efb">Binding Hub (L24)</text>
-<line x1="130.0" y1="390.0" x2="410.0" y2="390.0" stroke="#008c83" stroke-width="2.2" stroke-dasharray="4 2"/>
-<line x1="130.0" y1="390.0" x2="410.0" y2="390.0" stroke="#315efb" stroke-width="2.2"/>
-<circle cx="130.0" cy="390.0" r="5.0" fill="#315efb" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="410.0" cy="390.0" r="5.0" fill="#315efb" stroke="#ffffff" stroke-width="1.5"/>
-<line x1="130.0" y1="390.0" x2="410.0" y2="390.0" stroke="#e97824" stroke-width="2.2"/>
-<rect x="126.0" y="386.0" width="8.0" height="8.0" fill="#e97824" stroke="none" rx="1.5"/>
-<rect x="406.0" y="386.0" width="8.0" height="8.0" fill="#e97824" stroke="none" rx="1.5"/>
-<text x="550.0" y="92.0" class="label">B. Double Dissociation: Binding (ΔFirst) vs. Serialization (ΔCont)</text>
-<rect x="550.0" y="110.0" width="400.0" height="350.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
-<line x1="750.0" y1="110.0" x2="750.0" y2="460.0" stroke="#a0aec0" stroke-width="1.0"/>
-<line x1="550.0" y1="285.0" x2="950.0" y2="285.0" stroke="#a0aec0" stroke-width="1.0"/>
-<text x="940.0" y="277.0" class="muted" text-anchor="end">+ΔFirst (Binding)</text>
-<text x="758.0" y="128.0" class="muted">+ΔCont (Serialization)</text>
-<circle cx="690.1" cy="228.2" r="6.0" fill="#315efb" stroke="#ffffff" stroke-width="1.5"/>
-<text x="698.1" y="232.2" class="muted" fill="#315efb">L20 Attn (-0.49)</text>
-<rect x="774.7" y="273.2" width="10.0" height="10.0" fill="#e97824" stroke="none" rx="1.5"/>
-<text x="787.7" y="282.2" class="muted" fill="#e97824">L20 MLP (+0.24)</text>
-<circle cx="834.9" cy="215.1" r="6.0" fill="#315efb" stroke="#ffffff" stroke-width="1.5"/>
-<text x="842.9" y="219.1" class="muted" fill="#315efb">L24 Attn (+0.70)</text>
-<rect x="754.7" y="281.4" width="10.0" height="10.0" fill="#e97824" stroke="none" rx="1.5"/>
-<text x="767.7" y="290.4" class="muted" fill="#e97824">L24 MLP (+0.08)</text>
-<text x="70.0" y="502.0" class="muted">High-Powered Confirmatory Split: N=80 clusters (240 cases) with cluster-robust 95% CIs. Layer 24 Attention recovers positive binding (+0.701 vs MLP +0.080).</text>
+<rect width="1200" height="720" fill="#fbfcfe" rx="8"/>
+<text x="42.0" y="36.0" class="title">Figure 8A · What does each transplanted component change?</text>
+<text x="42.0" y="58.0" class="muted">Qwen 2.5 1.5B · held-out confirmation cohort (80 semantic examples; 240 format cases)</text>
+<rect x="692.0" y="20.0" width="466.0" height="48.0" fill="#f0f4f8" stroke="none" rx="6"/>
+<rect x="712.0" y="36.0" width="12.0" height="12.0" fill="#315efb" stroke="none" rx="2"/>
+<text x="730.0" y="47.0" class="legend">Attention-mixer output</text>
+<rect x="862.0" y="36.0" width="12.0" height="12.0" fill="#e97824" stroke="none" rx="2"/>
+<text x="880.0" y="47.0" class="legend">MLP output</text>
+<rect x="1012.0" y="36.0" width="12.0" height="12.0" fill="#008c83" stroke="none" rx="2"/>
+<text x="1030.0" y="47.0" class="legend">Mixer + MLP together</text>
+<text x="82.0" y="94.0" class="label">A. First-token source binding</text>
+<text x="82.0" y="113.0" class="muted">Y-axis: Δ log preference (natural-log units); positive = counterfactual donor state transferred</text>
+<rect x="82.0" y="128.0" width="500.0" height="390.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
+<line x1="82.0" y1="456.4" x2="582.0" y2="456.4" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="72.0" y="460.4" class="muted" text-anchor="end">-0.5</text>
+<line x1="82.0" y1="353.8" x2="582.0" y2="353.8" stroke="#8996a8" stroke-width="1.3"/>
+<text x="72.0" y="357.8" class="muted" text-anchor="end">+0.0</text>
+<line x1="82.0" y1="251.2" x2="582.0" y2="251.2" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="72.0" y="255.2" class="muted" text-anchor="end">+0.5</text>
+<line x1="82.0" y1="148.5" x2="582.0" y2="148.5" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="72.0" y="152.5" class="muted" text-anchor="end">+1.0</text>
+<rect x="173.0" y="353.8" width="26.0" height="101.4" fill="#315efb" stroke="none" rx="2"/>
+<line x1="186.0" y1="429.6" x2="186.0" y2="481.6" stroke="#172033" stroke-width="1.3"/>
+<line x1="181.0" y1="429.6" x2="191.0" y2="429.6" stroke="#172033" stroke-width="1.3"/>
+<line x1="181.0" y1="481.6" x2="191.0" y2="481.6" stroke="#172033" stroke-width="1.3"/>
+<text x="186.0" y="497.6" class="muted" text-anchor="middle" fill="#315efb">-0.49</text>
+<rect x="219.0" y="303.5" width="26.0" height="50.2" fill="#e97824" stroke="none" rx="2"/>
+<line x1="232.0" y1="289.0" x2="232.0" y2="318.0" stroke="#172033" stroke-width="1.3"/>
+<line x1="227.0" y1="289.0" x2="237.0" y2="289.0" stroke="#172033" stroke-width="1.3"/>
+<line x1="227.0" y1="318.0" x2="237.0" y2="318.0" stroke="#172033" stroke-width="1.3"/>
+<text x="232.0" y="281.0" class="muted" text-anchor="middle" fill="#e97824">+0.24</text>
+<rect x="265.0" y="353.8" width="26.0" height="60.0" fill="#008c83" stroke="none" rx="2"/>
+<line x1="278.0" y1="385.8" x2="278.0" y2="442.9" stroke="#172033" stroke-width="1.3"/>
+<line x1="273.0" y1="385.8" x2="283.0" y2="385.8" stroke="#172033" stroke-width="1.3"/>
+<line x1="273.0" y1="442.9" x2="283.0" y2="442.9" stroke="#172033" stroke-width="1.3"/>
+<text x="278.0" y="458.9" class="muted" text-anchor="middle" fill="#008c83">-0.29</text>
+<text x="232.0" y="542.0" class="label" text-anchor="middle">Layer 20</text>
+<rect x="346.0" y="129.0" width="172.0" height="388.0" fill="#f3f6ff" stroke="none" rx="0"/>
+<text x="432.0" y="148.0" class="muted" text-anchor="middle" fill="#315efb">registered binding hub</text>
+<rect x="373.0" y="210.0" width="26.0" height="143.8" fill="#315efb" stroke="none" rx="2"/>
+<line x1="386.0" y1="163.0" x2="386.0" y2="257.0" stroke="#172033" stroke-width="1.3"/>
+<line x1="381.0" y1="163.0" x2="391.0" y2="163.0" stroke="#172033" stroke-width="1.3"/>
+<line x1="381.0" y1="257.0" x2="391.0" y2="257.0" stroke="#172033" stroke-width="1.3"/>
+<text x="386.0" y="155.0" class="muted" text-anchor="middle" fill="#315efb">+0.70</text>
+<rect x="419.0" y="337.4" width="26.0" height="16.4" fill="#e97824" stroke="none" rx="2"/>
+<line x1="432.0" y1="317.8" x2="432.0" y2="354.4" stroke="#172033" stroke-width="1.3"/>
+<line x1="427.0" y1="317.8" x2="437.0" y2="317.8" stroke="#172033" stroke-width="1.3"/>
+<line x1="427.0" y1="354.4" x2="437.0" y2="354.4" stroke="#172033" stroke-width="1.3"/>
+<text x="432.0" y="309.8" class="muted" text-anchor="middle" fill="#e97824">+0.08</text>
+<rect x="465.0" y="214.2" width="26.0" height="139.6" fill="#008c83" stroke="none" rx="2"/>
+<line x1="478.0" y1="159.5" x2="478.0" y2="269.9" stroke="#172033" stroke-width="1.3"/>
+<line x1="473.0" y1="159.5" x2="483.0" y2="159.5" stroke="#172033" stroke-width="1.3"/>
+<line x1="473.0" y1="269.9" x2="483.0" y2="269.9" stroke="#172033" stroke-width="1.3"/>
+<text x="478.0" y="151.5" class="muted" text-anchor="middle" fill="#008c83">+0.68</text>
+<text x="432.0" y="542.0" class="label" text-anchor="middle">Layer 24</text>
+<text x="332.0" y="563.0" class="muted" text-anchor="middle">Component output transplanted</text>
+<text x="652.0" y="94.0" class="label">B. Remaining identifier continuation</text>
+<text x="652.0" y="113.0" class="muted">Y-axis: Δ log preference (natural-log units); positive = counterfactual donor state transferred</text>
+<rect x="652.0" y="128.0" width="500.0" height="390.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
+<line x1="652.0" y1="456.4" x2="1152.0" y2="456.4" stroke="#8996a8" stroke-width="1.3"/>
+<text x="642.0" y="460.4" class="muted" text-anchor="end">+0.0</text>
+<line x1="652.0" y1="353.8" x2="1152.0" y2="353.8" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="642.0" y="357.8" class="muted" text-anchor="end">+0.5</text>
+<line x1="652.0" y1="251.2" x2="1152.0" y2="251.2" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="642.0" y="255.2" class="muted" text-anchor="end">+1.0</text>
+<line x1="652.0" y1="148.5" x2="1152.0" y2="148.5" stroke="#d8dee8" stroke-width="0.8"/>
+<text x="642.0" y="152.5" class="muted" text-anchor="end">+1.5</text>
+<rect x="743.0" y="346.4" width="26.0" height="110.0" fill="#315efb" stroke="none" rx="2"/>
+<line x1="756.0" y1="334.5" x2="756.0" y2="358.6" stroke="#172033" stroke-width="1.3"/>
+<line x1="751.0" y1="334.5" x2="761.0" y2="334.5" stroke="#172033" stroke-width="1.3"/>
+<line x1="751.0" y1="358.6" x2="761.0" y2="358.6" stroke="#172033" stroke-width="1.3"/>
+<text x="756.0" y="326.5" class="muted" text-anchor="middle" fill="#315efb">+0.54</text>
+<rect x="789.0" y="443.3" width="26.0" height="13.2" fill="#e97824" stroke="none" rx="2"/>
+<line x1="802.0" y1="434.7" x2="802.0" y2="450.2" stroke="#172033" stroke-width="1.3"/>
+<line x1="797.0" y1="434.7" x2="807.0" y2="434.7" stroke="#172033" stroke-width="1.3"/>
+<line x1="797.0" y1="450.2" x2="807.0" y2="450.2" stroke="#172033" stroke-width="1.3"/>
+<text x="802.0" y="426.7" class="muted" text-anchor="middle" fill="#e97824">+0.06</text>
+<rect x="835.0" y="303.6" width="26.0" height="152.8" fill="#008c83" stroke="none" rx="2"/>
+<line x1="848.0" y1="285.3" x2="848.0" y2="320.9" stroke="#172033" stroke-width="1.3"/>
+<line x1="843.0" y1="285.3" x2="853.0" y2="285.3" stroke="#172033" stroke-width="1.3"/>
+<line x1="843.0" y1="320.9" x2="853.0" y2="320.9" stroke="#172033" stroke-width="1.3"/>
+<text x="848.0" y="277.3" class="muted" text-anchor="middle" fill="#008c83">+0.74</text>
+<text x="802.0" y="542.0" class="label" text-anchor="middle">Layer 20</text>
+<rect x="916.0" y="129.0" width="172.0" height="388.0" fill="#f3f6ff" stroke="none" rx="0"/>
+<text x="1002.0" y="148.0" class="muted" text-anchor="middle" fill="#315efb">registered binding hub</text>
+<rect x="943.0" y="321.1" width="26.0" height="135.3" fill="#315efb" stroke="none" rx="2"/>
+<line x1="956.0" y1="296.6" x2="956.0" y2="344.5" stroke="#172033" stroke-width="1.3"/>
+<line x1="951.0" y1="296.6" x2="961.0" y2="296.6" stroke="#172033" stroke-width="1.3"/>
+<line x1="951.0" y1="344.5" x2="961.0" y2="344.5" stroke="#172033" stroke-width="1.3"/>
+<text x="956.0" y="288.6" class="muted" text-anchor="middle" fill="#315efb">+0.66</text>
+<rect x="989.0" y="456.4" width="26.0" height="2.8" fill="#e97824" stroke="none" rx="2"/>
+<line x1="1002.0" y1="455.9" x2="1002.0" y2="463.4" stroke="#172033" stroke-width="1.3"/>
+<line x1="997.0" y1="455.9" x2="1007.0" y2="455.9" stroke="#172033" stroke-width="1.3"/>
+<line x1="997.0" y1="463.4" x2="1007.0" y2="463.4" stroke="#172033" stroke-width="1.3"/>
+<text x="1002.0" y="479.4" class="muted" text-anchor="middle" fill="#e97824">-0.01</text>
+<rect x="1035.0" y="185.8" width="26.0" height="270.6" fill="#008c83" stroke="none" rx="2"/>
+<line x1="1048.0" y1="149.7" x2="1048.0" y2="220.5" stroke="#172033" stroke-width="1.3"/>
+<line x1="1043.0" y1="149.7" x2="1053.0" y2="149.7" stroke="#172033" stroke-width="1.3"/>
+<line x1="1043.0" y1="220.5" x2="1053.0" y2="220.5" stroke="#172033" stroke-width="1.3"/>
+<text x="1048.0" y="141.7" class="muted" text-anchor="middle" fill="#008c83">+1.32</text>
+<text x="1002.0" y="542.0" class="label" text-anchor="middle">Layer 24</text>
+<text x="902.0" y="563.0" class="muted" text-anchor="middle">Component output transplanted</text>
+<rect x="82.0" y="596.0" width="1070.0" height="82.0" fill="#e8edff" stroke="#b9c7ff" rx="7"/>
+<text x="102.0" y="620.0" class="label" fill="#315efb">HOW TO READ</text>
+<text x="102.0" y="642.0" class="legend">Bar = mean causal shift; whisker = paired cluster-bootstrap 95% CI; horizontal zero = no transfer.</text>
+<text x="102.0" y="662.0" class="legend">At Layer 24, the mixer changes first-token binding by +0.701 versus +0.080 for the MLP; paired mixer − MLP = +0.621 [+0.436, +0.804].</text>
 </svg>
