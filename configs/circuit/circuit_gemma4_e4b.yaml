@@ -1,0 +1,27 @@
+name: circuit_gemma4_e4b
+seed: 202671
+identifiers: [structured, random_compact, uuid]
+dataset:
+  path: data/circuit/discovery_n32.jsonl
+backend:
+  type: huggingface
+  model_path: models/gemma-4-e4b-it-hf
+  model: google/gemma-4-E4B-it
+  device: cuda:0
+  dtype: bfloat16
+  auto_class: multimodal_lm
+  text_only: true
+  device_map: auto
+  max_memory: {"0": 6.5GiB, cpu: 24GiB}
+  offload_folder: results/offload/gemma-4-e4b-it-circuit
+generation:
+  tokenizer: {type: huggingface, model: models/gemma-4-e4b-it-hf}
+  teacher_forced: true
+  chat_template_kwargs: {enable_thinking: false}
+  candidate_layers: [1, 20, 28, 32, 34, 36, 40, 42]
+output_dir: results/circuit
+metadata:
+  stage: 7B
+  tier: 2
+  architecture: deep_asymmetric_gemma
+  intervention: component_level_decomposition

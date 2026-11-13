@@ -1,0 +1,27 @@
+name: circuit_qwen35_2b
+seed: 202671
+identifiers: [structured, random_compact, uuid]
+dataset:
+  path: data/circuit/discovery_n32.jsonl
+backend:
+  type: huggingface
+  model_path: models/qwen3.5-2b-hf
+  model: Qwen/Qwen3.5-2B
+  revision: 15852e8c16360a2fea060d615a32b45270f8a8fc
+  weights_sha256: aca8afed9da75b0f050b408d270766fd77627f1af401e240f61c3b47d0db02f9
+  device: cuda:0
+  dtype: bfloat16
+  device_map: auto
+  max_memory: {"0": 7GiB, cpu: 24GiB}
+  offload_folder: results/offload/qwen35-2b-circuit
+generation:
+  tokenizer: {type: huggingface, model: models/qwen3.5-2b-hf}
+  teacher_forced: true
+  max_sequence_tokens: 8192
+  candidate_layers: [1, 8, 12, 14, 16, 18, 20, 24]
+output_dir: results/circuit
+metadata:
+  stage: 7B
+  tier: 1
+  architecture: hybrid_gated_deltanet
+  intervention: component_level_decomposition

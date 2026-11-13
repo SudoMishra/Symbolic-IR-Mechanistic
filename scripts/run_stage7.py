@@ -252,10 +252,49 @@ def load_model(config: ExperimentConfig):
         if hasattr(hf_config, "audio_config"):
             hf_config.audio_config = None
         kwargs["config"] = hf_config
+
+    if config.backend.get("auto_class") == "multimodal_lm" and "e4b" in str(model_path).lower():
+        from accelerate import infer_auto_device_map
+        with torch.device("meta"):
+            meta_model = AutoModelForMultimodalLM.from_config(hf_config)
+        meta_model.model.language_model.embed_tokens_per_layer.weight = torch.nn.Parameter(torch.empty(1, device="meta"))
+        
+        cfg_max_mem = config.backend.get("max_memory")
+        if isinstance(cfg_max_mem, dict):
+            # Normalize device keys (e.g. "0" -> 0)
+            max_memory = {int(k) if str(k).isdigit() else k: v for k, v in cfg_max_mem.items()}
+        else:
+            max_memory = {0: "5.2GiB", "cpu": "24GiB"}
+
+        d_map = infer_auto_device_map(
+            meta_model,
+            max_memory=max_memory,
+            no_split_module_classes=["Gemma4TextDecoderLayer"],
+            dtype=dtype,
+        )
+        # Ensure the 5.25GB per-layer embedding stays on CPU to preserve 8GB GPU VRAM
+        d_map["model.language_model.embed_tokens_per_layer"] = "cpu"
+        kwargs["device_map"] = d_map
+        kwargs.pop("max_memory", None)
+
     loader = AutoModelForMultimodalLM if config.backend.get("auto_class") == "multimodal_lm" else AutoModelForCausalLM
     model = loader.from_pretrained(model_path, **kwargs)
     if not config.backend.get("device_map"):
         model = model.to(device)
+
+    # For Gemma 4 models with huge per-layer embeddings (5.25GB), keep PLE on CPU to prevent CUDA OOM
+    lm = getattr(getattr(model, "model", model), "language_model", None)
+    if lm is not None and hasattr(lm, "embed_tokens_per_layer"):
+        ple = lm.embed_tokens_per_layer
+        if hasattr(ple, "_hf_hook"):
+            import types
+            ple._hf_hook.execution_device = torch.device("cpu")
+            def patched_ple_forward(self, input_ids):
+                w_dev = self.weight.device
+                out = torch.nn.modules.sparse.Embedding.forward(self, input_ids.to(w_dev)) * self.embed_scale.to(self.weight.dtype).to(w_dev)
+                return out.to(device)
+            ple._old_forward = types.MethodType(patched_ple_forward, ple)
+
     model.eval()
     return model, tokenizer
 

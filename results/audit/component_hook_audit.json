@@ -1,0 +1,343 @@
+{
+  "qwen25_15b": {
+    "config": "/home/sudomishra/Documents/ChatGPT/Symbolic IR Mechanistic/configs/circuit/circuit_qwen25_15b.yaml",
+    "total_layers": 28,
+    "layers_audited": {
+      "20": {
+        "layer_number": 20,
+        "mixer_type": "attention",
+        "mixer_module": "Qwen2Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Qwen2MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 2.53125,
+        "shapes": {
+          "mixer_out": [
+            1,
+            36,
+            1536
+          ],
+          "mlp_out": [
+            1,
+            36,
+            1536
+          ]
+        }
+      },
+      "24": {
+        "layer_number": 24,
+        "mixer_type": "attention",
+        "mixer_module": "Qwen2Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Qwen2MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 3.84375,
+        "shapes": {
+          "mixer_out": [
+            1,
+            36,
+            1536
+          ],
+          "mlp_out": [
+            1,
+            36,
+            1536
+          ]
+        }
+      }
+    },
+    "gate_passed": true
+  },
+  "qwen35_2b": {
+    "config": "/home/sudomishra/Documents/ChatGPT/Symbolic IR Mechanistic/configs/circuit/circuit_qwen35_2b.yaml",
+    "total_layers": 24,
+    "layers_audited": {
+      "16": {
+        "layer_number": 16,
+        "mixer_type": "attention",
+        "mixer_module": "Qwen3_5Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Qwen3_5MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 3.75,
+        "shapes": {
+          "mixer_out": [
+            1,
+            36,
+            2048
+          ],
+          "mlp_out": [
+            1,
+            36,
+            2048
+          ]
+        }
+      },
+      "20": {
+        "layer_number": 20,
+        "mixer_type": "attention",
+        "mixer_module": "Qwen3_5Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Qwen3_5MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 5.625,
+        "shapes": {
+          "mixer_out": [
+            1,
+            36,
+            2048
+          ],
+          "mlp_out": [
+            1,
+            36,
+            2048
+          ]
+        }
+      }
+    },
+    "gate_passed": true
+  },
+  "tiny_aya": {
+    "config": "/home/sudomishra/Documents/ChatGPT/Symbolic IR Mechanistic/configs/circuit/circuit_tiny_aya.yaml",
+    "total_layers": 36,
+    "layers_audited": {
+      "24": {
+        "layer_number": 24,
+        "mixer_type": "attention",
+        "mixer_module": "Cohere2Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Cohere2MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 5.40625,
+        "shapes": {
+          "mixer_out": [
+            1,
+            38,
+            2048
+          ],
+          "mlp_out": [
+            1,
+            38,
+            2048
+          ]
+        }
+      },
+      "36": {
+        "layer_number": 36,
+        "mixer_type": "attention",
+        "mixer_module": "Cohere2Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Cohere2MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 1.46875,
+        "shapes": {
+          "mixer_out": [
+            1,
+            38,
+            2048
+          ],
+          "mlp_out": [
+            1,
+            38,
+            2048
+          ]
+        }
+      }
+    },
+    "gate_passed": true
+  },
+  "qwen35_4b": {
+    "config": "/home/sudomishra/Documents/ChatGPT/Symbolic IR Mechanistic/configs/circuit/circuit_qwen35_4b.yaml",
+    "total_layers": 32,
+    "layers_audited": {
+      "24": {
+        "layer_number": 24,
+        "mixer_type": "attention",
+        "mixer_module": "Qwen3_5Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Qwen3_5MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 1.9765625,
+        "shapes": {
+          "mixer_out": [
+            1,
+            36,
+            2560
+          ],
+          "mlp_out": [
+            1,
+            36,
+            2560
+          ]
+        }
+      },
+      "28": {
+        "layer_number": 28,
+        "mixer_type": "attention",
+        "mixer_module": "Qwen3_5Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Qwen3_5MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 4.875,
+        "shapes": {
+          "mixer_out": [
+            1,
+            36,
+            2560
+          ],
+          "mlp_out": [
+            1,
+            36,
+            2560
+          ]
+        }
+      },
+      "32": {
+        "layer_number": 32,
+        "mixer_type": "attention",
+        "mixer_module": "Qwen3_5Attention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Qwen3_5MLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 4.1875,
+        "shapes": {
+          "mixer_out": [
+            1,
+            36,
+            2560
+          ],
+          "mlp_out": [
+            1,
+            36,
+            2560
+          ]
+        }
+      }
+    },
+    "gate_passed": true
+  },
+  "gemma4_e2b": {
+    "config": "/home/sudomishra/Documents/ChatGPT/Symbolic IR Mechanistic/configs/circuit/circuit_gemma4_e2b.yaml",
+    "total_layers": 35,
+    "layers_audited": {
+      "24": {
+        "layer_number": 24,
+        "mixer_type": "attention",
+        "mixer_module": "Gemma4TextAttention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Gemma4TextMLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 24.0,
+        "shapes": {
+          "mixer_out": [
+            1,
+            35,
+            1536
+          ],
+          "mlp_out": [
+            1,
+            35,
+            1536
+          ]
+        }
+      },
+      "35": {
+        "layer_number": 35,
+        "mixer_type": "attention",
+        "mixer_module": "Gemma4TextAttention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Gemma4TextMLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 8.625,
+        "shapes": {
+          "mixer_out": [
+            1,
+            35,
+            1536
+          ],
+          "mlp_out": [
+            1,
+            35,
+            1536
+          ]
+        }
+      }
+    },
+    "gate_passed": true
+  },
+  "gemma4_e4b": {
+    "config": "/home/sudomishra/Documents/ChatGPT/Symbolic IR Mechanistic/configs/circuit/circuit_gemma4_e4b.yaml",
+    "total_layers": 42,
+    "layers_audited": {
+      "36": {
+        "layer_number": 36,
+        "mixer_type": "attention",
+        "mixer_module": "Gemma4TextAttention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Gemma4TextMLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 8.625,
+        "shapes": {
+          "mixer_out": [
+            1,
+            35,
+            2560
+          ],
+          "mlp_out": [
+            1,
+            35,
+            2560
+          ]
+        }
+      },
+      "42": {
+        "layer_number": 42,
+        "mixer_type": "attention",
+        "mixer_module": "Gemma4TextAttention",
+        "mixer_out_proj": "Linear",
+        "mlp_module": "Gemma4TextMLP",
+        "mlp_out_proj": "Linear",
+        "identity_hook_mixer_max_diff": 0.0,
+        "identity_hook_mlp_max_diff": 0.0,
+        "perturbation_mixer_diff": 8.5625,
+        "shapes": {
+          "mixer_out": [
+            1,
+            35,
+            2560
+          ],
+          "mlp_out": [
+            1,
+            35,
+            2560
+          ]
+        }
+      }
+    },
+    "gate_passed": true
+  }
+}

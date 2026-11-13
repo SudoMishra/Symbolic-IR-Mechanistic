@@ -1,0 +1,201 @@
+{
+  "layer": 20,
+  "total_heads": 12,
+  "total_cases": 12,
+  "global_mean_shift": -0.0547,
+  "global_std_shift": 0.0728,
+  "ranked_heads": [
+    {
+      "head": 9,
+      "layer": 20,
+      "mean_shift": 0.026,
+      "shift_ci_95": [
+        -0.0365,
+        0.1094
+      ],
+      "recovery_pct": -1.9713,
+      "recovery_ci_95": [
+        -9.6875,
+        5.0288
+      ],
+      "normalized_causal_effect_z": 1.11,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 7,
+      "layer": 20,
+      "mean_shift": -0.0104,
+      "shift_ci_95": [
+        -0.0573,
+        0.0365
+      ],
+      "recovery_pct": 2.5825,
+      "recovery_ci_95": [
+        -1.4501,
+        7.8725
+      ],
+      "normalized_causal_effect_z": 0.609,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 10,
+      "layer": 20,
+      "mean_shift": -0.0104,
+      "shift_ci_95": [
+        -0.0574,
+        0.0365
+      ],
+      "recovery_pct": 3.26,
+      "recovery_ci_95": [
+        0.1212,
+        8.0363
+      ],
+      "normalized_causal_effect_z": 0.609,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 2,
+      "layer": 20,
+      "mean_shift": -0.0156,
+      "shift_ci_95": [
+        -0.0521,
+        0.026
+      ],
+      "recovery_pct": 1.3912,
+      "recovery_ci_95": [
+        -0.1625,
+        3.3401
+      ],
+      "normalized_causal_effect_z": 0.537,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 11,
+      "layer": 20,
+      "mean_shift": -0.0156,
+      "shift_ci_95": [
+        -0.0729,
+        0.0417
+      ],
+      "recovery_pct": 0.9225,
+      "recovery_ci_95": [
+        -5.2246,
+        7.5068
+      ],
+      "normalized_causal_effect_z": 0.537,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 0,
+      "layer": 20,
+      "mean_shift": -0.0163,
+      "shift_ci_95": [
+        -0.0534,
+        0.0208
+      ],
+      "recovery_pct": 3.1575,
+      "recovery_ci_95": [
+        0.1282,
+        7.929
+      ],
+      "normalized_causal_effect_z": 0.528,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 8,
+      "layer": 20,
+      "mean_shift": -0.0267,
+      "shift_ci_95": [
+        -0.0573,
+        -0.0007
+      ],
+      "recovery_pct": 3.09,
+      "recovery_ci_95": [
+        0.4462,
+        7.56
+      ],
+      "normalized_causal_effect_z": 0.385,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 6,
+      "layer": 20,
+      "mean_shift": -0.0417,
+      "shift_ci_95": [
+        -0.1771,
+        0.0938
+      ],
+      "recovery_pct": 3.305,
+      "recovery_ci_95": [
+        -19.6578,
+        22.3513
+      ],
+      "normalized_causal_effect_z": 0.18,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 4,
+      "layer": 20,
+      "mean_shift": -0.0462,
+      "shift_ci_95": [
+        -0.1087,
+        0.0312
+      ],
+      "recovery_pct": -1.9038,
+      "recovery_ci_95": [
+        -7.9936,
+        4.0613
+      ],
+      "normalized_causal_effect_z": 0.117,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 3,
+      "layer": 20,
+      "mean_shift": -0.1087,
+      "shift_ci_95": [
+        -0.2345,
+        -0.0046
+      ],
+      "recovery_pct": 16.4688,
+      "recovery_ci_95": [
+        4.5814,
+        34.5253
+      ],
+      "normalized_causal_effect_z": -0.741,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 1,
+      "layer": 20,
+      "mean_shift": -0.1458,
+      "shift_ci_95": [
+        -0.25,
+        -0.0521
+      ],
+      "recovery_pct": 11.3863,
+      "recovery_ci_95": [
+        -1.6875,
+        30.3823
+      ],
+      "normalized_causal_effect_z": -1.251,
+      "is_candidate_binding_head": false
+    },
+    {
+      "head": 5,
+      "layer": 20,
+      "mean_shift": -0.2454,
+      "shift_ci_95": [
+        -0.4486,
+        -0.099
+      ],
+      "recovery_pct": -3.4625,
+      "recovery_ci_95": [
+        -33.5887,
+        24.2814
+      ],
+      "normalized_causal_effect_z": -2.619,
+      "is_candidate_binding_head": false
+    }
+  ]
+}

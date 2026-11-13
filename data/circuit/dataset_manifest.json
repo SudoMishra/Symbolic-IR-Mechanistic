@@ -1,0 +1,70 @@
+{
+  "discovery": {
+    "split": "discovery",
+    "semantic_examples": 32,
+    "total_cases": 96,
+    "seed": 202671,
+    "task_distribution": {
+      "temporal": 16,
+      "entity_resolution": 16
+    },
+    "source_distribution": {
+      "15": 16,
+      "20": 16
+    },
+    "position_distribution": {
+      "early": 14,
+      "mid": 11,
+      "late": 7
+    },
+    "file": "data/circuit/discovery_n32.jsonl",
+    "sha256": "9112c31c27c6ed5d55d8a0d12b9a8399b38267ef5cafa710d27e5e0145e2f41e"
+  },
+  "validation": {
+    "split": "validation",
+    "semantic_examples": 32,
+    "total_cases": 96,
+    "seed": 202672,
+    "task_distribution": {
+      "temporal": 16,
+      "entity_resolution": 16
+    },
+    "source_distribution": {
+      "15": 16,
+      "20": 16
+    },
+    "position_distribution": {
+      "early": 11,
+      "mid": 12,
+      "late": 9
+    },
+    "file": "data/circuit/validation_n32.jsonl",
+    "sha256": "36435991721f830477393d53c56bcb6cced8c04c327b6ac2d54dd613acacd9d7"
+  },
+  "confirmation": {
+    "split": "confirmation",
+    "semantic_examples": 80,
+    "total_cases": 240,
+    "seed": 202673,
+    "task_distribution": {
+      "temporal": 40,
+      "entity_resolution": 40
+    },
+    "source_distribution": {
+      "15": 40,
+      "20": 40
+    },
+    "position_distribution": {
+      "early": 23,
+      "mid": 35,
+      "late": 22
+    },
+    "file": "data/circuit/confirmation_n80.jsonl",
+    "sha256": "3f5c66fa16dba4c88f40bd938a5ea237c554d9e8caff8a78838b8954437d54bd"
+  },
+  "preregistration": {
+    "file": "results/circuit/circuit_preregistration.json",
+    "sha256": "12363b12ad0d1d0acf28d9ed3d95478624f5515cd8f371dca95f839cc454f8af",
+    "status": "LOCKED"
+  }
+}
