@@ -22,8 +22,9 @@
       "name": "Qwen 2.5 1.5B",
       "architecture": "Pure GQA Transformer",
       "total_layers": 28,
-      "primary_hub": 24,
-      "hub_layers": [
+      "primary_binding_hub": 24,
+      "terminal_hub": null,
+      "candidate_layers": [
         20,
         24
       ],
@@ -484,8 +485,9 @@
       "name": "Qwen 3.5 2B",
       "architecture": "Hybrid Gated DeltaNet",
       "total_layers": 24,
-      "primary_hub": 20,
-      "hub_layers": [
+      "primary_binding_hub": 20,
+      "terminal_hub": null,
+      "candidate_layers": [
         16,
         20
       ],
@@ -946,8 +948,9 @@
       "name": "Tiny Aya Global",
       "architecture": "Deep Asymmetric GQA",
       "total_layers": 36,
-      "primary_hub": 24,
-      "hub_layers": [
+      "primary_binding_hub": 24,
+      "terminal_hub": null,
+      "candidate_layers": [
         24,
         36
       ],
@@ -1408,8 +1411,9 @@
       "name": "Qwen 3.5 4B",
       "architecture": "Hybrid Gated DeltaNet",
       "total_layers": 32,
-      "primary_hub": 24,
-      "hub_layers": [
+      "primary_binding_hub": 24,
+      "terminal_hub": null,
+      "candidate_layers": [
         24,
         28,
         32
@@ -2042,8 +2046,9 @@
       "name": "Gemma 4 E2B",
       "architecture": "Deep Asymmetric GQA",
       "total_layers": 35,
-      "primary_hub": 35,
-      "hub_layers": [
+      "primary_binding_hub": 24,
+      "terminal_hub": 35,
+      "candidate_layers": [
         24,
         35
       ],
@@ -2504,8 +2509,9 @@
       "name": "Gemma 4 E4B",
       "architecture": "Deep Asymmetric PLE",
       "total_layers": 42,
-      "primary_hub": 36,
-      "hub_layers": [
+      "primary_binding_hub": 36,
+      "terminal_hub": 42,
+      "candidate_layers": [
         36,
         42
       ],
@@ -2965,7 +2971,7 @@
   },
   "paired_confirmation_dissociation": {
     "qwen2.5-1.5b-instruct": {
-      "hub": 24,
+      "primary_binding_hub": 24,
       "mean": 0.621,
       "ci_95": [
         0.436,
@@ -2973,7 +2979,7 @@
       ]
     },
     "qwen3.5-2b": {
-      "hub": 20,
+      "primary_binding_hub": 20,
       "mean": 1.031,
       "ci_95": [
         0.682,
@@ -2981,7 +2987,7 @@
       ]
     },
     "tiny-aya-global": {
-      "hub": 24,
+      "primary_binding_hub": 24,
       "mean": 1.005,
       "ci_95": [
         0.336,
@@ -2989,7 +2995,7 @@
       ]
     },
     "qwen3.5-4b": {
-      "hub": 24,
+      "primary_binding_hub": 24,
       "mean": 2.198,
       "ci_95": [
         1.833,
@@ -2997,20 +3003,268 @@
       ]
     },
     "gemma-4-e2b-it": {
-      "hub": 35,
-      "mean": 2.851,
+      "primary_binding_hub": 24,
+      "mean": -0.494,
       "ci_95": [
+        -0.76,
+        -0.22
+      ],
+      "terminal_hub": 35,
+      "terminal_mean": 2.851,
+      "terminal_ci_95": [
         1.404,
         4.197
       ]
     },
     "gemma-4-e4b-it": {
-      "hub": 36,
+      "primary_binding_hub": 36,
       "mean": 14.46,
       "ci_95": [
         11.914,
         16.823
+      ],
+      "terminal_hub": 42,
+      "terminal_mean": 7.516,
+      "terminal_ci_95": [
+        2.848,
+        12.062
       ]
+    }
+  },
+  "donor_sensitivity": {
+    "qwen2.5-1.5b-instruct": {
+      "overall_donor_pos_pct": 65.8,
+      "overall_donor_mean_margin": 1.283,
+      "by_condition_donor_pos_pct": {
+        "structured": 83.8,
+        "random_compact": 60.0,
+        "uuid": 53.8
+      },
+      "by_condition_donor_mean_margin": {
+        "structured": 2.665,
+        "random_compact": 1.116,
+        "uuid": 0.066
+      },
+      "all_cases": {
+        "mean": 0.621,
+        "ci_95": [
+          0.436,
+          0.804
+        ],
+        "n": 240
+      },
+      "donor_pos_cases": {
+        "mean": 0.902,
+        "ci_95": [
+          0.707,
+          1.102
+        ],
+        "n": 158
+      },
+      "donor_neg_cases": {
+        "mean": 0.08,
+        "ci_95": [
+          -0.172,
+          0.342
+        ],
+        "n": 82
+      },
+      "pearson_r_donor_margin": 0.358
+    },
+    "qwen3.5-2b": {
+      "overall_donor_pos_pct": 63.3,
+      "overall_donor_mean_margin": 0.915,
+      "by_condition_donor_pos_pct": {
+        "structured": 62.5,
+        "random_compact": 70.0,
+        "uuid": 57.5
+      },
+      "by_condition_donor_mean_margin": {
+        "structured": 1.427,
+        "random_compact": 1.172,
+        "uuid": 0.148
+      },
+      "all_cases": {
+        "mean": 1.031,
+        "ci_95": [
+          0.682,
+          1.339
+        ],
+        "n": 240
+      },
+      "donor_pos_cases": {
+        "mean": 1.837,
+        "ci_95": [
+          1.544,
+          2.15
+        ],
+        "n": 152
+      },
+      "donor_neg_cases": {
+        "mean": -0.362,
+        "ci_95": [
+          -0.876,
+          0.106
+        ],
+        "n": 88
+      },
+      "pearson_r_donor_margin": 0.527
+    },
+    "tiny-aya-global": {
+      "overall_donor_pos_pct": 63.7,
+      "overall_donor_mean_margin": 0.641,
+      "by_condition_donor_pos_pct": {
+        "structured": 91.2,
+        "random_compact": 52.5,
+        "uuid": 47.5
+      },
+      "by_condition_donor_mean_margin": {
+        "structured": 2.349,
+        "random_compact": -0.121,
+        "uuid": -0.306
+      },
+      "all_cases": {
+        "mean": 1.005,
+        "ci_95": [
+          0.336,
+          1.597
+        ],
+        "n": 240
+      },
+      "donor_pos_cases": {
+        "mean": 2.252,
+        "ci_95": [
+          1.671,
+          2.819
+        ],
+        "n": 153
+      },
+      "donor_neg_cases": {
+        "mean": -1.189,
+        "ci_95": [
+          -2.14,
+          -0.313
+        ],
+        "n": 87
+      },
+      "pearson_r_donor_margin": 0.685
+    },
+    "qwen3.5-4b": {
+      "overall_donor_pos_pct": 67.1,
+      "overall_donor_mean_margin": 1.433,
+      "by_condition_donor_pos_pct": {
+        "structured": 76.2,
+        "random_compact": 61.3,
+        "uuid": 63.7
+      },
+      "by_condition_donor_mean_margin": {
+        "structured": 1.831,
+        "random_compact": 1.52,
+        "uuid": 0.947
+      },
+      "all_cases": {
+        "mean": 2.198,
+        "ci_95": [
+          1.833,
+          2.556
+        ],
+        "n": 240
+      },
+      "donor_pos_cases": {
+        "mean": 2.917,
+        "ci_95": [
+          2.538,
+          3.299
+        ],
+        "n": 161
+      },
+      "donor_neg_cases": {
+        "mean": 0.733,
+        "ci_95": [
+          0.315,
+          1.171
+        ],
+        "n": 79
+      },
+      "pearson_r_donor_margin": 0.484
+    },
+    "gemma-4-e2b-it": {
+      "overall_donor_pos_pct": 59.2,
+      "overall_donor_mean_margin": 3.116,
+      "by_condition_donor_pos_pct": {
+        "structured": 73.8,
+        "random_compact": 51.2,
+        "uuid": 52.5
+      },
+      "by_condition_donor_mean_margin": {
+        "structured": 7.932,
+        "random_compact": 0.611,
+        "uuid": 0.805
+      },
+      "all_cases": {
+        "mean": -0.494,
+        "ci_95": [
+          -0.76,
+          -0.22
+        ],
+        "n": 240
+      },
+      "donor_pos_cases": {
+        "mean": -0.655,
+        "ci_95": [
+          -1.072,
+          -0.276
+        ],
+        "n": 142
+      },
+      "donor_neg_cases": {
+        "mean": -0.261,
+        "ci_95": [
+          -0.655,
+          0.109
+        ],
+        "n": 98
+      },
+      "pearson_r_donor_margin": 0.004
+    },
+    "gemma-4-e4b-it": {
+      "overall_donor_pos_pct": 80.8,
+      "overall_donor_mean_margin": 19.699,
+      "by_condition_donor_pos_pct": {
+        "structured": 71.2,
+        "random_compact": 86.2,
+        "uuid": 85.0
+      },
+      "by_condition_donor_mean_margin": {
+        "structured": 17.584,
+        "random_compact": 23.632,
+        "uuid": 17.88
+      },
+      "all_cases": {
+        "mean": 14.46,
+        "ci_95": [
+          11.914,
+          16.823
+        ],
+        "n": 240
+      },
+      "donor_pos_cases": {
+        "mean": 16.859,
+        "ci_95": [
+          14.425,
+          19.223
+        ],
+        "n": 194
+      },
+      "donor_neg_cases": {
+        "mean": 4.341,
+        "ci_95": [
+          -0.114,
+          9.532
+        ],
+        "n": 46
+      },
+      "pearson_r_donor_margin": 0.52
     }
   }
 }

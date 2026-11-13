@@ -178,3 +178,24 @@ def test_dataset_manifest_hashes_and_relative_paths():
     assert actual_prereg_sha == manifest["preregistration"]["sha256"], "SHA256 mismatch for preregistration"
 
 
+def test_analyze_head_results_execution(tmp_path):
+    """Verify that head results analysis imports and runs correctly with cluster bootstrap."""
+    from scripts.analyze_head_results import analyze_heads
+
+    input_p = ROOT / "results/circuit/qwen25_head_scores_l24.jsonl"
+    assert input_p.exists(), "Head scores fixture must exist"
+
+    out_p = tmp_path / "test_ranking.json"
+    analyze_heads(input_p, out_p)
+    assert out_p.exists(), "Output ranking file should be written"
+
+    data = json.loads(out_p.read_text(encoding="utf-8"))
+    assert "ranked_heads" in data
+    assert len(data["ranked_heads"]) == 12
+    # Check that bootstrap interval was computed
+    first_head = data["ranked_heads"][0]
+    assert "shift_ci_95" in first_head
+    assert len(first_head["shift_ci_95"]) == 2
+
+
+

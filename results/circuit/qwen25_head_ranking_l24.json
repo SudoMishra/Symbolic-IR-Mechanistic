@@ -10,13 +10,13 @@
       "layer": 24,
       "mean_shift": 0.0684,
       "shift_ci_95": [
-        -0.071,
-        0.2344
+        -0.1074,
+        0.2083
       ],
       "recovery_pct": 20.755,
       "recovery_ci_95": [
-        3.4425,
-        45.755
+        3.1225,
+        64.285
       ],
       "normalized_causal_effect_z": 1.719,
       "is_candidate_binding_head": true
@@ -26,13 +26,13 @@
       "layer": 24,
       "mean_shift": 0.0052,
       "shift_ci_95": [
-        -0.0521,
-        0.0677
+        -0.0156,
+        0.0312
       ],
       "recovery_pct": 2.07,
       "recovery_ci_95": [
-        -0.325,
-        5.805
+        0.0,
+        10.7175
       ],
       "normalized_causal_effect_z": 0.731,
       "is_candidate_binding_head": false
@@ -42,13 +42,13 @@
       "layer": 24,
       "mean_shift": -0.0098,
       "shift_ci_95": [
-        -0.0462,
-        0.0267
+        -0.0404,
+        0.0208
       ],
       "recovery_pct": 2.9,
       "recovery_ci_95": [
-        -0.273,
-        7.9153
+        -0.325,
+        6.125
       ],
       "normalized_causal_effect_z": 0.497,
       "is_candidate_binding_head": false
@@ -58,12 +58,12 @@
       "layer": 24,
       "mean_shift": -0.0104,
       "shift_ci_95": [
-        -0.0417,
-        0.0208
+        -0.0469,
+        0.026
       ],
       "recovery_pct": -0.325,
       "recovery_ci_95": [
-        -0.975,
+        -0.78,
         0.0
       ],
       "normalized_causal_effect_z": 0.486,
@@ -74,13 +74,13 @@
       "layer": 24,
       "mean_shift": -0.0156,
       "shift_ci_95": [
-        -0.0521,
-        0.0208
+        -0.0625,
+        0.026
       ],
       "recovery_pct": -1.0288,
       "recovery_ci_95": [
-        -6.0888,
-        2.6775
+        -8.335,
+        3.7867
       ],
       "normalized_causal_effect_z": 0.405,
       "is_candidate_binding_head": false
@@ -90,13 +90,13 @@
       "layer": 24,
       "mean_shift": -0.0208,
       "shift_ci_95": [
-        -0.0625,
-        0.0208
+        -0.0521,
+        0.0
       ],
       "recovery_pct": 3.9212,
       "recovery_ci_95": [
-        0.7286,
-        8.4663
+        1.46,
+        6.3825
       ],
       "normalized_causal_effect_z": 0.323,
       "is_candidate_binding_head": false
@@ -106,13 +106,13 @@
       "layer": 24,
       "mean_shift": -0.026,
       "shift_ci_95": [
-        -0.1042,
-        0.0469
+        -0.0938,
+        0.0573
       ],
       "recovery_pct": 9.3738,
       "recovery_ci_95": [
-        2.9763,
-        17.7137
+        6.2475,
+        13.89
       ],
       "normalized_causal_effect_z": 0.242,
       "is_candidate_binding_head": false
@@ -122,13 +122,13 @@
       "layer": 24,
       "mean_shift": -0.0573,
       "shift_ci_95": [
-        -0.099,
+        -0.1042,
         -0.0104
       ],
       "recovery_pct": 2.095,
       "recovery_ci_95": [
-        0.325,
-        4.7752
+        0.0,
+        3.993
       ],
       "normalized_causal_effect_z": -0.247,
       "is_candidate_binding_head": false
@@ -138,13 +138,13 @@
       "layer": 24,
       "mean_shift": -0.0579,
       "shift_ci_95": [
-        -0.1094,
-        -0.0058
+        -0.1042,
+        -0.0117
       ],
       "recovery_pct": 4.0875,
       "recovery_ci_95": [
-        -0.105,
-        8.7685
+        0.0,
+        5.45
       ],
       "normalized_causal_effect_z": -0.257,
       "is_candidate_binding_head": false
@@ -154,13 +154,13 @@
       "layer": 24,
       "mean_shift": -0.0618,
       "shift_ci_95": [
-        -0.1035,
-        -0.0254
+        -0.1191,
+        -0.026
       ],
       "recovery_pct": 4.5113,
       "recovery_ci_95": [
-        0.96,
-        9.0763
+        0.0,
+        6.135
       ],
       "normalized_causal_effect_z": -0.318,
       "is_candidate_binding_head": false
@@ -170,13 +170,13 @@
       "layer": 24,
       "mean_shift": -0.1094,
       "shift_ci_95": [
-        -0.2656,
-        0.0104
+        -0.2292,
+        0.0052
       ],
       "recovery_pct": 9.9437,
       "recovery_ci_95": [
-        -7.0341,
-        30.5203
+        0.0,
+        13.2583
       ],
       "normalized_causal_effect_z": -1.062,
       "is_candidate_binding_head": false
@@ -186,13 +186,13 @@
       "layer": 24,
       "mean_shift": -0.2025,
       "shift_ci_95": [
-        -0.4064,
-        -0.0618
+        -0.3275,
+        -0.0924
       ],
       "recovery_pct": -17.995,
       "recovery_ci_95": [
-        -56.4251,
-        8.0591
+        -92.855,
+        9.4092
       ],
       "normalized_causal_effect_z": -2.519,
       "is_candidate_binding_head": false

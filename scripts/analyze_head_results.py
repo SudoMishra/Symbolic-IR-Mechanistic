@@ -13,9 +13,10 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
-from scripts.analyze_circuit_results import bootstrap_mean_ci  # noqa: E402
+from scripts.analyze_circuit_results import cluster_bootstrap_mean_ci  # noqa: E402
 
 
 def analyze_heads(input_file: Path, output_file: Path):
@@ -34,24 +35,25 @@ def analyze_heads(input_file: Path, output_file: Path):
 
     for row in lines:
         cond = row["condition"]
+        ex_id = row.get("example_id", f"ex_{row.get('example_idx', 'unknown')}")
         clean_pref = row["clean_baseline"]["first_token_pref"]
         for h_str, h_data in row["head_results"].items():
             shift = h_data["first_token_pref"] - clean_pref
-            head_shifts[int(h_str)].append(shift)
-            head_shifts_by_cond[cond][int(h_str)].append(shift)
+            head_shifts[int(h_str)].append((ex_id, shift))
+            head_shifts_by_cond[cond][int(h_str)].append((ex_id, shift))
             if h_data.get("recovery_first_pct") is not None:
-                head_recovs[int(h_str)].append(h_data["recovery_first_pct"])
+                head_recovs[int(h_str)].append((ex_id, h_data["recovery_first_pct"]))
 
     # Compute overall head means
-    head_means = {h: np.mean(head_shifts[h]) for h in range(num_heads)}
+    head_means = {h: float(np.mean([v for _, v in head_shifts[h]])) for h in range(num_heads)}
     all_means = list(head_means.values())
     global_mu = np.mean(all_means)
     global_sigma = np.std(all_means) if np.std(all_means) > 1e-6 else 1.0
 
     ranked = []
     for h in range(num_heads):
-        mean_s, low_s, high_s = bootstrap_mean_ci(head_shifts[h])
-        mean_r, low_r, high_r = bootstrap_mean_ci(head_recovs[h]) if head_recovs[h] else (0.0, 0.0, 0.0)
+        mean_s, low_s, high_s = cluster_bootstrap_mean_ci(head_shifts[h])
+        mean_r, low_r, high_r = cluster_bootstrap_mean_ci(head_recovs[h]) if head_recovs[h] else (0.0, 0.0, 0.0)
         nce = (head_means[h] - global_mu) / global_sigma
         ranked.append({
             "head": h,
