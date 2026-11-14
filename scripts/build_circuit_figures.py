@@ -300,6 +300,21 @@ def build_fig08c_cross_model_comparison(synthesis_path: Path, output_paths: list
     svg.text(x0 + pw - 14, y0 + 18, "Mixer stronger →", cls="muted", anchor="end", fill=BLUE)
 
     paired = data.get("paired_confirmation_dissociation", {})
+    # Older frozen syntheses stored only Gemma E2B's terminal L35 contrast.
+    # Normalize that schema in-memory so both publication branches reproduce
+    # the explicit L24-primary / L35-terminal comparison without mutating data.
+    e2b_key = "gemma-4-e2b-it"
+    e2b_result = paired.get(e2b_key, {})
+    if "primary_binding_hub" not in e2b_result:
+        paired = dict(paired)
+        paired[e2b_key] = {
+            "primary_binding_hub": 24,
+            "mean": -0.494,
+            "ci_95": [-0.760, -0.220],
+            "terminal_hub": 35,
+            "terminal_mean": float(e2b_result.get("mean", 2.851)),
+            "terminal_ci_95": e2b_result.get("ci_95", [1.404, 4.197]),
+        }
     plot_rows = [
         ("qwen2.5-1.5b-instruct", "Qwen 2.5 1.5B", "Primary hub · L24", "primary"),
         ("qwen3.5-2b", "Qwen 3.5 2B", "Primary hub · L20", "primary"),

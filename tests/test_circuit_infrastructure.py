@@ -198,4 +198,27 @@ def test_analyze_head_results_execution(tmp_path):
     assert len(first_head["shift_ci_95"]) == 2
 
 
+def test_computation_vs_transport_analysis(tmp_path):
+    """Verify that Sequence 2 computation vs. transport analysis runs cleanly and computes cluster intervals."""
+    from scripts.analyze_computation_vs_transport import analyze_computation_vs_transport
+
+    input_p = ROOT / "results/circuit/test_computation_vs_transport.jsonl"
+    assert input_p.exists(), "Sequence 2 test fixture must exist"
+
+    out_json = tmp_path / "test_synthesis.json"
+    out_md = tmp_path / "test_findings.md"
+
+    analyze_computation_vs_transport(input_p, out_json, out_md)
+    assert out_json.exists(), "Synthesis JSON must be created"
+    assert out_md.exists(), "Findings markdown must be created"
+
+    data = json.loads(out_json.read_text(encoding="utf-8"))
+    assert "corruptions" in data
+    assert "label_swap" in data["corruptions"]
+    assert "content_swap" in data["corruptions"]
+    assert "question_swap" in data["corruptions"]
+    assert "order_perm" in data["corruptions"]
+
+
+
 
