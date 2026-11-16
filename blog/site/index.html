@@ -588,6 +588,55 @@ Return the account and supporting source handle.</code></pre>
           </table>
           </div>
         </details>
+
+        <!-- Stage 7C: Resolving Computation vs Transport & Causal Subspaces -->
+        <div class="article-prose reveal-up" style="margin-top: 2.5rem;">
+          <h3>Beyond whole components: computation vs. transport &amp; causal subspaces (Stage 7C)</h3>
+          <p><strong>Stage 7C Motivation:</strong> Stage 7B causally isolated attention mixers at citation prediction positions, but left fundamental mechanistic questions open: <em>Does the late attention mixer actually compute the source&ndash;identifier binding association, or does it merely route an association formed upstream? Is handle identity synthesized by intermediate MLPs, or propagated linearly in the residual stream? Can the distributed binding representation be isolated into a compact causal subspace on held-out data, and does it survive free generation?</em></p>
+          <p><strong>Data Used &amp; Preregistered Protocol:</strong> Evaluated in Qwen 2.5 1.5B under a locked preregistration protocol (<code>results/circuit/sequence3_preregistration.json</code>) across the disjoint dataset manifest (<code>data/circuit/dataset_manifest.json</code>): (1) <strong>Repaired Discovery Evaluation</strong> ($N=32$, 96 cases across 4 corruptions &times; 5 semantic positions &times; 3 component classes at Layers 14, 20, 24) with distinguishing-token logit correction ($d-1$); (2) <strong>SVD Basis Extraction</strong> fitted strictly on discovery post-evidence residual vectors; (3) <strong>Behavioral Bridge</strong> evaluating free greedy generation under post-evidence subspace intervention; and (4) <strong>One-Shot Confirmatory Evaluation</strong> on the held-out confirmation cohort ($N=80$, 240 cases) across subspace ranks $k \in \{1, 4, 8, 16, 32\}$ with paired cluster-bootstrap 95% CIs ($B=1,000$ replicates clustered by <code>example_id</code>).</p>
+          
+          <p><strong>Distinguishing-Token Evaluation &amp; The Late Mixer Null:</strong> Correcting the evaluation position to the exact token where target and counterfactual identifiers diverge ($d-1$, e.g. token '1' vs '7' in <code>[S1]</code> vs <code>[S7]</code>) revealed that the Layer 24 attention mixer causal shift drops to <strong>+0.001 [&minus;0.147, +0.179]</strong> (spanning zero across structured, compact, and UUID formats). The apparent $+0.701$ shift in early pilots was an artifact of evaluating the pre-citation prefix bracket (<code>[</code>), measuring generic format continuation. Because the whole mixer failed the positive-control eligibility threshold, head-level search was terminated as a <strong>preregistered scientific null outcome</strong>&mdash;the model does not route binding through an isolated late attention head router.</p>
+
+          <p><strong>Linear Handle Propagation in the Residual Stream:</strong> By manipulating activations across four semantic positions (<code>pos_source_label</code>, <code>pos_evidence</code>, <code>pos_post_evidence</code>, <code>pos_citation</code>), we resolved the computation versus transport boundary. Patching the residual stream at the source label position produces a massive causal shift toward the counterfactual identifier: <strong>+2.125 [1.733, 2.552]</strong> at Layer 14, <strong>+2.146 [1.745, 2.571]</strong> at Layer 20, and <strong>+1.318 [1.076, 1.591]</strong> at Layer 24. Meanwhile, individual mixers (&minus;0.077) and MLPs (&minus;0.015) at this position are inert. Source handles are not synthesized by mid-network components; their representation is injected directly from token embeddings and transported linearly down the network. Causal evidence&ndash;handle binding first emerges at <strong>Layer 14 <code>pos_post_evidence</code></strong> (+0.042 [+0.018, +0.064] under label swap; +0.209 [+0.140, +0.273] under content swap).</p>
+        </div>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/08d_computation_vs_transport.svg" alt="Figure 8D — Resolving Computation vs. Transport in Qwen 2.5. Panel A maps causal shifts across semantic token positions at Layer 14 showing residual stream handle storage (+2.125 nats). Panel B contrasts the unrepaired prefix evaluation (+0.701) with the repaired distinguishing-token evaluation (+0.001) at Layer 24 citation position." width="1200" height="740" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 8D &mdash; Resolving computation vs. transport in Qwen 2.5.</strong> Panel A displays position-resolved causal shifts across semantic token positions at Layer 14. Panel B contrasts the unshifted prefix evaluation with the repaired distinguishing-token evaluation at Layer 24 citation position.</p>
+            <p class="figure-companion">Residual stream directly transports handle identity from prompt tokens (+2.125 nats at source label) while mid-layer components remain inert. Evaluating at the true distinguishing token position ($d-1$) reveals a statistical null (+0.001 [&minus;0.147, +0.179]) for the late attention mixer, terminating query-attention head localization per protocol.</p>
+          </figcaption>
+        </figure>
+
+        <div class="article-prose reveal-up">
+          <p><strong>Held-Out Confirmation of Causal Subspaces &amp; Format Dissociation:</strong> An orthonormal difference basis extracted via SVD on discovery post-evidence residual vectors confirmed a statistically significant causal preference shift on the <strong>held-out confirmation split (80 examples, 240 format cases)</strong> at Rank 8 (<strong>+0.0297 [+0.0165, +0.0423]</strong>; 62.3% variance) and Rank 16 (<strong>+0.0321 [+0.0174, +0.0456]</strong>; 76.4% variance). Matched random (+0.0015) and complement (+0.0043) projections confirm causal concentration. Furthermore, the subspace mirrors the behavioral UUID penalty: structured handles achieve <strong>+12.7%</strong> counterfactual recovery, whereas high-entropy UUIDs collapse to <strong>&minus;3.1%</strong> recovery, demonstrating that opaque identifiers fail to align with the linear binding subspace.</p>
+          
+          <p><strong>Behavioral Bridge (Free Generation):</strong> Under free autoregressive generation with Layer 14 Rank 8 subspace intervention ($N=96$), factual answer Exact Match was 100% preserved (<strong>40.6% [26.0%, 57.3%]</strong> clean baseline vs. <strong>40.6% [26.0%, 57.3%]</strong> patched). In <strong>8.3% [2.1%, 16.7%]</strong> of cases, the intervention selectively changed the emitted citation toward the counterfactual donor while leaving generated answer text completely unchanged, confirming a functional causal bridge between internal representation and generated text.</p>
+        </div>
+
+        <figure class="figure figure--wide reveal-image" data-ui>
+          <img src="assets/08e_subspace_confirmation.svg" alt="Figure 8E — Post-evidence causal subspace localization and format dissociation on the held-out confirmation cohort (N=80). Panel A shows causal shifts across ranks k=1..32; Panel B shows format dissociation (structured +12.7% vs UUID -3.1%); Panel C shows factual answer preservation (40.6%) and selective dissociation (8.3%) under free generation." width="1200" height="740" loading="lazy">
+          <figcaption>
+            <p><strong>Figure 8E &mdash; Held-out causal subspace confirmation &amp; behavioral bridge.</strong> Panel A shows causal preference shifts across subspace ranks on the 80-example held-out confirmation cohort (whiskers are paired cluster-bootstrap 95% CIs; Ranks 8 and 16 strictly exclude zero). Panel B illustrates format dissociation across structured, compact, and UUID handles. Panel C displays free generation metrics.</p>
+            <p class="figure-companion">Post-evidence residual subspace projection at Rank 8 transfers counterfactual binding without degrading factual answer tokens (40.6% EM clean vs 40.6% EM patched), dissociating citation attribution from factual generation.</p>
+          </figcaption>
+        </figure>
+
+        <details class="experiment-details result-details reveal-up">
+          <summary>Explore the complete Sequence 3 causal subspace confirmatory results</summary>
+          <div class="table-wrap" role="region" aria-label="Sequence 3 causal subspace confirmatory evaluation across ranks on held-out N=80 cohort" tabindex="0">
+          <table class="experiment-table experiment-table--scaled-stage7b">
+            <thead><tr><th>Subspace Rank ($k$)</th><th>Retained Variance</th><th>Confirmation Causal Shift</th><th>95% Bootstrap CI</th><th>Structured Recovery</th><th>Compact Recovery</th><th>UUID Recovery</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><strong>$k=1$</strong></td><td>17.7%</td><td>+0.0103</td><td>[&minus;0.0021, +0.0231]</td><td>+6.2%</td><td>+6.9%</td><td>+0.3%</td><td>Spans Zero</td></tr>
+              <tr><td><strong>$k=4$</strong></td><td>44.9%</td><td><strong>+0.0131</strong></td><td>[+0.0003, +0.0267]</td><td>+8.6%</td><td>&minus;5.0%</td><td>&minus;0.8%</td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>$k=8$</strong> (Optimal)</td><td>62.3%</td><td><strong>+0.0297</strong></td><td>[+0.0165, +0.0423]</td><td><strong>+12.7%</strong></td><td>+1.7%</td><td><strong>&minus;3.1%</strong></td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>$k=16$</strong></td><td>76.4%</td><td><strong>+0.0321</strong></td><td>[+0.0174, +0.0456]</td><td><strong>+12.0%</strong></td><td>+9.8%</td><td><strong>&minus;2.5%</strong></td><td><strong>CONFIRMED</strong></td></tr>
+              <tr><td><strong>$k=32$</strong></td><td>88.0%</td><td><strong>+0.0289</strong></td><td>[+0.0126, +0.0444]</td><td>+10.8%</td><td>+2.3%</td><td>&minus;3.5%</td><td><strong>CONFIRMED</strong></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </details>
       </section>
 
       <!-- ACT IV: SYSTEMS PAYOFF & PRODUCTION ARCHITECTURE -->

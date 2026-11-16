@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "allow_ordinary_gate_reviews": true,
+  "allow_confirmation_approval": false,
+  "confirmation_authorization_file": "results/circuit/agent_handoff/confirmation_authorization.json",
+  "protected_paths": [
+    "data/circuit/confirmation_n80.jsonl",
+    "results/circuit/circuit_preregistration.json"
+  ],
+  "poll_interval_minutes": 5,
+  "notes": "Codex may review ordinary gates. Confirmation remains blocked unless a user-created authorization file explicitly enables it for the exact preregistration and checkpoint hashes."
+}

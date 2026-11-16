@@ -41,7 +41,7 @@ def analyze_computation_vs_transport(input_file: Path, output_json: Path, output
     print(f"\nAnalyzing computation vs. transport results from {input_file.name} ({len(lines)} cases)...")
 
     corruptions = ["label_swap", "content_swap", "question_swap", "order_perm"]
-    positions = ["pos_source_label", "pos_evidence", "pos_answer", "pos_citation"]
+    positions = ["pos_source_label", "pos_evidence", "pos_post_evidence", "pos_answer", "pos_citation"]
     layers = ["14", "20", "24"]
     components = ["mixer", "mlp", "residual"]
 
@@ -57,11 +57,14 @@ def analyze_computation_vs_transport(input_file: Path, output_json: Path, output
         clean_prefs.append((ex_id, clean_p))
 
         for corr_name, corr_data in row["corruptions"].items():
+            if not corr_data.get("is_eligible", True) or "donor_baseline" not in corr_data:
+                continue
             d_pref = corr_data["donor_baseline"]["first_token_pref"]
             donor_prefs[corr_name].append((ex_id, d_pref))
 
-            for l_str, l_data in corr_data["layers"].items():
-                for pos_name, pos_data in l_data.items():
+            for l_str, l_data in corr_data.get("layers", {}).items():
+                pos_source = l_data.get("positions", l_data)
+                for pos_name, pos_data in pos_source.items():
                     if not isinstance(pos_data, dict) or "mixer" not in pos_data:
                         continue
                     for comp_name in components:
@@ -120,6 +123,7 @@ def analyze_computation_vs_transport(input_file: Path, output_json: Path, output
     pos_labels = {
         "pos_source_label": "Source Label Token ($P_{\\text{label}}$)",
         "pos_evidence": "Evidence Passage ($P_{\\text{evidence}}$)",
+        "pos_post_evidence": "Post-Evidence Token ($P_{\\text{post-evidence}}$)",
         "pos_answer": "Answer Text ($P_{\\text{answer}}$)",
         "pos_citation": "Citation Predicting Token ($P_{\\text{citation}}$)",
     }

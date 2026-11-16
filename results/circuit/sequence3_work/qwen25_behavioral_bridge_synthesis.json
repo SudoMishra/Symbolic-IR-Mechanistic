@@ -1,0 +1,155 @@
+{
+  "title": "Phase 6: Behavioral Bridge and Free Generation Synthesis",
+  "eval_dataset": "qwen25_behavioral_bridge_validation.jsonl",
+  "total_cases": 96,
+  "conditions": {
+    "clean_baseline": {
+      "answer_em": {
+        "mean_pct": 40.62,
+        "ci_95": [
+          26.04,
+          57.29
+        ]
+      },
+      "cites_gold": {
+        "mean_pct": 11.46,
+        "ci_95": [
+          4.17,
+          19.82
+        ]
+      },
+      "citation_precision": {
+        "mean_pct": 8.33,
+        "ci_95": [
+          2.6,
+          14.58
+        ]
+      },
+      "citation_recall": {
+        "mean_pct": 11.46,
+        "ci_95": [
+          4.17,
+          19.82
+        ]
+      },
+      "strict_syntax": {
+        "mean_pct": 64.58,
+        "ci_95": [
+          53.12,
+          73.98
+        ]
+      }
+    },
+    "swapped_baseline": {
+      "answer_em": {
+        "mean_pct": 39.58,
+        "ci_95": [
+          25.0,
+          55.21
+        ]
+      },
+      "cites_swapped": {
+        "mean_pct": 25.0,
+        "ci_95": [
+          14.58,
+          35.42
+        ]
+      },
+      "citation_precision": {
+        "mean_pct": 16.15,
+        "ci_95": [
+          8.85,
+          23.96
+        ]
+      },
+      "citation_recall": {
+        "mean_pct": 25.0,
+        "ci_95": [
+          14.58,
+          35.42
+        ]
+      },
+      "strict_syntax": {
+        "mean_pct": 55.21,
+        "ci_95": [
+          42.71,
+          67.71
+        ]
+      }
+    },
+    "subspace_projection": {
+      "answer_em": {
+        "mean_pct": 40.62,
+        "ci_95": [
+          26.04,
+          57.29
+        ]
+      },
+      "cites_gold": {
+        "mean_pct": 12.5,
+        "ci_95": [
+          4.17,
+          21.88
+        ]
+      },
+      "cites_counterfactual": {
+        "mean_pct": 11.46,
+        "ci_95": [
+          4.17,
+          19.79
+        ]
+      },
+      "citation_precision": {
+        "mean_pct": 7.92,
+        "ci_95": [
+          2.6,
+          14.59
+        ]
+      },
+      "citation_recall": {
+        "mean_pct": 12.5,
+        "ci_95": [
+          4.17,
+          21.88
+        ]
+      },
+      "selective_dissociation": {
+        "mean_pct": 8.33,
+        "ci_95": [
+          2.08,
+          16.67
+        ]
+      },
+      "strict_syntax": {
+        "mean_pct": 63.54,
+        "ci_95": [
+          51.04,
+          73.96
+        ]
+      }
+    }
+  },
+  "error_taxonomy": {
+    "clean_baseline": {
+      "answer_incorrect": 9,
+      "both_incorrect": 48,
+      "wrong_source": 31,
+      "counterfactual_cited": 8
+    },
+    "swapped_baseline": {
+      "answer_incorrect": 19,
+      "both_incorrect": 39,
+      "wrong_source": 27,
+      "none": 4,
+      "counterfactual_cited": 6,
+      "omitted_citation": 1
+    },
+    "subspace_projection": {
+      "answer_incorrect": 10,
+      "both_incorrect": 47,
+      "wrong_source": 31,
+      "counterfactual_cited": 8
+    }
+  },
+  "format_breakdown": {}
+}

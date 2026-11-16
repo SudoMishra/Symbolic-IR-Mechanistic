@@ -128,3 +128,19 @@ def test_anthropic_frontier_claims_match_compiled_results():
     }.items():
         svg = (ROOT / "blog/site/assets" / asset).read_text()
         assert all(name in svg for name in model_names)
+
+
+def test_sequence3_blog_claims_and_figures():
+    for article in (MARKDOWN, HTML):
+        assert "08d_computation_vs_transport.svg" in article
+        assert "08e_subspace_confirmation.svg" in article
+        assert "+0.0297" in article
+        assert "+0.0321" in article
+        assert "2.125" in article
+        assert "40.6%" in article
+
+    for asset in ("08d_computation_vs_transport.svg", "08e_subspace_confirmation.svg"):
+        svg = (ROOT / "blog/site/assets" / asset).read_text(encoding="utf-8")
+        assert len(svg) > 1000
+        assert "<svg" in svg
+

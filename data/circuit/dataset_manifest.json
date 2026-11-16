@@ -66,5 +66,10 @@
     "file": "results/circuit/circuit_preregistration.json",
     "sha256": "12363b12ad0d1d0acf28d9ed3d95478624f5515cd8f371dca95f839cc454f8af",
     "status": "LOCKED"
+  },
+  "sequence3_preregistration": {
+    "file": "results/circuit/sequence3_preregistration.json",
+    "sha256": "23f532fed2d7c88a868a124f6259ce2f5c9a50ca2cea31e70e4254298bc178fd",
+    "status": "LOCKED"
   }
 }

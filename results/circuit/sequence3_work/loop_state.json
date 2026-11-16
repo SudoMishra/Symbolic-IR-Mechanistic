@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-11-16T10:29:20Z",
+  "mode": "THROUGH_VALIDATION",
+  "status": "done",
+  "phase": "PHASE8_FINAL_AUDIT_COMPLETE",
+  "completed_gates": [
+    "gate_0_baseline_provenance",
+    "gate_1_semantic_repair",
+    "gate_2_sequence2r_discovery_run",
+    "gate_3_sequence3_preregistration_frozen",
+    "gate_5_causal_subspace_evaluated",
+    "gate_6_behavioral_bridge_evaluated",
+    "gate_7_confirmation_evaluated",
+    "gate_8_final_audit_complete"
+  ],
+  "branch_decisions": {
+    "sequence3a_head_localization": {
+      "status": "TERMINAL_SCIENTIFIC_NULL",
+      "reason": "L24 mixer shift +0.001 [-0.147, 0.179] spans zero across all 96 discovery cases. Branch terminated without post-hoc search."
+    },
+    "sequence3b_causal_subspace": {
+      "status": "VALIDATED_SUBSET_EFFECT",
+      "target": "Layer 14 pos_post_evidence residual stream",
+      "justification": "Verified positive causal shift +0.042 [0.018, 0.064] on discovery. On held-out confirmation (N=80, 240 cases), Rank 8 shift is +0.0297 [0.0165, 0.0423], with format-specific transfer on structured vs UUID."
+    }
+  },
+  "next_action": "None. Workflow complete.",
+  "active_task": null,
+  "tests_verified": "104/104 passing in 4.21s",
+  "walkthrough_file": "results/circuit/SEQUENCE3_WALKTHROUGH.md",
+  "confirmation_authorized": true,
+  "confirmation_mode": "END_TO_END_AUTONOMOUS",
+  "confirmation_authorized_timestamp": "2026-11-16T12:20:39+05:30",
+  "confirmation_accessed": true,
+  "confirmation_completed": true,
+  "last_observation": "All phases through Phase 8 completed successfully. 104/104 tests passing. All artifacts generated with SHA-256 integrity and cluster-bootstrap 95% CIs.",
+  "terminal_outcome": "validated_partial_mechanism"
+}

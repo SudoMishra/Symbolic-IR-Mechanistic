@@ -33,6 +33,7 @@ import argparse
 import dataclasses
 import json
 import math
+import re
 import sys
 import time
 from contextlib import AbstractContextManager
@@ -89,7 +90,16 @@ class MultiActivationRecorder:
         self.handles.clear()
 
 
-def extract_spans(tokenizer, prompt: str, answer: str, citation_label: str):
+def find_first_distinguishing_index(clean_tokens: list[int], swapped_tokens: list[int]) -> int:
+    """Find index of the first token where clean and swapped token sequences differ."""
+    for idx in range(min(len(clean_tokens), len(swapped_tokens))):
+        if clean_tokens[idx] != swapped_tokens[idx]:
+            return idx
+    return 0
+
+
+def extract_citation_eval_positions(tokenizer, prompt: str, answer: str, citation_label: str, dist_idx: int = 0) -> dict[str, Any]:
+    """Tokenize prompt and answer prefix, locating citation target tokens and the distinguishing eval position."""
     formatted = tokenizer.apply_chat_template(
         [{"role": "user", "content": prompt}],
         tokenize=False,
@@ -111,7 +121,8 @@ def extract_spans(tokenizer, prompt: str, answer: str, citation_label: str):
     if not target_positions:
         raise ValueError(f"Target positions empty for citation {citation_label}")
 
-    predicting_pos = target_positions[0] - 1
+    d = min(dist_idx, len(target_positions) - 1)
+    eval_pos = target_positions[d] - 1
 
     # Answer span
     ans_start = len(formatted) + len("ANSWER: ")
@@ -125,9 +136,104 @@ def extract_spans(tokenizer, prompt: str, answer: str, citation_label: str):
         "full_text": full_text,
         "input_ids": encoded["input_ids"],
         "offsets": offsets,
-        "predicting_pos": predicting_pos,
         "target_positions": target_positions,
+        "dist_idx": d,
+        "eval_pos": eval_pos,
+        "predicting_pos": eval_pos,
         "ans_positions": ans_positions,
+    }
+
+
+def extract_spans(tokenizer, prompt: str, answer: str, citation_label: str, dist_idx: int = 0):
+    """Compatibility alias wrapping extract_citation_eval_positions."""
+    return extract_citation_eval_positions(tokenizer, prompt, answer, citation_label, dist_idx=dist_idx)
+
+
+def resolve_layer_indices(layer_1based: int, num_total_layers: int) -> dict[str, int]:
+    """Convert one-based scientific layer L to zero-based transformer stack index L - 1."""
+    if layer_1based < 1 or layer_1based > num_total_layers:
+        raise ValueError(f"Scientific layer {layer_1based} out of range (1..{num_total_layers})")
+    layer_0based = layer_1based - 1
+    return {
+        "layer_1based": layer_1based,
+        "layer_0based": layer_0based,
+        "stack_idx": layer_0based,
+    }
+
+
+def align_activation_spans(clean_pos: list[int], donor_pos: list[int], donor_act: torch.Tensor) -> tuple[torch.Tensor, dict[str, Any]]:
+    """Semantically align donor activation tensor to clean position count using 1D linear interpolation."""
+    clean_len = len(clean_pos)
+    donor_len = len(donor_pos)
+    if clean_len == donor_len:
+        return donor_act, {
+            "clean_len": clean_len,
+            "donor_len": donor_len,
+            "aligned": True,
+            "method": "identity",
+        }
+    if donor_len == 0 or clean_len == 0:
+        return donor_act, {
+            "clean_len": clean_len,
+            "donor_len": donor_len,
+            "aligned": False,
+            "method": "empty_span",
+        }
+
+    is_2d = donor_act.dim() == 2
+    if is_2d:
+        # [donor_len, d_model] -> [1, d_model, donor_len]
+        donor_t = donor_act.unsqueeze(0).permute(0, 2, 1).float()
+    else:
+        # [B, donor_len, d_model] -> [B, d_model, donor_len]
+        donor_t = donor_act.permute(0, 2, 1).float()
+
+    aligned_t = F.interpolate(donor_t, size=clean_len, mode="linear", align_corners=True)
+    if is_2d:
+        aligned_act = aligned_t.permute(0, 2, 1).squeeze(0).to(dtype=donor_act.dtype)
+    else:
+        aligned_act = aligned_t.permute(0, 2, 1).to(dtype=donor_act.dtype)
+
+    return aligned_act, {
+        "clean_len": clean_len,
+        "donor_len": donor_len,
+        "aligned": True,
+        "method": "linear_interpolation",
+    }
+
+
+def locate_semantic_positions(
+    tokenizer,
+    prompt: str,
+    answer: str,
+    citation_label: str,
+    relevant_handle: str,
+    evidence_substring: str,
+    dist_idx: int = 0,
+) -> dict[str, Any]:
+    """Map token spans for handle identity, evidence content, post-evidence binding, and output routing."""
+    eval_dict = extract_citation_eval_positions(tokenizer, prompt, answer, citation_label, dist_idx=dist_idx)
+    offsets = eval_dict["offsets"]
+    full_text = eval_dict["full_text"]
+
+    pos_handle = find_token_span(offsets, full_text, relevant_handle)
+    pos_evidence = find_token_span(offsets, full_text, evidence_substring)
+    pos_post_ev = [pos_evidence[-1]] if pos_evidence else []
+
+    return {
+        "pos_source_handle": pos_handle,
+        "pos_evidence": pos_evidence,
+        "pos_post_evidence": pos_post_ev,
+        "pos_answer": eval_dict["ans_positions"],
+        "pos_citation": [eval_dict["eval_pos"]],
+        "eval_dict": eval_dict,
+        "role_map": {
+            "pos_source_handle": "handle_identity",
+            "pos_evidence": "evidence_content",
+            "pos_post_evidence": "binding_construction",
+            "pos_answer": "answer_serialization",
+            "pos_citation": "output_routing",
+        },
     }
 
 
@@ -142,8 +248,8 @@ def find_token_span(offsets: list[tuple[int, int]], full_text: str, substring: s
     ]
 
 
-def build_corruptions(case: dict[str, Any], counter) -> dict[str, dict[str, Any]]:
-    """Build the 4 corruption conditions from a base case."""
+def build_repaired_corruptions(case: dict[str, Any], counter, tokenizer) -> dict[str, dict[str, Any]]:
+    """Build the 4 causal corruption conditions with validated invariants and grounding checks."""
     sources = [Source(s["key"], s["text"]) for s in case["sources"]]
     rel_k = case["relevant_source_key"]
     dist_k = case["distractor_source_key"]
@@ -156,8 +262,8 @@ def build_corruptions(case: dict[str, Any], counter) -> dict[str, dict[str, Any]
         task_type=case["task_type"],
         sources=tuple(sources),
         relevant_sources=(rel_k,),
-        question=case["question"],
-        answer=case["answer"],
+        question=case.get("question", "What is the answer?"),
+        answer=case.get("answer", "Answer"),
         entities={},
     )
 
@@ -165,80 +271,120 @@ def build_corruptions(case: dict[str, Any], counter) -> dict[str, dict[str, Any]
     clean_display = clean_mapping.display_by_source[rel_k]
     dist_display = clean_mapping.display_by_source[dist_k]
 
-    # Gold evidence sentence is the first sentence of the relevant source
     rel_src = next(s for s in sources if s.key == rel_k)
-    dist_src = next(s for s in sources if s.key == dist_k)
+    dist_src = next((s for s in sources if s.key == dist_k), None)
     gold_evidence = rel_src.text.split(". ")[0] + "."
+
+    # Clean distinguishing token
+    c_tokens = tokenizer.encode(clean_label, add_special_tokens=False)
+    s_tokens = tokenizer.encode(swapped_label, add_special_tokens=False)
+    d_idx = find_first_distinguishing_index(c_tokens, s_tokens)
+    clean_tok = c_tokens[d_idx]
+    distractor_tok = s_tokens[d_idx]
 
     corruptions = {}
 
-    # 1. Label Swap: Swapped handles between rel_k and dist_k
+    # 1. Label Swap
     swap_map = swap_source_identifiers(clean_mapping, rel_k, dist_k)
     prompt_lswap = render_prompt(base_ex, swap_map, require_citations=True).prompt
     corruptions["label_swap"] = {
+        "is_eligible": True,
         "prompt": prompt_lswap,
-        "answer": case["answer"],
+        "answer": case.get("answer", base_ex.answer),
+        "clean_target_label": clean_label,
         "donor_target_label": swapped_label,
-        "rel_display": dist_display,  # At rel_k, label is now dist_display
+        "clean_tok": clean_tok,
+        "donor_swap_tok": distractor_tok,
+        "dist_idx": d_idx,
+        "rel_display": dist_display,
         "evidence_sentence": gold_evidence,
     }
 
-    # 2. Content Swap: Swap factual text between rel_k and dist_k
-    cswap_sources = []
-    for s in sources:
-        if s.key == rel_k:
-            cswap_sources.append(Source(rel_k, dist_src.text))
-        elif s.key == dist_k:
-            cswap_sources.append(Source(dist_k, rel_src.text))
-        else:
-            cswap_sources.append(s)
+    # 2. Content Swap
+    if dist_src is not None:
+        cswap_sources = []
+        for s in sources:
+            if s.key == rel_k:
+                cswap_sources.append(Source(rel_k, dist_src.text))
+            elif s.key == dist_k:
+                cswap_sources.append(Source(dist_k, rel_src.text))
+            else:
+                cswap_sources.append(s)
 
-    cswap_ex = CanonicalExample(
-        example_id=case["example_id"] + "_cswap",
-        seed=202671,
-        task_type=case["task_type"],
-        sources=tuple(cswap_sources),
-        relevant_sources=(dist_k,),
-        question=case["question"],
-        answer=case["answer"],
-        entities={},
-    )
-    prompt_cswap = render_prompt(cswap_ex, clean_mapping, require_citations=True).prompt
-    corruptions["content_swap"] = {
-        "prompt": prompt_cswap,
-        "answer": case["answer"],
-        "donor_target_label": swapped_label,
-        "rel_display": dist_display,  # Gold fact is now in dist_k with label dist_display
-        "evidence_sentence": gold_evidence,
-    }
+        cswap_ex = CanonicalExample(
+            example_id=case["example_id"] + "_cswap",
+            seed=202671,
+            task_type=case["task_type"],
+            sources=tuple(cswap_sources),
+            relevant_sources=(dist_k,),
+            question=case.get("question", base_ex.question),
+            answer=case.get("answer", base_ex.answer),
+            entities={},
+        )
+        prompt_cswap = render_prompt(cswap_ex, clean_mapping, require_citations=True).prompt
+        corruptions["content_swap"] = {
+            "is_eligible": True,
+            "prompt": prompt_cswap,
+            "answer": case.get("answer", base_ex.answer),
+            "clean_target_label": clean_label,
+            "donor_target_label": swapped_label,
+            "clean_tok": clean_tok,
+            "donor_swap_tok": distractor_tok,
+            "dist_idx": d_idx,
+            "rel_display": dist_display,
+            "evidence_sentence": gold_evidence,
+        }
+    else:
+        corruptions["content_swap"] = {
+            "is_eligible": False,
+            "reason": f"Distractor source {dist_k} not found in sources",
+        }
 
-    # 3. Question Swap: Question asks about another source
-    # For temporal: "review" fact is present in sources
-    review_src = next((s for s in sources if "review" in s.key or s.key != rel_k and s.key != dist_k), dist_src)
-    qswap_question = "Which source reports the design review?" if case["task_type"] == "temporal" else "Which source reports the secondary registry record?"
-    qswap_answer = "design review" if case["task_type"] == "temporal" else "registry record"
-    qswap_label = clean_mapping.citation_by_source[review_src.key]
+    # 3. Question Swap: Must ground alternative question in an explicit factual source
+    qswap_eligible = False
+    qswap_record = {}
+    if dist_src is not None:
+        match = re.search(r"reports reference value (\d+) for department ([A-Z]) in cycle (\d+)", dist_src.text)
+        if match:
+            val, dept, cycle = match.groups()
+            qswap_question = f"What reference value is reported for department {dept} in cycle {cycle}? Answer with the number."
+            qswap_answer = val
+            qswap_label = clean_mapping.citation_by_source[dist_k]
+            qswap_ex = CanonicalExample(
+                example_id=case["example_id"] + "_qswap",
+                seed=202671,
+                task_type=case["task_type"],
+                sources=tuple(sources),
+                relevant_sources=(dist_k,),
+                question=qswap_question,
+                answer=qswap_answer,
+                entities={},
+            )
+            prompt_qswap = render_prompt(qswap_ex, clean_mapping, require_citations=True).prompt
+            qswap_record = {
+                "is_eligible": True,
+                "prompt": prompt_qswap,
+                "answer": qswap_answer,
+                "gold_source_key": dist_k,
+                "clean_target_label": clean_label,
+                "donor_target_label": qswap_label,
+                "clean_tok": clean_tok,
+                "donor_swap_tok": distractor_tok,
+                "dist_idx": d_idx,
+                "rel_display": dist_display,
+                "evidence_sentence": dist_src.text.split(". ")[0] + ".",
+            }
+            qswap_eligible = True
 
-    qswap_ex = CanonicalExample(
-        example_id=case["example_id"] + "_qswap",
-        seed=202671,
-        task_type=case["task_type"],
-        sources=tuple(sources),
-        relevant_sources=(review_src.key,),
-        question=qswap_question,
-        answer=qswap_answer,
-        entities={},
-    )
-    prompt_qswap = render_prompt(qswap_ex, clean_mapping, require_citations=True).prompt
-    corruptions["question_swap"] = {
-        "prompt": prompt_qswap,
-        "answer": qswap_answer,
-        "donor_target_label": qswap_label,
-        "rel_display": clean_mapping.display_by_source[review_src.key],
-        "evidence_sentence": review_src.text.split(". ")[0] + ".",
-    }
+    if not qswap_eligible:
+        corruptions["question_swap"] = {
+            "is_eligible": False,
+            "reason": f"Distractor source {dist_k} lacks parseable grounded factual pattern for question-swap",
+        }
+    else:
+        corruptions["question_swap"] = qswap_record
 
-    # 4. Order Permutation: Rotate passages by 5 slots (content-label pairs preserved)
+    # 4. Order Permutation: Preserves content-label pairings while rotating passage slots
     perm_sources = list(sources[5:]) + list(sources[:5])
     perm_ex = CanonicalExample(
         example_id=case["example_id"] + "_perm",
@@ -246,20 +392,41 @@ def build_corruptions(case: dict[str, Any], counter) -> dict[str, dict[str, Any]
         task_type=case["task_type"],
         sources=tuple(perm_sources),
         relevant_sources=(rel_k,),
-        question=case["question"],
-        answer=case["answer"],
+        question=case.get("question", base_ex.question),
+        answer=case.get("answer", base_ex.answer),
         entities={},
     )
     prompt_perm = render_prompt(perm_ex, clean_mapping, require_citations=True).prompt
+    orig_slot = next(i for i, s in enumerate(sources) if s.key == rel_k)
+    new_slot = next(i for i, s in enumerate(perm_sources) if s.key == rel_k)
+
     corruptions["order_perm"] = {
+        "is_eligible": True,
         "prompt": prompt_perm,
-        "answer": case["answer"],
-        "donor_target_label": clean_label,  # Same label expected!
+        "answer": case.get("answer", base_ex.answer),
+        "clean_target_label": clean_label,
+        "distractor_target_label": swapped_label,
+        "donor_target_label": clean_label,
+        "clean_tok": clean_tok,
+        "distractor_tok": distractor_tok,
+        "donor_swap_tok": distractor_tok,  # Frozen contrast against distractor
+        "dist_idx": d_idx,
         "rel_display": clean_display,
         "evidence_sentence": gold_evidence,
+        "invariants": {
+            "content_label_pairing_preserved": clean_mapping.display_by_source[rel_k] == clean_display,
+            "passage_slot_changed": orig_slot != new_slot,
+        },
     }
 
     return corruptions
+
+
+def build_corruptions(case: dict[str, Any], counter) -> dict[str, dict[str, Any]]:
+    """Legacy alias calling build_repaired_corruptions with None tokenizer fallback."""
+    from transformers import AutoTokenizer
+    tok = AutoTokenizer.from_pretrained("models/qwen2.5-1.5b-instruct-hf")
+    return build_repaired_corruptions(case, counter, tok)
 
 
 def compute_logp_pref(logits: torch.Tensor, clean_tok: int, swap_tok: int) -> tuple[float, float, float]:
@@ -301,12 +468,17 @@ def run_experiment(
     layers, final_norm = find_transformer_stack(model)
     counter = create_token_counter({"type": "regex"})
 
-    # Map layer components
+    # Map layer components with 1-based scientific layer mapping
     layer_comp_map = {}
-    for l_idx in target_layers:
-        layer_mod = layers[l_idx]
+    for l_1based in target_layers:
+        l_info = resolve_layer_indices(l_1based, len(layers))
+        l_0based = l_info["layer_0based"]
+        layer_mod = layers[l_0based]
         comps = get_layer_components(layer_mod)
-        layer_comp_map[l_idx] = {
+        layer_comp_map[l_1based] = {
+            "layer_1based": l_1based,
+            "layer_0based": l_0based,
+            "stack_idx": l_0based,
             "layer_module": layer_mod,
             "mixer_out": comps["mixer"]["out_proj"],
             "mlp_out": comps["mlp"]["out_proj"],
@@ -317,7 +489,21 @@ def run_experiment(
         lines = [line for line in lines if line.get("condition") == condition_filter]
     if max_cases:
         lines = lines[:max_cases]
-    print(f"Loaded {len(lines)} cases to evaluate across 4 corruptions and 4 token positions.")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    completed_keys = set()
+    if output_path.exists():
+        for line in output_path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                try:
+                    row = json.loads(line)
+                    completed_keys.add((row["example_id"], row["condition"]))
+                except json.JSONDecodeError:
+                    continue
+        if completed_keys:
+            print(f"Found {len(completed_keys)} already completed cases in {output_path.name}; resuming...")
+
+    print(f"Loaded {len(lines)} cases to evaluate across 4 corruptions and 5 semantic token positions.")
 
     results = []
     start_time = time.time()
@@ -325,17 +511,14 @@ def run_experiment(
     for idx, case in enumerate(lines):
         cid = case["example_id"]
         cond = case["condition"]
+        if (cid, cond) in completed_keys:
+            continue
+
         clean_label = case["clean_label"]
         swapped_label = case["swapped_label"]
         rel_k = case["relevant_source_key"]
 
-        # Parse Clean Spans
-        clean_spans = extract_spans(tokenizer, case["clean_prompt"], case["answer"], clean_label)
-        clean_full_text = clean_spans["full_text"]
-        clean_offsets = clean_spans["offsets"]
-        clean_pred_pos = clean_spans["predicting_pos"]
-
-        # Tokenize distinguishing first token
+        # Clean Distinguishing token
         clean_target_tokens = tokenizer(clean_label, add_special_tokens=False)["input_ids"]
         swapped_target_tokens = tokenizer(swapped_label, add_special_tokens=False)["input_ids"]
         dist_idx = find_first_distinguishing_index(clean_target_tokens, swapped_target_tokens)
@@ -347,23 +530,31 @@ def run_experiment(
         evidence_sentence = rel_src["text"].split(". ")[0] + "."
         clean_display = case["clean_display_by_source"][rel_k]
 
-        pos_label_clean = find_token_span(clean_offsets, clean_full_text, clean_display)
-        pos_evidence_clean = find_token_span(clean_offsets, clean_full_text, evidence_sentence)
-        pos_answer_clean = clean_spans["ans_positions"]
-        pos_citation_clean = [clean_pred_pos]
+        clean_pos_dict = locate_semantic_positions(
+            tokenizer=tokenizer,
+            prompt=case["clean_prompt"],
+            answer=case["answer"],
+            citation_label=clean_label,
+            relevant_handle=clean_display,
+            evidence_substring=evidence_sentence,
+            dist_idx=dist_idx,
+        )
+        clean_pred_pos = clean_pos_dict["pos_citation"][0]
 
         clean_positions_dict = {
-            "pos_source_label": pos_label_clean,
-            "pos_evidence": pos_evidence_clean,
-            "pos_answer": pos_answer_clean,
-            "pos_citation": pos_citation_clean,
+            "pos_source_label": clean_pos_dict["pos_source_handle"],
+            "pos_evidence": clean_pos_dict["pos_evidence"],
+            "pos_post_evidence": clean_pos_dict["pos_post_evidence"],
+            "pos_answer": clean_pos_dict["pos_answer"],
+            "pos_citation": clean_pos_dict["pos_citation"],
         }
 
         # Run Clean Baseline
-        clean_input_ids = torch.tensor([clean_spans["input_ids"]], device="cuda:0")
-        with torch.no_grad():
-            clean_out = model(clean_input_ids)
-            clean_logits = clean_out.logits[0, clean_pred_pos, :]
+        clean_input_ids = torch.tensor([clean_pos_dict["eval_dict"]["input_ids"]], device="cuda:0")
+        clean_pred_tensor = torch.tensor([clean_pred_pos], device="cuda:0")
+        with torch.inference_mode():
+            clean_out = model(clean_input_ids, logits_to_keep=clean_pred_tensor)
+            clean_logits = clean_out.logits[0, 0, :]
             c_lp, s_lp, clean_pref = compute_logp_pref(clean_logits, clean_tok, swapped_tok)
 
         case_record = {
@@ -373,6 +564,8 @@ def run_experiment(
             "task_type": case["task_type"],
             "clean_label": clean_label,
             "swapped_label": swapped_label,
+            "dist_idx": dist_idx,
+            "role_map": clean_pos_dict["role_map"],
             "clean_baseline": {
                 "clean_logp": c_lp,
                 "swapped_logp": s_lp,
@@ -382,51 +575,57 @@ def run_experiment(
         }
 
         # Build Corruptions
-        corruptions = build_corruptions(case, counter)
+        corruptions = build_repaired_corruptions(case, counter, tokenizer)
 
         for corr_name, corr_info in corruptions.items():
+            if not corr_info.get("is_eligible", True):
+                case_record["corruptions"][corr_name] = {
+                    "is_eligible": False,
+                    "reason": corr_info.get("reason", "unknown ineligibility"),
+                }
+                continue
+
             donor_prompt = corr_info["prompt"]
             donor_answer = corr_info["answer"]
             donor_target = corr_info["donor_target_label"]
+            donor_swap_tok = corr_info["donor_swap_tok"]
 
-            donor_spans = extract_spans(tokenizer, donor_prompt, donor_answer, donor_target)
-            donor_full_text = donor_spans["full_text"]
-            donor_offsets = donor_spans["offsets"]
-            donor_pred_pos = donor_spans["predicting_pos"]
-
-            donor_target_toks = tokenizer(donor_target, add_special_tokens=False)["input_ids"]
-            donor_dist_idx = find_first_distinguishing_index(clean_target_tokens, donor_target_toks)
-            donor_swap_tok = donor_target_toks[donor_dist_idx] if donor_dist_idx < len(donor_target_toks) else swapped_tok
-
-            # Locate donor positions
-            pos_label_donor = find_token_span(donor_offsets, donor_full_text, corr_info["rel_display"])
-            pos_evidence_donor = find_token_span(donor_offsets, donor_full_text, corr_info["evidence_sentence"])
-            pos_answer_donor = donor_spans["ans_positions"]
-            pos_citation_donor = [donor_pred_pos]
+            donor_pos_dict = locate_semantic_positions(
+                tokenizer=tokenizer,
+                prompt=donor_prompt,
+                answer=donor_answer,
+                citation_label=donor_target,
+                relevant_handle=corr_info["rel_display"],
+                evidence_substring=corr_info["evidence_sentence"],
+                dist_idx=corr_info["dist_idx"],
+            )
+            donor_pred_pos = donor_pos_dict["pos_citation"][0]
 
             donor_positions_dict = {
-                "pos_source_label": pos_label_donor,
-                "pos_evidence": pos_evidence_donor,
-                "pos_answer": pos_answer_donor,
-                "pos_citation": pos_citation_donor,
+                "pos_source_label": donor_pos_dict["pos_source_handle"],
+                "pos_evidence": donor_pos_dict["pos_evidence"],
+                "pos_post_evidence": donor_pos_dict["pos_post_evidence"],
+                "pos_answer": donor_pos_dict["pos_answer"],
+                "pos_citation": donor_pos_dict["pos_citation"],
             }
 
             # Register all donor targets across layers, components, and positions in a single pass
-            donor_input_ids = torch.tensor([donor_spans["input_ids"]], device="cuda:0")
+            donor_input_ids = torch.tensor([donor_pos_dict["eval_dict"]["input_ids"]], device="cuda:0")
             donor_targets = []
-            for l_idx in target_layers:
-                layer_mods = layer_comp_map[l_idx]
-                for pos_name in ["pos_source_label", "pos_evidence", "pos_answer", "pos_citation"]:
+            for l_1based in target_layers:
+                layer_mods = layer_comp_map[l_1based]
+                for pos_name in ["pos_source_label", "pos_evidence", "pos_post_evidence", "pos_answer", "pos_citation"]:
                     d_pos = donor_positions_dict[pos_name]
                     if d_pos:
-                        donor_targets.append(((l_idx, pos_name, "mixer"), layer_mods["mixer_out"], d_pos))
-                        donor_targets.append(((l_idx, pos_name, "mlp"), layer_mods["mlp_out"], d_pos))
-                        donor_targets.append(((l_idx, pos_name, "residual"), layer_mods["layer_module"], d_pos))
+                        donor_targets.append(((l_1based, pos_name, "mixer"), layer_mods["mixer_out"], d_pos))
+                        donor_targets.append(((l_1based, pos_name, "mlp"), layer_mods["mlp_out"], d_pos))
+                        donor_targets.append(((l_1based, pos_name, "residual"), layer_mods["layer_module"], d_pos))
 
             rec = MultiActivationRecorder(donor_targets)
-            with torch.no_grad():
-                donor_out = model(donor_input_ids)
-                donor_logits = donor_out.logits[0, donor_pred_pos, :]
+            donor_pred_tensor = torch.tensor([donor_pred_pos], device="cuda:0")
+            with torch.inference_mode():
+                donor_out = model(donor_input_ids, logits_to_keep=donor_pred_tensor)
+                donor_logits = donor_out.logits[0, 0, :]
                 d_c_lp, d_s_lp, donor_pref = compute_logp_pref(donor_logits, clean_tok, donor_swap_tok)
             rec.close()
             donor_acts = rec.activations
@@ -434,6 +633,7 @@ def run_experiment(
             torch.cuda.empty_cache()
 
             corr_record = {
+                "is_eligible": True,
                 "donor_baseline": {
                     "clean_logp": d_c_lp,
                     "swapped_logp": d_s_lp,
@@ -442,17 +642,25 @@ def run_experiment(
                 "layers": {},
             }
 
-            for l_idx in target_layers:
-                layer_mods = layer_comp_map[l_idx]
-                layer_record = {}
+            for l_1based in target_layers:
+                layer_mods = layer_comp_map[l_1based]
+                layer_record = {
+                    "layer_1based": l_1based,
+                    "layer_0based": layer_mods["layer_0based"],
+                    "stack_idx": layer_mods["stack_idx"],
+                    "positions": {},
+                }
 
-                for pos_name in ["pos_source_label", "pos_evidence", "pos_answer", "pos_citation"]:
+                for pos_name in ["pos_source_label", "pos_evidence", "pos_post_evidence", "pos_answer", "pos_citation"]:
                     clean_pos = clean_positions_dict[pos_name]
                     donor_pos = donor_positions_dict[pos_name]
 
-                    # Token length alignment check
-                    if not clean_pos or not donor_pos or len(clean_pos) != len(donor_pos):
-                        layer_record[pos_name] = {"status": "length_mismatch", "clean_len": len(clean_pos), "donor_len": len(donor_pos)}
+                    if not clean_pos or not donor_pos:
+                        layer_record["positions"][pos_name] = {
+                            "status": "empty_position",
+                            "clean_len": len(clean_pos),
+                            "donor_len": len(donor_pos),
+                        }
                         continue
 
                     pos_eval = {}
@@ -463,14 +671,15 @@ def run_experiment(
                     ]
 
                     for comp_name, comp_mod in comp_targets:
-                        donor_act = donor_acts.get((l_idx, pos_name, comp_name))
+                        donor_act = donor_acts.get((l_1based, pos_name, comp_name))
                         if donor_act is None:
                             continue
 
-                        with SingleModulePositionPatcher(comp_mod, donor_act, clean_pos):
-                            with torch.no_grad():
-                                patched_out = model(clean_input_ids)
-                                patched_logits = patched_out.logits[0, clean_pred_pos, :]
+                        aligned_act, diag = align_activation_spans(clean_pos, donor_pos, donor_act)
+                        with SingleModulePositionPatcher(comp_mod, aligned_act, clean_pos):
+                            with torch.inference_mode():
+                                patched_out = model(clean_input_ids, logits_to_keep=clean_pred_tensor)
+                                patched_logits = patched_out.logits[0, 0, :]
 
                         _, _, patched_pref = compute_logp_pref(patched_logits, clean_tok, donor_swap_tok)
                         kl = compute_kl(clean_logits, patched_logits)
@@ -479,28 +688,30 @@ def run_experiment(
                         pos_eval[comp_name] = {
                             "abs_shift_first": round(float(shift), 4),
                             "kl_div": round(float(kl), 4),
+                            "alignment_diag": diag,
                         }
 
-                    layer_record[pos_name] = pos_eval
+                    layer_record["positions"][pos_name] = pos_eval
 
-                corr_record["layers"][str(l_idx)] = layer_record
+                corr_record["layers"][str(l_1based)] = layer_record
 
             case_record["corruptions"][corr_name] = corr_record
 
         # Clear GPU cache after each case
         torch.cuda.empty_cache()
 
-        results.append(case_record)
-        if (idx + 1) % 10 == 0 or (idx + 1) == len(lines):
-            elapsed = time.time() - start_time
-            print(f"[{idx+1}/{len(lines)}] Cases evaluated ({elapsed:.1f}s, {elapsed/(idx+1):.2f}s/case)")
+        # Stream row directly to output file
+        with output_path.open("a", encoding="utf-8") as out_f:
+            out_f.write(json.dumps(case_record) + "\n")
+            out_f.flush()
+        completed_keys.add((cid, cond))
 
-    # Save output
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with output_path.open("w", encoding="utf-8") as f:
-        for r in results:
-            f.write(json.dumps(r) + "\n")
-    print(f"\nSaved {len(results)} evaluated records to {output_path}")
+        results.append(case_record)
+        elapsed = time.time() - start_time
+        n_done = len(completed_keys)
+        print(f"[{n_done}/{len(lines)}] Case completed: {cid} ({cond}) in {elapsed/(idx+1):.1f}s/case", flush=True)
+
+    print(f"\nCompleted run. All {len(completed_keys)} evaluated records saved to {output_path}")
 
 
 def main():

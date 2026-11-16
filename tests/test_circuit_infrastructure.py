@@ -177,6 +177,14 @@ def test_dataset_manifest_hashes_and_relative_paths():
     actual_prereg_sha = hashlib.sha256(prereg_p.read_bytes()).hexdigest()
     assert actual_prereg_sha == manifest["preregistration"]["sha256"], "SHA256 mismatch for preregistration"
 
+    if "sequence3_preregistration" in manifest:
+        s3_file = manifest["sequence3_preregistration"]["file"]
+        assert not s3_file.startswith("/"), "Sequence 3 preregistration path must be relative"
+        s3_p = ROOT / s3_file
+        assert s3_p.exists(), f"Sequence 3 preregistration file {s3_p} must exist"
+        actual_s3_sha = hashlib.sha256(s3_p.read_bytes()).hexdigest()
+        assert actual_s3_sha == manifest["sequence3_preregistration"]["sha256"], "SHA256 mismatch for Sequence 3 preregistration"
+
 
 def test_analyze_head_results_execution(tmp_path):
     """Verify that head results analysis imports and runs correctly with cluster bootstrap."""
