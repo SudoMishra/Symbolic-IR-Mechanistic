@@ -130,17 +130,83 @@ def test_anthropic_frontier_claims_match_compiled_results():
         assert all(name in svg for name in model_names)
 
 
-def test_sequence3_blog_claims_and_figures():
+def test_sequence3_blog_tables_match_audited_v2():
+    """Catch swapped metrics, stale CIs, missing ranks and Markdown/site drift."""
+    import html
+    import re
+
+    work = ROOT / "results/circuit/sequence3_work"
+    validation = json.loads((work / "qwen25_subspace_validation_synthesis_audited_v2.json").read_text())
+    confirmation = json.loads((work / "qwen25_subspace_confirmation_synthesis_exploratory_audited_v2.json").read_text())
+    bridge = json.loads((work / "qwen25_behavioral_bridge_synthesis_audited_v2.json").read_text())
+    md_section = MARKDOWN.split("### What Survived", 1)[1].split("## PART IV", 1)[0]
+    html_section = HTML.split('id="sequence3-audit"', 1)[1].split("</section>", 1)[0]
+    actual_md = [[cell.strip() for cell in line.strip().strip("|").split("|")]
+                 for line in md_section.splitlines() if line.startswith("| ")]
+    actual_html = [[html.unescape(cell) for cell in re.findall(r'<td[^>]*>(.*?)</td>', row)]
+                   for row in re.findall(r'<tr>(.*?)</tr>', html_section)]
+
+    def ci(row, key="shift_ci_95", digits=4):
+        return "[" + ", ".join(f"{x:+.{digits}f}" for x in row[key]) + "]"
+
+    expected = []
+    for rank, row in validation["rank_summaries"].items():
+        assert not row["qualifies_preregistered_rule"]
+        expected.append([rank, f"{row['shift_mean']:+.4f}", ci(row), "No"])
+    for rank, row in confirmation["rank_summaries"].items():
+        expected.append([rank, f"{row['shift_mean']:+.4f}", ci(row),
+                         f"{row['shift_diff_over_random_mean']:+.4f}", ci(row, "shift_diff_over_random_ci_95")])
+    for key, label in [
+        ("answer_em", "Answer exact match"), ("cites_counterfactual", "Counterfactual citation"),
+        ("answer_correct_with_counterfactual_citation", "Correct answer + counterfactual citation"),
+        ("cites_gold", "Gold citation"), ("citation_precision", "Citation precision"),
+    ]:
+        row = bridge["paired_effects"][key]
+        expected.append([label, f"{row['clean_prevalence_pct']:.2f}%", f"{row['patched_prevalence_pct']:.2f}%",
+                         f"{row['paired_mean_diff_pct']:+.2f}", ci(row, "paired_ci_95", 2)])
+    for row in expected:
+        assert row in actual_md
+        assert row in actual_html
+    assert len([row for row in actual_html if row]) == len(expected)
+    assert len(re.findall(r'<td data-label="[^"]+">', html_section)) == sum(map(len, expected))
+
+
+def test_sequence3_blog_preserves_audited_scope_and_figure_provenance(tmp_path):
+    import runpy
+    import xml.etree.ElementTree as ET
+
     for article in (MARKDOWN, HTML):
-        assert "08d_computation_vs_transport.svg" in article
-        assert "08e_subspace_confirmation.svg" in article
-        assert "+0.0297" in article
-        assert "+0.0321" in article
-        assert "2.125" in article
-        assert "40.6%" in article
-
-    for asset in ("08d_computation_vs_transport.svg", "08e_subspace_confirmation.svg"):
-        svg = (ROOT / "blog/site/assets" / asset).read_text(encoding="utf-8")
-        assert len(svg) > 1000
-        assert "<svg" in svg
-
+        section = article.split("What Survived the Mechanistic Audit?", 1)[1]
+        assert "exploratory and consumed" in section
+        assert "No rank was qualified, selected, or frozen" in section
+        assert "baseline prevalence, not induced citation redirection" in section
+        assert "post-audit sensitivity policy" in section
+        assert "do not prove that the population effect must be exactly zero" in section
+        for stale_claim in ("+12.7%", "Optimal k=8", "Low-Rank Causal Subspace Confirmed",
+                            "confirmed a functional causal bridge", "[+0.0165, +0.0423]"):
+            assert stale_claim not in section
+    builders = runpy.run_path(str(ROOT / "scripts/build_circuit_figures.py"))
+    work = ROOT / "results/circuit/sequence3_work"
+    discovery = work / "qwen25_computation_vs_transport_discovery_n32_synthesis_repaired.json"
+    confirmation = work / "qwen25_subspace_confirmation_synthesis_exploratory_audited_v2.json"
+    bridge = work / "qwen25_behavioral_bridge_synthesis_audited_v2.json"
+    validation = work / "qwen25_subspace_validation_synthesis_audited_v2.json"
+    fig_d, fig_e = tmp_path / "8d.svg", tmp_path / "8e.svg"
+    builders["build_fig08d_computation_vs_transport"](discovery, [fig_d])
+    builders["build_fig08e_subspace_confirmation"](confirmation, bridge, [fig_e], validation)
+    for asset, regenerated in [("08d_computation_vs_transport.svg", fig_d), ("08e_subspace_confirmation.svg", fig_e)]:
+        source = ROOT / "blog/assets" / asset
+        site = ROOT / "blog/site/assets" / asset
+        assert regenerated.read_bytes() == source.read_bytes() == site.read_bytes()
+        ET.parse(source)
+    figure = fig_e.read_text()
+    result = json.loads(confirmation.read_text())
+    for row in result["rank_summaries"].values():
+        low, high = row["shift_ci_95"]
+        assert f"{row['shift_mean']:+.4f} [{low:+.4f}, {high:+.4f}]" in figure
+    assert "0/6 validation ranks qualified" in figure
+    assert "8.33% is baseline prevalence" in figure
+    for letter, name in [("a", "component_dissociation"), ("b", "circuit_wiring_diagram"), ("c", "cross_model_circuit_comparison")]:
+        source = ROOT / f"blog/assets/08{letter}_{name}.svg"
+        assert "Historical" in source.read_text()
+        assert source.read_bytes() == (ROOT / f"blog/site/assets/{source.name}").read_bytes()

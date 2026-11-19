@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "amendment_id": "sequence3_preregistration_amendment_002",
+  "timestamps": {
+    "created_at_utc": "2026-11-16T23:25:00Z",
+    "created_at_local": "2026-11-17T04:55:00+05:30",
+    "timezone": "Asia/Kolkata"
+  },
+  "referenced_documents": {
+    "target_preregistration": {
+      "file": "results/circuit/sequence3_preregistration.json",
+      "sha256": "23f532fed2d7c88a868a124f6259ce2f5c9a50ca2cea31e70e4254298bc178fd"
+    },
+    "prior_amendment": {
+      "file": "results/circuit/sequence3_preregistration_amendment_001.json",
+      "sha256": "884311687e33e0c507addff657b645cbf0bf82c92853f543d69497498517b3f3"
+    },
+    "circuit_preregistration": {
+      "file": "results/circuit/circuit_preregistration.json",
+      "sha256": "12363b12ad0d1d0acf28d9ed3d95478624f5515cd8f371dca95f839cc454f8af"
+    }
+  },
+  "dataset_manifest_hashes": {
+    "discovery_n32": {
+      "file": "data/circuit/discovery_n32.jsonl",
+      "sha256": "9112c31c27c6ed5d55d8a0d12b9a8399b38267ef5cafa710d27e5e0145e2f41e"
+    },
+    "validation_n32": {
+      "file": "data/circuit/validation_n32.jsonl",
+      "sha256": "36435991721f830477393d53c56bcb6cced8c04c327b6ac2d54dd613acacd9d7"
+    },
+    "confirmation_n80": {
+      "file": "data/circuit/confirmation_n80.jsonl",
+      "sha256": "3f5c66fa16dba4c88f40bd938a5ea237c554d9e8caff8a78838b8954437d54bd"
+    }
+  },
+  "authorization": {
+    "confirmation_authorization_basis": "standing_user_instruction",
+    "note": "Antigravity operated under standing user instruction to execute authorized repairs. Protocol checks and provenance standards remain strictly enforced."
+  },
+  "reason_for_amendment": "Formalization of versioned post-audit analysis policies addressing denominator cancellation, ratio identifiability, CPU preflight gating, transfer validation wiring, behavioral metric typing, and accurate numeric reporting.",
+  "corrections_catalog": [
+    {
+      "correction_id": "CORR-01",
+      "title": "Separation of Row Eligibility from Aggregate Ratio Identifiability",
+      "details": "Maintains the historical per-row threshold |donor - clean| > 0.5 for row eligibility while introducing an aggregate mean denominator guard |mean(donor - clean)| >= 0.5 in the same units across eligible rows for the point estimate and every bootstrap resample. Designated as a post-audit sensitivity policy, not a post-hoc reinterpretation of the locked rule."
+    },
+    {
+      "correction_id": "CORR-02",
+      "title": "Strict Resample Identifiability and Elimination of Unregistered 80% Rule",
+      "details": "Cluster bootstrap uses B=1,000 paired replicates by example_id with actual sample mean recomputation. If point denominator mean fails the 0.5 guard, recovery/margin is null with descriptive reason. If point ratio is defined but any resample fails the guard or changes denominator sign, point estimate is reported descriptively, CI is null, and ratio_status is 'not_identifiable_under_policy'. Linear logit shifts and control differences are preserved."
+    },
+    {
+      "correction_id": "CORR-03",
+      "title": "CPU Confirmation Preflight & Manifest Gating",
+      "details": "Confirmation preflight verifies dataset file hash against the manifest regardless of filename or alias, enforces exactly one frozen rank, validates a locked execution record linked to a qualified validation record, and supports --dry-run without model loading or output file creation."
+    },
+    {
+      "correction_id": "CORR-04",
+      "title": "Wired Cross-Format Transfer Validation",
+      "details": "Integrates validate_cross_format_transfer into runner/preflight via --transfer-claim. Verifies fit_conditions in basis metadata, derives evaluated conditions from dataset cases, and rejects transfer claims when no held-out formats exist or when using a pooled basis."
+    },
+    {
+      "correction_id": "CORR-05",
+      "title": "Behavioral Analyzer Metric Types and Dynamic Prevalence Narrative",
+      "details": "Removes hardcoded 8.33% text from behavioral bridge synthesis, deriving exact clean/patched prevalences from paired data (counterfactual citation prevalence 11.46%; correct-answer with counterfactual-citation prevalence 8.33%). Restricts binary transition tables to binary variables (precision and recall are continuous) and records evaluated/missing pair counts."
+    }
+  ],
+  "effect_on_ratio_interpretation": {
+    "validation_split": "On validation (N=32, 96 cases; 81 eligible rows), aggregate denominator mean is -0.7126 (passes 0.5 guard). All ranks fail preregistered thresholds (recovery >= 70%, margin >= 30%), yielding optimal_rank: null and selection_outcome: no_rank_qualified.",
+    "confirmation_split": "On confirmation (N=80, 240 cases; 195 eligible rows), aggregate denominator mean is -0.0955 (calculated from raw rows), failing the 0.5 aggregate guard. Ratios are undefined under the post-audit sensitivity policy (ratio_status: 'denominator_below_aggregate_guard'), exploratory_best_margin_rank is null, and confirmation remains exploratory with no rank frozen."
+  },
+  "provenance_and_versioning_policy": {
+    "immutable_historical_artifacts": "All historical preregistrations, amendment_001, raw experimental JSONLs, .pt basis weights, and v1 audited summaries remain byte-identical.",
+    "versioned_v2_reports": "All repaired analyses are emitted as *_audited_v2.json and *_AUDITED_V2.md, accompanied by SEQUENCE3_SCIENTIFIC_AUDIT_V2.md and SEQUENCE3_WALKTHROUGH_CORRECTED_V2.md."
+  }
+}

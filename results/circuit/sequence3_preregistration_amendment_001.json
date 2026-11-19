@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "amendment_id": "sequence3_preregistration_amendment_001",
+  "timestamps": {
+    "created_at_utc": "2026-11-16T22:33:45Z",
+    "created_at_local": "2026-11-17T04:03:45+05:30",
+    "timezone": "Asia/Kolkata"
+  },
+  "target_preregistration": {
+    "file": "results/circuit/sequence3_preregistration.json",
+    "sha256": "23f532fed2d7c88a868a124f6259ce2f5c9a50ca2cea31e70e4254298bc178fd"
+  },
+  "reason_for_amendment": "Formal audit and correction of internal dataset hash discrepancies, protocol deviations in subspace rank selection, confirmation execution divergence, and behavioral metric definition.",
+  "internal_hash_discrepancies": [
+    {
+      "key": "discovery_n32",
+      "file_path": "data/circuit/discovery_n32.jsonl",
+      "claimed_sha256": "9112c31c27c653457e937d577ca226d9c661ef5dd4cf19cb07aa568e401c1072",
+      "actual_sha256": "9112c31c27c6ed5d55d8a0d12b9a8399b38267ef5cafa710d27e5e0145e2f41e"
+    },
+    {
+      "key": "validation_n32",
+      "file_path": "data/circuit/validation_n32.jsonl",
+      "claimed_sha256": "36435991721fa40ca7cfc2323c6f1d24a0d84b2e67df146d92ec06bf18fb2587",
+      "actual_sha256": "36435991721f830477393d53c56bcb6cced8c04c327b6ac2d54dd613acacd9d7"
+    },
+    {
+      "key": "confirmation_n80",
+      "file_path": "data/circuit/confirmation_n80.jsonl",
+      "claimed_sha256": "3f5c66fa16dbbca0ee9dcf5c643956488a09f3ea7e2083907720970a2fe8be26",
+      "actual_sha256": "3f5c66fa16dba4c88f40bd938a5ea237c554d9e8caff8a78838b8954437d54bd"
+    },
+    {
+      "key": "historical_circuit_preregistration",
+      "file_path": "results/circuit/circuit_preregistration.json",
+      "claimed_sha256": "12363b12ad0d17088b9a2b535d8a87799e52579069d2d8fc77ae0c8681729b43",
+      "actual_sha256": "12363b12ad0d1d0acf28d9ed3d95478624f5515cd8f371dca95f839cc454f8af"
+    }
+  ],
+  "authorization": {
+    "confirmation_authorization_basis": "standing_user_instruction",
+    "note": "User confirmed standing authorization to proceed through the confirmation gate while user was unavailable. This standing authorization records valid execution access but does not cure scientific deviations from the frozen selection rule or confirmation command."
+  },
+  "protocol_evaluation_and_deviations": {
+    "validation_outcome": {
+      "recovery_threshold_pct": 70.0,
+      "margin_over_random_threshold_pct": 30.0,
+      "result": "no_rank_qualified",
+      "description": "No subspace rank in {1, 2, 4, 8, 16, 32} met both registered recovery and random-margin thresholds on the validation split."
+    },
+    "deviations": [
+      {
+        "deviation_id": "DEV-01",
+        "description": "Analyzer used an unregistered fallback rank: when no rank met the preregistered qualification thresholds, the analyzer automatically selected rank 1 via 'Fallback to rank with highest margin over random'."
+      },
+      {
+        "deviation_id": "DEV-02",
+        "description": "Behavioral free generation experiment used subspace rank 8 even though the fallback analyzer selected rank 1 and no rank met registered qualification."
+      },
+      {
+        "deviation_id": "DEV-03",
+        "description": "Confirmation evaluation evaluated multiple ranks (1, 4, 8, 16, 32) whereas the preregistered confirmation command template specified a single frozen rank ({FROZEN_RANK})."
+      }
+    ]
+  },
+  "scientific_consequences": {
+    "confirmation_status": "exploratory",
+    "confirmation_consequence": "Because the frozen selection rule yielded no qualifying rank and multiple ranks were evaluated on confirmation, confirmation data are classified as exploratory rather than confirmatory. The confirmation cohort is fully consumed and cannot be treated as held-out.",
+    "behavioral_audit_consequence": "Prevalence of patched counterfactual citations (8.33%) cannot be interpreted as an intervention effect without clean-patched pairing. In the raw validation data, the patched-minus-clean difference is zero, and transition counts show 0->1 = 0 and 1->0 = 0.",
+    "cross_format_consequence": "A basis fitted jointly on all three formats (structured, compact, UUID) cannot support a leave-one-format-out transfer claim. Observed condition-level differences reflect heterogeneous in-sample projection magnitude, not out-of-distribution format transfer."
+  },
+  "correction_policy": {
+    "raw_data_preservation": "All raw experimental JSONLs and fitted basis artifacts remain byte-for-byte immutable.",
+    "preregistration_preservation": "The original locked preregistrations remain unmodified; all corrections are documented in this versioned amendment.",
+    "versioned_audited_analyses": "Corrected analyses are written to new audited output files (_audited / _corrected) reporting accurate paired statistics, qualified null results, and exploratory status."
+  }
+}

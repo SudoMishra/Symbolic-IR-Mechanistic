@@ -1,0 +1,752 @@
+{
+  "title": "Phase 6: Behavioral Bridge Free Generation Causal Analysis (Audited)",
+  "eval_dataset": "qwen25_behavioral_bridge_validation.jsonl",
+  "total_records": 96,
+  "evaluated_cases": 96,
+  "missing_intervention_cases": 0,
+  "missing_pair_examples": [],
+  "unique_clusters": 32,
+  "target_intervention": "Layer 14 pos_post_evidence Subspace Projection (Rank 8)",
+  "paired_behavioral_effect": null,
+  "scientific_interpretation": "Null behavioral intervention effect: Subspace projection (L14 Rank 8) produced no citation redirection under free generation. Patched-minus-clean paired difference for counterfactual citations was 0.00% [0.00%, 0.00%], with zero 0->1 transitions. The 11.46% rate of counterfactual citations (and 8.33% joint correct-answer with counterfactual-citation prevalence) observed in intervened outputs reflects pre-existing baseline generation errors present in the clean baseline (11.46% and 8.33%, respectively) without causal effect from the subspace intervention.",
+  "paired_effects": {
+    "answer_em": {
+      "is_binary": true,
+      "clean_prevalence_pct": 40.62,
+      "clean_ci_95": [
+        25.0,
+        58.33
+      ],
+      "patched_prevalence_pct": 40.62,
+      "patched_ci_95": [
+        25.0,
+        58.33
+      ],
+      "paired_mean_diff_pct": 0.0,
+      "paired_ci_95": [
+        0.0,
+        0.0
+      ],
+      "transitions": {
+        "0->0": 57,
+        "0->1": 0,
+        "1->0": 0,
+        "1->1": 39
+      }
+    },
+    "cites_gold": {
+      "is_binary": true,
+      "clean_prevalence_pct": 11.46,
+      "clean_ci_95": [
+        4.17,
+        19.79
+      ],
+      "patched_prevalence_pct": 12.5,
+      "patched_ci_95": [
+        4.17,
+        21.88
+      ],
+      "paired_mean_diff_pct": 1.04,
+      "paired_ci_95": [
+        -2.08,
+        4.17
+      ],
+      "transitions": {
+        "0->0": 83,
+        "0->1": 2,
+        "1->0": 1,
+        "1->1": 10
+      }
+    },
+    "cites_counterfactual": {
+      "is_binary": true,
+      "clean_prevalence_pct": 11.46,
+      "clean_ci_95": [
+        4.17,
+        20.83
+      ],
+      "patched_prevalence_pct": 11.46,
+      "patched_ci_95": [
+        4.17,
+        20.83
+      ],
+      "paired_mean_diff_pct": 0.0,
+      "paired_ci_95": [
+        0.0,
+        0.0
+      ],
+      "transitions": {
+        "0->0": 85,
+        "0->1": 0,
+        "1->0": 0,
+        "1->1": 11
+      }
+    },
+    "citation_precision": {
+      "is_binary": false,
+      "clean_prevalence_pct": 8.33,
+      "clean_ci_95": [
+        2.6,
+        14.58
+      ],
+      "patched_prevalence_pct": 7.92,
+      "patched_ci_95": [
+        2.39,
+        14.58
+      ],
+      "paired_mean_diff_pct": -0.42,
+      "paired_ci_95": [
+        -3.02,
+        1.56
+      ],
+      "transitions": null
+    },
+    "citation_recall": {
+      "is_binary": false,
+      "clean_prevalence_pct": 11.46,
+      "clean_ci_95": [
+        4.17,
+        19.79
+      ],
+      "patched_prevalence_pct": 12.5,
+      "patched_ci_95": [
+        4.17,
+        21.88
+      ],
+      "paired_mean_diff_pct": 1.04,
+      "paired_ci_95": [
+        -2.08,
+        4.17
+      ],
+      "transitions": null
+    },
+    "strict_syntax": {
+      "is_binary": true,
+      "clean_prevalence_pct": 64.58,
+      "clean_ci_95": [
+        53.12,
+        75.0
+      ],
+      "patched_prevalence_pct": 63.54,
+      "patched_ci_95": [
+        51.04,
+        75.0
+      ],
+      "paired_mean_diff_pct": -1.04,
+      "paired_ci_95": [
+        -3.12,
+        0.0
+      ],
+      "transitions": {
+        "0->0": 34,
+        "0->1": 0,
+        "1->0": 1,
+        "1->1": 61
+      }
+    },
+    "answer_correct_with_counterfactual_citation": {
+      "is_binary": true,
+      "clean_prevalence_pct": 8.33,
+      "clean_ci_95": [
+        2.08,
+        16.67
+      ],
+      "patched_prevalence_pct": 8.33,
+      "patched_ci_95": [
+        2.08,
+        16.67
+      ],
+      "paired_mean_diff_pct": 0.0,
+      "paired_ci_95": [
+        0.0,
+        0.0
+      ],
+      "transitions": {
+        "0->0": 88,
+        "0->1": 0,
+        "1->0": 0,
+        "1->1": 8
+      }
+    }
+  },
+  "format_breakdown": {
+    "random_compact": {
+      "answer_em": {
+        "is_binary": true,
+        "clean_prevalence_pct": 37.5,
+        "clean_ci_95": [
+          21.88,
+          56.25
+        ],
+        "patched_prevalence_pct": 37.5,
+        "patched_ci_95": [
+          21.88,
+          56.25
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 20,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 12
+        }
+      },
+      "cites_gold": {
+        "is_binary": true,
+        "clean_prevalence_pct": 12.5,
+        "clean_ci_95": [
+          3.12,
+          25.0
+        ],
+        "patched_prevalence_pct": 15.62,
+        "patched_ci_95": [
+          6.25,
+          28.12
+        ],
+        "paired_mean_diff_pct": 3.12,
+        "paired_ci_95": [
+          0.0,
+          9.38
+        ],
+        "transitions": {
+          "0->0": 27,
+          "0->1": 1,
+          "1->0": 0,
+          "1->1": 4
+        }
+      },
+      "cites_counterfactual": {
+        "is_binary": true,
+        "clean_prevalence_pct": 15.62,
+        "clean_ci_95": [
+          3.12,
+          28.2
+        ],
+        "patched_prevalence_pct": 15.62,
+        "patched_ci_95": [
+          3.12,
+          28.2
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 27,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 5
+        }
+      },
+      "citation_precision": {
+        "is_binary": false,
+        "clean_prevalence_pct": 7.81,
+        "clean_ci_95": [
+          1.56,
+          15.62
+        ],
+        "patched_prevalence_pct": 8.13,
+        "patched_ci_95": [
+          1.87,
+          15.94
+        ],
+        "paired_mean_diff_pct": 0.31,
+        "paired_ci_95": [
+          0.0,
+          0.94
+        ],
+        "transitions": null
+      },
+      "citation_recall": {
+        "is_binary": false,
+        "clean_prevalence_pct": 12.5,
+        "clean_ci_95": [
+          3.12,
+          25.0
+        ],
+        "patched_prevalence_pct": 15.62,
+        "patched_ci_95": [
+          6.25,
+          28.12
+        ],
+        "paired_mean_diff_pct": 3.12,
+        "paired_ci_95": [
+          0.0,
+          9.38
+        ],
+        "transitions": null
+      },
+      "strict_syntax": {
+        "is_binary": true,
+        "clean_prevalence_pct": 59.38,
+        "clean_ci_95": [
+          40.62,
+          75.0
+        ],
+        "patched_prevalence_pct": 59.38,
+        "patched_ci_95": [
+          40.62,
+          75.0
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 13,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 19
+        }
+      },
+      "answer_correct_with_counterfactual_citation": {
+        "is_binary": true,
+        "clean_prevalence_pct": 9.38,
+        "clean_ci_95": [
+          0.0,
+          21.88
+        ],
+        "patched_prevalence_pct": 9.38,
+        "patched_ci_95": [
+          0.0,
+          21.88
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 29,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 3
+        }
+      }
+    },
+    "structured": {
+      "answer_em": {
+        "is_binary": true,
+        "clean_prevalence_pct": 37.5,
+        "clean_ci_95": [
+          21.88,
+          56.25
+        ],
+        "patched_prevalence_pct": 37.5,
+        "patched_ci_95": [
+          21.88,
+          56.25
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 20,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 12
+        }
+      },
+      "cites_gold": {
+        "is_binary": true,
+        "clean_prevalence_pct": 12.5,
+        "clean_ci_95": [
+          3.12,
+          25.0
+        ],
+        "patched_prevalence_pct": 15.62,
+        "patched_ci_95": [
+          3.12,
+          28.12
+        ],
+        "paired_mean_diff_pct": 3.12,
+        "paired_ci_95": [
+          0.0,
+          9.38
+        ],
+        "transitions": {
+          "0->0": 27,
+          "0->1": 1,
+          "1->0": 0,
+          "1->1": 4
+        }
+      },
+      "cites_counterfactual": {
+        "is_binary": true,
+        "clean_prevalence_pct": 6.25,
+        "clean_ci_95": [
+          0.0,
+          15.62
+        ],
+        "patched_prevalence_pct": 6.25,
+        "patched_ci_95": [
+          0.0,
+          15.62
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 30,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 2
+        }
+      },
+      "citation_precision": {
+        "is_binary": false,
+        "clean_prevalence_pct": 7.81,
+        "clean_ci_95": [
+          1.56,
+          15.62
+        ],
+        "patched_prevalence_pct": 9.38,
+        "patched_ci_95": [
+          1.56,
+          18.75
+        ],
+        "paired_mean_diff_pct": 1.56,
+        "paired_ci_95": [
+          0.0,
+          4.69
+        ],
+        "transitions": null
+      },
+      "citation_recall": {
+        "is_binary": false,
+        "clean_prevalence_pct": 12.5,
+        "clean_ci_95": [
+          3.12,
+          25.0
+        ],
+        "patched_prevalence_pct": 15.62,
+        "patched_ci_95": [
+          3.12,
+          28.12
+        ],
+        "paired_mean_diff_pct": 3.12,
+        "paired_ci_95": [
+          0.0,
+          9.38
+        ],
+        "transitions": null
+      },
+      "strict_syntax": {
+        "is_binary": true,
+        "clean_prevalence_pct": 81.25,
+        "clean_ci_95": [
+          68.75,
+          93.75
+        ],
+        "patched_prevalence_pct": 81.25,
+        "patched_ci_95": [
+          68.75,
+          93.75
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 6,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 26
+        }
+      },
+      "answer_correct_with_counterfactual_citation": {
+        "is_binary": true,
+        "clean_prevalence_pct": 3.12,
+        "clean_ci_95": [
+          0.0,
+          9.38
+        ],
+        "patched_prevalence_pct": 3.12,
+        "patched_ci_95": [
+          0.0,
+          9.38
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 31,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 1
+        }
+      }
+    },
+    "uuid": {
+      "answer_em": {
+        "is_binary": true,
+        "clean_prevalence_pct": 46.88,
+        "clean_ci_95": [
+          31.25,
+          65.62
+        ],
+        "patched_prevalence_pct": 46.88,
+        "patched_ci_95": [
+          31.25,
+          65.62
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 17,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 15
+        }
+      },
+      "cites_gold": {
+        "is_binary": true,
+        "clean_prevalence_pct": 9.38,
+        "clean_ci_95": [
+          0.0,
+          18.75
+        ],
+        "patched_prevalence_pct": 6.25,
+        "patched_ci_95": [
+          0.0,
+          15.62
+        ],
+        "paired_mean_diff_pct": -3.12,
+        "paired_ci_95": [
+          -9.38,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 29,
+          "0->1": 0,
+          "1->0": 1,
+          "1->1": 2
+        }
+      },
+      "cites_counterfactual": {
+        "is_binary": true,
+        "clean_prevalence_pct": 12.5,
+        "clean_ci_95": [
+          3.12,
+          25.0
+        ],
+        "patched_prevalence_pct": 12.5,
+        "patched_ci_95": [
+          3.12,
+          25.0
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 28,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 4
+        }
+      },
+      "citation_precision": {
+        "is_binary": false,
+        "clean_prevalence_pct": 9.38,
+        "clean_ci_95": [
+          0.0,
+          18.75
+        ],
+        "patched_prevalence_pct": 6.25,
+        "patched_ci_95": [
+          0.0,
+          15.62
+        ],
+        "paired_mean_diff_pct": -3.12,
+        "paired_ci_95": [
+          -9.38,
+          0.0
+        ],
+        "transitions": null
+      },
+      "citation_recall": {
+        "is_binary": false,
+        "clean_prevalence_pct": 9.38,
+        "clean_ci_95": [
+          0.0,
+          18.75
+        ],
+        "patched_prevalence_pct": 6.25,
+        "patched_ci_95": [
+          0.0,
+          15.62
+        ],
+        "paired_mean_diff_pct": -3.12,
+        "paired_ci_95": [
+          -9.38,
+          0.0
+        ],
+        "transitions": null
+      },
+      "strict_syntax": {
+        "is_binary": true,
+        "clean_prevalence_pct": 53.12,
+        "clean_ci_95": [
+          37.42,
+          68.75
+        ],
+        "patched_prevalence_pct": 50.0,
+        "patched_ci_95": [
+          31.25,
+          68.75
+        ],
+        "paired_mean_diff_pct": -3.12,
+        "paired_ci_95": [
+          -9.38,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 15,
+          "0->1": 0,
+          "1->0": 1,
+          "1->1": 16
+        }
+      },
+      "answer_correct_with_counterfactual_citation": {
+        "is_binary": true,
+        "clean_prevalence_pct": 12.5,
+        "clean_ci_95": [
+          3.12,
+          25.0
+        ],
+        "patched_prevalence_pct": 12.5,
+        "patched_ci_95": [
+          3.12,
+          25.0
+        ],
+        "paired_mean_diff_pct": 0.0,
+        "paired_ci_95": [
+          0.0,
+          0.0
+        ],
+        "transitions": {
+          "0->0": 28,
+          "0->1": 0,
+          "1->0": 0,
+          "1->1": 4
+        }
+      }
+    }
+  },
+  "baselines": {
+    "clean_baseline": {
+      "answer_em": {
+        "mean_pct": 40.62,
+        "ci_95": [
+          25.0,
+          58.33
+        ]
+      },
+      "cites_gold": {
+        "mean_pct": 11.46,
+        "ci_95": [
+          4.17,
+          19.79
+        ]
+      },
+      "citation_precision": {
+        "mean_pct": 8.33,
+        "ci_95": [
+          2.6,
+          14.58
+        ]
+      },
+      "citation_recall": {
+        "mean_pct": 11.46,
+        "ci_95": [
+          4.17,
+          19.79
+        ]
+      },
+      "strict_syntax": {
+        "mean_pct": 64.58,
+        "ci_95": [
+          53.12,
+          75.0
+        ]
+      }
+    },
+    "swapped_baseline": {
+      "answer_em": {
+        "mean_pct": 39.58,
+        "ci_95": [
+          24.97,
+          57.29
+        ]
+      },
+      "cites_swapped": {
+        "mean_pct": 25.0,
+        "ci_95": [
+          15.62,
+          34.38
+        ]
+      },
+      "citation_precision": {
+        "mean_pct": 16.15,
+        "ci_95": [
+          9.38,
+          23.44
+        ]
+      },
+      "citation_recall": {
+        "mean_pct": 25.0,
+        "ci_95": [
+          15.62,
+          34.38
+        ]
+      },
+      "strict_syntax": {
+        "mean_pct": 55.21,
+        "ci_95": [
+          42.68,
+          67.71
+        ]
+      }
+    }
+  },
+  "error_taxonomy": {
+    "clean_baseline": {
+      "answer_incorrect": 9,
+      "both_incorrect": 48,
+      "wrong_source": 31,
+      "counterfactual_cited": 8
+    },
+    "swapped_baseline": {
+      "answer_incorrect": 19,
+      "both_incorrect": 39,
+      "wrong_source": 27,
+      "none": 4,
+      "counterfactual_cited": 6,
+      "omitted_citation": 1
+    },
+    "subspace_projection": {
+      "answer_incorrect": 10,
+      "both_incorrect": 47,
+      "wrong_source": 31,
+      "counterfactual_cited": 8
+    }
+  }
+}

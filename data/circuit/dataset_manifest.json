@@ -71,5 +71,15 @@
     "file": "results/circuit/sequence3_preregistration.json",
     "sha256": "23f532fed2d7c88a868a124f6259ce2f5c9a50ca2cea31e70e4254298bc178fd",
     "status": "LOCKED"
+  },
+  "sequence3_preregistration_amendment_001": {
+    "file": "results/circuit/sequence3_preregistration_amendment_001.json",
+    "sha256": "884311687e33e0c507addff657b645cbf0bf82c92853f543d69497498517b3f3",
+    "status": "LOCKED"
+  },
+  "sequence3_preregistration_amendment_002": {
+    "file": "results/circuit/sequence3_preregistration_amendment_002.json",
+    "sha256": "57b54b9aacdea7283583a3ee6b41b3d41208d267f20ff8f8803ccf5ce8d6b621",
+    "status": "LOCKED"
   }
 }

@@ -316,6 +316,30 @@ code {
   font-weight: 500;
 }
 
+/* The audited section keeps prose narrow and gives figures and tables full width. */
+.sequence3-audit {
+  margin-top: clamp(4.5rem, 8vw, 8rem);
+}
+
+.sequence3-audit > :is(h3, h4, p) {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.sequence3-audit > h4 {
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+}
+
+.sequence3-audit > p {
+  margin-top: 1.25rem;
+}
+
+.sequence3-audit > .table-wrap {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .stage-index-intro {
   max-width: none;
   display: grid;
@@ -1244,6 +1268,10 @@ pre code {
     gap: 1rem;
     padding: 0.35rem 0;
     border: 0;
+  }
+
+  .experiment-table--audited td::before {
+    content: attr(data-label);
   }
 
   .experiment-table td::before {

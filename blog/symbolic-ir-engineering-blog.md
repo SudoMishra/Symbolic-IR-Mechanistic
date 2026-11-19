@@ -9,7 +9,7 @@ repository: "https://github.com/SudoMishra/Symbolic-IR-Mechanistic"
 # The Hidden Cost of UUIDs: Building a Symbolic IR for LLM Systems
 
 **Author:** Sudo Mishra (Symbolic IR Project)  
-**Date:** October 2026  
+**Date:** October 2026; mechanistic results updated 19 November 2026<br>
 **Repository:** [github.com/SudoMishra/Symbolic-IR-Mechanistic](https://github.com/SudoMishra/Symbolic-IR-Mechanistic)
 
 Modern LLM applications routinely place machine-generated identifiers directly inside prompts: document UUIDs, database primary keys, account numbers, transaction hashes, tool-call IDs, and workflow handles. Because these strings already exist in backend databases, engineers treat the LLM context window as a transparent transport pipe.
@@ -409,115 +409,115 @@ The causal interventions produced a critical revelation: **Shared representation
   - In **Gemma E2B**, onset occurs late at **layer 29** (45–74% transfer).
   - In **Gemma E4B**, sampled **layer 32** did not yet transfer compact formats, placing reconstruction very close to the final layer.
 
-### Component-Level Circuit Decomposition: Binding vs. Serialization Dissociation (Stage 7B)
+### Historical Component-Level Decomposition (Stage 7B)
 
-> **Stage 7B Motivation:** Residual-stream activation patching (Stage 7) confirmed that transferable binding signals lock in at late layers. But whole-residual patching cannot distinguish between sub-layer components: *Does the multi-head attention/mixer or the feed-forward network (MLP) drive the binding decision? And does the model decouple selecting the first distinguishing identifier token ($B$) from continuing its multi-token serialization ($F$)?*
->
-> **Data Used:** A three-split preregistered protocol (`results/circuit/circuit_preregistration.json`) on counterfactual multi-source retrieval questions across all six primary open-weights models:
-> 1. **Discovery Split ($N=32$, 96 cases/model, 576 cases total):** Candidate hub identification across layers.
-> 2. **Held-Out Validation Split ($N=32$, 96 cases/model, 576 cases total):** Intermediate evaluation of candidate layers on unseen semantic examples (directionally mixed at smaller sample size; 3/6 crossed zero).
-> 3. **High-Powered Confirmatory Split ($N=80$, 240 cases/model, 1,440 cases total):** Rigorous replication with paired cluster-robust bootstrap resampling by `example_id` ($B=1,000$ replicates).
+> **Audit qualification (19 November 2026):** The table and Figures 8A–8C preserve the original component measurements. Sequence 3 repaired the Qwen prediction index and intervention layer mapping and did not obtain a qualifying citation-position mixer effect. These historical measurements do not constitute repaired cross-model confirmation of a distinguishing-token binding circuit. Stage 7C below gives the current scientific conclusion.
 
-To test whether source–identifier binding is localized to specific component classes, Stage 7B isolated the output projections of attention mixers ($W_O$) and MLPs ($W_{\text{down}}$) across the six model architectures.
+Stage 7B transplanted whole attention-mixer and MLP outputs to compare the originally reported first-token and identifier-continuation metrics. Discovery and validation each used 32 semantic examples per model (96 format cases); the historical confirmation cohort used 80 examples per model (240 cases) across six models. The original artifacts and `results/circuit/circuit_preregistration.json` remain unchanged.
 
-#### 1. Attention Mixers Causally Mediate First-Token Binding ($B$)
-At designated critical hubs, patching the mixer output shifts first-token identifier preference significantly more than patching the matched MLP output across **5 of 6 primary binding hubs** (and 6 of 6 when including designated terminal hubs). Using a paired cluster-robust bootstrap resampling by `example_id` ($B=1,000$ replicates, 95% CIs) on the 80-cluster confirmation split:
+The original mixer-minus-MLP contrasts favored mixers at five of six primary hubs. Gemma E2B's primary L24 contrast favored the MLP, with a positive mixer contrast at its separately designated terminal L35 hub. These numbers describe the historical metric and must be interpreted alongside the later Qwen repair:
 
-| Model | Architecture | Designated Hub | Paired Mixer − MLP First-Token Shift | 95% Bootstrap CI | Confirmatory Binding Result |
+| Model | Architecture | Designated Hub | Historical Mixer − MLP First-Token Shift | 95% Bootstrap CI | Historical Metric Outcome |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Qwen 2.5 1.5B** | Pure GQA Transformer (28L) | L24 | **+0.621** | [+0.436, +0.804] | **CONFIRMED** (Interval strictly > 0) |
-| **Qwen 3.5 2B** | Hybrid Gated DeltaNet + GQA (24L) | L20 | **+1.031** | [+0.682, +1.339] | **CONFIRMED** (Interval strictly > 0) |
-| **Tiny Aya Global** | Deep Asymmetric GQA (36L) | L24 | **+1.005** | [+0.336, +1.597] | **CONFIRMED** (Interval strictly > 0) |
-| **Qwen 3.5 4B** | Hybrid Gated DeltaNet + GQA (32L) | L24 | **+2.198** | [+1.833, +2.556] | **CONFIRMED** (Interval strictly > 0) |
-| **Gemma 4 E2B** *(Primary)* | Deep Asymmetric GQA (35L) | L24 (Binding Hub) | **-0.494** | [-0.760, -0.220] | **FAILED** (MLP Dominates Mixer at L24) |
-| **Gemma 4 E2B** *(Terminal)* | Deep Asymmetric GQA (35L) | L35 (Terminal Hub) | **+2.851** | [+1.404, +4.197] | **CONFIRMED** (Terminal Mixer Dominance) |
-| **Gemma 4 E4B** | Deep Asymmetric GQA + PLE (42L) | L36 | **+14.460** | [+11.914, +16.823] | **CONFIRMED** (Interval > 0; KL Specificity Limit) |
+| **Qwen 2.5 1.5B** | Pure GQA Transformer (28L) | L24 | **+0.621** | [+0.436, +0.804] | **Positive contrast** (Interval strictly > 0) |
+| **Qwen 3.5 2B** | Hybrid Gated DeltaNet + GQA (24L) | L20 | **+1.031** | [+0.682, +1.339] | **Positive contrast** (Interval strictly > 0) |
+| **Tiny Aya Global** | Deep Asymmetric GQA (36L) | L24 | **+1.005** | [+0.336, +1.597] | **Positive contrast** (Interval strictly > 0) |
+| **Qwen 3.5 4B** | Hybrid Gated DeltaNet + GQA (32L) | L24 | **+2.198** | [+1.833, +2.556] | **Positive contrast** (Interval strictly > 0) |
+| **Gemma 4 E2B** *(Primary)* | Deep Asymmetric GQA (35L) | L24 (Binding Hub) | **-0.494** | [-0.760, -0.220] | **Negative contrast** (MLP Dominates Mixer at L24) |
+| **Gemma 4 E2B** *(Terminal)* | Deep Asymmetric GQA (35L) | L35 (Terminal Hub) | **+2.851** | [+1.404, +4.197] | **Positive contrast** (Terminal Mixer Dominance) |
+| **Gemma 4 E4B** | Deep Asymmetric GQA + PLE (42L) | L36 | **+14.460** | [+11.914, +16.823] | **Positive contrast** (Interval > 0; KL Specificity Limit) |
 
-Primary binding hubs strictly exclude zero for 5 of 6 models, providing robust support for **H1** (mixer mediation) and qualified support for **H2** (mixer-versus-MLP dissociation). Gemma 4 E2B shows an architecture-specific pre-hub handover where its designated Layer 24 binding hub exhibits MLP dominance, resolving to strong mixer dominance at its designated Layer 35 terminal hub. (On the smaller $N=32$ validation split, results were directionally mixed—conclusive in 3/6 models while crossing zero in 3/6—before the 80-example confirmation cohort confirmed positive effects across all six).
+![Figure 8A — Historical Qwen component measurements before the Sequence 3 repair.](assets/08a_component_dissociation.svg)
 
-![Figure 8A — Qwen 2.5 component transplants at Layers 20 and 24, with raw first-token binding and identifier-continuation shifts plotted on explicit natural-log axes.](assets/08a_component_dissociation.svg)
+> **Figure 8A — Historical component measurements.** Bars show original donor-induced shifts and paired example-cluster-bootstrap 95% intervals (1,000 replicates). The original Qwen L24 mixer-minus-MLP contrast was +0.621 [+0.436, +0.804]. These measurements are retained for provenance; the repaired distinguishing-token evaluation is shown in Figure 8D.
 
-> **Figure 8A — What each transplanted component changes.** Each colored bar is the mean raw donor-induced log-preference shift and each whisker is its paired cluster-bootstrap 95% interval. Panel A measures the first distinguishing identifier token; Panel B measures the remaining identifier sequence. The horizontal zero line means no causal transfer. At Layer 24, the attention mixer changes first-token binding by $+0.701$ versus $+0.080$ for the MLP; their paired difference is $+0.621$ [$+0.436$, $+0.804$].
+The continuation measurements differed by architecture. The original artifacts include Tiny Aya L36 MLP +0.231 [+0.118, +0.367], Qwen 3.5 4B L32 MLP +0.118 [+0.074, +0.170], Qwen 3.5 4B L28 mixer +1.144 [+0.980, +1.332], and Gemma E4B L42 mixer +0.733 [+0.405, +1.109]. These remain historical component effects rather than evidence for a complete source-selection, binding, and serialization circuit.
 
-#### 2. Unpatched Donor Margins & Sensitivity Analysis
-An interchange intervention replaces hidden representations with those from an unpatched swapped-prompt donor. A positive relative shift $\Delta_{\text{First}}$ demonstrates causal transmission, but does not imply that the unpatched donor prompt unconditionally won the first-token margin in every case:
-- **Baseline Donor Victory Rates:** Under structured identifiers (`[S1]`), unpatched donors reliably prefer the counterfactual identifier across all models (62.5%–91.2% positive victory rate). Under high-entropy UUIDs (`[3f8a...]`), donor victory drops to 47.5%–85.0%; in Qwen 2.5 1.5B, the average donor margin is near-zero ($+0.066$ nats), and in Tiny Aya it is negative ($-0.306$ nats).
-- **Subgroup Sensitivity:** Conditioning on donor-positive cases strengthens the paired mixer effect across cohorts (Qwen 2.5 L24 increases from $+0.621$ to $+0.902$, Tiny Aya L24 increases from $+1.005$ to $+2.252$). The continuous donor margin positively correlates with the mixer advantage across all models ($r = +0.358$ to $+0.685$), demonstrating that the mixer faithfully transports the counterfactual state when present. The all-case estimand ($N=240$) remains our primary preregistered result to avoid selection bias.
+![Figure 8B — Component intervention design and intended measurement outcomes.](assets/08b_circuit_wiring_diagram.svg)
 
-#### 3. Downstream Continuation Influence ($F$) is Architecture-Specific
-Late attention mixers dominate first-token binding ($B$) at 5 of 6 primary hubs and at Gemma E2B's designated terminal hub; downstream multi-token continuation ($F$) exhibits architectural divergence (**H3**):
-- **MLP Serialization:** In **Tiny Aya**, Layer 36 MLP mediates continuation ($+0.231$ [$+0.118, +0.367$]) downstream of the Layer 24 binding mixer. In **Qwen 3.5 4B**, Layer 32 MLP contributes $+0.118$ [$+0.074, +0.170$].
-- **Mixer Serialization:** In **Qwen 3.5 4B**, Layer 28 attention mixer strongly routes continuation ($+1.144$ [$+0.980, +1.332$]). In **Gemma 4 E4B**, Layer 42 mixer handles continuation ($+0.733$ [$+0.405, +1.109$]).
+> **Figure 8B — Intervention design.** A donor component output is inserted into the recipient run. The intended distinguishing-token and continuation outcomes require correct prediction indexing. Evidence selection was teacher-forced, and the repaired Qwen test leaves the binding-circuit claim unresolved.
 
-![Figure 8B — Working causal model: Partial B–F decomposition across network depth. Evidence selection R is teacher-forced and untested.](assets/08b_circuit_wiring_diagram.svg)
+Whole-component transplants cannot establish sparse head circuits or distinguish computation from transport. Specificity also varied: Gemma E4B's historical L36 mixer intervention changed vocabulary distributions by KL 3.156 [2.366, 4.036] nats, exceeding the original 1.0-nat guard. The other models' original specificity summaries do not substitute for repaired cross-model replication.
 
-> **Figure 8B — What was changed, measured, and supported.** The top row shows the actual interchange intervention: a component output from the counterfactual donor run is inserted into the clean recipient run. The middle row defines the two measured outcomes, $\Delta_{First}$ for the first distinguishing token and $\Delta_{Cont}$ for the remaining identifier sequence. The evidence map uses a dashed box for teacher-forced source selection ($R$), a confirmed box for binding ($B$), and a heterogeneous box for continuation ($F$).
+![Figure 8C — Historical mixer-minus-MLP contrasts across six models.](assets/08c_cross_model_circuit_comparison.svg)
 
-#### 4. Specificity Limits, Computation vs. Transport, & Circuit Sparsity
-- **Computation vs. Transport Boundary:** Because our interventions occur at citation-predicting token positions (immediately before the citation is generated), they causally establish that late attention mixers *transmit* the counterfactual identifier decision to the output. They do not yet resolve whether the binding association was *computed* at this layer or routed from upstream representations formed at source/evidence token positions.
-- **Causal Specificity (H4):** Interventions preserved post-citation syntax ($|\Delta_{\text{Syntax}}| < 1.0$) and vocabulary fluency ($D_{\text{KL}} < 1.0$ nats) in five of six models. However, **H4 failed for Gemma 4 E4B**: its massive binding shift at Layer 36 ($+18.073$) was accompanied by vocabulary divergence ($D_{\text{KL}} = 3.156$ [$2.366, 4.036$] nats), indicating that its per-layer embedding (PLE) and terminal layers operate under broad representational reorganization rather than isolated surgical shifts.
-- **Format Heterogeneity:** Aggregate confirmation effects were positive across all models, but condition-level baselines reveal format-specific constraints. Structured handles (`[S1]`) produced positive direct-swap effects across all six models ($+1.259$ to $+40.191$). By contrast, UUIDs (`[3f8a...]`) incurred severe memory friction: Qwen 2.5 1.5B's direct-swap interval crossed zero ($-0.067$ [$-0.969, +0.798$]), and Tiny Aya Global's effect was strictly negative ($-1.721$ [$-3.457, -0.119$]), explaining why high-entropy identifiers degrade attribution recall.
-- **Circuit Sparsity Boundary:** Interventions patched entire layer mixer components ($W_O$). Finding that a whole mixer component carries the effect establishes layer and component-class localization, but does *not* prove a sparse head-level circuit or refute a distributed representation. Existing head-level pilots (e.g. Qwen L24H3, $+0.068$ [$-0.11, +0.21$]) cross zero and lack held-out statistical significance.
+> **Figure 8C — Historical cross-model contrasts.** Points and paired cluster-bootstrap 95% intervals share one axis. Five primary contrasts favor the mixer; Gemma E2B L24 favors the MLP and its terminal L35 contrast favors the mixer. The underlying numerical artifacts are preserved. A repaired cross-model distinguishing-token experiment remains outstanding.
 
-![Figure 8C — Cross-model circuit localization across 6 architectures on the 80-example confirmation cohort.](assets/08c_cross_model_circuit_comparison.svg)
+### What Survived the Mechanistic Audit? (Stage 7C)
 
-> **Figure 8C — Cross-model binding contrast on one shared axis.** Points are paired mixer-minus-MLP first-token effects and whiskers are 95% cluster-bootstrap intervals. Values right of zero favor the mixer; values left favor the MLP. Five of six primary hubs favor the mixer. Gemma E2B's primary L24 hub favors the MLP, while its separately shown terminal L35 hub favors the mixer. The lower table keeps continuation mechanisms and the Gemma E4B KL-specificity failure separate from the primary binding contrast.
+The next experiments asked whether the component effects above isolate source–identifier binding and whether a compact residual subspace can redirect citations during free generation. The audited answer is narrower than our initial interpretation: no tested rank passed the registered validation gate, and the tested free-generation intervention produced no observed counterfactual-citation transitions. Small exploratory logit shifts remain, but a validated binding subspace or behavioral bridge has not been established.
 
-### Resolving Computation vs. Transport: Residual Handle Propagation and Causal Subspaces (Stage 7C)
+Scope and provenance. These experiments used Qwen 2.5 1.5B, with disjoint discovery (32 semantic examples), validation (32), and confirmation (80) cohorts, each rendered in structured, random-compact, and UUID formats. The original Sequence 3 preregistration is preserved; amendments 001 and 002 document provenance corrections, protocol deviations, and the post-audit ratio sensitivity policy. Unless stated otherwise, intervals below are paired cluster-bootstrap 95% intervals with 1,000 replicates clustered by example_id. Format cases are repeated measurements, not independent semantic examples.
 
-> **Stage 7C Motivation:** Stage 7B causally isolated attention mixers at citation prediction positions, but left fundamental mechanistic questions open: *Does the late attention mixer actually compute the source–identifier binding association, or does it merely route an association formed upstream? Is handle identity synthesized by intermediate MLPs, or propagated linearly in the residual stream? Can the distributed binding representation be isolated into a compact causal subspace on held-out data, and does it survive free generation?*
->
-> **Data Used & Preregistered Protocol:** Conducted in Qwen 2.5 1.5B under a strictly locked preregistration (`results/circuit/sequence3_preregistration.json`, SHA-256: `23f532fed2d7c88a868a124f6259ce2f5c9a50ca2cea31e70e4254298bc178fd`) across the disjoint dataset manifest (`data/circuit/dataset_manifest.json`):
-> 1. **Repaired Discovery Evaluation ($N=32$, 96 cases):** 4 corruptions (label swap, content swap, question swap, permutation) $\times$ 5 semantic positions $\times$ 3 component classes at Layers 14, 20, 24 with distinguishing-token logit correction ($d-1$).
-> 2. **SVD Basis Extraction:** Orthonormal difference basis fitted strictly on discovery post-evidence residual vectors (`qwen25_subspace_basis_l14_post_evidence.pt`).
-> 3. **Behavioral Bridge ($N=32$, 96 cases):** Free greedy generation under post-evidence subspace intervention evaluated for factual answer EM and selective dissociation.
-> 4. **One-Shot Confirmatory Evaluation ($N=80$, 240 cases):** Held-out confirmation cohort evaluated across subspace ranks $k \in \{1, 4, 8, 16, 32\}$ with paired cluster-bootstrap 95% CIs ($B=1,000$, clustered by `example_id`).
+#### 1. Correcting the measurement stopped the head search
 
-#### 1. Distinguishing-Token Evaluation & The Late Mixer Null Result
+The repaired discovery evaluation fixes the prediction index to immediately before the first token where recipient and donor identifiers differ (d−1), together with the intervention layer mapping and corruption controls. Under label swap, the Layer 24 citation-position mixer shift is +0.001 [−0.147, +0.179] across 96 discovery format cases. Its interval spans zero, so this whole-component positive control did not qualify for head-level screening. That branch stopped under the registered gate. This does not rule out other heads, layers, positions, or binding mechanisms.
 
-A critical methodological finding emerged from repairing the evaluation position:
-- **Prefix Continuation Artifact:** In Stage 7B, interchange interventions evaluated immediately preceding the citation token produced an apparent $+0.701$ log-preference shift for Layer 24 attention mixer. However, this metric evaluated the common prefix bracket (`[`), measuring generic format continuation rather than the binding decision itself.
-- **Distinguishing-Token Evaluation ($d-1$):** When evaluated at the exact token position where target and counterfactual identifiers diverge (e.g., token `'1'` vs. `'7'` in `[S1]` vs. `[S7]`), the Layer 24 attention mixer causal shift drops to **$+0.001$ [$-0.147, +0.179$]** (pooled across all 96 discovery cases; structured: $-0.0003$, compact: $-0.0781$, UUID: $+0.0806$; all 95% CIs cross zero).
-- **Preregistered Head-Circuit Termination:** Because the whole attention mixer failed the positive-control eligibility threshold (confidence interval spanning zero), query-attention head screening was cleanly terminated as a **preregistered scientific null outcome**. The model does not route source–identifier binding through an isolated late attention head router.
+The earlier +0.701 Stage 7B mixer shift and this repaired estimate come from different cohorts and evaluation implementations. They are not a paired before/after estimate of the indexing repair. Figures 8A–8C retain historical component measurements; they should not be read as repaired confirmation of a distinguishing-token circuit across six models.
 
-#### 2. Handle Identity Propagates Linearly in the Residual Stream
+#### 2. Residual patching identifies useful sites, with limits
 
-By systematically manipulating activations across four distinct semantic token positions (`pos_source_label`, `pos_evidence`, `pos_post_evidence`, `pos_citation`) and three layers (14, 20, 24), we resolved the computation versus transport boundary:
-- **Direct Residual Stream Transport:** Intervening on the residual stream at the source label position (`pos_source_label`) produces a massive causal shift toward the counterfactual identifier: **$+2.125$ [$1.733, 2.552$]** at Layer 14, **$+2.146$ [$1.745, 2.571$]** at Layer 20, and **$+1.318$ [$1.076, 1.591$]** at Layer 24.
-- **Inert Sub-Layer Components:** In sharp contrast, patching individual attention mixers ($-0.077$ [$-0.122, -0.027$]) or MLPs ($-0.015$ [$-0.077, +0.050$]) at the source label position produces virtually zero effect.
-- **Mechanistic Conclusion:** Source identifier handles are not reconstructed or synthesized by intermediate transformer blocks; rather, their representation is injected into the residual stream directly from token embeddings and transported linearly down the network.
-- **Post-Evidence Binding Emergence:** Causal interaction between source evidence and identifier identity first emerges at **Layer 14 `pos_post_evidence`** ($+0.042$ [$0.018, 0.064$] under label swap; $+0.209$ [$0.140, 0.273$] under content swap), identifying this intermediate transition as the critical locus of evidence–handle binding.
+Source-label residual patches under label swap produce shifts of +2.125 [+1.733, +2.552] at Layer 14, +2.146 [+1.745, +2.571] at Layer 20, and +1.318 [+1.076, +1.591] at Layer 24. At Layer 14, the corresponding mixer shift is −0.077 [−0.122, −0.027] and the MLP shift is −0.015 [−0.077, +0.050]. The source-label position precedes the relevant evidence, so these effects can reflect identifier identity or copying. They do not establish evidence–identifier binding, direct transport from embeddings, or a linear computational mechanism.
 
-![Figure 8D — Resolving Computation vs. Transport: Linear handle propagation in the residual stream and distinguishing-token evaluation in Qwen 2.5.](assets/08d_computation_vs_transport.svg)
+Post-evidence residual patches at Layer 14 show smaller shifts: +0.042 [+0.018, +0.064] under label swap and +0.209 [+0.140, +0.273] under content swap. These discovery observations motivated the subspace experiment. The sampled positions and layers do not establish where binding is first computed.
 
-> **Figure 8D — Resolving computation vs. transport in Qwen 2.5.** Panel A maps causal shifts across semantic token positions at Layer 14. At the source label position, the residual stream directly carries handle identity ($+2.125$ nats), while mixer and MLP components remain inactive. Panel B contrasts the earlier unshifted prefix evaluation with the repaired distinguishing-token evaluation at Layer 24 `pos_citation`. When evaluating the actual distinguishing token ($d-1$), the late mixer causal shift collapses to $+0.001$ [$-0.147, +0.179$], terminating head-level query routing as a preregistered null.
+![Figure 8D — Repaired discovery interventions and the head-screening gate.](assets/08d_computation_vs_transport.svg)
 
-#### 3. Low-Rank Causal Subspace Confirmed on Held-Out Data ($N=80$)
+> **Figure 8D — Repaired discovery interventions and the head-screening gate.** Panel A shows Layer 14 label-swap component and residual shifts at sampled positions. Panel B reports the repaired Layer 24 citation-position mixer estimate and its failed eligibility gate. These observations do not locate the computation of binding.
 
-Rather than forcing an ungrounded sparse head-circuit story, we extracted an orthonormal difference basis via Singular Value Decomposition (SVD) on residual difference vectors ($\mathbf{h}_{\text{donor}} - \mathbf{h}_{\text{recipient}}$) at Layer 14 `pos_post_evidence` using only the 32 discovery examples. We then tested this basis strictly one-shot on the **held-out confirmation split (80 examples, 240 format cases)** across subspace ranks $k \in \{1, 4, 8, 16, 32\}$:
+#### 3. No subspace rank passed validation
 
-| Subspace Rank ($k$) | Confirmation Causal Shift | 95% Bootstrap CI | Retained Variance | Structured Recovery | Compact Recovery | UUID Recovery |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **$k=1$** | $+0.0103$ | [$-0.0021, +0.0231$] | 17.7% | +6.2% | +6.9% | +0.3% |
-| **$k=4$** | **$+0.0131$** | [$+0.0003, +0.0267$] | 44.9% | +8.6% | $-5.0\%$ | $-0.8\%$ |
-| **$k=8$** | **$+0.0297$** | [$+0.0165, +0.0423$] | 62.3% | **+12.7%** | +1.7% | **$-3.1\%$** |
-| **$k=16$** | **$+0.0321$** | [$+0.0174, +0.0456$] | 76.4% | **+12.0%** | +9.8% | **$-2.5\%$** |
-| **$k=32$** | **$+0.0289$** | [$+0.0126, +0.0444$] | 88.0% | +10.8% | +2.3% | $-3.5\%$ |
+An orthonormal SVD difference basis was fitted on discovery residuals at Layer 14 pos_post_evidence, pooling all three formats after within-condition centering. Validation tested ranks 1, 2, 4, 8, 16, and 32 on 96 format cases from 32 examples. None met both registered requirements: at least 70% donor recovery and a 30 percentage-point margin over the matched random basis. No rank was qualified, selected, or frozen.
 
-- **Statistical Confirmation:** Subspace projection at Rank 8 ($+0.0297$ [$+0.0165, +0.0423$]) and Rank 16 ($+0.0321$ [$+0.0174, +0.0456$]) strictly excludes zero, capturing over 62% of directional variance.
-- **Control Divergence:** Matched random subspace projections at Rank 8 yield $+0.0015$ (near zero), and complement projection yields $+0.0043$, proving causal concentration within the extracted SVD subspace.
-- **Identifier Format Dissociation:** The causal subspace mirrors the behavioral UUID penalty. For structured identifiers (`[S1]`), the Rank 8 subspace achieves **+12.7%** counterfactual recovery (+12.0% at Rank 16). For high-entropy UUIDs (`[3f8a...]`), recovery is negative (**$-3.1\%$** at Rank 8; **$-2.5\%$** at Rank 16). Structured handles form a coherent linear subspace, whereas opaque UUID representations fail to project into the linear binding subspace.
+| Validation rank | Raw logit shift | 95% CI | Qualified |
+| :--- | :--- | :--- | :--- |
+| 1 | +0.0120 | [-0.0084, +0.0303] | No |
+| 2 | +0.0149 | [-0.0112, +0.0407] | No |
+| 4 | +0.0129 | [-0.0096, +0.0366] | No |
+| 8 | +0.0249 | [+0.0030, +0.0459] | No |
+| 16 | +0.0208 | [-0.0024, +0.0439] | No |
+| 32 | +0.0272 | [+0.0047, +0.0486] | No |
 
-#### 4. Behavioral Bridge: Selective Dissociation in Free Generation
 
-To determine whether intermediate subspace interventions alter actual generation or merely teacher-forced logits, we evaluated greedy autoregressive generation under Layer 14 Rank 8 subspace projection ($N=96$ validation cases):
-- **Factual Answer Preservation:** Clean baseline factual answer Exact Match (EM) was **40.6% [26.0%, 57.3%]**. Under subspace intervention, answer EM was identically **40.6% [26.0%, 57.3%]**, demonstrating that the intervention does not corrupt factual reasoning or language fluency.
-- **Strict Citation Syntax:** Output syntax formatting remained stable at **63.5% [51.0%, 74.0%]** (vs. 64.6% in clean baseline).
-- **Selective Dissociation:** In **8.3% [2.1%, 16.7%]** of cases, the intervention selectively changed the emitted citation toward the counterfactual donor while leaving the generated answer text completely unchanged. This confirms a causal behavioral bridge: post-evidence residual states partially decouple citation attribution from factual text generation during free generation.
+Recovery ratios also require a usable donor-minus-clean denominator. In validation, 81/96 rows pass the historical per-row absolute threshold of 0.5, but the eligible mean denominator is −0.7126 and bootstrap resamples can cross zero or fall below the aggregate guard. Amendment 002 therefore marks the recovery and margin intervals as unidentifiable under its conservative post-audit sensitivity policy. This policy is distinct from the original preregistration; the original validation failure remains unchanged.
 
-![Figure 8E — Held-Out Causal Subspace Confirmation, Format Dissociation, and Free-Generation Behavioral Bridge.](assets/08e_subspace_confirmation.svg)
+#### 4. The confirmation cohort supports exploratory observations
 
-> **Figure 8E — Held-Out Causal Subspace Localization & Behavioral Bridge.** Panel A shows causal preference shifts across subspace ranks on the 80-example held-out confirmation cohort ($B=1,000$ paired cluster-bootstrap 95% CIs). Ranks 8 and 16 strictly exclude zero. Panel B reveals format dissociation: structured handles recover $+12.7\%$ of counterfactual preference, whereas high-entropy UUIDs fail to align with the linear subspace ($-3.1\%$). Panel C shows free generation under subspace intervention: factual answer Exact Match is 100% preserved (40.6% clean vs. 40.6% patched) while selectively dissociating citations in 8.3% of cases.
+Execution continued with an unregistered fallback rank, the behavioral run used rank 8, and five ranks were evaluated on the confirmation cohort rather than one qualified frozen rank. The 80-example, 240-case cohort is therefore exploratory and consumed. It cannot provide an untouched confirmatory test for a follow-up study.
+
+| Exploratory rank | Raw logit shift | 95% CI | Shift minus random | Paired 95% CI |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | +0.0103 | [-0.0024, +0.0229] | +0.0065 | [-0.0051, +0.0184] |
+| 4 | +0.0131 | [+0.0018, +0.0266] | +0.0188 | [+0.0071, +0.0336] |
+| 8 | +0.0297 | [+0.0170, +0.0430] | +0.0282 | [+0.0148, +0.0419] |
+| 16 | +0.0321 | [+0.0188, +0.0486] | +0.0350 | [+0.0196, +0.0510] |
+| 32 | +0.0289 | [+0.0136, +0.0464] | +0.0253 | [+0.0109, +0.0402] |
+
+
+Several exploratory raw shifts and paired differences over random have intervals above zero. These are candidate effects for a fresh study, not successful recovery under the registered criterion. Only 195/240 rows pass the per-row denominator threshold; their mean denominator is −0.0955, below the aggregate absolute guard of 0.5. Aggregate recovery and margin ratios are therefore unavailable under the audited policy. The earlier structured-handle recovery claim is withdrawn. Because the basis was fitted on all formats, these data also do not test transfer to an unseen identifier format.
+
+#### 5. Free generation showed no counterfactual citation redirection
+
+The exploratory behavioral bridge used Layer 14 rank 8 during greedy generation on 96 validation cases from 32 examples. The relevant comparison is patched minus clean within the same cases. Prevalence alone cannot demonstrate an intervention effect.
+
+| Behavioral metric | Clean | Patched | Change (pp) | Paired 95% CI (pp) |
+| :--- | :--- | :--- | :--- | :--- |
+| Answer exact match | 40.62% | 40.62% | +0.00 | [+0.00, +0.00] |
+| Counterfactual citation | 11.46% | 11.46% | +0.00 | [+0.00, +0.00] |
+| Correct answer + counterfactual citation | 8.33% | 8.33% | +0.00 | [+0.00, +0.00] |
+| Gold citation | 11.46% | 12.50% | +1.04 | [-2.08, +4.17] |
+| Citation precision | 8.33% | 7.92% | -0.42 | [-3.02, +1.56] |
+
+
+All 11 counterfactual-citation cases were already present in the clean baseline: zero 0→1 transitions and zero 1→0 transitions. The eight cases with both a correct answer and a counterfactual citation were likewise identical across clean and patched runs. The previously reported 8.33% “selective dissociation” was baseline prevalence, not induced citation redirection. Answer correctness was unchanged case by case (39/96), while gold citation had two gains and one loss. Unchanged answer EM does not establish unchanged text or language fluency.
+
+The zero-width bootstrap intervals for unchanged binary outcomes describe these observed paired differences. They do not prove that the population effect must be exactly zero.
+
+![Figure 8E — Audited subspace outcome and paired behavioral effects.](assets/08e_subspace_confirmation.svg)
+
+> **Figure 8E — Audited subspace outcome and paired behavioral effects.** Panel A shows exploratory raw logit shifts on the consumed 80-example cohort. Panel B records the failed validation gate and denominator limits. Panel C compares clean and patched behavioral outcomes in 96 cases; counterfactual citation transitions are zero. Whiskers are paired cluster-bootstrap 95% intervals (1,000 replicates by example_id).
+
+What this establishes. The tested Layer 14 post-evidence linear difference basis failed the registered qualification criteria, and its rank-8 intervention showed no observed counterfactual-citation redirection in this sample. Binding circuits or causal subspaces may still exist elsewhere or under a different intervention. A stronger follow-up needs a frozen selection population and estimand, a qualified validation result, and a fresh disjoint confirmation cohort. The behavioral evidence for compact handles remains separate from this unresolved mechanistic explanation.
 
 ---
 
@@ -689,7 +689,8 @@ When should an engineering team implement Symbolic IR?
 
 1. **Frontier Coverage:** The completed frontier extension covers four models across Anthropic (Haiku, Sonnet) and OpenAI (Sol, Luna). Across both providers, compact formats consistently outperformed or matched UUIDs, but models with extensive reasoning capacity showed greater resilience to surface identifier format than smaller or non-reasoning configurations. Investigating longer context windows (100K+) and expanding to additional frontier architectures remain open directions.
 2. **Context Length Regimes:** The measured input prompts ranged from roughly 230 to 4,000 tokens, using 4K–8K context windows. In 100K+ contexts, identifier token bloat can accumulate into substantial KV-cache use, but attention dilution at that scale requires dedicated measurement.
-3. **State Management in Distributed Systems:** Maintaining a `MappingVault` requires request-scoped state. In serverless or distributed streaming agent loops, vaults must be tied to ephemeral cache stores (e.g., Redis with short TTLs) and managed across conversational turns.
+3. **Mechanistic Scope:** The tested Qwen Layer 14 post-evidence basis failed validation; the consumed confirmation cohort is exploratory, and the rank-8 free-generation intervention produced no counterfactual-citation transitions. The behavioral UUID penalty does not by itself establish its internal mechanism.
+4. **State Management in Distributed Systems:** Maintaining a `MappingVault` requires request-scoped state. In serverless or distributed streaming agent loops, vaults must be tied to ephemeral cache stores (e.g., Redis with short TTLs) and managed across conversational turns.
 
 ---
 
@@ -704,7 +705,7 @@ By introducing a clean, deterministic **Symbolic IR** boundary—canonicalizing 
 ### Reproducibility & Artifacts
 
 Empirical Figures 3–8 are generated from checked-in processed result artifacts; Figures 1, 2, and 9 are deterministic code-generated schematics. Local raw logs are hash-recorded for provenance but are not tracked in Git.
-- **Figure Generator:** [`blog/scripts/build_figures.py`](scripts/build_figures.py)
+- **Figure Generators:** [`blog/scripts/build_figures.py`](scripts/build_figures.py) and [`scripts/build_circuit_figures.py`](../scripts/build_circuit_figures.py) (Figures 8A–8E).
 - **Technical Appendix & Evidence Ledger:** [`blog/appendix.md`](appendix.md)
 - **Machine-Readable Evidence Manifest:** [`blog/evidence_manifest.csv`](evidence_manifest.csv)
 - **Test Suite:** Run `.venv/bin/python scripts/run_tests.py` to verify the deterministic test suite.

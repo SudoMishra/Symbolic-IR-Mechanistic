@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" role="img" aria-labelledby="title desc">
-<title id="title">Figure 8D: Resolving Computation vs. Transport &amp; Distinguishing-Token Evaluation</title>
-<desc id="desc">Two panels examine causal mechanisms in Qwen 2.5 1.5B. Panel A displays position-resolved causal shifts at Layer 14 across the residual stream, attention mixer, and MLP across source-label, evidence, post-evidence, and citation positions. Panel B contrasts the unshifted prefix evaluation with the repaired distinguishing-token evaluation at Layer 24 citation position.</desc>
+<title id="title">Figure 8D: Repaired discovery interventions and head-screening gate</title>
+<desc id="desc">Layer 14 label-swap residual, mixer and MLP shifts at four sampled positions, with paired cluster-bootstrap 95% intervals. The repaired Layer 24 citation mixer does not qualify for head screening. Source-label effects alone do not identify evidence binding or linear transport.</desc>
 <style>
 text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #172033; }
 .axis { stroke: #8c9ba5; stroke-width: 1.2; }
@@ -11,130 +11,97 @@ text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helve
 .legend { font-size: 11px; font-weight: 500; }
 </style>
 <rect width="1200" height="740" fill="#fbfcfe" rx="8"/>
-<text x="42.0" y="36.0" class="title">Figure 8D · Resolving Computation vs. Transport in Qwen 2.5</text>
-<text x="42.0" y="58.0" class="muted">Sequence 2R &amp; 3A · Discovery cohort (N=32 examples, 96 cases) · Distinguishing-token repair (d-1)</text>
-<rect x="680.0" y="20.0" width="480.0" height="48.0" fill="#f0f4f8" stroke="none" rx="6"/>
-<rect x="700.0" y="36.0" width="12.0" height="12.0" fill="#7656c9" stroke="none" rx="2"/>
-<text x="718.0" y="47.0" class="legend">Residual Stream</text>
-<rect x="855.0" y="36.0" width="12.0" height="12.0" fill="#315efb" stroke="none" rx="2"/>
-<text x="873.0" y="47.0" class="legend">Attention Mixer</text>
-<rect x="1010.0" y="36.0" width="12.0" height="12.0" fill="#e97824" stroke="none" rx="2"/>
-<text x="1028.0" y="47.0" class="legend">MLP Down-proj</text>
-<text x="70.0" y="96.0" class="label">A. Causal shift by semantic position (Layer 14)</text>
-<text x="70.0" y="114.0" class="muted">Y-axis: Δ log preference (natural-log units); positive = counterfactual state transferred</text>
-<rect x="70.0" y="128.0" width="540.0" height="410.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
-<line x1="70.0" y1="524.3" x2="610.0" y2="524.3" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="528.3" class="muted" text-anchor="end">-0.2</text>
-<line x1="70.0" y1="497.0" x2="610.0" y2="497.0" stroke="#8996a8" stroke-width="1.4"/>
-<text x="62.0" y="501.0" class="muted" text-anchor="end">+0.0</text>
-<line x1="70.0" y1="428.7" x2="610.0" y2="428.7" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="432.7" class="muted" text-anchor="end">+0.5</text>
-<line x1="70.0" y1="360.3" x2="610.0" y2="360.3" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="364.3" class="muted" text-anchor="end">+1.0</text>
-<line x1="70.0" y1="292.0" x2="610.0" y2="292.0" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="296.0" class="muted" text-anchor="end">+1.5</text>
-<line x1="70.0" y1="223.7" x2="610.0" y2="223.7" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="227.7" class="muted" text-anchor="end">+2.0</text>
-<line x1="70.0" y1="155.3" x2="610.0" y2="155.3" stroke="#d8dee8" stroke-width="0.8"/>
-<text x="62.0" y="159.3" class="muted" text-anchor="end">+2.5</text>
-<rect x="93.0" y="129.0" width="90.0" height="408.0" fill="#faf5ff" stroke="none" rx="0"/>
-<text x="138.0" y="148.0" class="muted" text-anchor="middle" fill="#7656c9">Linear storage</text>
-<rect x="102.0" y="206.6" width="20.0" height="290.4" fill="#7656c9" stroke="none" rx="2"/>
-<line x1="112.0" y1="148.2" x2="112.0" y2="260.2" stroke="#172033" stroke-width="1.3"/>
-<line x1="108.0" y1="148.2" x2="116.0" y2="148.2" stroke="#172033" stroke-width="1.3"/>
-<line x1="108.0" y1="260.2" x2="116.0" y2="260.2" stroke="#172033" stroke-width="1.3"/>
-<text x="112.0" y="142.2" class="muted" text-anchor="middle" fill="#7656c9">+2.12</text>
-<rect x="128.0" y="497.0" width="20.0" height="10.5" fill="#315efb" stroke="none" rx="2"/>
-<line x1="138.0" y1="500.7" x2="138.0" y2="513.7" stroke="#172033" stroke-width="1.3"/>
-<line x1="134.0" y1="500.7" x2="142.0" y2="500.7" stroke="#172033" stroke-width="1.3"/>
-<line x1="134.0" y1="513.7" x2="142.0" y2="513.7" stroke="#172033" stroke-width="1.3"/>
-<text x="138.0" y="526.7" class="muted" text-anchor="middle" fill="#315efb">-0.08</text>
-<rect x="154.0" y="497.0" width="20.0" height="2.1" fill="#e97824" stroke="none" rx="2"/>
-<line x1="164.0" y1="490.2" x2="164.0" y2="507.5" stroke="#172033" stroke-width="1.3"/>
-<line x1="160.0" y1="490.2" x2="168.0" y2="490.2" stroke="#172033" stroke-width="1.3"/>
-<line x1="160.0" y1="507.5" x2="168.0" y2="507.5" stroke="#172033" stroke-width="1.3"/>
-<text x="164.0" y="520.5" class="muted" text-anchor="middle" fill="#e97824">-0.01</text>
-<text x="138.0" y="560.0" class="label" text-anchor="middle">Source Label</text>
-<rect x="237.0" y="475.8" width="20.0" height="21.2" fill="#7656c9" stroke="none" rx="2"/>
-<line x1="247.0" y1="465.7" x2="247.0" y2="484.8" stroke="#172033" stroke-width="1.3"/>
-<line x1="243.0" y1="465.7" x2="251.0" y2="465.7" stroke="#172033" stroke-width="1.3"/>
-<line x1="243.0" y1="484.8" x2="251.0" y2="484.8" stroke="#172033" stroke-width="1.3"/>
-<text x="247.0" y="459.7" class="muted" text-anchor="middle" fill="#7656c9">+0.15</text>
-<rect x="263.0" y="477.5" width="20.0" height="19.5" fill="#315efb" stroke="none" rx="2"/>
-<line x1="273.0" y1="468.7" x2="273.0" y2="485.2" stroke="#172033" stroke-width="1.3"/>
-<line x1="269.0" y1="468.7" x2="277.0" y2="468.7" stroke="#172033" stroke-width="1.3"/>
-<line x1="269.0" y1="485.2" x2="277.0" y2="485.2" stroke="#172033" stroke-width="1.3"/>
-<text x="273.0" y="462.7" class="muted" text-anchor="middle" fill="#315efb">+0.14</text>
-<rect x="289.0" y="497.0" width="20.0" height="2.0" fill="#e97824" stroke="none" rx="2"/>
-<line x1="299.0" y1="494.8" x2="299.0" y2="502.6" stroke="#172033" stroke-width="1.3"/>
-<line x1="295.0" y1="494.8" x2="303.0" y2="494.8" stroke="#172033" stroke-width="1.3"/>
-<line x1="295.0" y1="502.6" x2="303.0" y2="502.6" stroke="#172033" stroke-width="1.3"/>
-<text x="299.0" y="515.6" class="muted" text-anchor="middle" fill="#e97824">-0.01</text>
-<text x="273.0" y="560.0" class="label" text-anchor="middle">Evidence</text>
-<rect x="372.0" y="491.3" width="20.0" height="5.7" fill="#7656c9" stroke="none" rx="2"/>
-<line x1="382.0" y1="488.3" x2="382.0" y2="494.5" stroke="#172033" stroke-width="1.3"/>
-<line x1="378.0" y1="488.3" x2="386.0" y2="488.3" stroke="#172033" stroke-width="1.3"/>
-<line x1="378.0" y1="494.5" x2="386.0" y2="494.5" stroke="#172033" stroke-width="1.3"/>
-<text x="382.0" y="482.3" class="muted" text-anchor="middle" fill="#7656c9">+0.04</text>
-<rect x="398.0" y="492.2" width="20.0" height="4.8" fill="#315efb" stroke="none" rx="2"/>
-<line x1="408.0" y1="489.5" x2="408.0" y2="495.2" stroke="#172033" stroke-width="1.3"/>
-<line x1="404.0" y1="489.5" x2="412.0" y2="489.5" stroke="#172033" stroke-width="1.3"/>
-<line x1="404.0" y1="495.2" x2="412.0" y2="495.2" stroke="#172033" stroke-width="1.3"/>
-<text x="408.0" y="483.5" class="muted" text-anchor="middle" fill="#315efb">+0.04</text>
-<rect x="424.0" y="496.9" width="20.0" height="2.0" fill="#e97824" stroke="none" rx="2"/>
-<line x1="434.0" y1="494.0" x2="434.0" y2="499.5" stroke="#172033" stroke-width="1.3"/>
-<line x1="430.0" y1="494.0" x2="438.0" y2="494.0" stroke="#172033" stroke-width="1.3"/>
-<line x1="430.0" y1="499.5" x2="438.0" y2="499.5" stroke="#172033" stroke-width="1.3"/>
-<text x="434.0" y="488.0" class="muted" text-anchor="middle" fill="#e97824">+0.00</text>
-<text x="408.0" y="560.0" class="label" text-anchor="middle">Post-Evidence</text>
-<rect x="507.0" y="497.0" width="20.0" height="5.3" fill="#7656c9" stroke="none" rx="2"/>
-<line x1="517.0" y1="498.8" x2="517.0" y2="505.7" stroke="#172033" stroke-width="1.3"/>
-<line x1="513.0" y1="498.8" x2="521.0" y2="498.8" stroke="#172033" stroke-width="1.3"/>
-<line x1="513.0" y1="505.7" x2="521.0" y2="505.7" stroke="#172033" stroke-width="1.3"/>
-<text x="517.0" y="518.7" class="muted" text-anchor="middle" fill="#7656c9">-0.04</text>
-<rect x="533.0" y="497.0" width="20.0" height="2.0" fill="#315efb" stroke="none" rx="2"/>
-<line x1="543.0" y1="494.8" x2="543.0" y2="500.3" stroke="#172033" stroke-width="1.3"/>
-<line x1="539.0" y1="494.8" x2="547.0" y2="494.8" stroke="#172033" stroke-width="1.3"/>
-<line x1="539.0" y1="500.3" x2="547.0" y2="500.3" stroke="#172033" stroke-width="1.3"/>
-<text x="543.0" y="513.3" class="muted" text-anchor="middle" fill="#315efb">-0.00</text>
-<rect x="559.0" y="497.0" width="20.0" height="2.0" fill="#e97824" stroke="none" rx="2"/>
-<line x1="569.0" y1="493.9" x2="569.0" y2="500.0" stroke="#172033" stroke-width="1.3"/>
-<line x1="565.0" y1="493.9" x2="573.0" y2="493.9" stroke="#172033" stroke-width="1.3"/>
-<line x1="565.0" y1="500.0" x2="573.0" y2="500.0" stroke="#172033" stroke-width="1.3"/>
-<text x="569.0" y="513.0" class="muted" text-anchor="middle" fill="#e97824">-0.00</text>
-<text x="543.0" y="560.0" class="label" text-anchor="middle">Citation Pos</text>
-<rect x="82.0" y="164.0" width="170.0" height="48.0" fill="#ffffff" stroke="#7656c9" rx="4"/>
-<text x="90.0" y="182.0" class="label" fill="#7656c9">Residual = +2.125 nats</text>
-<text x="90.0" y="200.0" class="muted">Mixer/MLP inert (~0.0)</text>
-<text x="670.0" y="96.0" class="label">B. Distinguishing-token repair collapses the late mixer effect</text>
-<text x="670.0" y="114.0" class="muted">Layer 24 pos_citation: prefix position vs. true distinguishing token (d-1)</text>
-<rect x="670.0" y="128.0" width="480.0" height="410.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
-<rect x="690.0" y="154.0" width="440.0" height="130.0" fill="#f8fafc" stroke="#cbd5e1" rx="6"/>
-<text x="706.0" y="180.0" class="label" fill="#5f6b7a">Unrepaired Pilot · Prefix Position (Before Bracket)</text>
-<text x="706.0" y="200.0" class="muted">Evaluated before distinguishing character was generated (capturing format prefix):</text>
-<rect x="706.0" y="214.0" width="180.0" height="24.0" fill="#e8edff" stroke="#315efb" rx="3"/>
-<text x="716.0" y="230.0" class="legend" fill="#315efb">Mixer: +0.701 [+0.436, +0.804]</text>
-<rect x="906.0" y="214.0" width="180.0" height="24.0" fill="#fff0e5" stroke="#e97824" rx="3"/>
-<text x="916.0" y="230.0" class="legend" fill="#e97824">MLP: +0.080 [-0.015, +0.175]</text>
-<text x="706.0" y="266.0" class="muted">Apparent &#x27;mixer dominance&#x27; was an artifact of continuation prefix prefill.</text>
-<line x1="910.0" y1="292.0" x2="910.0" y2="316.0" stroke="#c43d4b" stroke-width="2.0"/>
-<polygon points="910.0,316.0 906.0,309.1 914.0,309.1" fill="#c43d4b" stroke="none" stroke-width="1"/>
-<text x="920.0" y="306.0" class="legend" fill="#c43d4b">Correct position to d-1</text>
-<rect x="690.0" y="324.0" width="440.0" height="190.0" fill="#fff5f5" stroke="#fca5a5" rx="6"/>
-<text x="706.0" y="350.0" class="label" fill="#c43d4b">Repaired Evaluation · Distinguishing Token (d-1)</text>
-<text x="706.0" y="370.0" class="muted">Evaluated exactly where target and distractor IDs diverge (e.g. &#x27;1&#x27; vs &#x27;7&#x27;):</text>
-<rect x="706.0" y="386.0" width="200.0" height="28.0" fill="#ffffff" stroke="#315efb" rx="3"/>
-<text x="716.0" y="404.0" class="legend" fill="#315efb">Mixer: +0.001 [-0.147, +0.179]</text>
-<rect x="920.0" y="386.0" width="190.0" height="28.0" fill="#ffffff" stroke="#e97824" rx="3"/>
-<text x="930.0" y="404.0" class="legend" fill="#e97824">MLP: -0.102 [-0.175, -0.023]</text>
-<rect x="706.0" y="428.0" width="404.0" height="70.0" fill="#ffffff" stroke="#f87171" rx="4"/>
-<text x="716.0" y="448.0" class="label" fill="#c43d4b">SCIENTIFIC NULL OUTCOME (Sequence 3A):</text>
-<text x="716.0" y="466.0" class="muted">Whole attention mixer causal shift spans zero across all 3 formats.</text>
-<text x="716.0" y="482.0" class="muted">Head localization terminated per protocol without post-hoc layer hunting.</text>
-<rect x="70.0" y="560.0" width="1080.0" height="140.0" fill="#e8edff" stroke="#b9c7ff" rx="7"/>
-<text x="90.0" y="584.0" class="label" fill="#315efb">HOW TO READ · CAUSAL COMPUTATION VS. TRANSPORT FINDINGS</text>
-<text x="90.0" y="608.0" class="legend">1. Linear Handle Propagation: Handle identity is directly stored and transported via the residual stream (+2.125 nats at source label).</text>
-<text x="90.0" y="628.0" class="muted">   Mixer and MLP components at source label positions are inactive (-0.077 and -0.015), showing early embedding transport rather than mid-layer synthesis.</text>
-<text x="90.0" y="650.0" class="legend">2. Post-Evidence Localization: First causal binding signal emerges at Layer 14 pos_post_evidence (+0.042 [+0.018, +0.064] label swap, +0.209 content swap).</text>
-<text x="90.0" y="672.0" class="muted">3. Distinguishing-Token Null: At the citation position, the mixer does not route distinguishing tokens (+0.001 [-0.147, +0.179]). Binding is computed upstream.</text>
+<text x="42.0" y="36.0" class="title">Figure 8D · Repaired discovery interventions</text>
+<text x="42.0" y="58.0" class="muted">Qwen 2.5 1.5B · 32 semantic examples / 96 format cases · label swap · 1,000 example-cluster bootstrap replicates</text>
+<text x="62.0" y="96.0" class="label">A. Layer 14: effects depend on intervention site</text>
+<text x="62.0" y="115.0" class="muted">Raw logit shift, natural-log units; whiskers = paired 95% CI</text>
+<rect x="70.0" y="140.0" width="525.0" height="340.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
+<line x1="70.0" y1="447.1" x2="595.0" y2="447.1" stroke="#172033" stroke-width="1"/>
+<text x="62.0" y="451.1" class="muted" text-anchor="end">0.0</text>
+<line x1="70.0" y1="392.3" x2="595.0" y2="392.3" stroke="#d8dee8" stroke-width="1"/>
+<text x="62.0" y="396.3" class="muted" text-anchor="end">0.5</text>
+<line x1="70.0" y1="337.4" x2="595.0" y2="337.4" stroke="#d8dee8" stroke-width="1"/>
+<text x="62.0" y="341.4" class="muted" text-anchor="end">1.0</text>
+<line x1="70.0" y1="282.6" x2="595.0" y2="282.6" stroke="#d8dee8" stroke-width="1"/>
+<text x="62.0" y="286.6" class="muted" text-anchor="end">1.5</text>
+<line x1="70.0" y1="227.7" x2="595.0" y2="227.7" stroke="#d8dee8" stroke-width="1"/>
+<text x="62.0" y="231.7" class="muted" text-anchor="end">2.0</text>
+<line x1="70.0" y1="172.9" x2="595.0" y2="172.9" stroke="#d8dee8" stroke-width="1"/>
+<text x="62.0" y="176.9" class="muted" text-anchor="end">2.5</text>
+<circle cx="90.0" cy="535.0" r="5.0" fill="#7656c9" stroke="none" stroke-width="1"/>
+<text x="102.0" y="539.0" class="legend">Residual</text>
+<circle cx="245.0" cy="535.0" r="5.0" fill="#315efb" stroke="none" stroke-width="1"/>
+<text x="257.0" y="539.0" class="legend">Mixer</text>
+<circle cx="400.0" cy="535.0" r="5.0" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="412.0" y="539.0" class="legend">MLP</text>
+<line x1="113.0" y1="257.1" x2="113.0" y2="167.2" stroke="#7656c9" stroke-width="2"/>
+<line x1="109.0" y1="257.1" x2="117.0" y2="257.1" stroke="#7656c9" stroke-width="1.5"/>
+<line x1="109.0" y1="167.2" x2="117.0" y2="167.2" stroke="#7656c9" stroke-width="1.5"/>
+<circle cx="113.0" cy="214.0" r="4.0" fill="#7656c9" stroke="none" stroke-width="1"/>
+<line x1="138.0" y1="460.5" x2="138.0" y2="450.0" stroke="#315efb" stroke-width="2"/>
+<line x1="134.0" y1="460.5" x2="142.0" y2="460.5" stroke="#315efb" stroke-width="1.5"/>
+<line x1="134.0" y1="450.0" x2="142.0" y2="450.0" stroke="#315efb" stroke-width="1.5"/>
+<circle cx="138.0" cy="455.6" r="4.0" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="163.0" y1="455.5" x2="163.0" y2="441.6" stroke="#e97824" stroke-width="2"/>
+<line x1="159.0" y1="455.5" x2="167.0" y2="455.5" stroke="#e97824" stroke-width="1.5"/>
+<line x1="159.0" y1="441.6" x2="167.0" y2="441.6" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="163.0" cy="448.8" r="4.0" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="138.0" y="505.0" class="legend" text-anchor="middle">Source label</text>
+<line x1="243.0" y1="437.3" x2="243.0" y2="422.0" stroke="#7656c9" stroke-width="2"/>
+<line x1="239.0" y1="437.3" x2="247.0" y2="437.3" stroke="#7656c9" stroke-width="1.5"/>
+<line x1="239.0" y1="422.0" x2="247.0" y2="422.0" stroke="#7656c9" stroke-width="1.5"/>
+<circle cx="243.0" cy="430.1" r="4.0" fill="#7656c9" stroke="none" stroke-width="1"/>
+<line x1="268.0" y1="437.7" x2="268.0" y2="424.4" stroke="#315efb" stroke-width="2"/>
+<line x1="264.0" y1="437.7" x2="272.0" y2="437.7" stroke="#315efb" stroke-width="1.5"/>
+<line x1="264.0" y1="424.4" x2="272.0" y2="424.4" stroke="#315efb" stroke-width="1.5"/>
+<circle cx="268.0" cy="431.4" r="4.0" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="293.0" y1="451.6" x2="293.0" y2="445.3" stroke="#e97824" stroke-width="2"/>
+<line x1="289.0" y1="451.6" x2="297.0" y2="451.6" stroke="#e97824" stroke-width="1.5"/>
+<line x1="289.0" y1="445.3" x2="297.0" y2="445.3" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="293.0" cy="448.3" r="4.0" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="268.0" y="505.0" class="legend" text-anchor="middle">Evidence</text>
+<line x1="373.0" y1="445.2" x2="373.0" y2="440.1" stroke="#7656c9" stroke-width="2"/>
+<line x1="369.0" y1="445.2" x2="377.0" y2="445.2" stroke="#7656c9" stroke-width="1.5"/>
+<line x1="369.0" y1="440.1" x2="377.0" y2="440.1" stroke="#7656c9" stroke-width="1.5"/>
+<circle cx="373.0" cy="442.5" r="4.0" fill="#7656c9" stroke="none" stroke-width="1"/>
+<line x1="398.0" y1="445.6" x2="398.0" y2="441.0" stroke="#315efb" stroke-width="2"/>
+<line x1="394.0" y1="445.6" x2="402.0" y2="445.6" stroke="#315efb" stroke-width="1.5"/>
+<line x1="394.0" y1="441.0" x2="402.0" y2="441.0" stroke="#315efb" stroke-width="1.5"/>
+<circle cx="398.0" cy="443.3" r="4.0" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="423.0" y1="449.1" x2="423.0" y2="444.7" stroke="#e97824" stroke-width="2"/>
+<line x1="419.0" y1="449.1" x2="427.0" y2="449.1" stroke="#e97824" stroke-width="1.5"/>
+<line x1="419.0" y1="444.7" x2="427.0" y2="444.7" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="423.0" cy="447.0" r="4.0" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="398.0" y="505.0" class="legend" text-anchor="middle">Post-evidence</text>
+<line x1="503.0" y1="454.1" x2="503.0" y2="448.6" stroke="#7656c9" stroke-width="2"/>
+<line x1="499.0" y1="454.1" x2="507.0" y2="454.1" stroke="#7656c9" stroke-width="1.5"/>
+<line x1="499.0" y1="448.6" x2="507.0" y2="448.6" stroke="#7656c9" stroke-width="1.5"/>
+<circle cx="503.0" cy="451.3" r="4.0" fill="#7656c9" stroke="none" stroke-width="1"/>
+<line x1="528.0" y1="449.7" x2="528.0" y2="445.3" stroke="#315efb" stroke-width="2"/>
+<line x1="524.0" y1="449.7" x2="532.0" y2="449.7" stroke="#315efb" stroke-width="1.5"/>
+<line x1="524.0" y1="445.3" x2="532.0" y2="445.3" stroke="#315efb" stroke-width="1.5"/>
+<circle cx="528.0" cy="447.5" r="4.0" fill="#315efb" stroke="none" stroke-width="1"/>
+<line x1="553.0" y1="449.6" x2="553.0" y2="444.5" stroke="#e97824" stroke-width="2"/>
+<line x1="549.0" y1="449.6" x2="557.0" y2="449.6" stroke="#e97824" stroke-width="1.5"/>
+<line x1="549.0" y1="444.5" x2="557.0" y2="444.5" stroke="#e97824" stroke-width="1.5"/>
+<circle cx="553.0" cy="447.2" r="4.0" fill="#e97824" stroke="none" stroke-width="1"/>
+<text x="528.0" y="505.0" class="legend" text-anchor="middle">Citation</text>
+<text x="640.0" y="96.0" class="label">B. Repaired citation-position mixer gate</text>
+<rect x="640.0" y="140.0" width="518.0" height="402.0" fill="#ffffff" stroke="#d8dee8" rx="7"/>
+<text x="660.0" y="173.0" class="label">Layer 24 · pos_citation · distinguishing token (d−1)</text>
+<text x="660.0" y="209.0" class="title">Mixer shift: +0.001 [-0.147, +0.179]</text>
+<text x="660.0" y="242.0" class="legend">Interval spans zero; positive-control gate did not qualify.</text>
+<text x="660.0" y="266.0" class="legend">Head-level screening stopped under the registered rule.</text>
+<text x="660.0" y="308.0" class="label">Scope of the result</text>
+<text x="660.0" y="333.0" class="muted">Other heads, layers and positions remain open questions.</text>
+<text x="660.0" y="357.0" class="muted">Historical Stage 7B and repaired discovery use different</text>
+<text x="660.0" y="378.0" class="muted">cohorts and implementations; this is not a paired repair effect.</text>
+<text x="660.0" y="420.0" class="label">Source-label patching precedes relevant evidence.</text>
+<text x="660.0" y="446.0" class="muted">An identifier-identity or copying effect can occur there</text>
+<text x="660.0" y="467.0" class="muted">without isolating evidence–identifier binding.</text>
+<text x="660.0" y="502.0" class="label">Computation versus transport remains unresolved.</text>
+<rect x="62.0" y="578.0" width="1096.0" height="120.0" fill="#e8edff" stroke="#b9c7ff" rx="7"/>
+<text x="82.0" y="606.0" class="label">Source-label residual: +2.125 [+1.733, +2.552]</text>
+<text x="82.0" y="632.0" class="legend">Large residual-patch effects do not prove direct transport from embeddings, linear computation, or the first site of binding.</text>
+<text x="82.0" y="658.0" class="legend">Discovery position effects motivate further tests; they do not validate the later fitted subspace.</text>
 </svg>

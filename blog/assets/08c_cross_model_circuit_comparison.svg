@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 920" role="img" aria-labelledby="title desc">
-<title id="title">Figure 8C: Mixer-over-MLP binding effect across six architectures</title>
-<desc id="desc">A single-scale horizontal forest plot compares the paired attention-mixer minus MLP first-token binding effect for six models. Every 95 percent paired cluster-bootstrap interval lies to the right of zero. A companion table reports the registered hub, observed continuation component, and specificity result for each model.</desc>
+<title id="title">Figure 8C: Historical mixer-minus-MLP metric across six architectures</title>
+<desc id="desc">A single-scale horizontal forest plot compares the paired attention-mixer minus MLP first-token binding effect for six models. Five of six primary intervals favor the mixer; Gemma E2B primary L24 favors the MLP. These historical metrics have not been repaired across models. A companion table reports the registered hub, observed continuation component, and specificity result for each model.</desc>
 <style>
 text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #172033; }
 .axis { stroke: #8c9ba5; stroke-width: 1.2; }
@@ -11,9 +11,9 @@ text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helve
 .legend { font-size: 11px; font-weight: 500; }
 </style>
 <rect width="1200" height="920" fill="#fbfcfe" rx="8"/>
-<text x="42.0" y="36.0" class="title">Figure 8C · Does the mixer-over-MLP binding effect replicate across models?</text>
-<text x="42.0" y="58.0" class="muted">Held-out confirmation · 80 semantic examples per model · paired cluster bootstrap (1,000 replicates)</text>
-<text x="42.0" y="100.0" class="label">A. Mixer-minus-MLP binding contrast</text>
+<text x="42.0" y="36.0" class="title">Figure 8C · Historical component contrasts across models</text>
+<text x="42.0" y="58.0" class="muted">Historical metric · 80 examples per model · repaired distinguishing-token replication remains open (see Stage 7C)</text>
+<text x="42.0" y="100.0" class="label">A. Historical mixer-minus-MLP contrast</text>
 <text x="245.0" y="120.0" class="muted">Primary registered hub for each model, plus Gemma E2B&#x27;s designated terminal hub; whiskers are paired 95% CIs</text>
 <rect x="245.0" y="138.0" width="890.0" height="408.0" fill="#ffffff" stroke="#d8dee8" rx="0"/>
 <line x1="245.0" y1="138.0" x2="245.0" y2="546.0" stroke="#d8dee8" stroke-width="0.8"/>
@@ -86,38 +86,38 @@ text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helve
 <line x1="849.9" y1="483.0" x2="849.9" y2="497.0" stroke="#315efb" stroke-width="1.5"/>
 <line x1="1079.9" y1="483.0" x2="1079.9" y2="497.0" stroke="#315efb" stroke-width="1.5"/>
 <circle cx="969.2" cy="490.0" r="6.5" fill="#315efb" stroke="#ffffff" stroke-width="1.5"/>
-<text x="1091.9" y="494.0" class="legend" fill="#315efb">+14.460 [+11.914, +16.823]</text>
-<text x="42.0" y="620.0" class="label">B. What follows binding in each architecture</text>
+<text x="969.2" y="476.0" class="legend" text-anchor="middle" fill="#315efb">+14.460 [+11.914, +16.823]</text>
+<text x="42.0" y="620.0" class="label">B. Original component and specificity measurements</text>
 <rect x="42.0" y="648.0" width="1116.0" height="214.0" fill="#ffffff" stroke="#d8dee8" rx="5"/>
 <text x="54.0" y="672.0" class="muted">MODEL</text>
-<text x="330.0" y="672.0" class="muted">REGISTERED BINDING RESULT</text>
+<text x="330.0" y="672.0" class="muted">HISTORICAL METRIC RESULT</text>
 <text x="650.0" y="672.0" class="muted">CONTINUATION EFFECT</text>
 <text x="974.0" y="672.0" class="muted">SPECIFICITY CHECK</text>
 <line x1="42.0" y1="682.0" x2="1158.0" y2="682.0" stroke="#d8dee8" stroke-width="1.5"/>
 <text x="54.0" y="708.0" class="legend">Qwen 2.5 1.5B</text>
-<text x="330.0" y="708.0" class="legend" fill="#315efb">L24 PASS (+0.621)</text>
+<text x="330.0" y="708.0" class="legend" fill="#315efb">L24 contrast +0.621</text>
 <text x="650.0" y="708.0" class="legend">Mixer · L24</text>
 <text x="974.0" y="708.0" class="legend" fill="#008c83">KL 0.073 · PASS</text>
 <text x="54.0" y="735.0" class="legend">Qwen 3.5 2B</text>
-<text x="330.0" y="735.0" class="legend" fill="#315efb">L20 PASS (+1.031)</text>
+<text x="330.0" y="735.0" class="legend" fill="#315efb">L20 contrast +1.031</text>
 <text x="650.0" y="735.0" class="legend">Mixer · L20</text>
 <text x="974.0" y="735.0" class="legend" fill="#008c83">KL 0.137 · PASS</text>
 <text x="54.0" y="762.0" class="legend">Tiny Aya Global</text>
-<text x="330.0" y="762.0" class="legend" fill="#315efb">L24 PASS (+1.005)</text>
+<text x="330.0" y="762.0" class="legend" fill="#315efb">L24 contrast +1.005</text>
 <text x="650.0" y="762.0" class="legend">MLP · L36</text>
 <text x="974.0" y="762.0" class="legend" fill="#008c83">KL 0.307 · PASS</text>
 <text x="54.0" y="789.0" class="legend">Qwen 3.5 4B</text>
-<text x="330.0" y="789.0" class="legend" fill="#315efb">L24 PASS (+2.198)</text>
+<text x="330.0" y="789.0" class="legend" fill="#315efb">L24 contrast +2.198</text>
 <text x="650.0" y="789.0" class="legend">Mixer L28 + MLP L32</text>
 <text x="974.0" y="789.0" class="legend" fill="#008c83">KL 0.303 · PASS</text>
 <text x="54.0" y="816.0" class="legend">Gemma 4 E2B</text>
-<text x="330.0" y="816.0" class="legend" fill="#e97824">L24 FAIL (MLP &gt; mixer); L35 terminal PASS</text>
+<text x="330.0" y="816.0" class="legend" fill="#e97824">L24 MLP &gt; mixer; L35 mixer &gt; MLP</text>
 <text x="650.0" y="816.0" class="legend">MLP · L24</text>
 <text x="974.0" y="816.0" class="legend" fill="#008c83">KL 0.123 · PASS</text>
 <text x="54.0" y="843.0" class="legend">Gemma 4 E4B</text>
-<text x="330.0" y="843.0" class="legend" fill="#315efb">L36 PASS (+14.460)</text>
+<text x="330.0" y="843.0" class="legend" fill="#315efb">L36 contrast +14.460</text>
 <text x="650.0" y="843.0" class="legend">Mixer · L42</text>
 <text x="974.0" y="843.0" class="legend" fill="#c43d4b">KL 3.156 · FAIL</text>
 <rect x="42.0" y="878.0" width="1116.0" height="30.0" fill="#e8edff" stroke="#b9c7ff" rx="5"/>
-<text x="58.0" y="898.0" class="legend" fill="#315efb">HOW TO READ · Right of zero favors the mixer. Result: 5/6 primary hubs pass; Gemma E2B reverses at its L35 terminal hub; Gemma E4B fails the separate KL specificity check.</text>
+<text x="58.0" y="898.0" class="legend" fill="#315efb">Historical effects only: 5/6 primary contrasts favor the mixer. Qwen repaired screening failed; cross-model binding confirmation remains open.</text>
 </svg>

@@ -84,6 +84,50 @@ the model's own full prompt-swap effect. Approximately 100% means the patched
 state transfers the complete observed counterfactual response. Values outside
 0–100% are possible when a patch amplifies or reverses the direct effect.
 
+## Sequence 3: audited mechanistic status (19 November 2026)
+
+Sequence 3 is a scoped negative result for the tested Qwen 2.5 1.5B Layer 14
+post-evidence linear difference basis. Discovery and validation each contain 32
+semantic examples rendered in three formats (96 cases); the consumed confirmation
+cohort contains 80 examples (240 cases). These are separate from the Stage 7 counts
+in the original study accounting above.
+
+No validation rank (1, 2, 4, 8, 16, 32) met both registered requirements: 70% donor
+recovery and a 30 percentage-point margin over random. No rank was qualified or
+frozen. The subsequent five-rank confirmation evaluation and rank-8 behavioral
+bridge are exploratory protocol deviations, documented in amendments 001 and 002.
+The original preregistration remains unchanged. Access authorization did not change
+the statistical status of the consumed confirmation cohort.
+
+Amendment 002 introduces a post-audit sensitivity policy: eligible rows have an
+absolute donor-minus-clean denominator greater than 0.5; the absolute aggregate
+mean must be at least 0.5. Any bootstrap denominator sign change or guard failure
+makes ratio intervals unidentifiable. Validation has 81/96 eligible rows with mean
+−0.7126; confirmation has 195/240 with mean −0.0955 and fails the aggregate guard.
+Raw logit shifts remain reportable. All intervention intervals use paired
+example_id cluster bootstrap, 1,000 replicates, 95% intervals.
+
+The behavioral experiment has zero counterfactual-citation transitions in either
+direction. The 8.33% correct-answer-plus-counterfactual-citation prevalence occurs
+in the same eight cases before and after intervention. Citation precision is
+8.33% clean versus 7.92% patched, a −0.42 percentage-point difference
+[−3.02, +1.56]. Equal answer EM does not establish equal text or fluency.
+The jointly fitted basis cannot establish transfer to an unseen format. Source-label
+patching before evidence cannot by itself identify an evidence-binding mechanism.
+
+Authoritative artifacts (relative to the repository root):
+
+- `results/circuit/SEQUENCE3_SCIENTIFIC_AUDIT_V2.md`
+- `results/circuit/sequence3_preregistration_amendment_001.json`
+- `results/circuit/sequence3_preregistration_amendment_002.json`
+- `results/circuit/sequence3_work/qwen25_subspace_validation_synthesis_audited_v2.json`
+- `results/circuit/sequence3_work/qwen25_subspace_confirmation_synthesis_exploratory_audited_v2.json`
+- `results/circuit/sequence3_work/qwen25_behavioral_bridge_synthesis_audited_v2.json`
+
+Figures 8A–8C retain historical measurements and are marked accordingly. Figures
+8D–8E use the repaired discovery synthesis and audited V2 summaries. The public
+blog update was explicitly requested after human review of the audit.
+
 ## Models and execution scope
 
 ### Primary Local Cohort (Six Models)
@@ -276,6 +320,7 @@ Regenerate all publication-grade figures:
 
 ```bash
 .venv/bin/python blog/scripts/build_figures.py
+.venv/bin/python scripts/build_circuit_figures.py
 ```
 
 Run or validate representative experiment families:

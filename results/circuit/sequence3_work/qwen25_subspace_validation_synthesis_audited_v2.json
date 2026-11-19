@@ -1,0 +1,996 @@
+{
+  "title": "Phase 5: Post-Evidence Residual Causal Subspace Evaluation (Audited)",
+  "eval_dataset": "qwen25_subspace_validation_n32_eval.jsonl",
+  "total_cases": 96,
+  "target_layer_1based": 14,
+  "semantic_position": "pos_post_evidence",
+  "analysis_mode": "validation",
+  "optimal_rank": null,
+  "selection_outcome": "no_rank_qualified",
+  "selection_rule_status": "No rank qualified: 0/6 ranks met recovery >= 70.0% and margin_over_random >= 30.0%",
+  "exploratory_best_margin_rank": 1,
+  "exploratory_best_margin_val": 0.258,
+  "exploratory_best_margin_note": "Rank 1 has the highest margin over random (+0.26%), but did not qualify under preregistered criteria. It is reported purely as an exploratory observation and must never be labeled optimal, selected, validated, or frozen.",
+  "preregistered_thresholds": {
+    "min_recovery_pct": 70.0,
+    "min_margin_pct": 30.0,
+    "row_threshold": 0.5,
+    "aggregate_guard": 0.5,
+    "bootstrap_replicates": 1000
+  },
+  "transfer_metadata": {
+    "transfer_claim": false,
+    "fit_conditions": [],
+    "eval_conditions": [
+      "random_compact",
+      "structured",
+      "uuid"
+    ],
+    "held_out_conditions": [
+      "random_compact",
+      "structured",
+      "uuid"
+    ],
+    "within_format_conditions": [],
+    "held_out_summary": {},
+    "within_format_summary": {}
+  },
+  "rank_summaries": {
+    "1": {
+      "rank": 1,
+      "total_rows": 96,
+      "eligible_denominator_rows": 81,
+      "excluded_denominator_rows": 15,
+      "unique_clusters": 32,
+      "aggregate_numerator_mean": 0.0151,
+      "aggregate_denominator_mean": -0.7126,
+      "shift_mean": 0.012,
+      "shift_ci_95": [
+        -0.0084,
+        0.0303
+      ],
+      "recovery_pct": -2.1239,
+      "recovery_ci_95": [
+        null,
+        null
+      ],
+      "recovery_ratio_status": "not_identifiable_under_policy",
+      "random_shift_mean": 0.0122,
+      "random_shift_ci_95": [
+        -0.0032,
+        0.0275
+      ],
+      "random_recovery_pct": -2.3819,
+      "random_recovery_ci_95": [
+        null,
+        null
+      ],
+      "random_recovery_ratio_status": "not_identifiable_under_policy",
+      "shift_diff_over_random_mean": -0.0002,
+      "shift_diff_over_random_ci_95": [
+        -0.0174,
+        0.018
+      ],
+      "margin_over_random_pct": 0.258,
+      "margin_over_random_ci_95": [
+        null,
+        null
+      ],
+      "margin_ratio_status": "not_identifiable_under_policy",
+      "complement_shift_mean": 0.019,
+      "complement_shift_ci_95": [
+        -0.0098,
+        0.0447
+      ],
+      "complement_recovery_pct": -2.2364,
+      "complement_recovery_ci_95": [
+        null,
+        null
+      ],
+      "complement_recovery_ratio_status": "not_identifiable_under_policy",
+      "kl_div": 0.001,
+      "kl_ci_95": [
+        0.0006,
+        0.0014
+      ],
+      "attempted_bootstrap_count": 1000,
+      "valid_bootstrap_count": 637,
+      "invalid_bootstrap_count": 363,
+      "sign_change_count": 115,
+      "ratio_policy": {
+        "row_threshold": 0.5,
+        "aggregate_guard": 0.5,
+        "policy_description": "Post-audit sensitivity policy: absolute per-row threshold |d| > 0.5 for row eligibility; aggregate mean denominator guard |mean(d)| >= 0.5 for ratio identifiability across point estimate and all bootstrap resamples."
+      },
+      "qualifies_preregistered_rule": false
+    },
+    "2": {
+      "rank": 2,
+      "total_rows": 96,
+      "eligible_denominator_rows": 81,
+      "excluded_denominator_rows": 15,
+      "unique_clusters": 32,
+      "aggregate_numerator_mean": 0.0142,
+      "aggregate_denominator_mean": -0.7126,
+      "shift_mean": 0.0149,
+      "shift_ci_95": [
+        -0.0112,
+        0.0407
+      ],
+      "recovery_pct": -1.9884,
+      "recovery_ci_95": [
+        null,
+        null
+      ],
+      "recovery_ratio_status": "not_identifiable_under_policy",
+      "random_shift_mean": 0.011,
+      "random_shift_ci_95": [
+        -0.0094,
+        0.032
+      ],
+      "random_recovery_pct": -1.4275,
+      "random_recovery_ci_95": [
+        null,
+        null
+      ],
+      "random_recovery_ratio_status": "not_identifiable_under_policy",
+      "shift_diff_over_random_mean": 0.0039,
+      "shift_diff_over_random_ci_95": [
+        -0.0208,
+        0.0287
+      ],
+      "margin_over_random_pct": -0.5609,
+      "margin_over_random_ci_95": [
+        null,
+        null
+      ],
+      "margin_ratio_status": "not_identifiable_under_policy",
+      "complement_shift_mean": 0.0263,
+      "complement_shift_ci_95": [
+        0.0056,
+        0.0458
+      ],
+      "complement_recovery_pct": -3.5379,
+      "complement_recovery_ci_95": [
+        null,
+        null
+      ],
+      "complement_recovery_ratio_status": "not_identifiable_under_policy",
+      "kl_div": 0.0015,
+      "kl_ci_95": [
+        0.0005,
+        0.0027
+      ],
+      "attempted_bootstrap_count": 1000,
+      "valid_bootstrap_count": 637,
+      "invalid_bootstrap_count": 363,
+      "sign_change_count": 115,
+      "ratio_policy": {
+        "row_threshold": 0.5,
+        "aggregate_guard": 0.5,
+        "policy_description": "Post-audit sensitivity policy: absolute per-row threshold |d| > 0.5 for row eligibility; aggregate mean denominator guard |mean(d)| >= 0.5 for ratio identifiability across point estimate and all bootstrap resamples."
+      },
+      "qualifies_preregistered_rule": false
+    },
+    "4": {
+      "rank": 4,
+      "total_rows": 96,
+      "eligible_denominator_rows": 81,
+      "excluded_denominator_rows": 15,
+      "unique_clusters": 32,
+      "aggregate_numerator_mean": 0.0132,
+      "aggregate_denominator_mean": -0.7126,
+      "shift_mean": 0.0129,
+      "shift_ci_95": [
+        -0.0096,
+        0.0366
+      ],
+      "recovery_pct": -1.8545,
+      "recovery_ci_95": [
+        null,
+        null
+      ],
+      "recovery_ratio_status": "not_identifiable_under_policy",
+      "random_shift_mean": 0.0076,
+      "random_shift_ci_95": [
+        -0.0087,
+        0.0229
+      ],
+      "random_recovery_pct": -1.5536,
+      "random_recovery_ci_95": [
+        null,
+        null
+      ],
+      "random_recovery_ratio_status": "not_identifiable_under_policy",
+      "shift_diff_over_random_mean": 0.0054,
+      "shift_diff_over_random_ci_95": [
+        -0.0123,
+        0.0262
+      ],
+      "margin_over_random_pct": -0.3009,
+      "margin_over_random_ci_95": [
+        null,
+        null
+      ],
+      "margin_ratio_status": "not_identifiable_under_policy",
+      "complement_shift_mean": 0.0118,
+      "complement_shift_ci_95": [
+        -0.0121,
+        0.0344
+      ],
+      "complement_recovery_pct": -2.038,
+      "complement_recovery_ci_95": [
+        null,
+        null
+      ],
+      "complement_recovery_ratio_status": "not_identifiable_under_policy",
+      "kl_div": 0.0016,
+      "kl_ci_95": [
+        0.0008,
+        0.0025
+      ],
+      "attempted_bootstrap_count": 1000,
+      "valid_bootstrap_count": 637,
+      "invalid_bootstrap_count": 363,
+      "sign_change_count": 115,
+      "ratio_policy": {
+        "row_threshold": 0.5,
+        "aggregate_guard": 0.5,
+        "policy_description": "Post-audit sensitivity policy: absolute per-row threshold |d| > 0.5 for row eligibility; aggregate mean denominator guard |mean(d)| >= 0.5 for ratio identifiability across point estimate and all bootstrap resamples."
+      },
+      "qualifies_preregistered_rule": false
+    },
+    "8": {
+      "rank": 8,
+      "total_rows": 96,
+      "eligible_denominator_rows": 81,
+      "excluded_denominator_rows": 15,
+      "unique_clusters": 32,
+      "aggregate_numerator_mean": 0.0282,
+      "aggregate_denominator_mean": -0.7126,
+      "shift_mean": 0.0249,
+      "shift_ci_95": [
+        0.003,
+        0.0459
+      ],
+      "recovery_pct": -3.9537,
+      "recovery_ci_95": [
+        null,
+        null
+      ],
+      "recovery_ratio_status": "not_identifiable_under_policy",
+      "random_shift_mean": 0.0116,
+      "random_shift_ci_95": [
+        -0.0033,
+        0.0275
+      ],
+      "random_recovery_pct": -2.4157,
+      "random_recovery_ci_95": [
+        null,
+        null
+      ],
+      "random_recovery_ratio_status": "not_identifiable_under_policy",
+      "shift_diff_over_random_mean": 0.0133,
+      "shift_diff_over_random_ci_95": [
+        -0.0075,
+        0.0343
+      ],
+      "margin_over_random_pct": -1.538,
+      "margin_over_random_ci_95": [
+        null,
+        null
+      ],
+      "margin_ratio_status": "not_identifiable_under_policy",
+      "complement_shift_mean": 0.0209,
+      "complement_shift_ci_95": [
+        -0.0005,
+        0.0405
+      ],
+      "complement_recovery_pct": -2.5045,
+      "complement_recovery_ci_95": [
+        null,
+        null
+      ],
+      "complement_recovery_ratio_status": "not_identifiable_under_policy",
+      "kl_div": 0.0017,
+      "kl_ci_95": [
+        0.001,
+        0.0026
+      ],
+      "attempted_bootstrap_count": 1000,
+      "valid_bootstrap_count": 637,
+      "invalid_bootstrap_count": 363,
+      "sign_change_count": 115,
+      "ratio_policy": {
+        "row_threshold": 0.5,
+        "aggregate_guard": 0.5,
+        "policy_description": "Post-audit sensitivity policy: absolute per-row threshold |d| > 0.5 for row eligibility; aggregate mean denominator guard |mean(d)| >= 0.5 for ratio identifiability across point estimate and all bootstrap resamples."
+      },
+      "qualifies_preregistered_rule": false
+    },
+    "16": {
+      "rank": 16,
+      "total_rows": 96,
+      "eligible_denominator_rows": 81,
+      "excluded_denominator_rows": 15,
+      "unique_clusters": 32,
+      "aggregate_numerator_mean": 0.0194,
+      "aggregate_denominator_mean": -0.7126,
+      "shift_mean": 0.0208,
+      "shift_ci_95": [
+        -0.0024,
+        0.0439
+      ],
+      "recovery_pct": -2.7237,
+      "recovery_ci_95": [
+        null,
+        null
+      ],
+      "recovery_ratio_status": "not_identifiable_under_policy",
+      "random_shift_mean": 0.0115,
+      "random_shift_ci_95": [
+        -0.0062,
+        0.0304
+      ],
+      "random_recovery_pct": -1.6155,
+      "random_recovery_ci_95": [
+        null,
+        null
+      ],
+      "random_recovery_ratio_status": "not_identifiable_under_policy",
+      "shift_diff_over_random_mean": 0.0093,
+      "shift_diff_over_random_ci_95": [
+        -0.008,
+        0.026
+      ],
+      "margin_over_random_pct": -1.1082,
+      "margin_over_random_ci_95": [
+        null,
+        null
+      ],
+      "margin_ratio_status": "not_identifiable_under_policy",
+      "complement_shift_mean": 0.0141,
+      "complement_shift_ci_95": [
+        -0.007,
+        0.0347
+      ],
+      "complement_recovery_pct": -2.293,
+      "complement_recovery_ci_95": [
+        null,
+        null
+      ],
+      "complement_recovery_ratio_status": "not_identifiable_under_policy",
+      "kl_div": 0.0018,
+      "kl_ci_95": [
+        0.0009,
+        0.0029
+      ],
+      "attempted_bootstrap_count": 1000,
+      "valid_bootstrap_count": 637,
+      "invalid_bootstrap_count": 363,
+      "sign_change_count": 115,
+      "ratio_policy": {
+        "row_threshold": 0.5,
+        "aggregate_guard": 0.5,
+        "policy_description": "Post-audit sensitivity policy: absolute per-row threshold |d| > 0.5 for row eligibility; aggregate mean denominator guard |mean(d)| >= 0.5 for ratio identifiability across point estimate and all bootstrap resamples."
+      },
+      "qualifies_preregistered_rule": false
+    },
+    "32": {
+      "rank": 32,
+      "total_rows": 96,
+      "eligible_denominator_rows": 81,
+      "excluded_denominator_rows": 15,
+      "unique_clusters": 32,
+      "aggregate_numerator_mean": 0.0249,
+      "aggregate_denominator_mean": -0.7126,
+      "shift_mean": 0.0272,
+      "shift_ci_95": [
+        0.0047,
+        0.0486
+      ],
+      "recovery_pct": -3.4974,
+      "recovery_ci_95": [
+        null,
+        null
+      ],
+      "recovery_ratio_status": "not_identifiable_under_policy",
+      "random_shift_mean": 0.0072,
+      "random_shift_ci_95": [
+        -0.0081,
+        0.0234
+      ],
+      "random_recovery_pct": -0.9547,
+      "random_recovery_ci_95": [
+        null,
+        null
+      ],
+      "random_recovery_ratio_status": "not_identifiable_under_policy",
+      "shift_diff_over_random_mean": 0.02,
+      "shift_diff_over_random_ci_95": [
+        0.0027,
+        0.0383
+      ],
+      "margin_over_random_pct": -2.5426,
+      "margin_over_random_ci_95": [
+        null,
+        null
+      ],
+      "margin_ratio_status": "not_identifiable_under_policy",
+      "complement_shift_mean": 0.0162,
+      "complement_shift_ci_95": [
+        -0.0038,
+        0.0358
+      ],
+      "complement_recovery_pct": -2.8236,
+      "complement_recovery_ci_95": [
+        null,
+        null
+      ],
+      "complement_recovery_ratio_status": "not_identifiable_under_policy",
+      "kl_div": 0.0015,
+      "kl_ci_95": [
+        0.0007,
+        0.0026
+      ],
+      "attempted_bootstrap_count": 1000,
+      "valid_bootstrap_count": 637,
+      "invalid_bootstrap_count": 363,
+      "sign_change_count": 115,
+      "ratio_policy": {
+        "row_threshold": 0.5,
+        "aggregate_guard": 0.5,
+        "policy_description": "Post-audit sensitivity policy: absolute per-row threshold |d| > 0.5 for row eligibility; aggregate mean denominator guard |mean(d)| >= 0.5 for ratio identifiability across point estimate and all bootstrap resamples."
+      },
+      "qualifies_preregistered_rule": false
+    }
+  },
+  "condition_summaries": {
+    "random_compact": {
+      "1": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 28,
+        "excluded_denominator_rows": 4,
+        "unique_clusters": 28,
+        "aggregate_numerator_mean": 0.0032,
+        "aggregate_denominator_mean": -0.9025,
+        "shift_mean": 0.0057,
+        "shift_ci_95": [
+          -0.0211,
+          0.0322
+        ],
+        "shift_diff_over_random_mean": 0.0037,
+        "shift_diff_over_random_ci_95": [
+          -0.0299,
+          0.0387
+        ],
+        "recovery_pct": -0.3534,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": 1.1385,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "2": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 28,
+        "excluded_denominator_rows": 4,
+        "unique_clusters": 28,
+        "aggregate_numerator_mean": 0.0183,
+        "aggregate_denominator_mean": -0.9025,
+        "shift_mean": 0.0189,
+        "shift_ci_95": [
+          -0.0177,
+          0.0569
+        ],
+        "shift_diff_over_random_mean": 0.0214,
+        "shift_diff_over_random_ci_95": [
+          -0.0084,
+          0.0544
+        ],
+        "recovery_pct": -2.0245,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": -1.5943,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "4": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 28,
+        "excluded_denominator_rows": 4,
+        "unique_clusters": 28,
+        "aggregate_numerator_mean": 0.015,
+        "aggregate_denominator_mean": -0.9025,
+        "shift_mean": 0.0063,
+        "shift_ci_95": [
+          -0.0296,
+          0.0387
+        ],
+        "shift_diff_over_random_mean": 0.0166,
+        "shift_diff_over_random_ci_95": [
+          -0.0072,
+          0.0438
+        ],
+        "recovery_pct": -1.6616,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": -2.1,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "8": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 28,
+        "excluded_denominator_rows": 4,
+        "unique_clusters": 28,
+        "aggregate_numerator_mean": -0.0008,
+        "aggregate_denominator_mean": -0.9025,
+        "shift_mean": -0.0075,
+        "shift_ci_95": [
+          -0.0416,
+          0.0245
+        ],
+        "shift_diff_over_random_mean": -0.0222,
+        "shift_diff_over_random_ci_95": [
+          -0.052,
+          0.0079
+        ],
+        "recovery_pct": 0.0875,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": 2.8095,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "16": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 28,
+        "excluded_denominator_rows": 4,
+        "unique_clusters": 28,
+        "aggregate_numerator_mean": 0.0066,
+        "aggregate_denominator_mean": -0.9025,
+        "shift_mean": 0.0019,
+        "shift_ci_95": [
+          -0.038,
+          0.0408
+        ],
+        "shift_diff_over_random_mean": -0.0074,
+        "shift_diff_over_random_ci_95": [
+          -0.0394,
+          0.0234
+        ],
+        "recovery_pct": -0.736,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": 0.3189,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "32": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 28,
+        "excluded_denominator_rows": 4,
+        "unique_clusters": 28,
+        "aggregate_numerator_mean": 0.0145,
+        "aggregate_denominator_mean": -0.9025,
+        "shift_mean": 0.0058,
+        "shift_ci_95": [
+          -0.0388,
+          0.044
+        ],
+        "shift_diff_over_random_mean": -0.0033,
+        "shift_diff_over_random_ci_95": [
+          -0.0388,
+          0.0304
+        ],
+        "recovery_pct": -1.6058,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": -0.1955,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      }
+    },
+    "structured": {
+      "1": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 24,
+        "excluded_denominator_rows": 8,
+        "unique_clusters": 24,
+        "aggregate_numerator_mean": 0.0411,
+        "aggregate_denominator_mean": 0.1482,
+        "shift_mean": 0.023,
+        "shift_ci_95": [
+          -0.0083,
+          0.0518
+        ],
+        "shift_diff_over_random_mean": 0.0133,
+        "shift_diff_over_random_ci_95": [
+          -0.0164,
+          0.043
+        ],
+        "recovery_pct": null,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "denominator_below_aggregate_guard",
+        "margin_over_random_pct": null,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "denominator_below_aggregate_guard"
+      },
+      "2": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 24,
+        "excluded_denominator_rows": 8,
+        "unique_clusters": 24,
+        "aggregate_numerator_mean": 0.0149,
+        "aggregate_denominator_mean": 0.1482,
+        "shift_mean": 0.015,
+        "shift_ci_95": [
+          -0.0406,
+          0.0641
+        ],
+        "shift_diff_over_random_mean": -0.007,
+        "shift_diff_over_random_ci_95": [
+          -0.0564,
+          0.0401
+        ],
+        "recovery_pct": null,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "denominator_below_aggregate_guard",
+        "margin_over_random_pct": null,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "denominator_below_aggregate_guard"
+      },
+      "4": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 24,
+        "excluded_denominator_rows": 8,
+        "unique_clusters": 24,
+        "aggregate_numerator_mean": 0.029,
+        "aggregate_denominator_mean": 0.1482,
+        "shift_mean": 0.0296,
+        "shift_ci_95": [
+          -0.0268,
+          0.0838
+        ],
+        "shift_diff_over_random_mean": 0.015,
+        "shift_diff_over_random_ci_95": [
+          -0.0338,
+          0.0688
+        ],
+        "recovery_pct": null,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "denominator_below_aggregate_guard",
+        "margin_over_random_pct": null,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "denominator_below_aggregate_guard"
+      },
+      "8": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 24,
+        "excluded_denominator_rows": 8,
+        "unique_clusters": 24,
+        "aggregate_numerator_mean": 0.0507,
+        "aggregate_denominator_mean": 0.1482,
+        "shift_mean": 0.0458,
+        "shift_ci_95": [
+          -0.0023,
+          0.0883
+        ],
+        "shift_diff_over_random_mean": 0.0397,
+        "shift_diff_over_random_ci_95": [
+          -0.0057,
+          0.0806
+        ],
+        "recovery_pct": null,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "denominator_below_aggregate_guard",
+        "margin_over_random_pct": null,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "denominator_below_aggregate_guard"
+      },
+      "16": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 24,
+        "excluded_denominator_rows": 8,
+        "unique_clusters": 24,
+        "aggregate_numerator_mean": 0.0369,
+        "aggregate_denominator_mean": 0.1482,
+        "shift_mean": 0.0433,
+        "shift_ci_95": [
+          -0.0059,
+          0.0891
+        ],
+        "shift_diff_over_random_mean": 0.0173,
+        "shift_diff_over_random_ci_95": [
+          -0.035,
+          0.0701
+        ],
+        "recovery_pct": null,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "denominator_below_aggregate_guard",
+        "margin_over_random_pct": null,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "denominator_below_aggregate_guard"
+      },
+      "32": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 24,
+        "excluded_denominator_rows": 8,
+        "unique_clusters": 24,
+        "aggregate_numerator_mean": 0.0314,
+        "aggregate_denominator_mean": 0.1482,
+        "shift_mean": 0.047,
+        "shift_ci_95": [
+          0.0055,
+          0.0858
+        ],
+        "shift_diff_over_random_mean": 0.0434,
+        "shift_diff_over_random_ci_95": [
+          0.0058,
+          0.0812
+        ],
+        "recovery_pct": null,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "denominator_below_aggregate_guard",
+        "margin_over_random_pct": null,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "denominator_below_aggregate_guard"
+      }
+    },
+    "uuid": {
+      "1": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 29,
+        "excluded_denominator_rows": 3,
+        "unique_clusters": 29,
+        "aggregate_numerator_mean": 0.0052,
+        "aggregate_denominator_mean": -1.2417,
+        "shift_mean": 0.0072,
+        "shift_ci_95": [
+          -0.0261,
+          0.0412
+        ],
+        "shift_diff_over_random_mean": -0.0177,
+        "shift_diff_over_random_ci_95": [
+          -0.0366,
+          0.0018
+        ],
+        "recovery_pct": -0.4204,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": 1.1411,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "2": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 29,
+        "excluded_denominator_rows": 3,
+        "unique_clusters": 29,
+        "aggregate_numerator_mean": 0.0096,
+        "aggregate_denominator_mean": -1.2417,
+        "shift_mean": 0.0107,
+        "shift_ci_95": [
+          -0.0248,
+          0.0435
+        ],
+        "shift_diff_over_random_mean": -0.0028,
+        "shift_diff_over_random_ci_95": [
+          -0.029,
+          0.0231
+        ],
+        "recovery_pct": -0.7767,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": 0.2888,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "4": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 29,
+        "excluded_denominator_rows": 3,
+        "unique_clusters": 29,
+        "aggregate_numerator_mean": -0.0016,
+        "aggregate_denominator_mean": -1.2417,
+        "shift_mean": 0.003,
+        "shift_ci_95": [
+          -0.0366,
+          0.0503
+        ],
+        "shift_diff_over_random_mean": -0.0154,
+        "shift_diff_over_random_ci_95": [
+          -0.0519,
+          0.0219
+        ],
+        "recovery_pct": 0.1272,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": 1.2844,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "8": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 29,
+        "excluded_denominator_rows": 3,
+        "unique_clusters": 29,
+        "aggregate_numerator_mean": 0.0375,
+        "aggregate_denominator_mean": -1.2417,
+        "shift_mean": 0.0364,
+        "shift_ci_95": [
+          0.0082,
+          0.0655
+        ],
+        "shift_diff_over_random_mean": 0.0224,
+        "shift_diff_over_random_ci_95": [
+          -0.0036,
+          0.0461
+        ],
+        "recovery_pct": -3.0203,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": -1.9481,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "16": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 29,
+        "excluded_denominator_rows": 3,
+        "unique_clusters": 29,
+        "aggregate_numerator_mean": 0.0172,
+        "aggregate_denominator_mean": -1.2417,
+        "shift_mean": 0.0171,
+        "shift_ci_95": [
+          -0.0181,
+          0.0551
+        ],
+        "shift_diff_over_random_mean": 0.0179,
+        "shift_diff_over_random_ci_95": [
+          -0.0103,
+          0.0503
+        ],
+        "recovery_pct": -1.3869,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": -1.5063,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      },
+      "32": {
+        "total_rows": 32,
+        "eligible_denominator_rows": 29,
+        "excluded_denominator_rows": 3,
+        "unique_clusters": 29,
+        "aggregate_numerator_mean": 0.0297,
+        "aggregate_denominator_mean": -1.2417,
+        "shift_mean": 0.0288,
+        "shift_ci_95": [
+          -0.0063,
+          0.0643
+        ],
+        "shift_diff_over_random_mean": 0.02,
+        "shift_diff_over_random_ci_95": [
+          -0.0115,
+          0.0517
+        ],
+        "recovery_pct": -2.3886,
+        "recovery_ci_95": [
+          null,
+          null
+        ],
+        "recovery_ratio_status": "not_identifiable_under_policy",
+        "margin_over_random_pct": -1.8181,
+        "margin_over_random_ci_95": [
+          null,
+          null
+        ],
+        "margin_ratio_status": "not_identifiable_under_policy"
+      }
+    }
+  }
+}
